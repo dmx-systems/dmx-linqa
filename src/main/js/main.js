@@ -7,7 +7,7 @@ import onHttpError from './error-handler'
 import messageHandler from './message-handler'
 import './element-ui'
 
-console.log('[Linqa] 2023/06/08-2')
+console.log('[Linqa] 2023/06/08-3')
 
 // 1) Init dmx library
 dmx.init({
@@ -24,14 +24,14 @@ dmx.init({
 })
 
 // 2) Global component registrations (needed by several components)
-Vue.component('zw-language-switch', require('./components/zw-language-switch').default)
-Vue.component('zw-string',          require('./components/zw-string').default)
-Vue.component('zw-truncate',        require('./components/zw-truncate').default)
-Vue.component('zw-comment-ref',     require('./components/zw-comment-ref').default)
-Vue.component('zw-document-ref',    require('./components/zw-document-ref').default)
-Vue.component('zw-textblock-ref',   require('./components/zw-textblock-ref').default)
-Vue.component('zw-attachment',      require('./components/zw-attachment').default)
-Vue.component('zw-pdf-viewer',      require('./components/zw-pdf-viewer').default)
+Vue.component('lq-language-switch', require('./components/lq-language-switch').default)
+Vue.component('lq-string',          require('./components/lq-string').default)
+Vue.component('lq-truncate',        require('./components/lq-truncate').default)
+Vue.component('lq-comment-ref',     require('./components/lq-comment-ref').default)
+Vue.component('lq-document-ref',    require('./components/lq-document-ref').default)
+Vue.component('lq-textblock-ref',   require('./components/lq-textblock-ref').default)
+Vue.component('lq-attachment',      require('./components/lq-attachment').default)
+Vue.component('lq-pdf-viewer',      require('./components/lq-pdf-viewer').default)
 Vue.component('vue-moveable',       require('vue-moveable').default)
 
 // 3) Create Vue root instance

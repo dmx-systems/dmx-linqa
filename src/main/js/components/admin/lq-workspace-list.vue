@@ -1,0 +1,64 @@
+<template>
+  <div class="zw-workspace-list">
+    <div class="heading"><lq-string>label.admin_workspaces</lq-string></div>
+    <div v-if="noWorkspaces" class="secondary"><lq-string>label.no_workspaces</lq-string></div>
+    <template v-else>
+      <div class="owner" key="owner"><lq-string>label.owner</lq-string></div>
+      <div class="scroll-container">
+        <el-collapse v-model="expandedIds">
+          <lq-workspace-item v-for="workspace in workspaces" :workspace="workspace" :key="workspace.id">
+          </lq-workspace-item>
+        </el-collapse>
+      </div>
+    </template>
+    <el-button class="add-button" size="medium" icon="el-icon-plus" @click="addWorkspace">
+      <lq-string>action.add_workspace</lq-string>
+    </el-button>
+  </div>
+</template>
+
+<script>
+export default {
+
+  created () {
+    this.$store.dispatch('admin/fetchAllZWWorkspaces')
+  },
+
+  computed: {
+
+    workspaces () {
+      return this.$store.getters['admin/sortedWorkspaces']
+    },
+
+    noWorkspaces () {
+      return this.workspaces.length === 0
+    },
+
+    expandedIds: {
+      get () {
+        return this.$store.state.admin.expandedWorkspaceIds
+      },
+      set (ids) {
+        this.$store.dispatch('admin/setExpandedWorkspaceIds', ids)
+      }
+    }
+  },
+
+  methods: {
+    addWorkspace () {
+      this.$store.dispatch('admin/showWorkspaceForm')
+    }
+  },
+
+  components: {
+    'lq-workspace-item': require('./lq-workspace-item').default
+  }
+}
+</script>
+
+<style>
+.zw-workspace-list > .owner {
+  margin-left: calc(60% - 30px);
+  margin-bottom: 6px;
+}
+</style>

@@ -1,5 +1,5 @@
 import dmx from 'dmx-api'
-import zw from '../zw-globals'
+import zw from '../lq-globals'
 
 const state = {
   searchTerm: '',

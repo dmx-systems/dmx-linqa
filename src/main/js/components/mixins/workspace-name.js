@@ -1,4 +1,4 @@
-import zw from '../../zw-globals'
+import zw from '../../lq-globals'
 
 export default {
 

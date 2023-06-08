@@ -4,13 +4,13 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from './components/zw-login'
-import Legal from './components/zw-legal'
-import Webclient from './components/zw-webclient'
-import Workspace from './components/zw-workspace'
-import Admin from './components/admin/zw-admin'
+import Login from './components/lq-login'
+import Legal from './components/lq-legal'
+import Webclient from './components/lq-webclient'
+import Workspace from './components/lq-workspace'
+import Admin from './components/admin/lq-admin'
 import store from './store/linqa'
-import zw from './zw-globals'
+import zw from './lq-globals'
 import dmx from 'dmx-api'
 
 Vue.use(VueRouter)

@@ -5,7 +5,7 @@ import dmx from 'dmx-api'
 import searchStore from './search'
 import adminStore from './admin'
 import errorHandler from '../error-handler'
-import zw from '../zw-globals'
+import zw from '../lq-globals'
 
 window.addEventListener('focus', updateCookies)
 
@@ -742,7 +742,7 @@ function findWorkspace (id) {
 }
 
 function fetchDiscussion () {
-  state.discussion = undefined      // trigger recalculation of "noComments" (zw-discussion.vue), load-spinner appears
+  state.discussion = undefined      // trigger recalculation of "noComments" (lq-discussion.vue), load-spinner appears
   state.discussionLoading = true
   http.get('/linqa/discussion').then(response => {
     state.discussion = dmx.utils.instantiateMany(response.data, dmx.Topic).sort(

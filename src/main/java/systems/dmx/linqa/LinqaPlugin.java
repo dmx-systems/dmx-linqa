@@ -557,7 +557,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         } else if (origLang.equals("fr")) {
             return "de";
         } else {
-            // Note: the regex in confirmCreate() (zw-discussion.vue) must match this message
+            // Note: the regex in confirmCreate() (lq-discussion.vue) must match this message
             throw new RuntimeException("Unsupported original language: \"" + origLang + "\" (detected)");
         }
     }

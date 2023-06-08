@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import http from 'axios'
 import dmx from 'dmx-api'
-import zw from '../zw-globals'
+import zw from '../lq-globals'
 import SHA256 from '../lib/sha256'
 
 const ENCODED_PASSWORD_PREFIX = '-SHA256-'
 
 const state = {
 
-  primaryPanel: 'zw-workspace-list',  // 'zw-workspace-list'/'zw-user-list'
-  secondaryPanel: undefined,          // 'zw-workspace-form'/... or undefined if secondary panel is not engaged
+  primaryPanel: 'lq-workspace-list',  // 'lq-workspace-list'/'lq-user-list'
+  secondaryPanel: undefined,          // 'lq-workspace-form'/... or undefined if secondary panel is not engaged
   formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
   editBuffer: undefined,
 
@@ -35,7 +35,7 @@ const actions = {
       state.editBuffer = type.newFormModel()
       // console.log('editBuffer', state.editBuffer)
     }
-    dispatch('setSecondaryPanel', 'zw-workspace-form')
+    dispatch('setSecondaryPanel', 'lq-workspace-form')
   },
 
   showUserForm ({dispatch}, user) {
@@ -45,13 +45,13 @@ const actions = {
     } else {
       state.formMode = 'create'
     }
-    dispatch('setSecondaryPanel', 'zw-user-form')
+    dispatch('setSecondaryPanel', 'lq-user-form')
   },
 
   setPrimaryPanel (_, panel) {
     state.primaryPanel = panel
-    if (panel === 'zw-workspace-list' && state.selectedWorkspace) {
-      state.secondaryPanel = 'zw-workspace-memberships'
+    if (panel === 'lq-workspace-list' && state.selectedWorkspace) {
+      state.secondaryPanel = 'lq-workspace-memberships'
     } else {
       state.secondaryPanel = undefined
     }
@@ -59,7 +59,7 @@ const actions = {
 
   setSecondaryPanel (_, panel) {
     state.secondaryPanel = panel
-    /* if (panel === 'zw-workspace-form' || !panel) {
+    /* if (panel === 'lq-workspace-form' || !panel) {
       state.selectedWorkspace = undefined
     } */    // TODO
   },

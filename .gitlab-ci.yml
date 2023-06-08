@@ -50,6 +50,6 @@ copy-to-release:
 # 4) Triggers another project
 trigger-project:
   stage: deploy
-  trigger: dmx-projects/zukunftswerk
+  trigger: dmx-projects/linqa
   only:
     - master

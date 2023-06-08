@@ -1,8 +1,8 @@
-package systems.dmx.zukunftswerk;
+package systems.dmx.linqa;
 
 import static systems.dmx.accesscontrol.Constants.*;
 import static systems.dmx.timestamps.Constants.*;
-import static systems.dmx.zukunftswerk.Constants.*;
+import static systems.dmx.linqa.Constants.*;
 
 import systems.dmx.accesscontrol.AccessControlService;
 import systems.dmx.core.RelatedTopic;
@@ -141,7 +141,7 @@ class EmailDigests {
         });
     }
 
-    // TODO: copied from ZukunftswerkPlugin.java
+    // TODO: copied from LinqaPlugin.java
     private List<RelatedTopic> getZWTeamMembers() {
         return acs.getMemberships(teamWorkspace.getId());
     }

@@ -1,7 +1,7 @@
-package systems.dmx.zukunftswerk.migrations;
+package systems.dmx.linqa.migrations;
 
 import static systems.dmx.core.Constants.*;
-import static systems.dmx.zukunftswerk.Constants.*;
+import static systems.dmx.linqa.Constants.*;
 import systems.dmx.core.service.Migration;
 
 
@@ -9,7 +9,7 @@ import systems.dmx.core.service.Migration;
 /**
  * Redefine the "Editor" topic type.
  * <p>
- * Part of Zukunftswerk 1.2
+ * Part of Linqa 1.2
  * Runs ALWAYS.
  */
 public class Migration5 extends Migration {

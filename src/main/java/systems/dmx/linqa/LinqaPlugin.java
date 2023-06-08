@@ -1,4 +1,4 @@
-package systems.dmx.zukunftswerk;
+package systems.dmx.linqa;
 
 import static systems.dmx.accesscontrol.Constants.*;
 import static systems.dmx.core.Constants.*;
@@ -6,7 +6,7 @@ import static systems.dmx.files.Constants.*;
 import static systems.dmx.signup.Constants.*;
 import static systems.dmx.topicmaps.Constants.*;
 import static systems.dmx.workspaces.Constants.*;
-import static systems.dmx.zukunftswerk.Constants.*;
+import static systems.dmx.linqa.Constants.*;
 
 import systems.dmx.accesscontrol.AccessControlService;
 import systems.dmx.accesscontrol.event.PostLoginUser;
@@ -61,11 +61,10 @@ import java.util.stream.Collectors;
 
 @Path("/zukunftswerk")
 @Produces("application/json")
-public class ZukunftswerkPlugin extends PluginActivator implements ZukunftswerkService, TopicmapCustomizer,
-                                                                                        PostCreateAssoc,
-                                                                                        PreDeleteAssoc,
-                                                                                        PreSendTopic,
-                                                                                        PostLoginUser {
+public class LinqaPlugin extends PluginActivator implements LinqaService, TopicmapCustomizer, PostCreateAssoc,
+                                                                                              PreDeleteAssoc,
+                                                                                              PreSendTopic,
+                                                                                              PostLoginUser {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -227,7 +226,7 @@ public class ZukunftswerkPlugin extends PluginActivator implements ZukunftswerkS
         }
     }
 
-    // ZukunftswerkService
+    // LinqaService
 
     @GET
     @Path("/workspaces")

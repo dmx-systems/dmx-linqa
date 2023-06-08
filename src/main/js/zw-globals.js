@@ -16,7 +16,7 @@ const logo = {
 }
 
 const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-console.log('[ZW] isChrome:', isChrome)
+console.log('[Linqa] isChrome:', isChrome)
 
 export default {
 
@@ -79,7 +79,7 @@ function getViewport() {
   } else {
     // fallback
     const topicmap = store.state.topicmap
-    console.warn(`[ZW] Viewport topic missing in Topicmap ${topicmap.id}`)
+    console.warn(`[Linqa] Viewport topic missing in Topicmap ${topicmap.id}`)
     return {
       pan: {
         x: topicmap.panX,

@@ -1,4 +1,4 @@
-package systems.dmx.zukunftswerk;
+package systems.dmx.linqa;
 
 import systems.dmx.core.Topic;
 import systems.dmx.core.service.websocket.WebSocketService;

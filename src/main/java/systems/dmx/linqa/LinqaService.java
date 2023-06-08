@@ -1,4 +1,4 @@
-package systems.dmx.zukunftswerk;
+package systems.dmx.linqa;
 
 import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
@@ -9,7 +9,7 @@ import java.util.List;
 
 
 
-public interface ZukunftswerkService {
+public interface LinqaService {
 
     /**
      * Returns the ZW shared workspaces of the current user (according to request authorization).

@@ -1,9 +1,9 @@
-# DMX Zukunftswerk
+# DMX Linqa
 
-The "Zukunftswerk Collaboration Platform" provides a shared media canvas for commenting on documents.
+The "Linqa Collaboration Platform" provides a shared media canvas for commenting on documents.
 Bilingually. With DeepL integration.
 
-Zukunftswerk is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
+Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
 
 ## Version History
 

@@ -1,6 +1,6 @@
-package systems.dmx.zukunftswerk.migrations;
+package systems.dmx.linqa.migrations;
 
-import static systems.dmx.zukunftswerk.Constants.*;
+import static systems.dmx.linqa.Constants.*;
 import static systems.dmx.workspaces.Constants.*;
 import systems.dmx.core.Assoc;
 import systems.dmx.core.RelatedTopic;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Repairs workspaces: remove random assignments of workspace constituting associations.
  * <p>
- * Part of Zukunftswerk 1.6
+ * Part of Linqa 1.6
  * Runs ALWAYS.
  */
 public class Migration13 extends Migration {

@@ -1,9 +1,9 @@
-package systems.dmx.zukunftswerk.migrations;
+package systems.dmx.linqa.migrations;
 
 import static systems.dmx.accesscontrol.Constants.*;
 import static systems.dmx.core.Constants.*;
 import static systems.dmx.workspaces.Constants.*;
-import static systems.dmx.zukunftswerk.Constants.*;
+import static systems.dmx.linqa.Constants.*;
 
 import systems.dmx.accesscontrol.AccessControlService;
 import systems.dmx.core.Topic;
@@ -18,7 +18,7 @@ import systems.dmx.workspaces.WorkspacesService;
  * Extends topic type "Workspace" by 2 more "Workspace Name"s (de+fr).
  * Creates the "Team" workspace.
  * <p>
- * Part of Zukunftswerk 1.0
+ * Part of Linqa 1.0
  * Runs ALWAYS.
  */
 public class Migration2 extends Migration {

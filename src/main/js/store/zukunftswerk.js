@@ -69,7 +69,7 @@ const actions = {
   login ({dispatch}, credentials) {
     const authMethod = DEV || credentials.username === 'admin' ? 'Basic' : 'LDAP'
     return dmx.rpc.login(credentials, authMethod).then(username => {
-      DEV && console.log('[ZW] Login', username)
+      DEV && console.log('[Linqa] Login', username)
       state.loginMessage = 'Login OK'
       return initUserState(username).then(() =>
         dispatch('getInitialWorkspaceId')
@@ -94,7 +94,7 @@ const actions = {
   },
 
   logout () {
-    DEV && console.log('[ZW] Logout', state.username)
+    DEV && console.log('[Linqa] Logout', state.username)
     return dmx.rpc.logout().then(initUserState)
   },
 
@@ -664,11 +664,11 @@ function initLang () {
   const langC = dmx.utils.getCookie('zw_lang')
   if (langC) {
     lang = langC
-    console.log('[ZW] lang:', lang, '(from cookie)')
+    console.log('[Linqa] lang:', lang, '(from cookie)')
   } else {
     const langB = navigator.language.substr(0, 2)
     lang = ['de', 'fr'].includes(langB) ? langB : 'de'      // fallback is 'de'
-    console.log('[ZW] lang:', langB, '(from browser) ->', lang)
+    console.log('[Linqa] lang:', langB, '(from browser) ->', lang)
   }
   store.dispatch('setLang', lang)
 }

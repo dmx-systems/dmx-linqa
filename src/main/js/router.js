@@ -161,8 +161,8 @@ const actions = {
     workspaceId = store.getters.sortedWorkspaces[0]?.id
     if (!workspaceId) {
       throw Error('Benutzer "' + store.state.username + '" wurde noch keinem Arbeitsbereich zugeordnet. Bitte ' +
-        'nehmen Sie Kontakt mit dem Zukunftswerk-Team auf. / L\'utilisateur "' + store.state.username + '" n\'a pas ' +
-        'encore été affecté à un domaine d\'activité. N\'hésitez pas à prendre contact avec l\'équipe de Zukunftswerk.')
+        'nehmen Sie Kontakt mit dem DMX Linqa-Team auf. / L\'utilisateur "' + store.state.username + '" n\'a pas ' +
+        'encore été affecté à un domaine d\'activité. N\'hésitez pas à prendre contact avec l\'équipe de DMX Linqa.')
     }
     return workspaceId
   }

@@ -1,10 +1,10 @@
-package systems.dmx.zukunftswerk;
+package systems.dmx.linqa;
 
 
 
 public class Constants {
 
-    public static final String ZW_PLUGIN_URI            = "systems.dmx.zukunftswerk";
+    public static final String ZW_PLUGIN_URI            = "systems.dmx.linqa";
     public static final String TEAM_WORKSPACE_URI       = "zukunftswerk.team";
     public static final String TEAM_WORKSPACE_NAME      = "Team";
 

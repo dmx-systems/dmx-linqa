@@ -66,7 +66,7 @@ export default {
 
   data () {
     return {
-      type: 'zukunftswerk.note',
+      type: 'linqa.note',
       saving: false                   // true while note is saved
     }
   },
@@ -116,8 +116,8 @@ export default {
 
     save () {
       this.saving = true
-      this.topic.setViewProp('zukunftswerk.color', this.selectedColor)            // persistence
-      this.topic.children['zukunftswerk.color'] = {value: this.selectedColor}     // view
+      this.topic.setViewProp('linqa.color', this.selectedColor)            // persistence
+      this.topic.children['linqa.color'] = {value: this.selectedColor}     // view
       let action, arg, msgBox
       if (this.isNew) {
         action = 'createTopic'
@@ -127,7 +127,7 @@ export default {
         action = 'updateAndStoreColor'
         arg = this.topic
         // transfer edit buffer to topic model
-        this.topic.children['zukunftswerk.translation_edited'] = {value: this.editedFlag}
+        this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
         this.setNote('de')
         this.setNote('fr')
       }
@@ -159,7 +159,7 @@ export default {
 
     html (lang) {
       // Note: in a monolingual note "fr" is not defined
-      const html = this.topic.children['zukunftswerk.note.' + lang]?.value
+      const html = this.topic.children['linqa.note.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }
@@ -167,11 +167,11 @@ export default {
 
     setNote (lang) {
       // Note: in a monolingual note "fr" is not defined     // TODO: simplify
-      if (!this.topic.children['zukunftswerk.note.fr']) {
-        this.$set(this.topic.children, 'zukunftswerk.note.fr', {})
+      if (!this.topic.children['linqa.note.fr']) {
+        this.$set(this.topic.children, 'linqa.note.fr', {})
       }
       //
-      const compDefUri = 'zukunftswerk.note.' + lang
+      const compDefUri = 'linqa.note.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
   },

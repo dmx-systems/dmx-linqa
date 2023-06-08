@@ -18,7 +18,7 @@
 import dmx from 'dmx-api'
 import zw from '../zw-globals'
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.js'
-pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.zukunftswerk/pdfjs/pdf.worker.js'
+pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.js'
 
 export default {
 

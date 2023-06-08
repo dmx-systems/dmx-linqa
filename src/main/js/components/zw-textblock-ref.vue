@@ -60,7 +60,7 @@ export default {
 
     html (lang) {
       // Note: in a monolingual textblock "fr" is not defined
-      const html = this.topic.children['zukunftswerk.textblock.' + lang]?.value
+      const html = this.topic.children['linqa.textblock.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }

@@ -74,12 +74,12 @@ export default {
         moveHandler: this.moveHandler
       },
       CONFIG: {
-        'zukunftswerk.arrow': {
+        'linqa.arrow': {
           resizeStyle: 'none',
           rotateEnabled: false,
           moveHandler: this.arrowMoveHandler
         },
-        'zukunftswerk.viewport': {
+        'linqa.viewport': {
           deleteEnabled: false,
           resizeStyle: 'none',
           rotateEnabled: false
@@ -132,7 +132,7 @@ export default {
 
     editableSelection () {
       return this.isTeam || this.isEditor &&
-        this.selection.every(topic => !topic.children['zukunftswerk.locked']?.value)
+        this.selection.every(topic => !topic.children['linqa.locked']?.value)
     },
 
     draggable () {
@@ -207,19 +207,19 @@ export default {
     },
 
     newNote () {
-      this.$store.dispatch('newTopic', this.newViewTopic('zukunftswerk.note'))
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.note'))
     },
 
     newTextblock () {
-      this.$store.dispatch('newTopic', this.newViewTopic('zukunftswerk.textblock'))
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.textblock'))
     },
 
     newLabel () {
-      this.$store.dispatch('newTopic', this.newViewTopic('zukunftswerk.label'))
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.label'))
     },
 
     newArrow () {
-      const arrow = this.newViewTopic('zukunftswerk.arrow')
+      const arrow = this.newViewTopic('linqa.arrow')
       arrow.value = 'Arrow ' + newArrowId()     // the Value Integrator needs something to integrate
       this.$store.dispatch('createArrow', arrow)
     },
@@ -228,9 +228,9 @@ export default {
 
     newDocumentViewTopic () {
       return new dmx.ViewTopic({
-        ...dmx.typeCache.getTopicType('zukunftswerk.document').newFormModel(),
+        ...dmx.typeCache.getTopicType('linqa.document').newFormModel(),
         id: newSynId(),   // overwrite ID created in previous line
-        viewProps: this.viewProps('zukunftswerk.document')
+        viewProps: this.viewProps('linqa.document')
       })
     },
 
@@ -251,8 +251,8 @@ export default {
         'dmx.topicmaps.y': y,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'zukunftswerk.arrow' ? zw.ARROW_LENGTH : zw.FORM_WIDTH,
-        'zukunftswerk.angle': 0
+        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? zw.ARROW_LENGTH : zw.FORM_WIDTH,
+        'linqa.angle': 0
       }
     },
 
@@ -323,7 +323,7 @@ export default {
     },
 
     deleteManyFilter (topic) {
-      return this.config('deleteEnabled', topic) && (this.isTeam || !topic.children['zukunftswerk.locked']?.value)
+      return this.config('deleteEnabled', topic) && (this.isTeam || !topic.children['linqa.locked']?.value)
     },
 
     transitionend () {
@@ -433,7 +433,7 @@ export default {
     onRotate ({target, rotate}) {
       const angle = Math.round(rotate / 5) * 5          // rotate in 5 deg steps
       target.style.transform = `rotate(${angle}deg)`;   // view update not strictly required but improves rendering
-      this.findTopic(target).setViewProp('zukunftswerk.angle', angle)     // update model
+      this.findTopic(target).setViewProp('linqa.angle', angle)     // update model
     },
 
     onRotateEnd (e) {

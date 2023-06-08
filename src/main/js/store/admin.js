@@ -17,7 +17,7 @@ const state = {
   expandedWorkspaceIds: [],           // IDs of the workspaces that are expanded
   selectedWorkspace: undefined,       // (plain Workspace topic)
 
-  // Note: "users" is found in root state (see zukunftswerk.js) as it also holds the user display names
+  // Note: "users" is found in root state (see linqa.js) as it also holds the user display names
   expandedUsernames: [],              // usernames of the users that are expanded (array of String)
   selectedUser: undefined             // (plain Username topic)
 }
@@ -100,7 +100,7 @@ const actions = {
 
   fetchAllZWWorkspaces ({rootState}) {
     if (!state.workspaces.length) {
-      return http.get('/zukunftswerk/admin/workspaces').then(response => {
+      return http.get('/linqa/admin/workspaces').then(response => {
         state.workspaces = dmx.utils.instantiateMany(response.data, dmx.Topic)
         state.workspaces.push(rootState.teamWorkspace)
       })
@@ -119,7 +119,7 @@ const actions = {
   fetchUserMemberships (_, username) {
     const usernameTopic = zw.getUser(username)
     if (!usernameTopic.memberships) {
-      return http.get(`/zukunftswerk/admin/user/${username}/workspaces`).then(response => {
+      return http.get(`/linqa/admin/user/${username}/workspaces`).then(response => {
         const workspaces = response.data
         Vue.set(usernameTopic, 'memberships', workspaces)                 // ad-hoc property is not reactive by default
       })
@@ -129,7 +129,7 @@ const actions = {
   updateWorkspaceMemberships ({rootState, dispatch}, {addUserIds1, removeUserIds1, addUserIds2, removeUserIds2}) {
     const workspace = state.selectedWorkspace
     dispatch('expandWorkspace', workspace.id)
-    return http.put(`/zukunftswerk/admin/workspace/${workspace.id}`, undefined, {
+    return http.put(`/linqa/admin/workspace/${workspace.id}`, undefined, {
       params: {
         addUserIds1: addUserIds1.join(','),
         removeUserIds1: removeUserIds1.join(','),
@@ -146,7 +146,7 @@ const actions = {
   updateUserMemberships ({dispatch}, {addWorkspaceIds1, removeWorkspaceIds1, addWorkspaceIds2, removeWorkspaceIds2}) {
     const user = state.selectedUser
     dispatch('expandUser', user.value)
-    return http.put(`/zukunftswerk/admin/user/${user.value}`, undefined, {
+    return http.put(`/linqa/admin/user/${user.value}`, undefined, {
       params: {
         addWorkspaceIds1: addWorkspaceIds1.join(','),
         removeWorkspaceIds1: removeWorkspaceIds1.join(','),
@@ -160,7 +160,7 @@ const actions = {
   },
 
   createZWWorkspace ({rootState, dispatch}, {nameDe, nameFr}) {
-    return http.post('/zukunftswerk/admin/workspace', undefined, {
+    return http.post('/linqa/admin/workspace', undefined, {
       params: {nameDe, nameFr}
     }).then(response => {
       // update client state

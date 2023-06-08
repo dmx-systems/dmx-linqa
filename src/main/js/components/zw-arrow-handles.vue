@@ -34,7 +34,7 @@ export default {
   computed: {
 
     visible () {
-      return this.editable && this.topic?.typeUri === 'zukunftswerk.arrow'
+      return this.editable && this.topic?.typeUri === 'linqa.arrow'
     },
 
     topic () {
@@ -50,7 +50,7 @@ export default {
     },
 
     angle () {
-      return this.topic.viewProps['zukunftswerk.angle'] || 0
+      return this.topic.viewProps['linqa.angle'] || 0
     },
 
     newWidth () {
@@ -94,7 +94,7 @@ export default {
         this[`h${nr}`].x = Math.round(left / zw.CANVAS_GRID) * zw.CANVAS_GRID
         this[`h${nr}`].y = Math.round(top / zw.CANVAS_GRID) * zw.CANVAS_GRID
         this.topic.setViewProp('dmx.topicmaps.width', this.newWidth)
-        this.topic.setViewProp('zukunftswerk.angle', this.newAngle)
+        this.topic.setViewProp('linqa.angle', this.newAngle)
         // position correction
         const newPos = this[`h${nr}`]
         this.topic.setPosition({

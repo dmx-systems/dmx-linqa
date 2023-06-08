@@ -269,11 +269,11 @@ export default {
     },
 
     getDocumentId (comment) {
-      return comment.children['zukunftswerk.document']?.id
+      return comment.children['linqa.document']?.id
     },
 
     getTextblockId (comment) {
-      return comment.children['zukunftswerk.textblock']?.id
+      return comment.children['linqa.textblock']?.id
     }
   },
 

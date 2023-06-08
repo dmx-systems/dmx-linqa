@@ -108,7 +108,7 @@ export default {
 
   data () {
     return {
-      type: 'zukunftswerk.document_name',
+      type: 'linqa.document_name',
       text: '',                     // used only for text files: the contained text (String)      FIXME: 2x ?
       isLoading: false,             // true while document is loaded/saved (Boolean)
       saveButtonDisabled: false,    // true when save button is disabled (Boolean)
@@ -131,8 +131,8 @@ export default {
 
     docNames () {
       return {
-        de: this.topic.children['zukunftswerk.document_name.de'],
-        fr: this.topic.children['zukunftswerk.document_name.fr']
+        de: this.topic.children['linqa.document_name.de'],
+        fr: this.topic.children['linqa.document_name.fr']
       }
     },
 
@@ -163,16 +163,16 @@ export default {
       } else {
         return {
           names: {
-            de: this.topicBuffer.children['zukunftswerk.document_name.de'],
-            fr: this.topicBuffer.children['zukunftswerk.document_name.fr']
+            de: this.topicBuffer.children['linqa.document_name.de'],
+            fr: this.topicBuffer.children['linqa.document_name.fr']
           },
           files: {
-            de: this.topicBuffer.children['dmx.files.file#zukunftswerk.de'],
-            fr: this.topicBuffer.children['dmx.files.file#zukunftswerk.fr']
+            de: this.topicBuffer.children['dmx.files.file#linqa.de'],
+            fr: this.topicBuffer.children['dmx.files.file#linqa.fr']
           },
           paths: {
-            de: this.getPathTopic(this.topicBuffer.children['dmx.files.file#zukunftswerk.de']),
-            fr: this.getPathTopic(this.topicBuffer.children['dmx.files.file#zukunftswerk.fr'])
+            de: this.getPathTopic(this.topicBuffer.children['dmx.files.file#linqa.de']),
+            fr: this.getPathTopic(this.topicBuffer.children['dmx.files.file#linqa.fr'])
           }
         }
       }
@@ -266,12 +266,12 @@ export default {
         action = 'update'
         arg = this.topic
         // transfer edit buffer to topic model
-        this.topic.children['zukunftswerk.translation_edited'] = {value: this.editedFlag}
-        Vue.set(this.topic.children, 'zukunftswerk.document_name.de', this.docModel.names.de)
-        Vue.set(this.topic.children, 'zukunftswerk.document_name.fr', this.docModel.names.fr)
-        this.topic.children['dmx.files.file#zukunftswerk.de'] = this.docModel.paths.de.value ? this.docModel.files.de :
+        this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
+        Vue.set(this.topic.children, 'linqa.document_name.de', this.docModel.names.de)
+        Vue.set(this.topic.children, 'linqa.document_name.fr', this.docModel.names.fr)
+        this.topic.children['dmx.files.file#linqa.de'] = this.docModel.paths.de.value ? this.docModel.files.de :
           undefined
-        this.topic.children['dmx.files.file#zukunftswerk.fr'] = this.docModel.paths.fr.value ? this.docModel.files.fr :
+        this.topic.children['dmx.files.file#linqa.fr'] = this.docModel.paths.fr.value ? this.docModel.files.fr :
           undefined
       }
       this.$store.dispatch(action, arg).catch(error => {
@@ -308,7 +308,7 @@ export default {
         const fileTopic = response.topic
         delete fileTopic.assoc    // the lead-to-parent-folder assoc must not be contained in create/update request
         const topic = this.isNew ? this.topic : this.topicBuffer
-        topic.children['dmx.files.file#zukunftswerk.' + lang] = fileTopic
+        topic.children['dmx.files.file#linqa.' + lang] = fileTopic
         //
         this.$refs['upload.' + lang].clearFiles()
         this.saveButtonDisabled = false

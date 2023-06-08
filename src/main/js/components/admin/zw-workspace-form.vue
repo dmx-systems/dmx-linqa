@@ -28,11 +28,11 @@ export default {
   computed: {
 
     de () {
-      return this.editBuffer.children['dmx.workspaces.workspace_name#zukunftswerk.de']
+      return this.editBuffer.children['dmx.workspaces.workspace_name#linqa.de']
     },
 
     fr () {
-      return this.editBuffer.children['dmx.workspaces.workspace_name#zukunftswerk.fr']
+      return this.editBuffer.children['dmx.workspaces.workspace_name#linqa.fr']
     },
 
     heading () {

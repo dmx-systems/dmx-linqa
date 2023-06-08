@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
 
 
 
-@Path("/zukunftswerk")
+@Path("/linqa")
 @Produces("application/json")
 public class LinqaPlugin extends PluginActivator implements LinqaService, TopicmapCustomizer, PostCreateAssoc,
                                                                                               PreDeleteAssoc,
@@ -277,7 +277,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         try {
             TopicModel document = createBilingualTopicModel(DOCUMENT, docName, DOCUMENT_NAME);
             String lang = document.getChildTopics().getString(LANGUAGE + "#" + ORIGINAL_LANGUAGE);
-            document.getChildTopics().setRef(FILE + "#zukunftswerk." + lang, fileId);
+            document.getChildTopics().setRef(FILE + "#linqa." + lang, fileId);
             return dmx.createTopic(document);
         } catch (Exception e) {
             throw new RuntimeException("Creating document failed, docName=\"" + docName + "\", fileId=" + fileId, e);

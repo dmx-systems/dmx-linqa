@@ -88,11 +88,11 @@ export default {
     },
 
     angle () {
-      return this.topic.viewProps['zukunftswerk.angle'] || 0
+      return this.topic.viewProps['linqa.angle'] || 0
     },
 
     locked () {
-      return this.topic.children['zukunftswerk.locked']?.value
+      return this.topic.children['linqa.locked']?.value
     },
 
     showLock () {
@@ -175,12 +175,12 @@ export default {
   },
 
   components: {
-    'zukunftswerk.document': require('./zw-document').default,
-    'zukunftswerk.note': require('./zw-note').default,
-    'zukunftswerk.textblock': require('./zw-textblock').default,
-    'zukunftswerk.label': require('./zw-label').default,
-    'zukunftswerk.arrow': require('./zw-arrow').default,
-    'zukunftswerk.viewport': require('./zw-viewport').default
+    'linqa.document': require('./zw-document').default,
+    'linqa.note': require('./zw-note').default,
+    'linqa.textblock': require('./zw-textblock').default,
+    'linqa.label': require('./zw-label').default,
+    'linqa.arrow': require('./zw-arrow').default,
+    'linqa.viewport': require('./zw-viewport').default
   }
 }
 </script>

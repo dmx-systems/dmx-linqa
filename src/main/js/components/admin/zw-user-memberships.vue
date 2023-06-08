@@ -83,7 +83,7 @@ export default {
     },
 
     isEditor (workspace) {
-      return this.findWorkspace(workspace)?.assoc.children['zukunftswerk.editor']?.value
+      return this.findWorkspace(workspace)?.assoc.children['linqa.editor']?.value
     },
 
     /**

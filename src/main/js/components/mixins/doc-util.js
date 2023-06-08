@@ -41,7 +41,7 @@ export default {
   methods: {
 
     getFile (lang) {
-      return this.topic.children['dmx.files.file#zukunftswerk.' + lang]
+      return this.topic.children['dmx.files.file#linqa.' + lang]
     },
 
     getPath (file) {

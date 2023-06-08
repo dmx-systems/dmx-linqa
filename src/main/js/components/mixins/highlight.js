@@ -1,4 +1,4 @@
-import store from '../../store/zukunftswerk'
+import store from '../../store/linqa'
 
 export default {
   methods: {

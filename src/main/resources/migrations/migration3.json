@@ -4,22 +4,22 @@
     // Viewport
     {
       "value":       "Viewport",
-      "uri":         "zukunftswerk.viewport",
+      "uri":         "linqa.viewport",
       "dataTypeUri": "dmx.core.text"
     },
     // Editor / Editor Facet
     {
       "value":       "Editor",
-      "uri":         "zukunftswerk.editor",
+      "uri":         "linqa.editor",
       "dataTypeUri": "dmx.core.boolean"
     },
     {
       "value":       "Editor Facet",
-      "uri":         "zukunftswerk.editor_facet",
+      "uri":         "linqa.editor_facet",
       "dataTypeUri": "dmx.core.entity",
       "compDefs": [
         {
-          "childTypeUri":        "zukunftswerk.editor",
+          "childTypeUri":        "linqa.editor",
           "childCardinalityUri": "dmx.core.one"
         }
       ]

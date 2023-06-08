@@ -22,8 +22,8 @@ export default {
 
     docNames () {
       return {
-        de: this.document.children['zukunftswerk.document_name.de']?.value,
-        fr: this.document.children['zukunftswerk.document_name.fr']?.value
+        de: this.document.children['linqa.document_name.de']?.value,
+        fr: this.document.children['linqa.document_name.fr']?.value
       }
     },
 

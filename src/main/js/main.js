@@ -1,21 +1,21 @@
 import dmx from 'dmx-api'
 import Vue from 'vue'
 import App from './components/App'
-import store from './store/zukunftswerk'
+import store from './store/linqa'
 import router from './router'
 import onHttpError from './error-handler'
 import messageHandler from './message-handler'
 import './element-ui'
 
-console.log('[Linqa] 2023/06/08')
+console.log('[Linqa] 2023/06/08-2')
 
 // 1) Init dmx library
 dmx.init({
   topicTypes: [                   // types are needed for dmx-api form generator (type.newFormModel())
-    'zukunftswerk.document',
-    'zukunftswerk.note',
-    'zukunftswerk.textblock',
-    'zukunftswerk.label',
+    'linqa.document',
+    'linqa.note',
+    'linqa.textblock',
+    'linqa.label',
     'dmx.workspaces.workspace'    // needed by admin interface
   ],
   store,

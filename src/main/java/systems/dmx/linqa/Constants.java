@@ -5,38 +5,38 @@ package systems.dmx.linqa;
 public class Constants {
 
     public static final String ZW_PLUGIN_URI            = "systems.dmx.linqa";
-    public static final String TEAM_WORKSPACE_URI       = "zukunftswerk.team";
+    public static final String TEAM_WORKSPACE_URI       = "linqa.team";
     public static final String TEAM_WORKSPACE_NAME      = "Team";
 
     // Topic Types
-    public static final String DOCUMENT                 = "zukunftswerk.document";
-    public static final String DOCUMENT_NAME            = "zukunftswerk.document_name";
-    public static final String ZW_NOTE                  = "zukunftswerk.note"; // "NOTE" is already used by Notes module
-    public static final String TEXTBLOCK                = "zukunftswerk.textblock";
-    public static final String LABEL                    = "zukunftswerk.label";
-    public static final String ARROW                    = "zukunftswerk.arrow";
-    public static final String COMMENT                  = "zukunftswerk.comment";
-    public static final String COMMENT_DE               = "zukunftswerk.comment.de";
-    public static final String COMMENT_FR               = "zukunftswerk.comment.fr";
-    public static final String LANGUAGE                 = "zukunftswerk.language";
-    public static final String TRANSLATION_EDITED       = "zukunftswerk.translation_edited";
-    public static final String LOCKED                   = "zukunftswerk.locked";
-    public static final String VIEWPORT                 = "zukunftswerk.viewport";
-    public static final String EDITOR                   = "zukunftswerk.editor";
-    public static final String EDITOR_FACET             = "zukunftswerk.editor_facet";
-    public static final String SHOW_EMAIL_ADDRESS       = "zukunftswerk.show_email_address";
-    public static final String SHOW_EMAIL_ADDRESS_FACET = "zukunftswerk.show_email_address_facet";
+    public static final String DOCUMENT                 = "linqa.document";
+    public static final String DOCUMENT_NAME            = "linqa.document_name";
+    public static final String ZW_NOTE                  = "linqa.note"; // "NOTE" is already used by Notes module
+    public static final String TEXTBLOCK                = "linqa.textblock";
+    public static final String LABEL                    = "linqa.label";
+    public static final String ARROW                    = "linqa.arrow";
+    public static final String COMMENT                  = "linqa.comment";
+    public static final String COMMENT_DE               = "linqa.comment.de";
+    public static final String COMMENT_FR               = "linqa.comment.fr";
+    public static final String LANGUAGE                 = "linqa.language";
+    public static final String TRANSLATION_EDITED       = "linqa.translation_edited";
+    public static final String LOCKED                   = "linqa.locked";
+    public static final String VIEWPORT                 = "linqa.viewport";
+    public static final String EDITOR                   = "linqa.editor";
+    public static final String EDITOR_FACET             = "linqa.editor_facet";
+    public static final String SHOW_EMAIL_ADDRESS       = "linqa.show_email_address";
+    public static final String SHOW_EMAIL_ADDRESS_FACET = "linqa.show_email_address_facet";
 
     // Assoc Types
-    public static final String SHARED_WORKSPACE         = "zukunftswerk.shared_workspace";
-    public static final String ATTACHMENT               = "zukunftswerk.attachment";
-    public static final String ORIGINAL_LANGUAGE        = "zukunftswerk.original_language";
-    public static final String DE                       = "zukunftswerk.de";
-    public static final String FR                       = "zukunftswerk.fr";
+    public static final String SHARED_WORKSPACE         = "linqa.shared_workspace";
+    public static final String ATTACHMENT               = "linqa.attachment";
+    public static final String ORIGINAL_LANGUAGE        = "linqa.original_language";
+    public static final String DE                       = "linqa.de";
+    public static final String FR                       = "linqa.fr";
 
     // DB Props
-    public static final String ZW_COLOR    = "zukunftswerk.color";  // Note, Textblock (String)
+    public static final String ZW_COLOR    = "linqa.color";  // Note, Textblock (String)
         // Note: COLOR is already used by Webclient module, but as type URI; here we have a prop URI
-    public static final String ANGLE       = "zukunftswerk.angle";  // Document, Note, Textblock, Label, Arrow (Integer)
-    public static final String USER_ACTIVE = "zukunftswerk.user_active";   // Username (Boolean)
+    public static final String ANGLE       = "linqa.angle";  // Document, Note, Textblock, Label, Arrow (Integer)
+    public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)
 }

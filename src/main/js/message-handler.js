@@ -1,4 +1,4 @@
-import store from './store/zukunftswerk'
+import store from './store/linqa'
 import zw from './zw-globals'
 import dmx from 'dmx-api'
 import Vue from 'vue'
@@ -35,7 +35,7 @@ export default message => {
       switch (directive.type) {
       case 'UPDATE_TOPIC':
         topic = directive.arg
-        if (topic.typeUri === 'zukunftswerk.comment') {
+        if (topic.typeUri === 'linqa.comment') {
           store.dispatch('replaceComment', topic)
         } else {
           const _topic = topicmap?.getTopicIfExists(topic.id)
@@ -48,7 +48,7 @@ export default message => {
         break
       case 'DELETE_TOPIC':
         topic = directive.arg
-        if (topic.typeUri === 'zukunftswerk.comment') {
+        if (topic.typeUri === 'linqa.comment') {
           store.dispatch('removeComment', topic)
         } else {
           topicmap?.removeTopic(topic.id)

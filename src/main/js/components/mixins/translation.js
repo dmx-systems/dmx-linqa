@@ -3,7 +3,7 @@ import zw from '../../zw-globals'
 /**
  * Note: the host component is expected to hold
  * - topic        any topic which has an "Original Language" field (dmx.ViewTopic)
- * - type         base URI of topic's type, e.g. 'zukunftswerk.note'
+ * - type         base URI of topic's type, e.g. 'linqa.note'
  * - topicBuffer  the buffer used for topic editing (dmx.ViewTopic)
  */
 export default {
@@ -40,7 +40,7 @@ export default {
 
     // persisted "edited" flag
     translationEdited () {
-      return this.topic.children['zukunftswerk.translation_edited']?.value
+      return this.topic.children['linqa.translation_edited']?.value
     },
 
     // new "edited" flag (computed dynamically while typing)
@@ -62,7 +62,7 @@ export default {
 
     origLang () {
       // Note: a monolingual topic has no "Original Language", "origLang" is undefined then
-      return this.topic.children['zukunftswerk.language#zukunftswerk.original_language']?.value
+      return this.topic.children['linqa.language#linqa.original_language']?.value
     },
 
     // Note: for a monolingual topic "translatedLang" is undefined

@@ -52,7 +52,7 @@ export default {
     },
 
     active () {
-      return this.user.children['zukunftswerk.user_active']?.value
+      return this.user.children['linqa.user_active']?.value
     },
 
     displayName () {

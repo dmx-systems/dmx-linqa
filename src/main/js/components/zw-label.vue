@@ -67,7 +67,7 @@ export default {
 
   data () {
     return {
-      type: 'zukunftswerk.label',
+      type: 'linqa.label',
       saving: false                 // true while label is saved
     }
   },
@@ -77,8 +77,8 @@ export default {
     label () {
       return {
         // Note: in a monolingual label "fr" is not defined
-        de: this.topic.children['zukunftswerk.label.de']?.value,
-        fr: this.topic.children['zukunftswerk.label.fr']?.value
+        de: this.topic.children['linqa.label.de']?.value,
+        fr: this.topic.children['linqa.label.fr']?.value
       }
     },
 
@@ -122,7 +122,7 @@ export default {
         action = 'update'
         arg = this.topic
         // transfer edit buffer to topic model
-        this.topic.children['zukunftswerk.translation_edited'] = {value: this.editedFlag}
+        this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
         this.setText('de')
         this.setText('fr')
       }
@@ -144,11 +144,11 @@ export default {
 
     setText (lang) {
       // Note: in a monolingual label "fr" is not defined     // TODO: simplify
-      if (!this.topic.children['zukunftswerk.label.fr']) {
-        this.$set(this.topic.children, 'zukunftswerk.label.fr', {})
+      if (!this.topic.children['linqa.label.fr']) {
+        this.$set(this.topic.children, 'linqa.label.fr', {})
       }
       //
-      const compDefUri = 'zukunftswerk.label.' + lang
+      const compDefUri = 'linqa.label.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
   }

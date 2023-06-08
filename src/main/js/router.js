@@ -9,7 +9,7 @@ import Legal from './components/zw-legal'
 import Webclient from './components/zw-webclient'
 import Workspace from './components/zw-workspace'
 import Admin from './components/admin/zw-admin'
-import store from './store/zukunftswerk'
+import store from './store/linqa'
 import zw from './zw-globals'
 import dmx from 'dmx-api'
 

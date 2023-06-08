@@ -77,7 +77,7 @@ export default {
 
   data () {
     return {
-      type: 'zukunftswerk.comment',
+      type: 'linqa.comment',
       mode: 'info',             // 'info'/'form'
       topicBuffer: undefined,   // the edit buffer (dmx.Topic)
       saving: false             // true while comment is saved
@@ -90,8 +90,8 @@ export default {
       return {
         // Note: in a monolingual comment "fr" is not defined.
         // "de" on the other is expected to be always defined, but ZW dev-data are corrupt.
-        de: this.topic.children['zukunftswerk.comment.de']?.value,
-        fr: this.topic.children['zukunftswerk.comment.fr']?.value
+        de: this.topic.children['linqa.comment.de']?.value,
+        fr: this.topic.children['linqa.comment.fr']?.value
       }
     },
 
@@ -100,19 +100,19 @@ export default {
     },
 
     refComment () {
-      return this.topic.children['zukunftswerk.comment']
+      return this.topic.children['linqa.comment']
     },
 
     refDocument () {
-      return this.topic.children['zukunftswerk.document']
+      return this.topic.children['linqa.document']
     },
 
     refTextblock () {
-      return this.topic.children['zukunftswerk.textblock']
+      return this.topic.children['linqa.textblock']
     },
 
     attachments () {
-      return this.topic.children['dmx.files.file#zukunftswerk.attachment']
+      return this.topic.children['dmx.files.file#linqa.attachment']
     },
 
     username () {
@@ -157,7 +157,7 @@ export default {
 
     translationMode () {
       if (this.infoMode) {
-        const topic = this.topic.children['zukunftswerk.comment.' + this.lang2]
+        const topic = this.topic.children['linqa.comment.' + this.lang2]
         if (!topic || topic.value === '<p><br></p>') {
           return 'none'
         } else {
@@ -195,9 +195,9 @@ export default {
     save () {
       this.saving = true
       // transfer edit buffer to topic model
-      this.topic.children['zukunftswerk.translation_edited'] = {value: this.editedFlag}
-      this.topic.children['zukunftswerk.comment.de'] = this.model.de
-      this.topic.children['zukunftswerk.comment.fr'] = this.model.fr
+      this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
+      this.topic.children['linqa.comment.de'] = this.model.de
+      this.topic.children['linqa.comment.fr'] = this.model.fr
       this.$store.dispatch('updateComment', this.topic).then(() => {
         this.mode = 'info'
         this.saving = false
@@ -222,8 +222,8 @@ export default {
       // Note 1: in a monolingual comment "fr" is not defined. We meed it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
       // Note 3: we need Vue.set() as topic clone is put into state already.
-      if (!this.topicBuffer.children['zukunftswerk.comment.fr']) {
-        Vue.set(this.topicBuffer.children, 'zukunftswerk.comment.fr', {value: ''})
+      if (!this.topicBuffer.children['linqa.comment.fr']) {
+        Vue.set(this.topicBuffer.children, 'linqa.comment.fr', {value: ''})
       }
       this.$nextTick(() => {
         this.$store.dispatch('jumpToComment', {

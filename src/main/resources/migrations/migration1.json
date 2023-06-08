@@ -4,22 +4,22 @@
     "assoc_types": [
       {
         "value":       "Attachment",
-        "uri":         "zukunftswerk.attachment",
+        "uri":         "linqa.attachment",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "Original Language",
-        "uri":         "zukunftswerk.original_language",
+        "uri":         "linqa.original_language",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "de",
-        "uri":         "zukunftswerk.de",
+        "uri":         "linqa.de",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "fr",
-        "uri":         "zukunftswerk.fr",
+        "uri":         "linqa.fr",
         "dataTypeUri": "dmx.core.text"
       }
     ]
@@ -29,38 +29,38 @@
       // Document
       {
         "value":       "Dokument Name (de)",
-        "uri":         "zukunftswerk.document_name.de",
+        "uri":         "linqa.document_name.de",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "Nom du document (fr)",
-        "uri":         "zukunftswerk.document_name.fr",
+        "uri":         "linqa.document_name.fr",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "Document",
-        "uri":         "zukunftswerk.document",
+        "uri":         "linqa.document",
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "zukunftswerk.document_name.de",
+            "childTypeUri":        "linqa.document_name.de",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.document_name.fr",
+            "childTypeUri":        "linqa.document_name.fr",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
             "childTypeUri":        "dmx.files.file",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "zukunftswerk.de"
+            "customAssocTypeUri":  "linqa.de"
           },
           {
             "childTypeUri":        "dmx.files.file",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "zukunftswerk.fr"
+            "customAssocTypeUri":  "linqa.fr"
           }
         ],
         "viewConfigTopics": [
@@ -76,44 +76,44 @@
       // Language
       {
         "value":       "Language",
-        "uri":         "zukunftswerk.language",
+        "uri":         "linqa.language",
         "dataTypeUri": "dmx.core.text"
       },
       // Comment
       {
         "value":       "Kommentar (de)",
-        "uri":         "zukunftswerk.comment.de",
+        "uri":         "linqa.comment.de",
         "dataTypeUri": "dmx.core.html"
       },
       {
         "value":       "Commentaire (fr)",
-        "uri":         "zukunftswerk.comment.fr",
+        "uri":         "linqa.comment.fr",
         "dataTypeUri": "dmx.core.html"
       },
       {
         "value":       "Translation Edited",
-        "uri":         "zukunftswerk.translation_edited",
+        "uri":         "linqa.translation_edited",
         "dataTypeUri": "dmx.core.boolean"
       },
       {
         "value":       "Comment",
-        "uri":         "zukunftswerk.comment",
+        "uri":         "linqa.comment",
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "zukunftswerk.comment.de",
+            "childTypeUri":        "linqa.comment.de",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.comment.fr",
+            "childTypeUri":        "linqa.comment.fr",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.language",
+            "childTypeUri":        "linqa.language",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "zukunftswerk.original_language",
+            "customAssocTypeUri":  "linqa.original_language",
             "viewConfigTopics": [
               {
                 "typeUri": "dmx.webclient.view_config",
@@ -125,21 +125,21 @@
             ]
           },
           {
-            "childTypeUri":        "zukunftswerk.translation_edited",
+            "childTypeUri":        "linqa.translation_edited",
             "childCardinalityUri": "dmx.core.one"
           },
           {
-            "childTypeUri":        "zukunftswerk.comment",
+            "childTypeUri":        "linqa.comment",
             "childCardinalityUri": "dmx.core.one"
           },
           {
-            "childTypeUri":        "zukunftswerk.document",
+            "childTypeUri":        "linqa.document",
             "childCardinalityUri": "dmx.core.one"
           },
           {
             "childTypeUri":        "dmx.files.file",
             "childCardinalityUri": "dmx.core.many",
-            "customAssocTypeUri":  "zukunftswerk.attachment"
+            "customAssocTypeUri":  "linqa.attachment"
           }
         ],
         "viewConfigTopics": [
@@ -155,33 +155,33 @@
       // Note
       {
         "value":       "Notiz (de)",
-        "uri":         "zukunftswerk.note.de",
+        "uri":         "linqa.note.de",
         "dataTypeUri": "dmx.core.html"
       },
       {
         "value":       "Note (fr)",
-        "uri":         "zukunftswerk.note.fr",
+        "uri":         "linqa.note.fr",
         "dataTypeUri": "dmx.core.html"
       },
       {
         "value":       "Note",
-        "uri":         "zukunftswerk.note",
+        "uri":         "linqa.note",
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "zukunftswerk.note.de",
+            "childTypeUri":        "linqa.note.de",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.note.fr",
+            "childTypeUri":        "linqa.note.fr",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.language",
+            "childTypeUri":        "linqa.language",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "zukunftswerk.original_language",
+            "customAssocTypeUri":  "linqa.original_language",
             "viewConfigTopics": [
               {
                 "typeUri": "dmx.webclient.view_config",
@@ -206,33 +206,33 @@
       // Label
       {
         "value":       "Beschriftung (de)",
-        "uri":         "zukunftswerk.label.de",
+        "uri":         "linqa.label.de",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "Étiquetage (fr)",
-        "uri":         "zukunftswerk.label.fr",
+        "uri":         "linqa.label.fr",
         "dataTypeUri": "dmx.core.text"
       },
       {
         "value":       "Label",
-        "uri":         "zukunftswerk.label",
+        "uri":         "linqa.label",
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "zukunftswerk.label.de",
+            "childTypeUri":        "linqa.label.de",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.label.fr",
+            "childTypeUri":        "linqa.label.fr",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "zukunftswerk.language",
+            "childTypeUri":        "linqa.language",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "zukunftswerk.original_language",
+            "customAssocTypeUri":  "linqa.original_language",
             "viewConfigTopics": [
               {
                 "typeUri": "dmx.webclient.view_config",
@@ -257,14 +257,14 @@
       // Arrow
       {
         "value":       "Arrow",
-        "uri":         "zukunftswerk.arrow",
+        "uri":         "linqa.arrow",
         "dataTypeUri": "dmx.core.text"
       }
     ],
     "assoc_types": [
       {
         "value":       "Shared Workspace",
-        "uri":         "zukunftswerk.shared_workspace",
+        "uri":         "linqa.shared_workspace",
         "dataTypeUri": "dmx.core.text"
       }
     ],
@@ -272,11 +272,11 @@
       // Languages
       {
         "value":   "de",
-        "typeUri": "zukunftswerk.language"
+        "typeUri": "linqa.language"
       },
       {
         "value":   "fr",
-        "typeUri": "zukunftswerk.language"
+        "typeUri": "linqa.language"
       }
     ]
   }

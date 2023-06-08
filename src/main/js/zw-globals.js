@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import dmx from 'dmx-api'
-import store from './store/zukunftswerk'
+import store from './store/linqa'
 
 const uiStrings = require('./ui-strings').default
 const quillOptions = require('./quill-options').default   // Quill config for canvas
@@ -91,7 +91,7 @@ function getViewport() {
 }
 
 function getViewportTopic() {
-  return store.state.topicmap.topics.find(topic => topic.typeUri === 'zukunftswerk.viewport')
+  return store.state.topicmap.topics.find(topic => topic.typeUri === 'linqa.viewport')
 }
 
 function getDisplayName (username) {
@@ -99,7 +99,7 @@ function getDisplayName (username) {
 }
 
 function getShowEmailAddress (username) {
-  return getUser(username).children['zukunftswerk.show_email_address'].value
+  return getUser(username).children['linqa.show_email_address'].value
 }
 
 function getUser (username) {
@@ -137,22 +137,22 @@ function findWorkspace (id) {
 }
 
 function workspaceName (topic) {
-  const de = topic.children['dmx.workspaces.workspace_name#zukunftswerk.de']
-  const fr = topic.children['dmx.workspaces.workspace_name#zukunftswerk.fr']
+  const de = topic.children['dmx.workspaces.workspace_name#linqa.de']
+  const fr = topic.children['dmx.workspaces.workspace_name#linqa.fr']
   if (de && fr) {
-    return topic.children['dmx.workspaces.workspace_name#zukunftswerk.' + store.state.lang].value
+    return topic.children['dmx.workspaces.workspace_name#linqa.' + store.state.lang].value
   } else {
     return de?.value || fr?.value || '?'
   }
 }
 
 function canvasFilter (topic) {
-  return topic.typeUri === 'zukunftswerk.document'  ||
-         topic.typeUri === 'zukunftswerk.note'      ||
-         topic.typeUri === 'zukunftswerk.textblock' ||
-         topic.typeUri === 'zukunftswerk.label'     ||
-         topic.typeUri === 'zukunftswerk.arrow'     ||
-         topic.typeUri === 'zukunftswerk.viewport' && (store.state.isTeam || store.state.isEditor)
+  return topic.typeUri === 'linqa.document'  ||
+         topic.typeUri === 'linqa.note'      ||
+         topic.typeUri === 'linqa.textblock' ||
+         topic.typeUri === 'linqa.label'     ||
+         topic.typeUri === 'linqa.arrow'     ||
+         topic.typeUri === 'linqa.viewport' && (store.state.isTeam || store.state.isEditor)
 }
 
 function confirmDeletion (textKey = 'warning.delete', value) {

@@ -82,7 +82,7 @@ export default {
     },
 
     isEditor (user) {
-      return this.findUser(user)?.assoc.children['zukunftswerk.editor']?.value
+      return this.findUser(user)?.assoc.children['linqa.editor']?.value
     },
 
     findUser (user) {

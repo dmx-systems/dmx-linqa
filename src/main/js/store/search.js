@@ -53,14 +53,14 @@ function itemText (topic) {
   // TODO: refactor
   const vm = document.querySelector(`.zw-canvas-item[data-id="${topic.id}"] .item-content`).__vue__
   switch (topic.typeUri) {
-  case 'zukunftswerk.document':
+  case 'linqa.document':
     return vm.docName
-  case 'zukunftswerk.note':
+  case 'linqa.note':
     return dmx.utils.stripHtml(vm.noteHtml)
-  case 'zukunftswerk.textblock':
+  case 'linqa.textblock':
     return dmx.utils.stripHtml(vm.textblock.de) +
            dmx.utils.stripHtml(vm.textblock.fr)
-  case 'zukunftswerk.label':
+  case 'linqa.label':
     return vm.labelText
   }
 }

@@ -11,7 +11,7 @@ window.addEventListener('focus', updateCookies)
 
 Vue.use(Vuex)
 
-const teamWorkspace = dmx.rpc.getTopicByUri('zukunftswerk.team', true).then(workspace => {      // includeChildren=true
+const teamWorkspace = dmx.rpc.getTopicByUri('linqa.team', true).then(workspace => {      // includeChildren=true
   state.teamWorkspace = workspace
   return workspace
 })
@@ -99,14 +99,14 @@ const actions = {
   },
 
   fetchZWWorkspaces () {
-    return http.get('/zukunftswerk/workspaces').then(response => {
+    return http.get('/linqa/workspaces').then(response => {
       state.workspaces = response.data
     })
   },
 
   fetchAllUsers () {
     if (!state.users.length) {
-      return http.get('/zukunftswerk/users').then(response => {
+      return http.get('/linqa/users').then(response => {
         state.users = response.data.sort(zw.topicSort)
       })
     }
@@ -197,7 +197,7 @@ const actions = {
   storeTopicAngle (_, topic) {
     if (topic.id >= 0) {
       dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'zukunftswerk.angle': topic.viewProps['zukunftswerk.angle']
+        'linqa.angle': topic.viewProps['linqa.angle']
       })
     }
   },
@@ -209,7 +209,7 @@ const actions = {
       'dmx.topicmaps.x':     Math.round(topic.viewProps['dmx.topicmaps.x']),
       'dmx.topicmaps.y':     Math.round(topic.viewProps['dmx.topicmaps.y']),
       'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
-      'zukunftswerk.angle':  topic.viewProps['zukunftswerk.angle']
+      'linqa.angle':  topic.viewProps['linqa.angle']
     })
   },
 
@@ -332,14 +332,14 @@ const actions = {
     if (monolingual)  {
       // Note: a monolingual note/textblock/label is stored in "de". "fr" and "Original Language" are not set.
       p = dmx.rpc.createTopic({
-        typeUri: `zukunftswerk.${type}`,
+        typeUri: `linqa.${type}`,
         children: {
-          [`zukunftswerk.${type}.de`]: topic.value
+          [`linqa.${type}.de`]: topic.value
         }
       })
     } else {
       // suppress standard HTTP error handler
-      p = dmx.rpc._http.post(`/zukunftswerk/${type}`, topic.value).then(response => response.data)
+      p = dmx.rpc._http.post(`/linqa/${type}`, topic.value).then(response => response.data)
     }
     return p.then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
@@ -357,10 +357,10 @@ const actions = {
       // Note: a monolingual document name is stored in "de". "fr" and "Original Language" are not set.
       p = dmx.rpc.createTopic(topic)
     } else {
-      const docName = topic.children['zukunftswerk.document_name.de'].value
-      const fileId = topic.children['dmx.files.file#zukunftswerk.de'].id
+      const docName = topic.children['linqa.document_name.de'].value
+      const fileId = topic.children['dmx.files.file#linqa.de'].id
       // suppress standard HTTP error handler
-      p = dmx.rpc._http.post('/zukunftswerk/document', docName, {params: {fileId}}).then(response => response.data)
+      p = dmx.rpc._http.post('/linqa/document', docName, {params: {fileId}}).then(response => response.data)
     }
     return p.then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
@@ -383,7 +383,7 @@ const actions = {
   updateAndStoreColor ({dispatch}, topic) {
     dispatch('update', topic)
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-      'zukunftswerk.color': topic.viewProps['zukunftswerk.color']
+      'linqa.color': topic.viewProps['linqa.color']
     })
   },
 
@@ -402,7 +402,7 @@ const actions = {
   createComment (_, {comment, refTopicIds, fileTopicIds, monolingual}) {
     const _http = monolingual ? http : dmx.rpc._http
     const suffix = monolingual ? '/monolingual' : ''
-    return _http.post(`/zukunftswerk/comment${suffix}`, comment, {
+    return _http.post(`/linqa/comment${suffix}`, comment, {
       params: {
         refTopicIds: refTopicIds.join(','),
         fileTopicIds: fileTopicIds.join(',')
@@ -526,16 +526,16 @@ const actions = {
 
   toggleLock (_, topic) {
     // update client state
-    if (!topic.children['zukunftswerk.locked']) {
-      Vue.set(topic.children, 'zukunftswerk.locked', {})
+    if (!topic.children['linqa.locked']) {
+      Vue.set(topic.children, 'linqa.locked', {})
     }
-    const locked = !topic.children['zukunftswerk.locked'].value
-    Vue.set(topic.children['zukunftswerk.locked'], 'value', locked)
+    const locked = !topic.children['linqa.locked'].value
+    Vue.set(topic.children['linqa.locked'], 'value', locked)
     // update server state
     dmx.rpc.updateTopic({
       id: topic.id,
       children: {
-        'zukunftswerk.locked': locked
+        'linqa.locked': locked
       }
     })
   },
@@ -591,7 +591,7 @@ const actions = {
   },
 
   updateUserProfile ({rootState}, userProfile) {
-    return http.put(`/zukunftswerk/user_profile`, undefined, {
+    return http.put(`/linqa/user_profile`, undefined, {
       params: userProfile
     }).then(() => {
       updateUserProfile(userProfile)            // update client state
@@ -617,7 +617,7 @@ const actions = {
 
   translate (_, text) {
     // suppress standard HTTP error handler
-    return dmx.rpc._http.post('/zukunftswerk/translate', text).then(response => response.data)
+    return dmx.rpc._http.post('/linqa/translate', text).then(response => response.data)
   },
 
   downloadFile (_, repoPath) {
@@ -729,7 +729,7 @@ function updateWorkspaceState () {
     state.isWritable = isWritable
   })
   if (state.workspace.id !== state.teamWorkspace.id) {
-    state.isEditor = findWorkspace(state.workspace.id).assoc.children['zukunftswerk.editor']?.value
+    state.isEditor = findWorkspace(state.workspace.id).assoc.children['linqa.editor']?.value
   }
 }
 
@@ -744,7 +744,7 @@ function findWorkspace (id) {
 function fetchDiscussion () {
   state.discussion = undefined      // trigger recalculation of "noComments" (zw-discussion.vue), load-spinner appears
   state.discussionLoading = true
-  http.get('/zukunftswerk/discussion').then(response => {
+  http.get('/linqa/discussion').then(response => {
     state.discussion = dmx.utils.instantiateMany(response.data, dmx.Topic).sort(
       (c1, c2) => c1.children['dmx.timestamps.created'].value - c2.children['dmx.timestamps.created'].value
     )
@@ -764,7 +764,7 @@ function updateUserProfile(userProfile) {
     Vue.set(children, 'dmx.signup.display_name', {})
   }
   children['dmx.signup.display_name'].value = userProfile.displayName
-  children['zukunftswerk.show_email_address'].value = userProfile.showEmailAddress
+  children['linqa.show_email_address'].value = userProfile.showEmailAddress
 }
 
 /**

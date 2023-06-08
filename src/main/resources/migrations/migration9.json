@@ -4,33 +4,33 @@
     // Textblock
     {
       "value":       "Textblock (de)",
-      "uri":         "zukunftswerk.textblock.de",
+      "uri":         "linqa.textblock.de",
       "dataTypeUri": "dmx.core.html"
     },
     {
       "value":       "Textblock (fr)",
-      "uri":         "zukunftswerk.textblock.fr",
+      "uri":         "linqa.textblock.fr",
       "dataTypeUri": "dmx.core.html"
     },
     {
       "value":       "Textblock",
-      "uri":         "zukunftswerk.textblock",
+      "uri":         "linqa.textblock",
       "dataTypeUri": "dmx.core.entity",
       "compDefs": [
         {
-          "childTypeUri":        "zukunftswerk.textblock.de",
+          "childTypeUri":        "linqa.textblock.de",
           "childCardinalityUri": "dmx.core.one",
           "includeInLabel":      true
         },
         {
-          "childTypeUri":        "zukunftswerk.textblock.fr",
+          "childTypeUri":        "linqa.textblock.fr",
           "childCardinalityUri": "dmx.core.one",
           "includeInLabel":      true
         },
         {
-          "childTypeUri":        "zukunftswerk.language",
+          "childTypeUri":        "linqa.language",
           "childCardinalityUri": "dmx.core.one",
-          "customAssocTypeUri":  "zukunftswerk.original_language",
+          "customAssocTypeUri":  "linqa.original_language",
           "viewConfigTopics": [
             {
               "typeUri": "dmx.webclient.view_config",

@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-resizer" :style="{left: left + 'px'}" v-if="visible" @mousedown="onMouseDown"></div>
+  <div class="lq-resizer" :style="{left: left + 'px'}" v-if="visible" @mousedown="onMouseDown"></div>
 </template>
 
 <script>
@@ -69,7 +69,7 @@ export default {
      * Updates view according to model (store.state.panelX)
      */
     resize () {
-      const container = document.querySelector('.zw-webclient')
+      const container = document.querySelector('.lq-webclient')
       const paneL     = document.querySelector('.left-panel')
       const paneR     = document.querySelector('.right-panel')
       const paneLWidth = this.left
@@ -82,7 +82,7 @@ export default {
 </script>
 
 <style>
-.zw-resizer {
+.lq-resizer {
   position: absolute;
   width: 16px;
   height: 100%;

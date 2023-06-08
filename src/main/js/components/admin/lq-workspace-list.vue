@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-workspace-list">
+  <div class="lq-workspace-list">
     <div class="heading"><lq-string>label.admin_workspaces</lq-string></div>
     <div v-if="noWorkspaces" class="secondary"><lq-string>label.no_workspaces</lq-string></div>
     <template v-else>
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style>
-.zw-workspace-list > .owner {
+.lq-workspace-list > .owner {
   margin-left: calc(60% - 30px);
   margin-bottom: 6px;
 }

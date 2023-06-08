@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-comment', mode]" :data-id="topic.id" v-loading="saving">
+  <div :class="['lq-comment', mode]" :data-id="topic.id" v-loading="saving">
     <!-- Heading -->
     <div class="heading">
       <div>
@@ -264,98 +264,98 @@ export default {
 
 <style>
 
-.zw-comment {
+.lq-comment {
   background-color: white;
   padding: 12px;
   border-radius: 10px;
 }
 
-.zw-comment .heading {
+.lq-comment .heading {
   display: flex;
   margin-bottom: 10px;
 }
 
-.zw-comment .heading > div:first-child {
+.lq-comment .heading > div:first-child {
   flex-grow: 1;
 }
 
-.zw-comment .heading .creator {
+.lq-comment .heading .creator {
   font-size: var(--secondary-font-size);
   font-weight: bold;
 }
 
-.zw-comment .heading .date,
-.zw-comment .heading .translation-info {
+.lq-comment .heading .date,
+.lq-comment .heading .translation-info {
   margin-left: 12px;
 }
 
-.zw-comment.form .heading .translation-info.edited {
+.lq-comment.form .heading .translation-info.edited {
   background-color: var(--primary-color-light);
 }
 
-.zw-comment .heading .button-panel {
+.lq-comment .heading .button-panel {
   visibility: hidden;
 }
 
-.zw-comment:hover .heading .button-panel {
+.lq-comment:hover .heading .button-panel {
   visibility: visible;
 }
 
-.zw-comment .heading .button-panel .el-dropdown {
+.lq-comment .heading .button-panel .el-dropdown {
   margin-left: 6px;
 }
 
-.zw-comment .zw-comment-target-ref {
+.lq-comment .lq-comment-target-ref {
   margin-bottom: 15px;
 }
 
-.zw-comment .zw-attachment {
+.lq-comment .lq-attachment {
   margin-top: 6px;
 }
 
-.zw-comment .zw-attachment:first-child,
-.zw-comment .save-button {
+.lq-comment .lq-attachment:first-child,
+.lq-comment .save-button {
   margin-top: 15px;
 }
 
-.zw-comment .columns {
+.lq-comment .columns {
   display: flex;
 }
 
-.zw-comment .columns > div {
+.lq-comment .columns > div {
   flex-basis: 50%;
 }
 
-.zw-comment .columns > .text1 {
+.lq-comment .columns > .text1 {
   border-right: 1px dashed #aaa;
 }
 
-.zw-comment.form .columns > .text2 {
+.lq-comment.form .columns > .text2 {
   border-left: 1px dashed #aaa;
 }
 
-.zw-comment.info .columns > .text1 {
+.lq-comment.info .columns > .text1 {
   padding-right: 15px;
 }
 
-.zw-comment.info .columns > .text2 {
+.lq-comment.info .columns > .text2 {
   padding-left: 15px;
 }
 
-.zw-comment .columns > .text1 .ql-editor {
+.lq-comment .columns > .text1 .ql-editor {
   padding: 0 15px 0 0 !important;
 }
 
-.zw-comment .columns > .text2 .ql-editor {
+.lq-comment .columns > .text2 .ql-editor {
   padding: 0 0 0 15px !important;
 }
 
-.zw-comment .columns > .translate-button {
+.lq-comment .columns > .translate-button {
   font-size: 18px;
   margin: 0 6px;
 }
 
-.zw-comment .columns.glow {
+.lq-comment .columns.glow {
   animation: glow var(--glow-duration);
 }
 

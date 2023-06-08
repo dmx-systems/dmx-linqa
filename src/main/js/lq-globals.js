@@ -7,7 +7,7 @@ import store from './store/linqa'
 const uiStrings = require('./ui-strings').default
 const quillOptions = require('./quill-options').default   // Quill config for canvas
 const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for discussion panel
-quillOptions2.bounds = '.zw-discussion .comments'
+quillOptions2.bounds = '.lq-discussion .comments'
 quillOptions2.modules.toolbar.container[2].splice(2, 1)   // strip "video" button
 
 const logo = {

@@ -1,5 +1,5 @@
 <template>
-  <!-- Note: class "zw-arrow" is located at parent -->
+  <!-- Note: class "lq-arrow" is located at parent -->
   <svg class="svg" xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox">
     <defs>
       <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
@@ -19,7 +19,7 @@ export default {
 
   created () {
     // console.log('lq-arrow', this.topic.pos, this.pos, this.size)
-    this.$emit('custom-class', 'zw-arrow')
+    this.$emit('custom-class', 'lq-arrow')
     this.$emit('edit-enabled', false)
     this.$emit('resize-style', 'none')
     this.$emit('get-size', () => this.size)
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style>
-.zw-arrow .svg {
+.lq-arrow .svg {
   overflow: visible;
 }
 </style>

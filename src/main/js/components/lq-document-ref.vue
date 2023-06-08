@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-document-ref', 'zw-comment-target-ref', {closable}]" v-if="document" @click="reveal">
+  <div :class="['lq-document-ref', 'lq-comment-target-ref', {closable}]" v-if="document" @click="reveal">
     <span class="icon fa fa-fw fa-file-o"></span>
     <span class="doc-name label">{{docName}}</span>
     <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" :title="resetTooltip"
@@ -61,32 +61,32 @@ export default {
 </script>
 
 <style>
-.zw-document-ref {
+.lq-document-ref {
   display: inline-block;
   background-color: var(--primary-color-light);
   padding: 6px;
   cursor: pointer;
 }
 
-.zw-document-ref.closable {
+.lq-document-ref.closable {
   background-color: var(--primary-color);
 }
 
-.zw-document-ref .icon {
+.lq-document-ref .icon {
   color: var(--primary-color);
 }
 
-.zw-document-ref.closable .icon,
-.zw-document-ref.closable .doc-name {
+.lq-document-ref.closable .icon,
+.lq-document-ref.closable .doc-name {
   color: black !important;
 }
 
-.zw-document-ref .close-button {
+.lq-document-ref .close-button {
   font-size: 18px;
   margin-left: 6px;
 }
 
-.zw-document-ref .close-button > i {
+.lq-document-ref .close-button > i {
   vertical-align: text-bottom;
 }
 </style>

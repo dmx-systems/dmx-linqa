@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-comment-ref zw-comment-target-ref" v-if="comment" @click="click">
+  <div class="lq-comment-ref lq-comment-target-ref" v-if="comment" @click="click">
     <div class="creator label">{{displayName}}</div>
     <lq-truncate class="comment label" :html="html[lang]"></lq-truncate>
     <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" @click.stop="remove"></el-button>
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style>
-.zw-comment-ref {
+.lq-comment-ref {
   display: inline-block;
   position: relative;
   background-color: var(--primary-color-light);
@@ -61,16 +61,16 @@ export default {
   cursor: pointer;
 }
 
-.zw-comment-ref .creator {
+.lq-comment-ref .creator {
   font-weight: bold;
   margin-bottom: 2px;
 }
 
-.zw-comment-ref .comment {
+.lq-comment-ref .comment {
   font-style: italic;
 }
 
-.zw-comment-ref .close-button {
+.lq-comment-ref .close-button {
   font-size: 18px;
   position: absolute;
   top: 1px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-workspace">
+  <div class="lq-workspace">
     <lq-pdf-viewer class="left-panel" v-if="fullscreen" :topic="topic" :src="fileUrl"></lq-pdf-viewer>
     <lq-canvas class="left-panel" v-else></lq-canvas>
     <lq-resizer></lq-resizer>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style>
-.zw-workspace {
+.lq-workspace {
   display: flex;
   flex-grow: 1;
   min-height: 0;

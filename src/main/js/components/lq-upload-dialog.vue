@@ -1,5 +1,5 @@
 <template>
-  <el-dialog custom-class="zw-upload-dialog" :visible="visible" :modal="false" width="400px"
+  <el-dialog custom-class="lq-upload-dialog" :visible="visible" :modal="false" width="400px"
       @open="clearError" @close="close">
     <el-upload drag :action="action" :accept="accept" :on-success="onSuccess" :on-error="onError" ref="upload">
       <i class="el-icon-upload"></i>
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style>
-.zw-upload-dialog .error {
+.lq-upload-dialog .error {
   color: var(--color-danger);
   margin-top: var(--field-spacing);
 }

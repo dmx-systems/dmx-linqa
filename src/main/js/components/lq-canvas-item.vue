@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-canvas-item', customClass, mode, {selected: isSelected, draggable}]" :data-id="topic.id"
+  <div :class="['lq-canvas-item', customClass, mode, {selected: isSelected, draggable}]" :data-id="topic.id"
       :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
       @custom-class="setCustomClass" @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled"
@@ -186,38 +186,38 @@ export default {
 </script>
 
 <style>
-.zw-canvas-item {
+.lq-canvas-item {
   position: absolute;
 }
 
-.zw-canvas-item.zw-arrow {
+.lq-canvas-item.lq-arrow {
   z-index: 1 !important;                    /* Place arrows before other canvas items */
 }
 
-.zw-canvas-item.form {                      /* Place forms before arrows */
+.lq-canvas-item.form {                      /* Place forms before arrows */
   z-index: 2 !important;
 }
 
-.zw-canvas-item.selected {                  /* Place the selected item (including button panel) in front */
+.lq-canvas-item.selected {                  /* Place the selected item (including button panel) in front */
   z-index: 3 !important;
 }
 
-.zw-canvas-item.draggable {
+.lq-canvas-item.draggable {
   cursor: grab;
 }
 
-.zw-canvas-item .item-toolbar {
+.lq-canvas-item .item-toolbar {
   position: absolute;
   visibility: hidden;
   padding-top: 4px;
   padding-bottom: 12px;
 }
 
-.zw-canvas-item:hover .item-toolbar {
+.lq-canvas-item:hover .item-toolbar {
   visibility: visible;
 }
 
-.zw-canvas-item .lock-icon {
+.lq-canvas-item .lock-icon {
   position: absolute;
   right: 2px;
   bottom: 2px;

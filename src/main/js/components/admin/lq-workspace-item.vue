@@ -1,5 +1,5 @@
 <template>
-  <el-collapse-item :class="['zw-workspace-item', {'zw-selected': selected}]" :name="workspace.id">
+  <el-collapse-item :class="['lq-workspace-item', {'lq-selected': selected}]" :name="workspace.id">
     <div class="workspace" slot="title">
       <div class="name"><span class="fa fa-fw fa-list"></span> {{workspaceName}}</div>
       <div class="owner"><span class="fa fa-fw fa-user"></span> {{owner}}</div>
@@ -91,12 +91,12 @@ export default {
 </script>
 
 <style>
-.zw-workspace-item .workspace {
+.lq-workspace-item .workspace {
   display: flex;
   width: 92%;
 }
 
-.zw-workspace-item .workspace .name {
+.lq-workspace-item .workspace .name {
   flex-basis: 64%;
   white-space: nowrap;
   overflow: hidden;
@@ -104,7 +104,7 @@ export default {
   margin-right: 30px;
 }
 
-.zw-workspace-item .workspace .owner {
+.lq-workspace-item .workspace .owner {
   flex-basis: 34%;
   white-space: nowrap;
   overflow: hidden;

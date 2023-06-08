@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-user-list">
+  <div class="lq-user-list">
     <div class="heading"><lq-string>label.admin_users</lq-string></div>
     <div class="active"><lq-string>label.active</lq-string></div>
     <div class="scroll-container">
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style>
-.zw-user-list > .active {
+.lq-user-list > .active {
   margin-left: calc(92% - 114px);
   margin-bottom: 6px;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-user-menu">
+  <div class="lq-user-menu">
     <el-dropdown size="medium" trigger="click" @command="handle">
       <el-button type="text" class="fa fa-user-circle">
         <span class="el-icon-arrow-down el-icon--right"></span>

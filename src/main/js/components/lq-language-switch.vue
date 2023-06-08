@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="zw-language-switch" size="medium" trigger="click" @command="setLang">
+  <el-dropdown class="lq-language-switch" size="medium" trigger="click" @command="setLang">
     <el-button type="text" :title="selectTooltip">
       <span>{{lang.toUpperCase()}}</span><span class="el-icon-arrow-down el-icon--right"></span>
     </el-button>

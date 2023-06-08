@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-discussion', panelVisibility ? 'open' : 'close']">
+  <div :class="['lq-discussion', panelVisibility ? 'open' : 'close']">
     <el-button v-if="!panelVisibility" class="open-button" type="text" icon="el-icon-d-arrow-left" :title="openTooltip"
       @click="open">
     </el-button>
@@ -236,7 +236,7 @@ export default {
       if (this.panelVisibility) {
         this.$nextTick(() => {
           // Note: if there are no comments the "comments" element does not exist
-          document.querySelector('.zw-discussion .comments')?.scroll({
+          document.querySelector('.lq-discussion .comments')?.scroll({
             top: 100000,
             behavior: 'smooth'
           })
@@ -289,7 +289,7 @@ export default {
 </script>
 
 <style>
-.zw-discussion {
+.lq-discussion {
   background-color: var(--background-color);
   display: flex;
   flex-direction: column;
@@ -298,119 +298,119 @@ export default {
   z-index: 1;
 }
 
-.zw-discussion.open {
+.lq-discussion.open {
   padding: 10px 0 10px 10px;
   flex-grow: 1;
 }
 
-.zw-discussion.close {
+.lq-discussion.close {
   padding: 5px;
   width: auto !important;
 }
 
-.zw-discussion > .open-button {
+.lq-discussion > .open-button {
   font-size: 30px;
 }
 
-.zw-discussion > .close-button {
+.lq-discussion > .close-button {
   position: absolute;
   top: 6px;
   right: 6px;
   font-size: 30px;
 }
 
-.zw-discussion > .heading {
+.lq-discussion > .heading {
   font-size: 20px;
   margin-top: 14px;
   margin-bottom: 20px;
 }
 
-.zw-discussion .filter-container {
+.lq-discussion .filter-container {
   margin-bottom: 32px;
   margin-right: 10px;
 }
 
-.zw-discussion .filter {
+.lq-discussion .filter {
   display: inline-block;
   background-color: var(--primary-color);
   padding: 5px 8px;
 }
 
-.zw-discussion .filter .zw-string {
+.lq-discussion .filter .lq-string {
   font-size: 15px;
 }
 
-.zw-discussion .filter .close-button {
+.lq-discussion .filter .close-button {
   font-size: 20px;
   margin-left: 6px;
 }
 
-.zw-discussion .filter .close-button > i {
+.lq-discussion .filter .close-button > i {
   vertical-align: text-bottom;
 }
 
-.zw-discussion .comments {
+.lq-discussion .comments {
   overflow: auto;
   position: relative;     /* scroll absolute positioned childs along, e.g. the "Translate" button */
   min-height: 72px;       /* corresponds to effective comment min-height */
 }
 
-.zw-discussion .comments .zw-comment {
+.lq-discussion .comments .lq-comment {
   margin-right: 10px;
 }
 
-.zw-discussion .comments .zw-comment + .zw-comment {
+.lq-discussion .comments .lq-comment + .lq-comment {
   margin-top: 20px;
 }
 
-.zw-discussion .new-comment-container {
+.lq-discussion .new-comment-container {
   display: flex;
   align-items: flex-end;
   margin-top: 20px;
 }
 
-.zw-discussion .new-comment {
+.lq-discussion .new-comment {
   flex-grow: 1;
   background-color: white;
   padding: 12px;
   border-radius: 10px;
 }
 
-.zw-discussion .new-comment .editor-container {
+.lq-discussion .new-comment .editor-container {
   position: relative;
 }
 
-.zw-discussion .new-comment .ql-editor {
+.lq-discussion .new-comment .ql-editor {
   max-height: 35vh;
   padding: 0 40px 0 0 !important;
 }
 
-.zw-discussion .new-comment .ql-editor.ql-blank::before {
+.lq-discussion .new-comment .ql-editor.ql-blank::before {
   font-style: unset;
   left: unset;
   right: unset;
 }
 
-.zw-discussion .new-comment .zw-comment-target-ref {
+.lq-discussion .new-comment .lq-comment-target-ref {
   margin-bottom: 15px;
 }
 
-.zw-discussion .new-comment .zw-attachment {
+.lq-discussion .new-comment .lq-attachment {
   margin-top: 6px;
 }
 
-.zw-discussion .new-comment .zw-attachment:first-child {
+.lq-discussion .new-comment .lq-attachment:first-child {
   margin-top: 15px;
 }
 
-.zw-discussion .new-comment .attach-button {
+.lq-discussion .new-comment .attach-button {
   position: absolute;
   top: 0;
   right: 0;
   font-size: 20px;
 }
 
-.zw-discussion .new-comment-container .submit-button {
+.lq-discussion .new-comment-container .submit-button {
   font-size: 30px;
   margin: 0 10px 7px 10px;
 }

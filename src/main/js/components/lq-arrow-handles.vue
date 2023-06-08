@@ -1,11 +1,11 @@
 <template>
-  <div class="zw-arrow-handles" v-show="visible" :style="viewportStyle">
+  <div class="lq-arrow-handles" v-show="visible" :style="viewportStyle">
     <div class="handle h1" :style="{top: `${h1.y}px`, left: `${h1.x}px`}"></div>
     <div class="handle h2" :style="{top: `${h2.y}px`, left: `${h2.x}px`}"></div>
-    <vue-moveable target=".zw-arrow-handles .h1" :draggable="true" :origin="false" @dragStart="onDragStart"
+    <vue-moveable target=".lq-arrow-handles .h1" :draggable="true" :origin="false" @dragStart="onDragStart"
       @drag="onDrag1" @dragEnd="onDragEnd">
     </vue-moveable>
-    <vue-moveable target=".zw-arrow-handles .h2" :draggable="true" :origin="false" @dragStart="onDragStart"
+    <vue-moveable target=".lq-arrow-handles .h2" :draggable="true" :origin="false" @dragStart="onDragStart"
       @drag="onDrag2" @dragEnd="onDragEnd">
     </vue-moveable>
   </div>
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style>
-.zw-arrow-handles .handle {
+.lq-arrow-handles .handle {
   position: absolute;
   width: 14px;
   height: 14px;
@@ -139,7 +139,7 @@ export default {
   cursor: move;
 }
 
-.zw-arrow-handles .moveable-control-box {
+.lq-arrow-handles .moveable-control-box {
   display: none !important;
 }
 </style>

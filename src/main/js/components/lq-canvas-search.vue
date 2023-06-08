@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-canvas-search">
+  <div class="lq-canvas-search">
     <el-input v-model="searchTerm" :placeholder="placeholder"></el-input>
     <el-button type="text" icon="el-icon-arrow-left" :disabled="disPrev" @click="prevMatch"></el-button>
     <el-button type="text" icon="el-icon-arrow-right" :disabled="disNext" @click="nextMatch"></el-button>
@@ -73,35 +73,35 @@ export default {
 </script>
 
 <style>
-.zw-canvas-search {
+.lq-canvas-search {
   display: inline-block;
 }
 
-.zw-canvas-search .el-input {
+.lq-canvas-search .el-input {
   width: 180px;
   vertical-align: super;
 }
 
-.zw-canvas-search .el-input__inner {
+.lq-canvas-search .el-input__inner {
   height: 32px;
 }
 
-.zw-canvas-search .el-button:nth-of-type(1) {
+.lq-canvas-search .el-button:nth-of-type(1) {
   margin-left: 5px;
 }
 
-.zw-canvas-search .el-button:nth-of-type(2) {
+.lq-canvas-search .el-button:nth-of-type(2) {
   margin-left: 0px;
 }
 
-.zw-canvas-search .match-info {
+.lq-canvas-search .match-info {
   display: inline-block;
   width: 62px;
   margin-left: 5px;
   vertical-align: super;
 }
 
-.zw-canvas-search .match-info.no-match {
+.lq-canvas-search .match-info.no-match {
   color: var(--color-danger);
 }
 </style>

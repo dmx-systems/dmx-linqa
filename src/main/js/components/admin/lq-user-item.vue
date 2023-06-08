@@ -1,5 +1,5 @@
 <template>
-  <el-collapse-item :class="['zw-user-item', {'zw-selected': selected}]" :name="user.value">
+  <el-collapse-item :class="['lq-user-item', {'lq-selected': selected}]" :name="user.value">
     <div class="user" slot="title">
       <div class="name"><span class="fa fa-fw fa-user"></span> {{displayName}} ({{user.value}})</div>
       <div class="active"><span :class="['fa', active ? 'fa-check' : 'fa-minus']"></span></div>
@@ -88,12 +88,12 @@ export default {
 </script>
 
 <style>
-.zw-user-item .user {
+.lq-user-item .user {
   display: flex;
   width: 92%;
 }
 
-.zw-user-item .user .name {
+.lq-user-item .user .name {
   flex-grow: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -101,7 +101,7 @@ export default {
   margin-right: 30px;
 }
 
-.zw-user-item .user .active {
+.lq-user-item .user .active {
   margin-right: 60px;
 }
 </style>

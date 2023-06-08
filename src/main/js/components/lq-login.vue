@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-login">
+  <div class="lq-login">
     <lq-language-switch></lq-language-switch>
     <img :src="logo">
     <div class="login-form">
@@ -123,7 +123,7 @@ export default {
 </script>
 
 <style>
-.zw-login {
+.lq-login {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -135,28 +135,28 @@ export default {
   padding: 60px 0 18px 160px;
 }
 
-.zw-login .zw-language-switch {
+.lq-login .lq-language-switch {
   position: absolute;
   top: 16px;
   right: 16px;
 }
 
-.zw-login img {
+.lq-login img {
   align-self: flex-start;
   margin-left: -81px;
 }
 
-.zw-login .login-form .el-input {
+.lq-login .login-form .el-input {
   width: 280px;
 }
 
-.zw-login .welcome {
+.lq-login .welcome {
   color: var(--primary-color);
   font-size: 20px;
   margin-top: 42px;
 }
 
-.zw-login .login {
+.lq-login .login {
   color: var(--primary-color);
   font-size: 36px;
   font-weight: lighter;
@@ -164,40 +164,40 @@ export default {
   margin-bottom: 28px;
 }
 
-.zw-login .password-reset {
+.lq-login .password-reset {
   margin-top: 6px;
 }
 
-.zw-login .password-reset .el-button {
+.lq-login .password-reset .el-button {
   font-size: var(--secondary-font-size);
   margin-left: 2px;
 }
 
-.zw-login .message {
+.lq-login .message {
   color: var(--primary-color);
   font-size: 16px;
   margin-left: 24px;
 }
 
-.zw-login .login-button,
-.zw-login .reset-button {
+.lq-login .login-button,
+.lq-login .reset-button {
   font-size: 16px;
   margin-top: 26px;
 }
 
-.zw-login .login-button {
+.lq-login .login-button {
   margin-bottom: 36px;
 }
 
-.zw-login .gap {
+.lq-login .gap {
   flex-grow: 1;
 }
 
-.zw-login .footer .el-button {
+.lq-login .footer .el-button {
   font-size: var(--secondary-font-size);
 }
 
-.zw-login .footer .el-button:nth-child(2) {
+.lq-login .footer .el-button:nth-child(2) {
   margin-left: 15px;
 }
 </style>

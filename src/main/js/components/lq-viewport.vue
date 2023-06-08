@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-viewport">
+  <div class="lq-viewport">
     <div class="zoom">{{zoomRounded}}</div>
   </div>
 </template>
@@ -53,13 +53,13 @@ export default {
 </script>
 
 <style>
-.zw-viewport {
+.lq-viewport {
   border-top: 3px solid black;
   border-left: 3px solid black;
   height: 50px;
 }
 
-.zw-viewport .zoom {
+.lq-viewport .zoom {
   margin-top: -20px;
 }
 </style>

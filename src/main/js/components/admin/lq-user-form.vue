@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-user-form">
+  <div class="lq-user-form">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
       <div class="field-label"><lq-string>label.display_name</lq-string></div>

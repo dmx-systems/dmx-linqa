@@ -1,6 +1,6 @@
 <template>
-  <div class="zw-note dmx-html-field info" v-if="infoMode" v-html="noteHtml" :style="{'background-color': color}"></div>
-  <div :class="['zw-note', 'dmx-html-field', 'form']" v-else v-loading="saving">
+  <div class="lq-note dmx-html-field info" v-if="infoMode" v-html="noteHtml" :style="{'background-color': color}"></div>
+  <div :class="['lq-note', 'dmx-html-field', 'form']" v-else v-loading="saving">
     <template v-if="isNew">
       <div class="field">
         <div class="field-label"><lq-string>label.new_note</lq-string></div>
@@ -187,24 +187,24 @@ export default {
 </script>
 
 <style>
-.zw-note {
+.lq-note {
   padding: 12px;
 }
 
-.zw-note.form {
+.lq-note.form {
   background-color: var(--background-color);
 }
 
-.zw-note.form .translate {
+.lq-note.form .translate {
   text-align: center;
   margin-top: 12px;
 }
 
-.zw-note.form .translate .el-button {
+.lq-note.form .translate .el-button {
   font-size: 24px;
 }
 
-.zw-note.form .save-button {
+.lq-note.form .save-button {
   margin-top: var(--field-spacing);
 }
 </style>

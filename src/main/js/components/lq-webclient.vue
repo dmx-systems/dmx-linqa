@@ -1,8 +1,8 @@
 <template>
-  <div :class="['zw-webclient', {dragging: isDragging}]" @mousedown="mousedown" @mouseup="mouseup" @keyup.tab="tab">
+  <div :class="['lq-webclient', {dragging: isDragging}]" @mousedown="mousedown" @mouseup="mouseup" @keyup.tab="tab">
     <lq-header></lq-header>
     <router-view></router-view>
-    <iframe class="zw-download-iframe"></iframe>
+    <iframe class="lq-download-iframe"></iframe>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   methods: {
 
     mousedown (e) {
-      if (e.target.classList.contains('zw-canvas')) {
+      if (e.target.classList.contains('lq-canvas')) {
         this.$el.addEventListener('mousemove', this.mousemove)
         this.panPos = {
           x: e.clientX,
@@ -93,17 +93,17 @@ export default {
 </script>
 
 <style>
-.zw-webclient {
+.lq-webclient {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.zw-webclient.dragging {
+.lq-webclient.dragging {
   user-select: none;
 }
 
-.zw-webclient .zw-download-iframe {
+.lq-webclient .lq-download-iframe {
   display: none;
 }
 </style>

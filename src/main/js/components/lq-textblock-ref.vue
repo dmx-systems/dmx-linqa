@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-textblock-ref', 'zw-comment-target-ref', {closable}]" v-if="topic" :style="style" @click="reveal">
+  <div :class="['lq-textblock-ref', 'lq-comment-target-ref', {closable}]" v-if="topic" :style="style" @click="reveal">
     <span class="icon fa fa-fw fa-align-left secondary"></span>
     <lq-truncate class="textblock label" :html="textblockHtml"></lq-truncate>
     <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" :title="resetTooltip"
@@ -78,23 +78,23 @@ export default {
 </script>
 
 <style>
-.zw-textblock-ref {
+.lq-textblock-ref {
   display: inline-block;
   padding: 6px;
   cursor: pointer;
 }
 
-.zw-textblock-ref.closable .icon,
-.zw-textblock-ref.closable .textblock {
+.lq-textblock-ref.closable .icon,
+.lq-textblock-ref.closable .textblock {
   color: black !important;
 }
 
-.zw-textblock-ref .close-button {
+.lq-textblock-ref .close-button {
   font-size: 18px;
   margin-left: 6px;
 }
 
-.zw-textblock-ref .close-button > i {
+.lq-textblock-ref .close-button > i {
   vertical-align: text-bottom;
 }
 </style>

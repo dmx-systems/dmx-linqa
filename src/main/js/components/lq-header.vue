@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-header">
+  <div class="lq-header">
     <img class="logo" :src="logo">
     <!-- Workspace selector -->
     <div class="workspace">
@@ -10,7 +10,7 @@
           <el-button type="text" :title="selectTooltip">
             <span class="name">{{workspaceName}}</span><span class="el-icon-arrow-down el-icon--right"></span>
           </el-button>
-          <el-dropdown-menu class="zw-workspace-selector" slot="dropdown">
+          <el-dropdown-menu class="lq-workspace-selector" slot="dropdown">
             <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
               {{getWorkspaceName(workspace)}}
             </el-dropdown-item>
@@ -96,38 +96,38 @@ export default {
 </script>
 
 <style>
-.zw-header {
+.lq-header {
   display: flex;
   align-items: center;
   padding: 2px 10px;
   background-color: var(--header-color);
 }
 
-.zw-header img.logo {
+.lq-header img.logo {
   height: 44px;
   margin-right: 72px;
 }
 
-.zw-header .workspace {
+.lq-header .workspace {
   flex-grow: 1;
   color: white;
 }
 
-.zw-header .workspace .name {
+.lq-header .workspace .name {
   font-weight: bold;
   font-style: italic;
 }
 
-.zw-header .admin-button {
+.lq-header .admin-button {
   margin-right: 20px;
 }
 
-.zw-header .zw-user-menu {
+.lq-header .lq-user-menu {
   margin-left: 20px;
 }
 
 /* dropdown menus are body mounted */
-body > .el-dropdown-menu.zw-workspace-selector {
+body > .el-dropdown-menu.lq-workspace-selector {
   overflow: auto;
   max-height: calc(100% - 68px);
   white-space: nowrap;

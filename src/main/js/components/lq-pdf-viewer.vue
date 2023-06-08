@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-pdf-viewer', {fullscreen}]">
+  <div :class="['lq-pdf-viewer', {fullscreen}]">
     <div class="scroll-container">
       <canvas ref="canvas"></canvas>
     </div>
@@ -162,53 +162,53 @@ export default {
 </script>
 
 <style>
-.zw-pdf-viewer {
+.lq-pdf-viewer {
   position: relative;
 }
 
-.zw-pdf-viewer.fullscreen .scroll-container {
+.lq-pdf-viewer.fullscreen .scroll-container {
   height: 100%;
   overflow: auto;
 }
 
-.zw-pdf-viewer .scroll-container canvas {
+.lq-pdf-viewer .scroll-container canvas {
   width: 100%;
 }
 
-.zw-pdf-viewer .toolbar {
+.lq-pdf-viewer .toolbar {
   position: absolute;
   visibility: hidden;
   padding: 2px;
   background-color: rgba(255, 255, 255, .7);
 }
 
-.zw-pdf-viewer .toolbar.upper {
+.lq-pdf-viewer .toolbar.upper {
   top: 0px;
   right: 0px;
 }
 
-.zw-pdf-viewer.fullscreen .toolbar.upper {
+.lq-pdf-viewer.fullscreen .toolbar.upper {
   right: 16px;    /* scrollbar pad */
 }
 
-.zw-pdf-viewer.fullscreen .toolbar.upper .el-button {
+.lq-pdf-viewer.fullscreen .toolbar.upper .el-button {
   font-size: 26px;
 }
 
-.zw-pdf-viewer .toolbar.lower {
+.lq-pdf-viewer .toolbar.lower {
   right: 1px;
   bottom: 4px;
 }
 
-.zw-pdf-viewer.fullscreen .toolbar.lower {
+.lq-pdf-viewer.fullscreen .toolbar.lower {
   right: 20px;    /* scrollbar pad */
 }
 
-.zw-pdf-viewer:hover .toolbar {
+.lq-pdf-viewer:hover .toolbar {
   visibility: visible;
 }
 
-.zw-pdf-viewer .toolbar .el-button {
+.lq-pdf-viewer .toolbar .el-button {
   font-size: inherit;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div v-if="infoMode" class="zw-label info" v-html="labelText"></div>
-  <div v-else :class="['zw-label', 'form']" v-loading="saving">
+  <div v-if="infoMode" class="lq-label info" v-html="labelText"></div>
+  <div v-else :class="['lq-label', 'form']" v-loading="saving">
     <template v-if="isNew">
       <div class="field-label"><lq-string>label.new_label</lq-string></div>
       <el-input v-model="topic.value" ref="input"></el-input>
@@ -156,26 +156,26 @@ export default {
 </script>
 
 <style>
-.zw-label.info {
+.lq-label.info {
   font-size: 32px;
   font-weight: bold;
 }
 
-.zw-label.form {
+.lq-label.form {
   background-color: var(--background-color);
   padding: 10px;
 }
 
-.zw-label.form .translate {
+.lq-label.form .translate {
   text-align: center;
   margin-top: 12px;
 }
 
-.zw-label.form .translate .el-button {
+.lq-label.form .translate .el-button {
   font-size: 24px;
 }
 
-.zw-label.form .save-button {
+.lq-label.form .save-button {
   margin-top: var(--field-spacing);
 }
 </style>

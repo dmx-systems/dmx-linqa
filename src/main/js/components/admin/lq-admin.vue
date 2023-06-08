@@ -1,8 +1,8 @@
 <template>
-  <div class="zw-admin">
+  <div class="lq-admin">
     <div class="nav-bar">
-      <el-button :class="['fa', 'fa-list', {'zw-selected': area1}]" type="text" @click="goArea1"></el-button>
-      <el-button :class="['fa', 'fa-users', {'zw-selected': area2}]" type="text" @click="goArea2"></el-button>
+      <el-button :class="['fa', 'fa-list', {'lq-selected': area1}]" type="text" @click="goArea1"></el-button>
+      <el-button :class="['fa', 'fa-users', {'lq-selected': area2}]" type="text" @click="goArea2"></el-button>
       <div class="gap"></div>
       <el-button class="close-button fa fa-times-circle-o" v-if="showClose" type="text" @click="close"></el-button>
     </div>
@@ -84,13 +84,13 @@ export default {
 </script>
 
 <style>
-.zw-admin {
+.lq-admin {
   display: flex;
   flex-grow: 1;
   min-height: 0;
 }
 
-.zw-admin .nav-bar {
+.lq-admin .nav-bar {
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
@@ -98,29 +98,29 @@ export default {
   flex-basis: 30px;
 }
 
-.zw-admin .nav-bar .el-button {
+.lq-admin .nav-bar .el-button {
   font-size: 16px;
   line-height: 1.5;
 }
 
-.zw-admin .nav-bar .el-button.zw-selected {
+.lq-admin .nav-bar .el-button.lq-selected {
   background-color: white;
 }
 
-.zw-admin .nav-bar .el-button + .el-button {
+.lq-admin .nav-bar .el-button + .el-button {
   margin-top: 10px;
   margin-left: 0;
 }
 
-.zw-admin .nav-bar .close-button {
+.lq-admin .nav-bar .close-button {
   font-size: 20px;
 }
 
-.zw-admin .nav-bar .gap {
+.lq-admin .nav-bar .gap {
   flex-grow: 1;
 }
 
-.zw-admin .primary-panel {
+.lq-admin .primary-panel {
   display: flex;
   flex-direction: column;
   flex-basis: 50%;
@@ -128,37 +128,37 @@ export default {
   padding: 35px;
 }
 
-.zw-admin .primary-panel .heading {
+.lq-admin .primary-panel .heading {
   font-size: 20px;
   margin-bottom: 28px;
 }
 
-.zw-admin .primary-panel .scroll-container {
+.lq-admin .primary-panel .scroll-container {
   overflow: auto;
 }
 
-.zw-admin .primary-panel .add-button {
+.lq-admin .primary-panel .add-button {
   margin-top: 34px;
   align-self: flex-start;
 }
 
-.zw-admin .secondary-panel {
+.lq-admin .secondary-panel {
   flex-grow: 1;
   padding: 35px;
   background-color: var(--background-color);
 }
 
-.zw-admin .secondary-panel .heading {
+.lq-admin .secondary-panel .heading {
   font-size: 20px;
   margin-bottom: 22px;
 }
 
-.zw-admin .secondary-panel .submit-button {
+.lq-admin .secondary-panel .submit-button {
   margin-top: 26px;
 }
 
 /* override Element UI style */
-.zw-admin .el-collapse-item__content {
+.lq-admin .el-collapse-item__content {
   margin-left: 24px;
 }
 </style>

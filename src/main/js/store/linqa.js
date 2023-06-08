@@ -160,8 +160,8 @@ const actions = {
   select ({dispatch}, topic) {
     state.selection = [topic]
     // update "Selecto" component's internal selection state
-    const target = document.querySelector(`.zw-canvas-item[data-id="${topic.id}"]`)
-    document.querySelector('.zw-canvas .selecto-selection').__vue__.setSelectedTargets([target])
+    const target = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
+    document.querySelector('.lq-canvas .selecto-selection').__vue__.setSelectedTargets([target])
   },
 
   /**
@@ -172,7 +172,7 @@ const actions = {
     state.selection = []
     // update "Selecto" component's internal selection state
     // Note: while app initialization components are not yet available, `deselect()` is dispacthed by `setWorkspace()`
-    document.querySelector('.zw-canvas .selecto-selection')?.__vue__.setSelectedTargets([])
+    document.querySelector('.lq-canvas .selecto-selection')?.__vue__.setSelectedTargets([])
   },
 
   storeTopicPos (_, topic) {
@@ -277,7 +277,7 @@ const actions = {
     state.fullscreen = fullscreen
     if (!fullscreen) {
       Vue.nextTick(() => {
-        document.querySelector('.zw-resizer').__vue__.resize()
+        document.querySelector('.lq-resizer').__vue__.resize()
         store.dispatch('select', state.selection[0])      // sync Selecto model/view with app state
       })
     }
@@ -453,7 +453,7 @@ const actions = {
     // in this very case. Scrolling works then (but not smooth, as expected).
     // "scrollIntoView() has a long bug-history in Chrome, some of them are still open for now." (May 2020)
     // https://stackoverflow.com/questions/61885401/scrollintoview-is-not-working-in-chrome-version-81
-    const commentSelector = `.zw-discussion .zw-comment[data-id="${comment.id}"]`
+    const commentSelector = `.lq-discussion .lq-comment[data-id="${comment.id}"]`
     document.querySelector(commentSelector).scrollIntoView({
       behavior,
       block: 'nearest'      // avoid body scroll
@@ -509,7 +509,7 @@ const actions = {
   },
 
   updatePlaceholder () {
-      const editor = document.querySelector('.zw-discussion .new-comment .ql-editor')
+      const editor = document.querySelector('.lq-discussion .new-comment .ql-editor')
       // editor is not available
       // 1) while app launch, updatePlaceholder() is called by setWorkspace()     // TODO: revise
       // 2) when discussion panel is closed
@@ -586,7 +586,7 @@ const actions = {
     // next event cycle (setTimeout).
     // Note: Vue.nextTick() instead shows strange result
     setTimeout(() => {
-      document.querySelector('.zw-canvas .content-layer .moveable-control-box').__vue__.updateTarget()
+      document.querySelector('.lq-canvas .content-layer .moveable-control-box').__vue__.updateTarget()
     })
   },
 
@@ -622,7 +622,7 @@ const actions = {
 
   downloadFile (_, repoPath) {
     const url = filerepoUrl(repoPath) + '?download'
-    document.querySelector('.zw-download-iframe').contentWindow.location.assign(url)
+    document.querySelector('.lq-download-iframe').contentWindow.location.assign(url)
   },
 
   getFileContent (_, repoPath) {

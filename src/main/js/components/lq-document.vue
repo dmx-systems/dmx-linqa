@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
+  <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
       <div class="discussion-button">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
@@ -330,32 +330,32 @@ export default {
 </script>
 
 <style>
-.zw-document {
+.lq-document {
   box-sizing: border-box;
   height: 100%;
   padding: 8px;
   background-color: var(--background-color);
 }
 
-.zw-document.filter {
+.lq-document.filter {
   background-color: var(--primary-color);
 }
 
-.zw-document.filter .discussion-button {
+.lq-document.filter .discussion-button {
   background-color: var(--primary-color);
 }
 
-.zw-document.info {
+.lq-document.info {
   display: flex;
   flex-direction: column;
 }
 
-.zw-document .doc-name {
+.lq-document .doc-name {
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.zw-document .discussion-button {
+.lq-document .discussion-button {
   position: absolute;
   top: 0;
   right: -28px;
@@ -365,42 +365,42 @@ export default {
   border-bottom-right-radius: 14px;
 }
 
-.zw-document .discussion-button .el-button {
+.lq-document .discussion-button .el-button {
   font-size: 18px;
 }
 
-.zw-document > pre {
+.lq-document > pre {
   line-height: 1.4em;
   white-space: pre-wrap;
 }
 
-.zw-document > img {
+.lq-document > img {
   width: 100%;
 }
 
-.zw-document .translate {
+.lq-document .translate {
   text-align: center;
   margin-top: 12px;
 }
 
-.zw-document .translate .el-button {
+.lq-document .translate .el-button {
   font-size: 24px;
 }
 
-.zw-document .save-button {
+.lq-document .save-button {
   margin-top: var(--field-spacing);
 }
 
-.zw-document .el-upload-dragger {
+.lq-document .el-upload-dragger {
   height: 90px;             /* Element UI default is 180px */
 }
 
-.zw-document .el-upload-dragger .el-icon-upload {
+.lq-document .el-upload-dragger .el-icon-upload {
   font-size: 50px;          /* Element UI default is 67px */
   margin: 8px 0 0 0;        /* Element UI default is 40px 0 16px */
 }
 
-.zw-document .error {
+.lq-document .error {
   color: var(--color-danger);
 }
 </style>

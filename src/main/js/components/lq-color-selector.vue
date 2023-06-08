@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-color-selector field">
+  <div class="lq-color-selector field">
     <div class="field-label"><lq-string>label.color</lq-string></div>
     <el-dropdown size="medium" trigger="click" @command="setColor">
       <el-button type="text">
@@ -53,14 +53,14 @@ export default {
 </script>
 
 <style>
-.zw-color-selector .color-box {
+.lq-color-selector .color-box {
   display: inline-block;
   width: 40px;
   height: 30px;
   border: 1px dashed var(--highlight-color);
 }
 
-.zw-color-selector .el-icon-arrow-down {
+.lq-color-selector .el-icon-arrow-down {
   vertical-align: top;
 }
 
@@ -76,7 +76,7 @@ body > .el-dropdown-menu .color-box.transparent {
   border: 1px solid var(--border-color-lighter);
 }
 
-.zw-color-selector .color-box.transparent,
+.lq-color-selector .color-box.transparent,
 body > .el-dropdown-menu .color-box.transparent {
   background-image: url("../../resources-build/grid.png");
   background-position: bottom right;

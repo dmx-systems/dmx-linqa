@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-workspace-form">
+  <div class="lq-workspace-form">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
       <div class="field-label"><lq-string>label.workspace_name</lq-string> (de)</div>

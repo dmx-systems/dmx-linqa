@@ -51,7 +51,7 @@ export default {
 
 function itemText (topic) {
   // TODO: refactor
-  const vm = document.querySelector(`.zw-canvas-item[data-id="${topic.id}"] .item-content`).__vue__
+  const vm = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"] .item-content`).__vue__
   switch (topic.typeUri) {
   case 'linqa.document':
     return vm.docName

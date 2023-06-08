@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-user-memberships">
+  <div class="lq-user-memberships">
     <div class="heading"><lq-string>label.edit_affiliations</lq-string></div>
     <div class="scroll-container">
       <table>
@@ -114,28 +114,28 @@ export default {
 </script>
 
 <style>
-.zw-user-memberships {
+.lq-user-memberships {
   display: flex;
   flex-direction: column;
   padding-right: 0 !important;
 }
 
-.zw-user-memberships .scroll-container {
+.lq-user-memberships .scroll-container {
   overflow: auto;
   flex-grow: 1;
 }
 
-.zw-user-memberships table {
+.lq-user-memberships table {
   width: 100%;
 }
 
-.zw-user-memberships table > tr > th {
+.lq-user-memberships table > tr > th {
   text-align: unset;        /* browser style is "center" */
   padding-bottom: 5px;
   padding-right: 20px;
 }
 
-.zw-user-memberships table > tr > td {
+.lq-user-memberships table > tr > td {
   word-break: break-all;    /* break long workspace names */
   padding-right: 20px;
 }

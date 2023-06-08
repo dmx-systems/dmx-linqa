@@ -1,5 +1,5 @@
 <template>
-  <div class="zw-canvas" :style="style" ref="canvas" @wheel="wheelZoom">
+  <div class="lq-canvas" :style="style" ref="canvas" @wheel="wheelZoom">
     <!-- Add menu -->
     <el-dropdown class="add-menu" v-if="editable" trigger="click" @command="handle">
       <el-button class="add-button" type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
@@ -37,7 +37,7 @@
         </el-button>
       </div>
     </div>
-    <vue-selecto ref="selecto" :selectable-targets="['.content-layer .zw-canvas-item']" :selectFromInside="false"
+    <vue-selecto ref="selecto" :selectable-targets="['.content-layer .lq-canvas-item']" :selectFromInside="false"
       toggle-continue-select="shift" hitRate="0" @dragStart="onDragSelectStart" @select="onSelect"
       @selectEnd="onSelectEnd">
     </vue-selecto>
@@ -62,7 +62,7 @@ export default {
   ],
 
   mounted () {
-    HEADER_HEIGHT = document.querySelector('.zw-header').clientHeight
+    HEADER_HEIGHT = document.querySelector('.lq-header').clientHeight
   },
 
   data () {
@@ -123,7 +123,7 @@ export default {
     },
 
     targets () {
-      return this.selection.map(topic => document.querySelector(`.zw-canvas-item[data-id="${topic.id}"]`))
+      return this.selection.map(topic => document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`))
     },
 
     deleteCount () {
@@ -271,7 +271,7 @@ export default {
       this.topics.forEach(topic => {
         const x1 = topic.pos.x
         const y1 = topic.pos.y
-        const item = document.querySelector(`.zw-canvas-item[data-id="${topic.id}"]`)
+        const item = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
         const x2 = x1 + item.clientWidth
         const y2 = y1 + item.clientHeight
         if (x1 < xMin) xMin = x1
@@ -337,7 +337,7 @@ export default {
       if (this.$refs.moveable.isMoveableElement(target) || this.targets.some(t => t === target || t.contains(target))) {
         e.stop()
       } else {
-        if (e.inputEvent.target.classList.contains('zw-canvas')) {
+        if (e.inputEvent.target.classList.contains('lq-canvas')) {
           if (e.inputEvent.shiftKey) {
             e.inputEvent.stopPropagation()
           } else {
@@ -459,7 +459,7 @@ export default {
 
     arrowMoveHandler (topic, dx, dy) {
       this.moveHandler(topic, dx, dy)
-      const vm = document.querySelector('.zw-arrow-handles').__vue__      // update view
+      const vm = document.querySelector('.lq-arrow-handles').__vue__      // update view
       if (vm.visible) {
         vm.updateHandles()
       }
@@ -473,7 +473,7 @@ export default {
     },
 
     positionGroupToolbar () {
-      const selector = '.zw-canvas .content-layer .moveable-control-box'
+      const selector = '.lq-canvas .content-layer .moveable-control-box'
       const moveableArea = document.querySelector(`${selector} .moveable-area`)
       if (moveableArea) {
         const controlBox = document.querySelector(selector)
@@ -512,7 +512,7 @@ function newSynId () {
 </script>
 
 <style>
-.zw-canvas {
+.lq-canvas {
   position: relative;
   flex-grow: 1;
   background-image: url("../../resources-build/grid.png");
@@ -520,52 +520,52 @@ function newSynId () {
   overflow: hidden;
 }
 
-.zw-canvas .add-menu {
+.lq-canvas .add-menu {
   position: absolute;   /* don't consume canvas space */
 }
 
-.zw-canvas .add-menu .add-button {
+.lq-canvas .add-menu .add-button {
   position: relative;   /* only positioned elements have a z-index; "absolute" would displace dropdown menu */
   z-index: 1;           /* place button above canvas items */
   font-size: 24px;
   margin: 8px;
 }
 
-.zw-canvas .canvas-toolbar {
+.lq-canvas .canvas-toolbar {
   position: absolute;
   top: 4px;
   right: 16px;
   z-index: 1;           /* place buttons above canvas items */
 }
 
-.zw-canvas .canvas-toolbar .el-button {
+.lq-canvas .canvas-toolbar .el-button {
   font-size: 24px;
 }
 
-.zw-canvas .canvas-toolbar .zw-canvas-search {
+.lq-canvas .canvas-toolbar .lq-canvas-search {
   margin-left: 15px;
 }
 
-.zw-canvas .content-layer {
+.lq-canvas .content-layer {
   width: 10000px;       /* avoid early line wrapping */
 }
 
-.zw-canvas .content-layer.transition {
+.lq-canvas .content-layer.transition {
   transition: transform .5s;
 }
 
-.zw-canvas .content-layer .group-toolbar {
+.lq-canvas .content-layer .group-toolbar {
   position: absolute;
   padding-top: 4px;
   padding-bottom: 12px;
 }
 
-.zw-canvas .content-layer .moveable-control-box[data-able-draggable] .moveable-area {
+.lq-canvas .content-layer .moveable-control-box[data-able-draggable] .moveable-area {
   cursor: grab;
 }
 
-.zw-canvas .content-layer.moveable-view-dragging .zw-canvas-item,
-.zw-canvas .content-layer.moveable-view-dragging .moveable-control-box .moveable-area {
+.lq-canvas .content-layer.moveable-view-dragging .lq-canvas-item,
+.lq-canvas .content-layer.moveable-view-dragging .moveable-control-box .moveable-area {
   cursor: grabbing;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['zw-textblock', 'dmx-html-field', {'filter': isFiltered}, mode]" v-loading="saving" :style="style">
+  <div :class="['lq-textblock', 'dmx-html-field', {'filter': isFiltered}, mode]" v-loading="saving" :style="style">
     <template v-if="infoMode">
       <div class="discussion-button" :style="style">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
@@ -205,58 +205,58 @@ export default {
 </script>
 
 <style>
-.zw-textblock {
+.lq-textblock {
   padding: 6px;
   border: var(--filter-border);
 }
 
-.zw-textblock.filter {
+.lq-textblock.filter {
   border-color: var(--primary-color);
 }
 
-.zw-textblock.filter .discussion-button {
+.lq-textblock.filter .discussion-button {
   border-color: var(--primary-color);
 }
 
-.zw-textblock.info {
+.lq-textblock.info {
   display: flex;
 }
 
-.zw-textblock.info > .text1 {
+.lq-textblock.info > .text1 {
   padding-right: 20px;
   border-right: 2px dashed #f6f6f6;
 }
 
-.zw-textblock.info > .text2 {
+.lq-textblock.info > .text2 {
   padding-left: 20px;
 }
 
-.zw-textblock.form {
+.lq-textblock.form {
   background-color: var(--background-color);
 }
 
-.zw-textblock.form .texts {
+.lq-textblock.form .texts {
   display: flex;
   align-items: flex-start;
 }
 
-.zw-textblock.form .texts .field {
+.lq-textblock.form .texts .field {
   flex-basis: 44%;
 }
 
-.zw-textblock.form .el-button.translate {
+.lq-textblock.form .el-button.translate {
   align-self: center;
   font-size: 24px;
   margin: 0 8px;
 }
 
-.zw-textblock.form .save-button {
+.lq-textblock.form .save-button {
   margin-top: var(--field-spacing);
 }
 
 /* discussion button */
 
-.zw-textblock .discussion-button {
+.lq-textblock .discussion-button {
   position: absolute;
   top: 0;
   right: -34px;
@@ -268,7 +268,7 @@ export default {
   border-bottom: var(--filter-border);
 }
 
-.zw-textblock .discussion-button .el-button {
+.lq-textblock .discussion-button .el-button {
   font-size: 18px;
 }
 </style>

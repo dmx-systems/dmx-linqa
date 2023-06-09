@@ -87,8 +87,8 @@ export default {
 
     textblock () {
       return {
-        de: this.highlight(this.topic, this.html('de'), true),
-        fr: this.highlight(this.topic, this.html('fr'), true)
+        lang1: this.highlight(this.topic, this.html('lang1'), true),
+        lang2: this.highlight(this.topic, this.html('lang2'), true)
       }
     },
 
@@ -146,8 +146,8 @@ export default {
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-        this.setText('de')
-        this.setText('fr')
+        this.setText('lang1')
+        this.setText('lang2')
       }
       this.$store.dispatch(action, arg).catch(error => {
         return this.handleError(error, msgBox)
@@ -176,7 +176,7 @@ export default {
     },
 
     html (lang) {
-      // Note: in a monolingual textblock "fr" is not defined
+      // Note: in a monolingual textblock "lang2" is not defined
       const html = this.topic.children['linqa.textblock.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
@@ -184,9 +184,9 @@ export default {
     },
 
     setText (lang) {
-      // Note: in a monolingual textblock "fr" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.textblock.fr']) {
-        this.$set(this.topic.children, 'linqa.textblock.fr', {})
+      // Note: in a monolingual textblock "lang2" is not defined     // TODO: simplify
+      if (!this.topic.children['linqa.textblock.lang2']) {
+        this.$set(this.topic.children, 'linqa.textblock.lang2', {})
       }
       //
       const compDefUri = 'linqa.textblock.' + lang

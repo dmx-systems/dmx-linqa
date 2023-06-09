@@ -16,8 +16,8 @@ public class Constants {
     public static final String LABEL                    = "linqa.label";
     public static final String ARROW                    = "linqa.arrow";
     public static final String COMMENT                  = "linqa.comment";
-    public static final String COMMENT_DE               = "linqa.comment.de";
-    public static final String COMMENT_FR               = "linqa.comment.fr";
+    public static final String COMMENT_LANG1            = "linqa.comment.lang1";
+    public static final String COMMENT_LANG2            = "linqa.comment.lang2";
     public static final String LANGUAGE                 = "linqa.language";
     public static final String TRANSLATION_EDITED       = "linqa.translation_edited";
     public static final String LOCKED                   = "linqa.locked";
@@ -31,8 +31,8 @@ public class Constants {
     public static final String SHARED_WORKSPACE         = "linqa.shared_workspace";
     public static final String ATTACHMENT               = "linqa.attachment";
     public static final String ORIGINAL_LANGUAGE        = "linqa.original_language";
-    public static final String DE                       = "linqa.de";
-    public static final String FR                       = "linqa.fr";
+    public static final String LANG1                    = "linqa.lang1";
+    public static final String LANG2                    = "linqa.lang2";
 
     // DB Props
     public static final String ZW_COLOR    = "linqa.color";  // Note, Textblock (String)

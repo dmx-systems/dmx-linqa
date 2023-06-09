@@ -26,7 +26,7 @@ public class Migration6 extends Migration {
     @Override
     public void run() {
         wss.getWorkspace(TEAM_WORKSPACE_URI).update(mf.newChildTopicsModel()
-            .set(WORKSPACE_NAME + "#" + DE, TEAM_WORKSPACE_NAME)
+            .set(WORKSPACE_NAME + "#" + LANG1, TEAM_WORKSPACE_NAME)
         );
     }
 }

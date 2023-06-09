@@ -88,10 +88,10 @@ export default {
 
     comment () {
       return {
-        // Note: in a monolingual comment "fr" is not defined.
-        // "de" on the other is expected to be always defined, but ZW dev-data are corrupt.
-        de: this.topic.children['linqa.comment.de']?.value,
-        fr: this.topic.children['linqa.comment.fr']?.value
+        // Note: in a monolingual comment "lang2" is not defined.
+        // "lang1" on the other is expected to be always defined, but ZW dev-data are corrupt.
+        lang1: this.topic.children['linqa.comment.lang1']?.value,
+        lang2: this.topic.children['linqa.comment.lang2']?.value
       }
     },
 
@@ -196,8 +196,8 @@ export default {
       this.saving = true
       // transfer edit buffer to topic model
       this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-      this.topic.children['linqa.comment.de'] = this.model.de
-      this.topic.children['linqa.comment.fr'] = this.model.fr
+      this.topic.children['linqa.comment.lang1'] = this.model.lang1
+      this.topic.children['linqa.comment.lang2'] = this.model.lang2
       this.$store.dispatch('updateComment', this.topic).then(() => {
         this.mode = 'info'
         this.saving = false
@@ -219,11 +219,11 @@ export default {
     edit () {
       this.mode = 'form'
       this.topicBuffer = this.topic.clone()
-      // Note 1: in a monolingual comment "fr" is not defined. We meed it as editor model.
+      // Note 1: in a monolingual comment "lang2" is not defined. We meed it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
       // Note 3: we need Vue.set() as topic clone is put into state already.
-      if (!this.topicBuffer.children['linqa.comment.fr']) {
-        Vue.set(this.topicBuffer.children, 'linqa.comment.fr', {value: ''})
+      if (!this.topicBuffer.children['linqa.comment.lang2']) {
+        Vue.set(this.topicBuffer.children, 'linqa.comment.lang2', {value: ''})
       }
       this.$nextTick(() => {
         this.$store.dispatch('jumpToComment', {

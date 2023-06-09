@@ -113,16 +113,16 @@ export default {
       isLoading: false,             // true while document is loaded/saved (Boolean)
       saveButtonDisabled: false,    // true when save button is disabled (Boolean)
       onSuccess: {                  // upload success handler (2x Function)
-        de: this.createSuccessHandler('de'),
-        fr: this.createSuccessHandler('fr')
+        lang1: this.createSuccessHandler('lang1'),
+        lang2: this.createSuccessHandler('lang2')
       },
       onError: {                    // upload error handler (2x Function)
-        de: this.createErrorHandler('de'),
-        fr: this.createErrorHandler('fr')
+        lang1: this.createErrorHandler('lang1'),
+        lang2: this.createErrorHandler('lang2')
       },
       error: {                      // the error happened while upload, if any (String)
-        de: '',
-        fr: ''
+        lang1: '',
+        lang2: ''
       }
     }
   },
@@ -131,25 +131,25 @@ export default {
 
     docNames () {
       return {
-        de: this.topic.children['linqa.document_name.de'],
-        fr: this.topic.children['linqa.document_name.fr']
+        lang1: this.topic.children['linqa.document_name.lang1'],
+        lang2: this.topic.children['linqa.document_name.lang2']
       }
     },
 
     docLang () {
-      const de = this.docNames.de?.value
-      const fr = this.docNames.fr?.value
-      if (de && fr) {
+      const lang1 = this.docNames.lang1?.value
+      const lang2 = this.docNames.lang2?.value
+      if (lang1 && lang2) {
         return this.lang
-      } else if (de) {
-        return 'de'
-      } else if (fr) {
-        return 'fr'
+      } else if (lang1) {
+        return 'lang1'
+      } else if (lang2) {
+        return 'lang2'
       }
     },
 
     docName () {
-      // Note: docLang is undefined if neiter "de" nor "fr" is filled
+      // Note: docLang is undefined if neiter "lang1" nor "lang2" is filled
       return this.highlight(this.topic, this.docNames[this.docLang]?.value)
     },
 
@@ -163,16 +163,16 @@ export default {
       } else {
         return {
           names: {
-            de: this.topicBuffer.children['linqa.document_name.de'],
-            fr: this.topicBuffer.children['linqa.document_name.fr']
+            lang1: this.topicBuffer.children['linqa.document_name.lang1'],
+            lang2: this.topicBuffer.children['linqa.document_name.lang2']
           },
           files: {
-            de: this.topicBuffer.children['dmx.files.file#linqa.de'],
-            fr: this.topicBuffer.children['dmx.files.file#linqa.fr']
+            lang1: this.topicBuffer.children['dmx.files.file#linqa.lang1'],
+            lang2: this.topicBuffer.children['dmx.files.file#linqa.lang2']
           },
           paths: {
-            de: this.getPathTopic(this.topicBuffer.children['dmx.files.file#linqa.de']),
-            fr: this.getPathTopic(this.topicBuffer.children['dmx.files.file#linqa.fr'])
+            lang1: this.getPathTopic(this.topicBuffer.children['dmx.files.file#linqa.lang1']),
+            lang2: this.getPathTopic(this.topicBuffer.children['dmx.files.file#linqa.lang2'])
           }
         }
       }
@@ -180,8 +180,8 @@ export default {
 
     pathTopics () {
       return {
-        de: this.getPathTopic(this.files.de),
-        fr: this.getPathTopic(this.files.fr)
+        lang1: this.getPathTopic(this.files.lang1),
+        lang2: this.getPathTopic(this.files.lang2)
       }
     },
 
@@ -267,12 +267,12 @@ export default {
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-        Vue.set(this.topic.children, 'linqa.document_name.de', this.docModel.names.de)
-        Vue.set(this.topic.children, 'linqa.document_name.fr', this.docModel.names.fr)
-        this.topic.children['dmx.files.file#linqa.de'] = this.docModel.paths.de.value ? this.docModel.files.de :
-          undefined
-        this.topic.children['dmx.files.file#linqa.fr'] = this.docModel.paths.fr.value ? this.docModel.files.fr :
-          undefined
+        Vue.set(this.topic.children, 'linqa.document_name.lang1', this.docModel.names.lang1)
+        Vue.set(this.topic.children, 'linqa.document_name.lang2', this.docModel.names.lang2)
+        this.topic.children['dmx.files.file#linqa.lang1'] = this.docModel.paths.lang1.value ? this.docModel.files.lang1
+          : undefined
+        this.topic.children['dmx.files.file#linqa.lang2'] = this.docModel.paths.lang2.value ? this.docModel.files.lang2
+          : undefined
       }
       this.$store.dispatch(action, arg).catch(error => {
         return this.handleError(error, msgBox)

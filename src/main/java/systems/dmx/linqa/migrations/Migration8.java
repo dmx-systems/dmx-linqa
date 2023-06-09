@@ -23,7 +23,7 @@ public class Migration8 extends Migration {
     public void run() {
         dmx.getTopicType(DOCUMENT).addCompDefBefore(
             mf.newCompDefModel(ORIGINAL_LANGUAGE, false, false, DOCUMENT, LANGUAGE, ONE),
-            FILE + "#" + DE
+            FILE + "#" + LANG1
         );
         // FIXME: add view config to comp def: Widget=Select, Clearable=true
     }

@@ -26,7 +26,7 @@ public class Migration12 extends Migration {
         // Create "Locked" flag
         dmx.createTopicType(mf.newTopicTypeModel(LOCKED, "Locked", BOOLEAN));
         // Add "Locked" flag
-        dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, LOCKED, ONE), FILE + "#" + DE);
+        dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, LOCKED, ONE), FILE + "#" + LANG1);
         dmx.getTopicType(ZW_NOTE).addCompDef(mf.newCompDefModel(ZW_NOTE, LOCKED, ONE));
         dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, LOCKED, ONE));
         dmx.getTopicType(LABEL).addCompDef(mf.newCompDefModel(LABEL, LOCKED, ONE));

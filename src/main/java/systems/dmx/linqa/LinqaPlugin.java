@@ -341,9 +341,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public Topic createMonolingualComment(String comment, @QueryParam("refTopicIds") IdList refTopicIds,
                                                           @QueryParam("fileTopicIds") IdList fileTopicIds) {
         try {
-            // Note: a monolingual comment is stored in "de". "fr" and "Original Language" are not set.
+            // Note: a monolingual comment is stored in "lang1". "lang2" and "Original Language" are not set.
             return _createComment(mf.newTopicModel(COMMENT, mf.newChildTopicsModel()
-                .set(COMMENT_DE, comment)
+                .set(COMMENT_LANG1, comment)
             ), refTopicIds, fileTopicIds);
         } catch (Exception e) {
             throw new RuntimeException("Creating monolingual comment failed, refTopicIds=" + refTopicIds +
@@ -501,13 +501,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Path("/admin/workspace")
     @Transactional
     @Override
-    public Topic createZWWorkspace(@QueryParam("nameDe") String nameDe, @QueryParam("nameFr") String nameFr) {
+    public Topic createZWWorkspace(@QueryParam("nameLang1") String nameLang1,
+                                   @QueryParam("nameLang2") String nameLang2) {
         try {
             // 1) Create workspace
-            Topic workspace = ws.createWorkspace(nameDe, null, SharingMode.COLLABORATIVE);
+            Topic workspace = ws.createWorkspace(nameLang1, null, SharingMode.COLLABORATIVE);
             workspace.update(mf.newChildTopicsModel()
-                .set(WORKSPACE_NAME + "#" + DE, nameDe)
-                .set(WORKSPACE_NAME + "#" + FR, nameFr)
+                .set(WORKSPACE_NAME + "#" + LANG1, nameLang1)
+                .set(WORKSPACE_NAME + "#" + LANG2, nameLang2)
             );
             // 2) Mark it as "ZW Shared Workspace"
             long workspaceId = workspace.getId();
@@ -552,10 +553,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     private String targetLang(String origLang) {
-        if (origLang.equals("de")) {
-            return "fr";
-        } else if (origLang.equals("fr")) {
-            return "de";
+        if (origLang.equals("lang1")) {
+            return "lang2";
+        } else if (origLang.equals("lang2")) {
+            return "lang1";
         } else {
             // Note: the regex in confirmCreate() (lq-discussion.vue) must match this message
             throw new RuntimeException("Unsupported original language: \"" + origLang + "\" (detected)");

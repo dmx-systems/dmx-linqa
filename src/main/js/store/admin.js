@@ -159,9 +159,9 @@ const actions = {
     })
   },
 
-  createZWWorkspace ({rootState, dispatch}, {nameDe, nameFr}) {
+  createZWWorkspace ({rootState, dispatch}, {nameLang1, nameLang2}) {
     return http.post('/linqa/admin/workspace', undefined, {
-      params: {nameDe, nameFr}
+      params: {nameLang1, nameLang2}
     }).then(response => {
       // update client state
       state.workspaces.push(new dmx.Topic(response.data))       // admin area: add to workspace list

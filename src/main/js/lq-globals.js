@@ -11,8 +11,8 @@ quillOptions2.bounds = '.lq-discussion .comments'
 quillOptions2.modules.toolbar.container[2].splice(2, 1)   // strip "video" button
 
 const logo = {
-  de: require('../resources-build/zw-logo.de.png'),
-  fr: require('../resources-build/zw-logo.fr.png')
+  lang1: require('../resources-build/zw-logo.de.png'),
+  lang2: require('../resources-build/zw-logo.fr.png')
 }
 
 const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
@@ -137,12 +137,12 @@ function findWorkspace (id) {
 }
 
 function workspaceName (topic) {
-  const de = topic.children['dmx.workspaces.workspace_name#linqa.de']
-  const fr = topic.children['dmx.workspaces.workspace_name#linqa.fr']
-  if (de && fr) {
+  const lang1 = topic.children['dmx.workspaces.workspace_name#linqa.lang1']
+  const lang2 = topic.children['dmx.workspaces.workspace_name#linqa.lang2']
+  if (lang1 && lang2) {
     return topic.children['dmx.workspaces.workspace_name#linqa.' + store.state.lang].value
   } else {
-    return de?.value || fr?.value || '?'
+    return lang1?.value || lang2?.value || '?'
   }
 }
 

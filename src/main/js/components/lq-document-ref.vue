@@ -22,19 +22,19 @@ export default {
 
     docNames () {
       return {
-        de: this.document.children['linqa.document_name.de']?.value,
-        fr: this.document.children['linqa.document_name.fr']?.value
+        lang1: this.document.children['linqa.document_name.lang1']?.value,
+        lang2: this.document.children['linqa.document_name.lang2']?.value
       }
     },
 
     docName () {
       const docNames = this.docNames
-      if (docNames.de && docNames.fr) {
+      if (docNames.lang1 && docNames.lang2) {
         return docNames[this.lang]
-      } else if (docNames.de) {
-        return docNames.de
-      } else if (docNames.fr) {
-        return docNames.fr
+      } else if (docNames.lang1) {
+        return docNames.lang1
+      } else if (docNames.lang2) {
+        return docNames.lang2
       }
     },
 

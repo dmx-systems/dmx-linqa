@@ -46,11 +46,11 @@ public interface LinqaService {
     Topic createViewport(long workspaceId);
 
     /**
-     * @param       targetLang          "de", "fr", or null. If null the source lang, and thus the target lang,
+     * @param       targetLang          "lang1", "lang2", or null. If null the source lang, and thus the target lang,
      *                                  is auto-detected (by the means of an extra request to the DeepL API).
      *
      * @throws      RuntimeException    if auto-detection was solicited and an unsupported language was detected.
-     *                                  Supported languages are "de" and "fr".
+     *                                  Supported languages are "lang1" and "lang2".
      */
     Translation translate(String text, String targetLang);
 
@@ -84,5 +84,5 @@ public interface LinqaService {
     List<RelatedTopic> bulkUpdateUserMemberships(String username, IdList addWorkspaceIds1, IdList removeWorkspaceIds1,
                                                                   IdList addWorkspaceIds2, IdList removeWorkspaceIds2);
 
-    Topic createZWWorkspace(String nameDe, String nameFr);
+    Topic createZWWorkspace(String nameLang1, String nameLang2);
 }

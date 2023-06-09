@@ -38,8 +38,8 @@ public class Migration13 extends Migration {
     @Override
     public void run() {
         for (Topic workspace : dmx.getTopicsByType(WORKSPACE)) {
-            int r = repair(workspace, WORKSPACE_NAME + "#" + DE) +
-                    repair(workspace, WORKSPACE_NAME + "#" + FR);
+            int r = repair(workspace, WORKSPACE_NAME + "#" + LANG1) +
+                    repair(workspace, WORKSPACE_NAME + "#" + LANG2);
             if (r > 0) {
                 repaired.put(workspace.getSimpleValue().toString(), r);
             }

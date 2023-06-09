@@ -15,7 +15,7 @@ import systems.dmx.workspaces.WorkspacesService;
 
 
 /**
- * Extends topic type "Workspace" by 2 more "Workspace Name"s (de+fr).
+ * Extends topic type "Workspace" by 2 more "Workspace Name"s (lang1+lang2).
  * Creates the "Team" workspace.
  * <p>
  * Part of Linqa 1.0
@@ -35,8 +35,8 @@ public class Migration2 extends Migration {
         //
         // Extend "Workspace" type
         dmx.getTopicType(WORKSPACE)
-            .addCompDefBefore(mf.newCompDefModel(DE, false, false, WORKSPACE, WORKSPACE_NAME, ONE), SHARING_MODE)
-            .addCompDefBefore(mf.newCompDefModel(FR, false, false, WORKSPACE, WORKSPACE_NAME, ONE), SHARING_MODE);
+            .addCompDefBefore(mf.newCompDefModel(LANG1, false, false, WORKSPACE, WORKSPACE_NAME, ONE), SHARING_MODE)
+            .addCompDefBefore(mf.newCompDefModel(LANG2, false, false, WORKSPACE, WORKSPACE_NAME, ONE), SHARING_MODE);
         //
         // Create "Team" workspace ### FIXME: at the moment the frontend relies on a public team workspace
         // Note: language specific workspace name is set by migration 6.

@@ -20,8 +20,8 @@ export default {
 
     html () {
       return {
-        de: this.comment.children['linqa.comment.de'].value,
-        fr: this.comment.children['linqa.comment.fr'].value      // FIXME: empty case, monolingual case
+        lang1: this.comment.children['linqa.comment.lang1'].value,
+        lang2: this.comment.children['linqa.comment.lang2'].value      // FIXME: empty case, monolingual case
       }
     },
 

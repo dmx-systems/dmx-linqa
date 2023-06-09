@@ -48,7 +48,10 @@ const state = {
   newTopics: [],                // topics being created, not yet saved (array of dmx.ViewTopic)
   isEditActive: [],             // IDs of topics being edited (array)     // TODO: drop this, query model ID instead?
   fullscreen: false,            // if true the current document is rendered fullscreen
-  pageNr: {de: {}, fr: {}},     // key: document topic ID, value: pageNr (Number)
+  pageNr: {
+    lang1: {},                  // key: document topic ID, value: pageNr (Number)
+    lang2: {}                   // key: document topic ID, value: pageNr (Number)
+  },
 
   // Discussion Panel
   panelVisibility: true,        // discussion panel visibility (Boolean)
@@ -60,7 +63,7 @@ const state = {
                                 // Either one of both is set, or none. TODO: unify these 2
 
   // Misc
-  lang: undefined,              // UI language ('de'/'fr')
+  lang: undefined,              // UI language ('lang1'/'lang2')
   loginMessage: ''              // the status message shown next to Login button
 }
 
@@ -330,11 +333,11 @@ const actions = {
   createTopic ({dispatch}, {type, topic, monolingual}) {
     let p
     if (monolingual)  {
-      // Note: a monolingual note/textblock/label is stored in "de". "fr" and "Original Language" are not set.
+      // Note: a monolingual note/textblock/label is stored in "lang1". "lang2" and "Original Language" are not set.
       p = dmx.rpc.createTopic({
         typeUri: `linqa.${type}`,
         children: {
-          [`linqa.${type}.de`]: topic.value
+          [`linqa.${type}.lang1`]: topic.value
         }
       })
     } else {
@@ -354,11 +357,11 @@ const actions = {
   createDocument ({dispatch}, {topic, monolingual}) {
     let p
     if (monolingual)  {
-      // Note: a monolingual document name is stored in "de". "fr" and "Original Language" are not set.
+      // Note: a monolingual document name is stored in "lang1". "lang2" and "Original Language" are not set.
       p = dmx.rpc.createTopic(topic)
     } else {
-      const docName = topic.children['linqa.document_name.de'].value
-      const fileId = topic.children['dmx.files.file#linqa.de'].id
+      const docName = topic.children['linqa.document_name.lang1'].value
+      const fileId = topic.children['dmx.files.file#linqa.lang1'].id
       // suppress standard HTTP error handler
       p = dmx.rpc._http.post('/linqa/document', docName, {params: {fileId}}).then(response => response.data)
     }
@@ -667,7 +670,7 @@ function initLang () {
     console.log('[Linqa] lang:', lang, '(from cookie)')
   } else {
     const langB = navigator.language.substr(0, 2)
-    lang = ['de', 'fr'].includes(langB) ? langB : 'de'      // fallback is 'de'
+    lang = ['lang1', 'lang2'].includes(langB) ? langB : 'lang1'      // fallback is 'lang1'
     console.log('[Linqa] lang:', langB, '(from browser) ->', lang)
   }
   store.dispatch('setLang', lang)

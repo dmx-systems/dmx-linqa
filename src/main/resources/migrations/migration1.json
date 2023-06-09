@@ -13,13 +13,13 @@
         "dataTypeUri": "dmx.core.text"
       },
       {
-        "value":       "de",
-        "uri":         "linqa.de",
+        "value":       "lang1",
+        "uri":         "linqa.lang1",
         "dataTypeUri": "dmx.core.text"
       },
       {
-        "value":       "fr",
-        "uri":         "linqa.fr",
+        "value":       "lang2",
+        "uri":         "linqa.lang2",
         "dataTypeUri": "dmx.core.text"
       }
     ]
@@ -28,13 +28,13 @@
     "topic_types": [
       // Document
       {
-        "value":       "Dokument Name (de)",
-        "uri":         "linqa.document_name.de",
+        "value":       "Document Name (lang1)",
+        "uri":         "linqa.document_name.lang1",
         "dataTypeUri": "dmx.core.text"
       },
       {
-        "value":       "Nom du document (fr)",
-        "uri":         "linqa.document_name.fr",
+        "value":       "Document Name (lang2)",
+        "uri":         "linqa.document_name.lang2",
         "dataTypeUri": "dmx.core.text"
       },
       {
@@ -43,24 +43,24 @@
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "linqa.document_name.de",
+            "childTypeUri":        "linqa.document_name.lang1",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "linqa.document_name.fr",
+            "childTypeUri":        "linqa.document_name.lang2",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
             "childTypeUri":        "dmx.files.file",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.de"
+            "customAssocTypeUri":  "linqa.lang1"
           },
           {
             "childTypeUri":        "dmx.files.file",
             "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.fr"
+            "customAssocTypeUri":  "linqa.lang2"
           }
         ],
         "viewConfigTopics": [
@@ -81,13 +81,13 @@
       },
       // Comment
       {
-        "value":       "Kommentar (de)",
-        "uri":         "linqa.comment.de",
+        "value":       "Comment (lang1)",
+        "uri":         "linqa.comment.lang1",
         "dataTypeUri": "dmx.core.html"
       },
       {
-        "value":       "Commentaire (fr)",
-        "uri":         "linqa.comment.fr",
+        "value":       "Comment (lang2)",
+        "uri":         "linqa.comment.lang2",
         "dataTypeUri": "dmx.core.html"
       },
       {
@@ -101,12 +101,12 @@
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "linqa.comment.de",
+            "childTypeUri":        "linqa.comment.lang1",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "linqa.comment.fr",
+            "childTypeUri":        "linqa.comment.lang2",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
@@ -154,13 +154,13 @@
       },
       // Note
       {
-        "value":       "Notiz (de)",
-        "uri":         "linqa.note.de",
+        "value":       "Note (lang1)",
+        "uri":         "linqa.note.lang1",
         "dataTypeUri": "dmx.core.html"
       },
       {
-        "value":       "Note (fr)",
-        "uri":         "linqa.note.fr",
+        "value":       "Note (lang2)",
+        "uri":         "linqa.note.lang2",
         "dataTypeUri": "dmx.core.html"
       },
       {
@@ -169,12 +169,12 @@
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "linqa.note.de",
+            "childTypeUri":        "linqa.note.lang1",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "linqa.note.fr",
+            "childTypeUri":        "linqa.note.lang2",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
@@ -205,13 +205,13 @@
       },
       // Label
       {
-        "value":       "Beschriftung (de)",
-        "uri":         "linqa.label.de",
+        "value":       "Label (lang1)",
+        "uri":         "linqa.label.lang1",
         "dataTypeUri": "dmx.core.text"
       },
       {
-        "value":       "Étiquetage (fr)",
-        "uri":         "linqa.label.fr",
+        "value":       "Label (lang2)",
+        "uri":         "linqa.label.lang2",
         "dataTypeUri": "dmx.core.text"
       },
       {
@@ -220,12 +220,12 @@
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "linqa.label.de",
+            "childTypeUri":        "linqa.label.lang1",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "linqa.label.fr",
+            "childTypeUri":        "linqa.label.lang2",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
@@ -271,11 +271,11 @@
     "topics": [
       // Languages
       {
-        "value":   "de",
+        "value":   "lang1",
         "typeUri": "linqa.language"
       },
       {
-        "value":   "fr",
+        "value":   "lang2",
         "typeUri": "linqa.language"
       }
     ]

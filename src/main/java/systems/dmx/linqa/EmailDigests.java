@@ -127,12 +127,12 @@ class EmailDigests {
     }
 
     private String emailMessage(Topic comment) {
-        String commentDe = comment.getChildTopics().getString(COMMENT_DE);
-        String commentFr = comment.getChildTopics().getString(COMMENT_FR, "");
-        String creator   = comment.getModel().getChildTopics().getString(CREATOR);     // synthetic, so operate on model
-        long modified    = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
+        String commentLang1 = comment.getChildTopics().getString(COMMENT_LANG1);
+        String commentLang2 = comment.getChildTopics().getString(COMMENT_LANG2, "");
+        String creator = comment.getModel().getChildTopics().getString(CREATOR);     // synthetic, so operate on model
+        long modified  = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
         return "<br>\nAuthor: " + creator + "<br>\nDate: " + new Date(modified) + "<br><br>\n\n" +
-            commentDe + "\n>>>\n" + commentFr + "\n\n------------------------------------------------<br>\n";
+            commentLang1 + "\n>>>\n" + commentLang2 + "\n\n------------------------------------------------<br>\n";
     }
 
     private void forEachTeamMember(Consumer<String> consumer) {

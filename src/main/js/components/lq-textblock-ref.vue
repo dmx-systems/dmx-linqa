@@ -25,19 +25,19 @@ export default {
 
     topicHtml () {
       return {
-        de: this.html('de'),
-        fr: this.html('fr')
+        lang1: this.html('lang1'),
+        lang2: this.html('lang2')
       }
     },
 
     textblockHtml () {
       const topicHtml = this.topicHtml
-      if (topicHtml.de && topicHtml.fr) {
+      if (topicHtml.lang1 && topicHtml.lang2) {
         return topicHtml[this.lang]
-      } else if (topicHtml.de) {
-        return topicHtml.de
-      } else if (topicHtml.fr) {
-        return topicHtml.fr
+      } else if (topicHtml.lang1) {
+        return topicHtml.lang1
+      } else if (topicHtml.lang2) {
+        return topicHtml.lang2
       }
     },
 
@@ -59,7 +59,7 @@ export default {
   methods: {
 
     html (lang) {
-      // Note: in a monolingual textblock "fr" is not defined
+      // Note: in a monolingual textblock "lang2" is not defined
       const html = this.topic.children['linqa.textblock.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html

@@ -27,7 +27,7 @@ public class Migration11 extends Migration {
         // FIXME: view config topic has empty label (instead "View Configuration")
         //
         dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, TRANSLATION_EDITED, ONE, config),
-            FILE + "#" + DE
+            FILE + "#" + LANG1
         );
         dmx.getTopicType(ZW_NOTE).addCompDef(mf.newCompDefModel(ZW_NOTE, TRANSLATION_EDITED, ONE, config));
         dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, TRANSLATION_EDITED, ONE, config));

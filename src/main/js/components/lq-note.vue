@@ -75,18 +75,18 @@ export default {
 
     note () {
       return {
-        de: this.html('de'),
-        fr: this.html('fr')
+        lang1: this.html('lang1'),
+        lang2: this.html('lang2')
       }
     },
 
     noteLang () {
-      if (this.note.de && this.note.fr) {
+      if (this.note.lang1 && this.note.lang2) {
         return this.lang
-      } else if (this.note.de) {
-        return 'de'
-      } else if (this.note.fr) {
-        return 'fr'
+      } else if (this.note.lang1) {
+        return 'lang1'
+      } else if (this.note.lang2) {
+        return 'lang2'
       }
     },
 
@@ -128,8 +128,8 @@ export default {
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-        this.setNote('de')
-        this.setNote('fr')
+        this.setNote('lang1')
+        this.setNote('lang2')
       }
       this.$store.dispatch(action, arg).catch(error => {
         return this.handleError(error, msgBox)
@@ -158,7 +158,7 @@ export default {
     },
 
     html (lang) {
-      // Note: in a monolingual note "fr" is not defined
+      // Note: in a monolingual note "lang2" is not defined
       const html = this.topic.children['linqa.note.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
@@ -166,9 +166,9 @@ export default {
     },
 
     setNote (lang) {
-      // Note: in a monolingual note "fr" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.note.fr']) {
-        this.$set(this.topic.children, 'linqa.note.fr', {})
+      // Note: in a monolingual note "lang2" is not defined     // TODO: simplify
+      if (!this.topic.children['linqa.note.lang2']) {
+        this.$set(this.topic.children, 'linqa.note.lang2', {})
       }
       //
       const compDefUri = 'linqa.note.' + lang

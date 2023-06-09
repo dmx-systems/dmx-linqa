@@ -23,19 +23,19 @@ export default {
 
     model () {
       return {
-        de: this.topicBuffer.children[`${this.type}.de`],
-        fr: this.topicBuffer.children[`${this.type}.fr`]
+        lang1: this.topicBuffer.children[`${this.type}.lang1`],
+        lang2: this.topicBuffer.children[`${this.type}.lang2`]
       }
     },
 
     // lang to be rendered in left column
     lang1 () {
-      return this.origLang || 'de'
+      return this.origLang || 'lang1'
     },
 
     // lang to be rendered in right column
     lang2 () {
-      return this.translatedLang || 'fr'
+      return this.translatedLang || 'lang2'
     },
 
     // persisted "edited" flag
@@ -67,10 +67,10 @@ export default {
 
     // Note: for a monolingual topic "translatedLang" is undefined
     translatedLang () {
-      if (this.origLang === 'de') {
-        return 'fr'
-      } else if (this.origLang === 'fr') {
-        return 'de'
+      if (this.origLang === 'lang1') {
+        return 'lang2'
+      } else if (this.origLang === 'lang2') {
+        return 'lang1'
       }
     },
 

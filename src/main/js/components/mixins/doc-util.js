@@ -7,21 +7,21 @@ export default {
 
     file () {
       // Note: empty topics created while edit have ID -1
-      const de = this.files.de && this.files.de.id != -1
-      const fr = this.files.fr && this.files.fr.id != -1
-      if (de && fr) {
+      const lang1 = this.files.lang1 && this.files.lang1.id != -1
+      const lang2 = this.files.lang2 && this.files.lang2.id != -1
+      if (lang1 && lang2) {
         return this.files[this.lang]
-      } else if (de) {
-        return this.files.de
-      } else if (fr) {
-        return this.files.fr
+      } else if (lang1) {
+        return this.files.lang1
+      } else if (lang2) {
+        return this.files.lang2
       }
     },
 
     files () {
       return {
-        de: this.getFile('de'),
-        fr: this.getFile('fr')
+        lang1: this.getFile('lang1'),
+        lang2: this.getFile('lang2')
       }
     },
 

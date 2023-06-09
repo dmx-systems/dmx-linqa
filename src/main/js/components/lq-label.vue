@@ -76,19 +76,19 @@ export default {
 
     label () {
       return {
-        // Note: in a monolingual label "fr" is not defined
-        de: this.topic.children['linqa.label.de']?.value,
-        fr: this.topic.children['linqa.label.fr']?.value
+        // Note: in a monolingual label "lang2" is not defined
+        lang1: this.topic.children['linqa.label.lang1']?.value,
+        lang2: this.topic.children['linqa.label.lang2']?.value
       }
     },
 
     labelLang () {
-      if (this.label.de && this.label.fr) {
+      if (this.label.lang1 && this.label.lang2) {
         return this.lang
-      } else if (this.label.de) {
-        return 'de'
-      } else if (this.label.fr) {
-        return 'fr'
+      } else if (this.label.lang1) {
+        return 'lang1'
+      } else if (this.label.lang2) {
+        return 'lang2'
       }
     },
 
@@ -123,8 +123,8 @@ export default {
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-        this.setText('de')
-        this.setText('fr')
+        this.setText('lang1')
+        this.setText('lang2')
       }
       this.$store.dispatch(action, arg).catch(error => {
         return this.handleError(error, msgBox)
@@ -143,9 +143,9 @@ export default {
     },
 
     setText (lang) {
-      // Note: in a monolingual label "fr" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.label.fr']) {
-        this.$set(this.topic.children, 'linqa.label.fr', {})
+      // Note: in a monolingual label "lang2" is not defined     // TODO: simplify
+      if (!this.topic.children['linqa.label.lang2']) {
+        this.$set(this.topic.children, 'linqa.label.lang2', {})
       }
       //
       const compDefUri = 'linqa.label.' + lang

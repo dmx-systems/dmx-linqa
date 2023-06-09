@@ -4,8 +4,8 @@
       <span>{{lang.toUpperCase()}}</span><span class="el-icon-arrow-down el-icon--right"></span>
     </el-button>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item command="de">DE</el-dropdown-item>
-      <el-dropdown-item command="fr">FR</el-dropdown-item>
+      <el-dropdown-item command="lang1">LANG1</el-dropdown-item>
+      <el-dropdown-item command="lang2">LANG2</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>

@@ -26,6 +26,10 @@ const state = {
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
                                 // available by the "sortedMemberships" getter (object).
   teamWorkspace: undefined,     // the "Team" Workspace topic (dmx.Topic); guaranteed inited once User state is ready
+  lang: '',                     // selected UI language (e.g. 'de')
+  lang1: '',                    // configured UI language 1 (e.g. 'de')
+  lang2: '',                    // configured UI language 2 (e.g. 'fr')
+  loginMessage: '',             // the status message shown next to Login button
 
   // User
   username: '',                 // username of current user (String), empty/undefined if not logged in
@@ -59,12 +63,8 @@ const state = {
   discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
   discussionLoading: false,     // true while a discussion is loading
   documentFilter: undefined,    // discussion is filtered by this document (a Document topic, plain object)
-  textblockFilter: undefined,   // discussion is filtered by this textblock (a Textblock topic, plain object)
+  textblockFilter: undefined    // discussion is filtered by this textblock (a Textblock topic, plain object)
                                 // Either one of both is set, or none. TODO: unify these 2
-
-  // Misc
-  lang: undefined,              // UI language ('lang1'/'lang2')
-  loginMessage: ''              // the status message shown next to Login button
 }
 
 const actions = {
@@ -117,7 +117,7 @@ const actions = {
 
   setLang (_, lang) {
     state.lang = lang
-    dmx.utils.setCookie('zw_lang', lang)
+    dmx.utils.setCookie('linqa_lang', lang)
   },
 
   setWorkspace ({dispatch}, workspaceId) {
@@ -663,17 +663,22 @@ initLang()
 export default store
 
 function initLang () {
-  let lang
-  const langC = dmx.utils.getCookie('zw_lang')
-  if (langC) {
-    lang = langC
-    console.log('[Linqa] lang:', lang, '(from cookie)')
-  } else {
-    const langB = navigator.language.substr(0, 2)
-    lang = ['lang1', 'lang2'].includes(langB) ? langB : 'lang1'      // fallback is 'lang1'
-    console.log('[Linqa] lang:', langB, '(from browser) ->', lang)
-  }
-  store.dispatch('setLang', lang)
+  http.get('/linqa/config/lang').then(response => {
+    state.lang1 = response.data[0]
+    state.lang2 = response.data[1]
+  }).then(() => {
+    let lang
+    const langC = dmx.utils.getCookie('linqa_lang')
+    if (langC) {
+      lang = langC
+      console.log('[Linqa] lang:', lang, '(from cookie)')
+    } else {
+      const langB = navigator.language.substr(0, 2)
+      lang = [state.lang1, state.lang2].includes(langB) ? langB : state.lang1     // fallback is lang1
+      console.log('[Linqa] lang:', langB, '(from browser) ->', lang)
+    }
+    store.dispatch('setLang', lang)
+  })
 }
 
 /**

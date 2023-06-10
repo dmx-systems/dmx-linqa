@@ -66,6 +66,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                                                                                               PreSendTopic,
                                                                                               PostLoginUser {
 
+    // ------------------------------------------------------------------------------------------------------- Constants
+
+    private static final String LANG1 = System.getProperty("dmx.linqa.lang1");
+    private static final String LANG2 = System.getProperty("dmx.linqa.lang2");
+
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
     @Inject private DeepLService deepls;

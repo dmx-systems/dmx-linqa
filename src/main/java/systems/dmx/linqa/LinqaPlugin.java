@@ -356,6 +356,24 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
+    @GET
+    @Path("/config/lang")
+    @Override
+    public List<String> getLanguageConfig() {
+        List<String> langs = new ArrayList();
+        langs.add(LANG1);
+        langs.add(LANG2);
+        return langs;
+    }
+
+    @GET
+    @Path("/available_lang")
+    @Override
+    public List<String> getAvailableLanguages() {
+        // TODO
+        return null;
+    }
+
     @Override
     public Topic createViewport(long workspaceId) {
         List<Topic> topicmaps = ws.getAssignedTopics(workspaceId, TOPICMAP);

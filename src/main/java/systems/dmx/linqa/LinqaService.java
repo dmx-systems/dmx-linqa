@@ -40,6 +40,10 @@ public interface LinqaService {
     // Note: there is no createArrow() call here. Arrows are created by a generic createTopic() call.
     // No auto-translation is involved.
 
+    List<String> getLanguageConfig();
+
+    List<String> getAvailableLanguages();
+
     /**
      * Needed by migration 4.
      */

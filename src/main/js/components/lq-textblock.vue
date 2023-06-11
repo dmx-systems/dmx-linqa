@@ -4,8 +4,8 @@
       <div class="discussion-button" :style="style">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
-      <div class="text1" v-html="textblock[lang1]"></div>
-      <div class="text2" v-html="textblock[lang2]"></div>
+      <div class="text1" v-html="textblock[lang1st]"></div>
+      <div class="text2" v-html="textblock[lang2nd]"></div>
     </template>
     <template v-else>
       <template v-if="isNew">
@@ -18,13 +18,13 @@
         <div class="texts">
           <div class="field">
             <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang1}})</div>
-            <quill v-model="model[lang1].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+            <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
           </div>
           <el-button class="translate" type="text" icon="el-icon-right" :title="translateTooltip" @click="doTranslate">
           </el-button>
           <div class="field">
             <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang2}})</div>
-            <quill v-model="model[lang2].value" :options="quillOptions" ref="translation" v-loading="translating">
+            <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating">
             </quill>
             <div :class="['edited-indicator', {edited: editedFlag}]">
               <lq-string>label.translation_edited</lq-string>
@@ -85,6 +85,9 @@ export default {
 
   computed: {
 
+    /**
+     * This textblock's HTML (bilingual) as stored in DB.
+     */
     textblock () {
       return {
         lang1: this.highlight(this.topic, this.html('lang1'), true),
@@ -175,16 +178,22 @@ export default {
       })
     },
 
+    /**
+     * @param   lang    URI suffix
+     */
     html (lang) {
-      // Note: in a monolingual textblock "lang2" is not defined
+      // Note: in an untranslatable textblock "lang2" is not defined
       const html = this.topic.children['linqa.textblock.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }
     },
 
+    /**
+     * @param   lang    URI suffix
+     */
     setText (lang) {
-      // Note: in a monolingual textblock "lang2" is not defined     // TODO: simplify
+      // Note: in an untranslatable textblock "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.textblock.lang2']) {
         this.$set(this.topic.children, 'linqa.textblock.lang2', {})
       }

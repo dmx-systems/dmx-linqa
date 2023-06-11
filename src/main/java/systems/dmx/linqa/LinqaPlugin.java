@@ -568,7 +568,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         Translation translation = translate(text, null);
         String origLang = translation.detectedSourceLang;
         return mf.newTopicModel(topicTypeUri, mf.newChildTopicsModel()
-            .set(childTypeUri + "." + asUriSuffix(origLang), text)
+            .set(childTypeUri + "." + langSuffix(origLang), text)
             .set(childTypeUri + "." + targetLang(origLang, true), translation.text)     // asUriSuffix=true
             .set(LANGUAGE + "#" + ORIGINAL_LANGUAGE, origLang)
         );
@@ -598,7 +598,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     /**
      * @param   lang    an ISO 639-1 language code, e.g. "de", "fr", "fi", "sv"
      */
-    private String asUriSuffix(String lang) {
+    private String langSuffix(String lang) {
         if (lang.equals(LANG1)) {
             return "lang1";
         } else if (lang.equals(LANG2)) {

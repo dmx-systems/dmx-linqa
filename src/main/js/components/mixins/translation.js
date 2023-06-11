@@ -28,44 +28,78 @@ export default {
       }
     },
 
-    // lang to be rendered in left column
+    /**
+     * Language (ISO 639-1 language code) to be rendered first (top/left), basically the topic's original language.
+     * For an untranslatable topic falls back to 'dmx.linqa.lang1' configuration.
+     */
     lang1 () {
+      return this.$store.state[this.lang1st]
+    },
+
+    /**
+     * Language (ISO 639-1 language code) to be rendered second (bottom/right), basically the topic's translation
+     * language. For an untranslatable topic falls back to 'dmx.linqa.lang2' configuration.
+     */
+    lang2 () {
+      return this.$store.state[this.lang2nd]
+    },
+
+    /**
+     * Language (URI suffix) to be rendered first (top/left), basically the topic's original language.
+     * For an untranslatable topic falls back to 'lang1'.
+     */
+    lang1st () {
       return this.origLang || 'lang1'
     },
 
-    // lang to be rendered in right column
-    lang2 () {
+    /**
+     * Language (URI suffix) to be rendered second (bottom/right), basically the topic's translation language.
+     * For an untranslatable topic falls back to 'lang2'.
+     */
+    lang2nd () {
       return this.translatedLang || 'lang2'
     },
 
-    // persisted "edited" flag
+    /**
+     * The topic's "edited" flag as stored in DB.
+     */
     translationEdited () {
       return this.topic.children['linqa.translation_edited']?.value
     },
 
-    // new "edited" flag (computed dynamically while typing)
+    /**
+     * The topic's "edited" flag computed dynamically while typing.
+     */
     editedFlag () {
-      const uri = `${this.type}.${this.lang2}`
-      const buffer = this.model[this.lang2].value
+      const uri = `${this.type}.${this.lang2nd}`            // the "edited" flag always relates to translation (lang2nd)
+      const buffer = this.model[this.lang2nd].value
       if (!buffer || buffer === '<p><br></p>') {
-        return false                                          // regard empty buffer as non-edited
+        return false                                        // regard empty buffer as non-edited
       } else if (this.translation) {
-        return buffer !== this.translation                    // compare buffer to last translation, if known
+        return buffer !== this.translation                  // compare buffer to last translation, if known
       } else if (this.translationEdited) {
-        return true                                           // stay "dirty" if we're dirty already
+        return true                                         // stay "dirty" if we're dirty already
       } else if (this.topic.children[uri]) {
-        return buffer !== this.topic.children[uri].value      // compare buffer to stored value, if exists
+        return buffer !== this.topic.children[uri].value    // compare buffer to stored value, if exists
       } else {
         return true
       }
     },
 
+    /**
+     * The topic's original language (URI suffix), or undefined for an untranslatable topic.
+     */
     origLang () {
-      // Note: a monolingual topic has no "Original Language", "origLang" is undefined then
-      return this.topic.children['linqa.language#linqa.original_language']?.value
+      // Note: an untranslatable topic has no "Original Language"
+      const lang = this.topic.children['linqa.language#linqa.original_language']
+      if (lang) {
+        return zw.langSuffix(lang.value)
+      }
     },
 
-    // Note: for a monolingual topic "translatedLang" is undefined
+    /**
+     * The topic's translation language (URI suffix), or undefined for an untranslatable topic.
+     */
     translatedLang () {
       if (this.origLang === 'lang1') {
         return 'lang2'
@@ -83,9 +117,9 @@ export default {
     translate () {
       // TODO: send target lang if known
       this.translating = true
-      return this.$store.dispatch('translate', this.model[this.lang1].value).then(translation => {
+      return this.$store.dispatch('translate', this.model[this.lang1st].value).then(translation => {
         // TODO: process detected lang
-        this.model[this.lang2].value = translation.text
+        this.model[this.lang2nd].value = translation.text
         this.translation = translation.text
         return translation
       }).catch(error => {

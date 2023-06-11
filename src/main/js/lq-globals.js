@@ -36,6 +36,8 @@ export default {
   ARROW_LENGTH: 200,            // Should be a multiple of CANVAS_GRID
   ARROW_HEIGHT: 40,             // Should be a multiple of CANVAS_GRID
 
+  langSuffix,
+
   getLogo,
   getViewport,
   getDisplayName,
@@ -54,6 +56,19 @@ export default {
   quillOptions,
   quillOptions2,
   isChrome
+}
+
+/**
+ * @param   lang    an ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv'
+ */
+function langSuffix (lang) {
+  if (lang === store.state.lang1) {
+    return 'lang1'
+  } else if (lang === store.state.lang2) {
+    return 'lang2'
+  } else {
+    throw Error(`Unsupported language: "${lang}"`)
+  }
 }
 
 // TODO: make it a store getter?

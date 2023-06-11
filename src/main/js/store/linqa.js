@@ -26,9 +26,9 @@ const state = {
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
                                 // available by the "sortedMemberships" getter (object).
   teamWorkspace: undefined,     // the "Team" Workspace topic (dmx.Topic); guaranteed inited once User state is ready
-  lang: '',                     // selected UI language (e.g. 'de')
-  lang1: '',                    // configured UI language 1 (e.g. 'de')
-  lang2: '',                    // configured UI language 2 (e.g. 'fr')
+  lang: '',                     // selected UI language (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
+  lang1: '',                    // configured UI language 1 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
+  lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   loginMessage: '',             // the status message shown next to Login button
 
   // User

@@ -10,14 +10,14 @@
     <template v-else>
       <div class="field">
         <div class="field-label"><lq-string>item.note</lq-string> ({{lang1}})</div>
-        <quill v-model="model[lang1].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+        <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
       </div>
       <div class="translate">
         <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="doTranslate"></el-button>
       </div>
       <div class="field">
         <div class="field-label"><lq-string>item.note</lq-string> ({{lang2}})</div>
-        <quill v-model="model[lang2].value" :options="quillOptions" ref="translation" v-loading="translating"></quill>
+        <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating"></quill>
         <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
       </div>
     </template>
@@ -73,6 +73,9 @@ export default {
 
   computed: {
 
+    /**
+     * This note's HTML (bilingual) as stored in DB.
+     */
     note () {
       return {
         lang1: this.html('lang1'),
@@ -80,9 +83,12 @@ export default {
       }
     },
 
+    /**
+     * The language (URI suffix) to be rendered in info mode.
+     */
     noteLang () {
       if (this.note.lang1 && this.note.lang2) {
-        return this.lang
+        return zw.langSuffix(this.lang)
       } else if (this.note.lang1) {
         return 'lang1'
       } else if (this.note.lang2) {
@@ -90,6 +96,9 @@ export default {
       }
     },
 
+    /**
+     * The HTML to be rendered in info mode.
+     */
     noteHtml () {
       return this.highlight(this.topic, this.note[this.noteLang], true)
     },
@@ -157,16 +166,22 @@ export default {
       })
     },
 
+    /**
+     * @param   lang    URI suffix
+     */
     html (lang) {
-      // Note: in a monolingual note "lang2" is not defined
+      // Note: in an untranslatable note "lang2" is not defined
       const html = this.topic.children['linqa.note.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }
     },
 
+    /**
+     * @param   lang    URI suffix
+     */
     setNote (lang) {
-      // Note: in a monolingual note "lang2" is not defined     // TODO: simplify
+      // Note: in an untranslatable note "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.note.lang2']) {
         this.$set(this.topic.children, 'linqa.note.lang2', {})
       }

@@ -8,14 +8,14 @@
     <template v-else>
       <div class="field">
         <div class="field-label"><lq-string>item.label</lq-string> ({{lang1}})</div>
-        <el-input v-model="model[lang1].value" ref="input"></el-input>
+        <el-input v-model="model[lang1st].value" ref="input"></el-input>
       </div>
       <div class="translate">
         <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
       </div>
       <div class="field">
         <div class="field-label"><lq-string>item.label</lq-string> ({{lang2}})</div>
-        <el-input v-model="model[lang2].value" v-loading="translating"></el-input>
+        <el-input v-model="model[lang2nd].value" v-loading="translating"></el-input>
         <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
       </div>
     </template>
@@ -30,6 +30,7 @@
 
 <script>
 import dmx from 'dmx-api'
+import zw from '../lq-globals'
 
 export default {
 
@@ -74,17 +75,23 @@ export default {
 
   computed: {
 
+    /**
+     * This label's text (bilingual) as stored in DB.
+     */
     label () {
       return {
-        // Note: in a monolingual label "lang2" is not defined
+        // Note: in an untranslatable label "lang2" is not defined
         lang1: this.topic.children['linqa.label.lang1']?.value,
         lang2: this.topic.children['linqa.label.lang2']?.value
       }
     },
 
+    /**
+     * The language (URI suffix) to be rendered in info mode.
+     */
     labelLang () {
       if (this.label.lang1 && this.label.lang2) {
-        return this.lang
+        return zw.langSuffix(this.lang)
       } else if (this.label.lang1) {
         return 'lang1'
       } else if (this.label.lang2) {
@@ -92,6 +99,9 @@ export default {
       }
     },
 
+    /**
+     * The text to be rendered in info mode.
+     */
     labelText () {
       return this.highlight(this.topic, this.label[this.labelLang])
     },
@@ -142,8 +152,11 @@ export default {
       })
     },
 
+    /**
+     * @param   lang    URI suffix
+     */
     setText (lang) {
-      // Note: in a monolingual label "lang2" is not defined     // TODO: simplify
+      // Note: in an untranslatable label "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.label.lang2']) {
         this.$set(this.topic.children, 'linqa.label.lang2', {})
       }

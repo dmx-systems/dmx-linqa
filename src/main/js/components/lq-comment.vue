@@ -27,18 +27,20 @@
     <!-- Content -->
     <div class="columns">
       <template v-if="infoMode">
-        <div class="dmx-html-field info text1" v-html="comment[lang1]"></div>
-        <div class="dmx-html-field info text2" v-html="comment[lang2]"></div>
+        <div class="dmx-html-field info text1" v-html="comment[lang1st]"></div>
+        <div class="dmx-html-field info text2" v-html="comment[lang2nd]"></div>
       </template>
       <template v-else>
         <div class="dmx-html-field text1">
-          <quill v-model="model[lang1].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+          <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill">
+          </quill>
         </div>
         <el-button class="translate-button" type="text" icon="el-icon-right" :title="translateTooltip"
           @click="doTranslate">
         </el-button>
         <div class="dmx-html-field text2">
-          <quill v-model="model[lang2].value" :options="quillOptions" ref="translation" v-loading="translating"></quill>
+          <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating">
+          </quill>
         </div>
       </template>
     </div>
@@ -86,10 +88,12 @@ export default {
 
   computed: {
 
+    /**
+     * This comment's HTML (bilingual) as stored in DB.
+     */
     comment () {
       return {
-        // Note: in a monolingual comment "lang2" is not defined.
-        // "lang1" on the other is expected to be always defined, but ZW dev-data are corrupt.
+        // Note: in an untranslatable comment "lang2" is not defined.
         lang1: this.topic.children['linqa.comment.lang1']?.value,
         lang2: this.topic.children['linqa.comment.lang2']?.value
       }
@@ -157,14 +161,14 @@ export default {
 
     translationMode () {
       if (this.infoMode) {
-        const topic = this.topic.children['linqa.comment.' + this.lang2]
+        const topic = this.topic.children['linqa.comment.' + this.lang2nd]
         if (!topic || topic.value === '<p><br></p>') {
           return 'none'
         } else {
           return this.translationEdited ? 'edited' : 'automatic'
         }
       } else {
-        const buffer = this.model[this.lang2].value
+        const buffer = this.model[this.lang2nd].value
         if (!buffer || buffer === '<p><br></p>') {
           return 'none'
         } else {
@@ -219,7 +223,7 @@ export default {
     edit () {
       this.mode = 'form'
       this.topicBuffer = this.topic.clone()
-      // Note 1: in a monolingual comment "lang2" is not defined. We meed it as editor model.
+      // Note 1: in an untranslatable comment "lang2" is not defined. We meed it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
       // Note 3: we need Vue.set() as topic clone is put into state already.
       if (!this.topicBuffer.children['linqa.comment.lang2']) {

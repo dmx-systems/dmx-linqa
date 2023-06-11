@@ -267,17 +267,6 @@
         "uri":         "linqa.shared_workspace",
         "dataTypeUri": "dmx.core.text"
       }
-    ],
-    "topics": [
-      // Languages
-      {
-        "value":   "lang1",
-        "typeUri": "linqa.language"
-      },
-      {
-        "value":   "lang2",
-        "typeUri": "linqa.language"
-      }
     ]
   }
 ]

@@ -567,22 +567,44 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     private TopicModel createBilingualTopicModel(String topicTypeUri, String text, String childTypeUri) {
         Translation translation = translate(text, null);
         String origLang = translation.detectedSourceLang;
-        String targetLang = targetLang(origLang);
         return mf.newTopicModel(topicTypeUri, mf.newChildTopicsModel()
-            .set(childTypeUri + "." + origLang, text)
-            .set(childTypeUri + "." + targetLang, translation.text)
+            .set(childTypeUri + "." + asUriSuffix(origLang), text)
+            .set(childTypeUri + "." + targetLang(origLang, true), translation.text)     // asUriSuffix=true
             .set(LANGUAGE + "#" + ORIGINAL_LANGUAGE, origLang)
         );
     }
 
+    /**
+     * @param   origLang    an ISO 639-1 language code, e.g. "de", "fr", "fi", "sv"
+     */
     private String targetLang(String origLang) {
-        if (origLang.equals("lang1")) {
-            return "lang2";
-        } else if (origLang.equals("lang2")) {
-            return "lang1";
+        return targetLang(origLang, false);
+    }
+
+    /**
+     * @param   origLang    an ISO 639-1 language code, e.g. "de", "fr", "fi", "sv"
+     */
+    private String targetLang(String origLang, boolean asUriSuffix) {
+        if (origLang.equals(LANG1)) {
+            return asUriSuffix ? "lang2" : LANG2;
+        } else if (origLang.equals(LANG2)) {
+            return asUriSuffix ? "lang1" : LANG1;
         } else {
-            // Note: the regex in confirmCreate() (lq-discussion.vue) must match this message
+            // Note: the regex in error-handling.js mixin must match this message
             throw new RuntimeException("Unsupported original language: \"" + origLang + "\" (detected)");
+        }
+    }
+
+    /**
+     * @param   lang    an ISO 639-1 language code, e.g. "de", "fr", "fi", "sv"
+     */
+    private String asUriSuffix(String lang) {
+        if (lang.equals(LANG1)) {
+            return "lang1";
+        } else if (lang.equals(LANG2)) {
+            return "lang2";
+        } else {
+            throw new RuntimeException("Unsupported language: \"" + lang + "\" (detected)");
         }
     }
 

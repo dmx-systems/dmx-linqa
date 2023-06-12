@@ -1,0 +1,11 @@
+dn: uid=dummy_user,ou=users,dc=example,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: dummy_user
+userPassword: testpass
+sn: dummy_user
+cn: dummy_user
+displayName: dummy_user
+mail: dummy_user@example.org

@@ -1,0 +1,4 @@
+dn: ou=demo_users,dc=example,dc=app
+objectClass: organizationalUnit
+ou: demo_users
+

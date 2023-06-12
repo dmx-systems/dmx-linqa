@@ -1,0 +1,60 @@
+version: "3.8"
+services:
+  dmx:
+    container_name: dev-dmx
+    restart: always
+    image: "container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-5.2.1:latest"
+    ports:
+      - "8880:8080"
+      - "8000:8000"
+    environment:
+      DEBUG:
+      USER_ID: "1000"
+      GROUP_ID: "1000"
+    volumes:
+      - ./instance/dev/conf:/opt/dmx/conf
+      - ./instance/dev/logs:/opt/dmx/logs
+      - ./instance/dev/db:/opt/dmx/dmx-db
+      - ./instance/dev/filedir:/opt/dmx/dmx-filedir
+      - ./instance/dev/bundle-deploy:/opt/dmx/bundle-deploy
+      - ./dmx/dev/plugins:/opt/dmx/plugins:ro
+      - ./dmx/dev/conf.d/config.properties.d:/opt/dmx/conf.d/config.properties.d:ro
+      - ./dmx/dev/conf.d/logging.properties.d:/opt/dmx/conf.d/logging.properties.d:ro
+    labels:
+      traefik.http.services.dmx.loadbalancer.server.port: 8080
+      traefik.http.routers.dmx.rule: "PathPrefix(`/`)"
+      traefik.http.routers.dmx.middlewares: "dmxreplace@docker"
+      traefik.http.middlewares.dmxreplace.replacepathregex.regex: "^/static/(.*)"
+
+  ldap:
+    container_name: dev-ldap
+    restart: unless-stopped
+    command: "--copy-service --loglevel debug"
+    build:
+      context: ./ldap/dev
+    ports:
+      - "389:389"
+      - "636:636"
+    environment:
+      LDAP_ORGANISATION: "example"
+      LDAP_DOMAIN: "example.app"
+      LDAP_TLS_VERIFY_CLIENT: "never"
+
+  reverse-proxy:
+    restart: always
+    image: traefik:v2.1
+    container_name: "dev-reverse-proxy"
+    command:
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.traefik.address=:8100"
+      - "--providers.docker"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+    ports:
+      - "9080:80"
+      - "8100:8100"
+    depends_on:
+      - dmx
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro

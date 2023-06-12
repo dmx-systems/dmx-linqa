@@ -97,6 +97,7 @@ install-in-container:
     WEB_URL: "${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}.ci.dmx.systems"
     CONFIG_DIR: 'deploy/.config'
     ENV_FILE: "${CONFIG_DIR}/.env.${CI_COMMIT_REF_SLUG}.ci"
+    PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail"
   before_script:
     - echo "TIER=${TIER}"
     - docker version
@@ -109,6 +110,8 @@ install-in-container:
     - chmod +x deploy/scripts/dmxstate.sh
     - test -d deploy/dmx/${TIER}/plugins/ || mkdir deploy/dmx/${TIER}/plugins/
     - cp target/*.jar deploy/dmx/${TIER}/plugins/
+    - declare -a PLUGINS=(${PLUGINS})
+    - for plugin in "${PLUGINS[@]}"; do plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"; echo "installing ${plugin_version}"; wget -q "${plugin_version}" -P deploy/dmx/${TIER}/plugins/; done
     #- tree
   script:
     - if [ "${CI_COMMIT_BRANCH}" == "master" ]; then WEB_URL="${CI_PROJECT_NAME}.ci.dmx.systems"; fi
@@ -128,7 +131,7 @@ install-in-container:
     #- docker container ls -a | grep ${CONTAINER_NAME} && docker container rm ${CONTAINER_NAME} || true
     - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
     - test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
-    - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30
+    - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log
     ## TEST
     - EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
     - HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"

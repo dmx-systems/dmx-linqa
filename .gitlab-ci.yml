@@ -1,45 +1,44 @@
-# 1) Initiates build for every "master" or "tags" push
+stages:
+  - build
+  - deploy
+  - install
+
+# 1) Build every commit on every branch and add the COMMIT SHORT SHA as suffix
 maven-build:
   stage: build
   script:
+    - export MAVEN_OPTS='-Xmx128m'
     - mvn clean install
   artifacts:
     paths:
       - target/*.jar
     name: ${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
-  cache:
-    paths:
-      - node_modules/
-  only:
-    - master
-    - tags
 
-# 2) Copies build to both, download/ci/ and dmx-dev-container
+# 2) Copies SNAPSHOT builds on 'master' and 'dm4' branch into download.dmx.systems/ci/ directory
 copy-to-ci:
   stage: deploy
   script:
     - CIDIR='/var/www/download.dmx.systems/ci'
     - DESTDIR="${CIDIR}/${CI_PROJECT_NAME}"
-    - JARFILE="$(basename $(ls target/*.jar | tail -n1))"
-    - NUNC="$(date +%F)"
-    - DESTJARFILE="$(basename ${JARFILE} .jar)_${NUNC}_${CI_PIPELINE_ID}.jar"
+    - JARFILE="$( basename $( ls target/*.jar | tail -n1) )"
+    - NUNC="$( date +%F )"
+    - DESTJARFILE="$( basename ${JARFILE} .jar )_${NUNC}_${CI_PIPELINE_ID}.jar"
     - if [ ! -d  ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
     - cp target/${JARFILE} ${DESTDIR}/${DESTJARFILE}
     - ln -sf  ${DESTDIR}/${DESTJARFILE} ${DESTDIR}/${CI_PROJECT_NAME}-latest.jar
-    - docker exec dmx-dev-container sh -c "rm -f /usr/share/dmx/bundle-deploy/${CI_PROJECT_NAME}-*.jar"
-    - docker cp ${DESTDIR}/${DESTJARFILE} dmx-dev-container:/usr/share/dmx/bundle-deploy/
   dependencies:
     - maven-build
   only:
     - master
+    - dm4
 
-# 3) Copies tagged (release) builds to download/plugins/
+# 3) Copies tagged RELEASE builds into download.dmx.systems/plugins/ directory
 copy-to-release:
   stage: deploy
   script:
     - RELEASEDIR='/var/www/download.dmx.systems/plugins'
     - DESTDIR="${RELEASEDIR}/${CI_PROJECT_NAME}"
-    - JARFILE="$(basename $(ls target/*.jar | tail -n1))"
+    - JARFILE="$( basename $( ls target/*.jar | tail -n1) )"
     - if [ ! -d  ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
     - cp target/${JARFILE} ${DESTDIR}/
   dependencies:
@@ -47,9 +46,83 @@ copy-to-release:
   only:
     - tags
 
-# 4) Triggers another project
-trigger-project:
-  stage: deploy
-  trigger: dmx-projects/linqa
-  only:
+# 4) Install in signup-test-container
+#install-in-container:
+#  stage: install
+#  script:
+#    - CONTAINER='signup-test-container'
+#    - WEBCGI='https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'
+#    - CIDIR='/var/www/download.dmx.systems/ci'
+#    - DESTDIR="${CIDIR}/${CI_PROJECT_NAME}"
+#    - docker exec ${CONTAINER} sh -c "rm -f /usr/share/dmx/bundle-deploy/${CI_PROJECT_NAME}-*.jar"
+#    - latest_version="$( /usr/bin/wget -q -O - "${WEBCGI}/ci/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}-latest.jar&basename=true" )"
+#    - echo "Install ${latest_version} in ${CONTAINER}"
+#    - NUNC="$( docker exec ${CONTAINER} sh -c "date \"+%b %d, %Y %I:%M:%S %p\"" )"
+#    - docker cp ${DESTDIR}/${latest_version} ${CONTAINER}:/usr/share/dmx/bundle-deploy/
+#    - sleep 60
+#    - LOGFILE='/var/log/dmx/dmx.log'
+#    - LINE="$( docker exec ${CONTAINER} sh -c "cat ${LOGFILE} | grep -B1 -n SEVERE | tail -n2 | head -n1" )"
+#    - LINE_DATE="$( echo "${LINE}" | cut -d'-' -f2 | cut -d' ' -f1,2,3,4,5 )"
+#    - echo "${NUNC}"
+#    - echo "${LINE_DATE}"
+#    - |
+#       if [ $( date --date "${LINE_DATE}" +%s) -gt $( date --date "${NUNC}" +%s) ]; then
+#         LINE_NR="$( echo "${LINE}" | cut -d'-' -f1 )"
+#         echo "${LINE_NR}"
+#         LOG="$( docker exec ${CONTAINER} sh -c "tail -n +${LINE_NR} ${LOGFILE} | grep -v 'INFO:'" )"
+#       fi
+#    - if [ "${LOG}" ]; then echo "${LOG}"; ERROR=1; else ERROR=0; fi
+#    - exit ${ERROR}
+#  only:
+#    - master
+
+# 4) Install in docker-container
+install-in-container:
+  stage: install
+  except:
+    - tags
     - master
+  tags:
+    ## requires shell-docker runner
+    - shell-docker
+  dependencies:
+    - maven-build
+  variables:
+    COMPOSE_PROJECT_NAME: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
+    CONTAINER_NAME: "${CI_COMMIT_REF_SLUG}-container"
+    WEB_URL: "${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}.ci.dmx.systems"
+    CONFIG_DIR: 'deploy/.config'
+    ENV_FILE: "${CONFIG_DIR}/.env.${CI_COMMIT_REF_SLUG}.ci"
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" container-registry.dmx.systems/dmx-contrib/dmx-docker
+    - test -d "${CONFIG_DIR}" || mkdir -p "${CONFIG_DIR}"
+    - test -f "${ENV_FILE}" || touch "${ENV_FILE}"
+    - test -d deploy/instance/dev || mkdir -p deploy/instance/dev/conf deploy/instance/dev/logs deploy/instance/dev/db deploy/instance/dev/filedir deploy/instance/dev/bundle-deploy
+    - test -f deploy/scripts/dmxstate.sh || curl --silent https://git.dmx.systems/dmx-contrib/dmx-state/-/raw/master/dmxstate.sh --create-dirs -o deploy/scripts/dmxstate.sh
+    - chmod +x deploy/scripts/dmxstate.sh
+    - cp target/*.jar deploy/dmx/dev/plugins
+    #- tree
+  script:
+    - if [ "${CI_COMMIT_BRANCH}" == "master" ]; then WEB_URL="${CI_PROJECT_NAME}.ci.dmx.systems"; fi
+    - USER_ID="$( id -u )"
+    - GROUP_ID="$( id -g )"
+    - DMX_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=dmx | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+    - MAIL_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=mail | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+    - echo "CONTAINER_NAME=${CONTAINER_NAME}" >>"${ENV_FILE}"
+    - echo "user_id=${USER_ID}" >>"${ENV_FILE}"
+    - echo "group_id=${GROUP_ID}" >>"${ENV_FILE}"
+    - echo "DMX_PORT=${DMX_PORT}" >>"${ENV_FILE}"
+    - echo "MAIL_PORT=${MAIL_PORT}" >>"${ENV_FILE}"
+    - cat "${ENV_FILE}"
+    - echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/dev/conf.d/config.properties.d/10_websocket_url
+    - echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/dev/conf.d/config.properties.d/10_host_url
+    - docker container ls | grep ${CONTAINER_NAME} && docker container stop ${CONTAINER_NAME} || true
+    - docker container ls -a | grep ${CONTAINER_NAME} && docker container rm ${CONTAINER_NAME} || true
+    - docker-compose --env-file "${ENV_FILE}" --file deploy/docker-compose.dev-ci.yaml up --force-recreate -d
+    - deploy/scripts/dmxstate.sh ./deploy/instance/dev/logs/dmx0.log 30
+    ## TEST
+    - EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
+    - HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"
+    - echo "${HTTP_CODE}"
+    - if [ ${HTTP_CODE} -ne 200 ]; then echo "HTTP test failed with error code ${RESULT}."; exit 1; fi
+    - echo "You can now browse to https://${WEB_URL}/ for testing."

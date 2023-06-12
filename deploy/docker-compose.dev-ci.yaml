@@ -53,14 +53,18 @@ services:
     build:
       context: ./ldap/${TIER}
     environment:
-      LDAP_ORGANISATION: "linqa"
-      LDAP_DOMAIN: "linqa.org"
+      LDAP_ORGANISATION: "example"
+      LDAP_DOMAIN: "example.org"
       LDAP_TLS_VERIFY_CLIENT: "never"
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       LDAP_CONFIG_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       LDAP_READONLY_USER: "true"
       LDAP_READONLY_USER_USERNAME: "bind"
       LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}
+    #ports:
+    #  - "389:389"
+    #  - "636:636"
+
     #volumes:
       #- ldap-cfg:/etc/ldap/slapd.d
       #- ldap-db:/var/lib/ldap

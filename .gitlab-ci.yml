@@ -115,7 +115,7 @@ install-in-container:
     - test -d deploy/dmx/${TIER}/plugins/ || mkdir deploy/dmx/${TIER}/plugins/
     - cp target/*.jar deploy/dmx/${TIER}/plugins/
     - declare -a PLUGINS=(${PLUGINS})
-    - for plugin in "${PLUGINS[@]}"; do echo "getting latest version of ${plugin}"; plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"; echo "installing ${plugin_version}"; wget -q "${plugin_version}" -P deploy/dmx/${TIER}/plugins/; done
+    - for plugin in "${PLUGINS[@]}"; do echo "getting latest version of ${plugin} plugin"; plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"; echo "installing ${plugin_version}"; wget -q "${plugin_version}" -P deploy/dmx/${TIER}/plugins/; done
     #- tree
   script:
     - if [ "${CI_COMMIT_BRANCH}" == "master" ]; then WEB_URL="${CI_PROJECT_NAME}.ci.dmx.systems"; fi

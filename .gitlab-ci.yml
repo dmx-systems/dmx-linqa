@@ -79,9 +79,9 @@ copy-to-release:
 # 4) Install in docker-container
 install-in-container:
   stage: install
-  except:
-    - tags
-    - master
+  #except:
+    #- tags
+    #- master
   tags:
     ## requires shell-docker runner
     - shell-docker

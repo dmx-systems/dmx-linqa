@@ -149,9 +149,4 @@ install-in-container:
     #- /usr/bin/python3 deploy/dmx/dmx.py -U https://zukunftswerk-${TIER}.projects.dmx.systems:443/ -l -u admin -p ${DMX_ADMIN_PASSWORD} -m -w "Team" -n "testuser@example.org"
     #- /usr/bin/python3 deploy/dmx/dmx.py -U https://zukunftswerk-${TIER}.projects.dmx.systems:443/ -l -u admin -p ${DMX_ADMIN_PASSWORD} -m -w "Team" -n "tom@example.org"
     #- /usr/bin/python3 deploy/dmx/dmx.py -U https://zukunftswerk-${TIER}.projects.dmx.systems:443/ -l -u admin -p ${DMX_ADMIN_PASSWORD} -m -w "Team" -n "tabea@example.org"
-    - WSID="$( curl -s -X POST -H "Content-Type: application/json" -d '{"username":"admin","password":"${DMX_ADMIN_PASSWORD}"}' https://${WEB_URL}/core/topic/uri/linqa.team | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 }"
-    - echo "${WSID}"
-    - curl -s -X POST -H "Content-Type: application/json" -d '{"username":"admin","password":"${DMX_ADMIN_PASSWORD}"}' https://${WEB_URL}/access-control/user/testuser@example.org/workspace/${WSID}
-    - curl -s -X POST -H "Content-Type: application/json" -d '{"username":"admin","password":"${DMX_ADMIN_PASSWORD}"}' https://${WEB_URL}/access-control/user/tom@example.org/workspace/${WSID}
-    - curl -s -X POST -H "Content-Type: application/json" -d '{"username":"admin","password":"${DMX_ADMIN_PASSWORD}"}' https://${WEB_URL}/access-control/user/tabea@example.org/workspace/${WSID}
-    - curl -s -X POST -H "Content-Type: application/json" -d '{"username":"admin","password":"${DMX_ADMIN_PASSWORD}"}' https://${WEB_URL}/access-control/user/testuser@example.org/workspace/${WSID}
+

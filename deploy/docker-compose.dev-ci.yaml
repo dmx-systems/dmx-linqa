@@ -38,6 +38,8 @@ services:
       - ./dmx/dev/plugins:/opt/dmx/plugins:ro
       - ./dmx/dev/conf.d/config.properties.d:/opt/dmx/conf.d/config.properties.d:ro
       - ./dmx/dev/conf.d/logging.properties.d:/opt/dmx/conf.d/logging.properties.d:ro
+    ports:
+      - "${DMX_PORT}:8080"
 
 
     #networks:

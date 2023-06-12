@@ -75,6 +75,8 @@ services:
     #networks:
     #  zukunftswerk-dev-network:
     #    ipv4_address: 10.10.10.20
+    ports:
+      - "${MAIL_PORT}:8025"
 
 
 #networks:

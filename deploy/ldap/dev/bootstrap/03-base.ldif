@@ -1,4 +1,4 @@
-dn: ou=demo_users,dc=example,dc=app
+dn: ou=users,dc=example,dc=org
 objectClass: organizationalUnit
-ou: demo_users
+ou: users
 

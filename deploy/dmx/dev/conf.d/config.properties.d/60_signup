@@ -1,0 +1,35 @@
+## Sign-Up Plugin Config
+
+# setzt die Accounterzeugung und Login-Methode fürs Sign-Up Plugin (entweder LDAP oder Basic)
+#dmx.signup.authorization.method = LDAP
+#dmx.signup.email_confirmation.enabled = true
+#dmx.signup.confirm.slug = sign-up/confirm/redirect/
+#dmx.signup.debug.enabled = true
+#dmx.signup.from_mailbox = 'test <test@dmx.berlin>'
+#dmx.signup.admin_mailbox = nomail@dmx.berlin
+#dmx.signup.self_registration = false
+#dmx.signup.ldap_auth = true
+#dmx.signup.confirm_email_address = false
+#dmx.signup.ldap_account_creation = true
+
+
+#dmx.signup.from_mailbox = 'test <test@dmx.berlin>'
+#dmx.signup.admin_mailbox = signup-test@dmx.systems
+#dmx.signup.self_registration = false
+#dmx.signup.system_mailbox = signup-test@dmx.systems
+#dmx.signup.confirm_email_address = false
+#dmx.signup.ldap_account_creation = true
+#dmx.signup.debug.enabled = true
+
+
+dmx.signup.self_registration = false
+dmx.signup.confirm_email_address = false
+dmx.signup.admin_mailbox = signup-test@dmx.systems
+dmx.signup.system_mailbox = signup-test@dmx.systems
+dmx.signup.ldap_account_creation = true
+
+
+#dmx.ldap.user_creation.enabled = true
+
+## Test dmx.signup.account_creation_auth_ws_uri
+dmx.signup.account_creation_auth_ws_uri = zukunftswerk.team

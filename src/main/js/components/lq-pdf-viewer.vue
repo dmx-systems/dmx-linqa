@@ -47,7 +47,7 @@ export default {
   computed: {
 
     pageNr () {
-      return this.$store.state.pageNr[this.lang][this.topic.id]
+      return this.$store.state.pageNr[zw.langSuffix(this.lang)][this.topic.id]
     },
 
     numPages () {

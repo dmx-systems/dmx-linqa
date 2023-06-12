@@ -1,3 +1,5 @@
+import zw from '../../lq-globals'
+
 /**
  * Note: the host component is expected to hold "topic": a Document topic.
  */
@@ -10,7 +12,7 @@ export default {
       const lang1 = this.files.lang1 && this.files.lang1.id != -1
       const lang2 = this.files.lang2 && this.files.lang2.id != -1
       if (lang1 && lang2) {
-        return this.files[this.lang]
+        return this.files[zw.langSuffix(this.lang)]
       } else if (lang1) {
         return this.files.lang1
       } else if (lang2) {

@@ -14,7 +14,7 @@
     <template v-else>
       <div class="field">
         <div class="field-label"><lq-string>label.document_name</lq-string> <span v-if="!isNew">({{lang1}})</span></div>
-        <el-input v-model="docModel.names[lang1].value" ref="docName"></el-input>
+        <el-input v-model="docModel.names[lang1st].value" ref="docName"></el-input>
       </div>
       <template  v-if="!isNew">
         <div class="translate">
@@ -22,29 +22,29 @@
         </div>
         <div class="field">
           <div class="field-label"><lq-string>label.document_name</lq-string> <span>({{lang2}})</span></div>
-          <el-input v-model="docModel.names[lang2].value"></el-input>
+          <el-input v-model="docModel.names[lang2nd].value"></el-input>
           <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
         </div>
       </template>
       <div class="field">
         <div class="field-label"><lq-string>label.file</lq-string> <span v-if="!isNew">({{lang1}})</span></div>
-        <el-upload drag :action="uploadUrl" :on-success="onSuccess[lang1]" :on-error="onError[lang1]"
-            :ref="'upload.' + lang1" :before-upload="beforeUpload">
+        <el-upload drag :action="uploadUrl" :on-success="onSuccess[lang1st]" :on-error="onError[lang1st]"
+            :ref="'upload.' + lang1st" :before-upload="beforeUpload">
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
         </el-upload>
-        <div class="error">{{error[lang1]}}</div>
-        <el-input v-model="docModel.paths[lang1].value"></el-input>
+        <div class="error">{{error[lang1st]}}</div>
+        <el-input v-model="docModel.paths[lang1st].value"></el-input>
       </div>
       <div class="field" v-if="!isNew">
         <div class="field-label"><lq-string>label.file</lq-string> <span>({{lang2}})</span></div>
-        <el-upload drag :action="uploadUrl" :on-success="onSuccess[lang2]" :on-error="onError[lang2]"
-            :ref="'upload.' + lang2" :before-upload="beforeUpload">
+        <el-upload drag :action="uploadUrl" :on-success="onSuccess[lang2nd]" :on-error="onError[lang2nd]"
+            :ref="'upload.' + lang2nd" :before-upload="beforeUpload">
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
         </el-upload>
-        <div class="error">{{error[lang2]}}</div>
-        <el-input v-model="docModel.paths[lang2].value"></el-input>
+        <div class="error">{{error[lang2nd]}}</div>
+        <el-input v-model="docModel.paths[lang2nd].value"></el-input>
       </div>
       <el-button class="save-button" type="primary" size="medium" :disabled="saveButtonDisabled" @click="save">
         <lq-string>action.submit</lq-string>
@@ -140,7 +140,7 @@ export default {
       const lang1 = this.docNames.lang1?.value
       const lang2 = this.docNames.lang2?.value
       if (lang1 && lang2) {
-        return this.lang
+        return zw.langSuffix(this.lang)
       } else if (lang1) {
         return 'lang1'
       } else if (lang2) {

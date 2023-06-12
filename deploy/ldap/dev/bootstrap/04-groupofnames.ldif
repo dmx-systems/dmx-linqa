@@ -1,0 +1,7 @@
+# add group of names app_users
+dn: cn=app_users,dc=example,dc=org
+objectClass: groupOfNames
+cn: app_users
+description: App Users
+member: uid=preexisting,ou=users,dc=example,dc=org
+

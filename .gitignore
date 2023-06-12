@@ -1,5 +1,7 @@
 /src/main/resources/web/
 
+*.bak
+
 target/
 node_modules/
 

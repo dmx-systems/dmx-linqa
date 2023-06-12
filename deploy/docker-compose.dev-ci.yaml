@@ -1,10 +1,9 @@
 version: "3.8"
 
-
-volumes:
+#volumes:
   # dmx-db:
-  ldap-cfg:
-  ldap-db:
+  #ldap-cfg:
+  #ldap-db:
 
 
 services:
@@ -26,9 +25,9 @@ services:
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       TIER: ${TIER}
     ## for fuse / davfs
-    privileged: true
-    cap_add:
-      - SYS_ADMIN
+    # privileged: true
+    #cap_add:
+    #  - SYS_ADMIN
     volumes:
       # - dmx-db:/opt/dmx/dmx-db
       - ./instance/dev/conf:/opt/dmx/conf
@@ -60,9 +59,9 @@ services:
       LDAP_READONLY_USER: "true"
       LDAP_READONLY_USER_USERNAME: "bind"
       LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}
-    volumes:
-      - ldap-cfg:/etc/ldap/slapd.d
-      - ldap-db:/var/lib/ldap
+    #volumes:
+      #- ldap-cfg:/etc/ldap/slapd.d
+      #- ldap-db:/var/lib/ldap
     #networks:
     #  zukunftswerk-dev-network:
     #    ipv4_address: 10.10.10.19

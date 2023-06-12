@@ -101,7 +101,7 @@ install-in-container:
     LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}
     WEBDIR: 'https://download.dmx.systems/ci'                              # <= stable|latest
     WEBCGI: 'https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'  # <= stable|latest
-    PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail"
+    PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail dmx-thymeleaf dmx-files-upload"
   before_script:
     - echo "TIER=${TIER}"
     - docker version

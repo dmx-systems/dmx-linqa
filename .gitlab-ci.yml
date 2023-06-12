@@ -88,8 +88,12 @@ install-in-container:
   dependencies:
     - maven-build
   variables:
+
+  variables:
+    #TIER: "${CI_COMMIT_BRANCH}"
+    TIER: "dev"
     COMPOSE_PROJECT_NAME: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
-    CONTAINER_NAME: "${CI_COMMIT_REF_SLUG}-container"
+    #CONTAINER_NAME: "${CI_COMMIT_REF_SLUG}-container"
     WEB_URL: "${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}.ci.dmx.systems"
     CONFIG_DIR: 'deploy/.config'
     ENV_FILE: "${CONFIG_DIR}/.env.${CI_COMMIT_REF_SLUG}.ci"
@@ -99,10 +103,10 @@ install-in-container:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" container-registry.dmx.systems/dmx-contrib/dmx-docker
     - test -d "${CONFIG_DIR}" || mkdir -p "${CONFIG_DIR}"
     - test -f "${ENV_FILE}" || touch "${ENV_FILE}"
-    - test -d deploy/instance/dev || mkdir -p deploy/instance/dev/conf deploy/instance/dev/logs deploy/instance/dev/db deploy/instance/dev/filedir deploy/instance/dev/bundle-deploy
+    - test -d deploy/instance/${TIER} || mkdir -p deploy/instance/${TIER}/conf deploy/instance/${TIER}/logs deploy/instance/${TIER}/db deploy/instance/${TIER}/filedir deploy/instance/${TIER}/bundle-deploy
     - test -f deploy/scripts/dmxstate.sh || curl --silent https://git.dmx.systems/dmx-contrib/dmx-state/-/raw/master/dmxstate.sh --create-dirs -o deploy/scripts/dmxstate.sh
     - chmod +x deploy/scripts/dmxstate.sh
-    - cp target/*.jar deploy/dmx/dev/plugins
+    - cp target/*.jar deploy/dmx/${TIER}/plugins
     #- tree
   script:
     - if [ "${CI_COMMIT_BRANCH}" == "master" ]; then WEB_URL="${CI_PROJECT_NAME}.ci.dmx.systems"; fi

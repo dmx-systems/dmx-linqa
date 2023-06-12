@@ -93,7 +93,7 @@ install-in-container:
     #TIER: "${CI_COMMIT_BRANCH}"
     TIER: "dev"
     COMPOSE_PROJECT_NAME: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
-    #CONTAINER_NAME: "${CI_COMMIT_REF_SLUG}-container"
+    CONTAINER_NAME: "${CI_COMMIT_REF_SLUG}-container"
     WEB_URL: "${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}.ci.dmx.systems"
     CONFIG_DIR: 'deploy/.config'
     ENV_FILE: "${CONFIG_DIR}/.env.${CI_COMMIT_REF_SLUG}.ci"

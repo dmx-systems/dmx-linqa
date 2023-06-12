@@ -94,6 +94,8 @@ install-in-container:
     CONFIG_DIR: 'deploy/.config'
     ENV_FILE: "${CONFIG_DIR}/.env.${CI_COMMIT_REF_SLUG}.ci"
   before_script:
+    - docker version
+    - docker compose version
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" container-registry.dmx.systems/dmx-contrib/dmx-docker
     - test -d "${CONFIG_DIR}" || mkdir -p "${CONFIG_DIR}"
     - test -f "${ENV_FILE}" || touch "${ENV_FILE}"

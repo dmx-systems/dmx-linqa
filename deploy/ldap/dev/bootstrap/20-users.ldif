@@ -8,20 +8,21 @@ userPassword: test
 sn: dmx-ldap
 cn: preexisting
 
-# user: testuser1
-dn: uid=testuser1,ou=users,dc=example,dc=org
-objectClass: person
-objectClass: organizationalPerson
-objectClass: inetOrgPerson
-userPassword: test
-sn: dmx-ldap
-cn: testuser1
+## user: testuser1
+#dn: uid=testuser1,ou=users,dc=example,dc=org
+#objectClass: person
+#objectClass: organizationalPerson
+#objectClass: inetOrgPerson
+#userPassword: test
+#sn: dmx-ldap
+#cn: testuser1
 
-# user: testuser2
-dn: uid=testuser2,ou=users,dc=example,dc=org
-objectClass: person
-objectClass: organizationalPerson
-objectClass: inetOrgPerson
-userPassword: test
-sn: dmx-ldap
-cn: testuser2
+## user: testuser2
+#dn: uid=testuser2,ou=users,dc=example,dc=org
+#objectClass: person
+#objectClass: organizationalPerson
+#objectClass: inetOrgPerson
+#userPassword: test
+#sn: dmx-ldap
+#cn: testuser2
+

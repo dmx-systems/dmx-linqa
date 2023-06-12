@@ -146,7 +146,5 @@ install-in-container:
     ## Create DMX Users
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make users workspace members according to their team roles
-    #- /usr/bin/python3 deploy/dmx/dmx.py -U https://zukunftswerk-${TIER}.projects.dmx.systems:443/ -l -u admin -p ${DMX_ADMIN_PASSWORD} -m -w "Team" -n "testuser@example.org"
-    #- /usr/bin/python3 deploy/dmx/dmx.py -U https://zukunftswerk-${TIER}.projects.dmx.systems:443/ -l -u admin -p ${DMX_ADMIN_PASSWORD} -m -w "Team" -n "tom@example.org"
-    #- /usr/bin/python3 deploy/dmx/dmx.py -U https://zukunftswerk-${TIER}.projects.dmx.systems:443/ -l -u admin -p ${DMX_ADMIN_PASSWORD} -m -w "Team" -n "tabea@example.org"
+    - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.team"
 

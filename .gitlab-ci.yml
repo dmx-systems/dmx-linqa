@@ -128,7 +128,7 @@ install-in-container:
     #- docker container ls -a | grep ${CONTAINER_NAME} && docker container rm ${CONTAINER_NAME} || true
     - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
     - test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
-    - deploy/scripts/dmxstate.sh dmx0.log 30
+    - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30
     ## TEST
     - EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
     - HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"

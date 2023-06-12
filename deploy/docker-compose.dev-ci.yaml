@@ -2,7 +2,7 @@ version: "3.8"
 
 
 volumes:
-  dmx-db:
+  # dmx-db:
   ldap-cfg:
   ldap-db:
 
@@ -30,12 +30,17 @@ services:
     cap_add:
       - SYS_ADMIN
     volumes:
-      - dmx-db:/opt/dmx/dmx-db
-      - ./dmx/zukunftswerk-dev/run.d:/opt/dmx/run.d:ro
-      - ./dmx/zukunftswerk-dev/plugins:/opt/dmx/plugins:ro
-      - ./dmx/zukunftswerk-dev/conf.d/config.properties.d:/opt/dmx/conf.d/config.properties.d:ro
-      - ./dmx/zukunftswerk-dev/conf.d/logging.properties.d:/opt/dmx/conf.d/logging.properties.d:ro
-      - /home/gitlab-runner/persist/zukunftswerk-dev/logs:/opt/dmx/logs
+      # - dmx-db:/opt/dmx/dmx-db
+      - ./instance/dev/conf:/opt/dmx/conf
+      - ./instance/dev/logs:/opt/dmx/logs
+      - ./instance/dev/db:/opt/dmx/dmx-db
+      - ./instance/dev/filedir:/opt/dmx/dmx-filedir
+      - ./instance/dev/bundle-deploy:/opt/dmx/bundle-deploy
+      - ./dmx/dev/plugins:/opt/dmx/plugins:ro
+      - ./dmx/dev/conf.d/config.properties.d:/opt/dmx/conf.d/config.properties.d:ro
+      - ./dmx/dev/conf.d/logging.properties.d:/opt/dmx/conf.d/logging.properties.d:ro
+
+
     #networks:
     #  zukunftswerk-dev-network:
     #    ipv4_address: 10.10.10.18
@@ -47,8 +52,8 @@ services:
     build:
       context: ./ldap/${TIER}
     environment:
-      LDAP_ORGANISATION: "zukunftswerk"
-      LDAP_DOMAIN: "zukunftswerk.org"
+      LDAP_ORGANISATION: "linqa"
+      LDAP_DOMAIN: "linqa.org"
       LDAP_TLS_VERIFY_CLIENT: "never"
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       LDAP_CONFIG_PASSWORD: ${LDAP_ADMIN_PASSWORD}

@@ -114,7 +114,7 @@ install-in-container:
     - GROUP_ID="$( id -g )"
     - DMX_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=dmx | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
     - MAIL_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=mail | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
-    - echo "CONTAINER_NAME=${CONTAINER_NAME}" >>"${ENV_FILE}"
+    # - echo "CONTAINER_NAME=${CONTAINER_NAME}" >>"${ENV_FILE}"
     - echo "user_id=${USER_ID}" >>"${ENV_FILE}"
     - echo "group_id=${GROUP_ID}" >>"${ENV_FILE}"
     - echo "DMX_PORT=${DMX_PORT}" >>"${ENV_FILE}"
@@ -125,7 +125,8 @@ install-in-container:
     #- docker container ls | grep ${CONTAINER_NAME} && docker container stop ${CONTAINER_NAME} || true
     #- docker container ls -a | grep ${CONTAINER_NAME} && docker container rm ${CONTAINER_NAME} || true
     - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
-    - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30
+    - test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
+    - deploy/scripts/dmxstate.sh dmx0.log 30
     ## TEST
     - EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
     - HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"

@@ -55,6 +55,7 @@ services:
     environment:
       LDAP_ORGANISATION: "example"
       LDAP_DOMAIN: "example.org"
+      LDAP_TLS: "false"
       LDAP_TLS_VERIFY_CLIENT: "never"
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       LDAP_CONFIG_PASSWORD: ${LDAP_ADMIN_PASSWORD}

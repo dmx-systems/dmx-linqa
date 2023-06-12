@@ -287,14 +287,14 @@ const actions = {
   },
 
   initPageNr (_, topicId) {
-    const pageNr = state.pageNr[state.lang]
+    const pageNr = state.pageNr[zw.langSuffix(state.lang)]
     if (!pageNr[topicId]) {
       Vue.set(pageNr, topicId, 1)
     }
   },
 
   prevPage (_, topicId) {
-    const pageNr = state.pageNr[state.lang]
+    const pageNr = state.pageNr[zw.langSuffix(state.lang)]
     if (pageNr[topicId] > 1) {
       pageNr[topicId]--
       return true
@@ -302,7 +302,7 @@ const actions = {
   },
 
   nextPage (_, {topicId, numPages}) {
-    const pageNr = state.pageNr[state.lang]
+    const pageNr = state.pageNr[zw.langSuffix(state.lang)]
     if (pageNr[topicId] < numPages) {
       pageNr[topicId]++
       return true

@@ -7,7 +7,7 @@ import onHttpError from './error-handler'
 import messageHandler from './message-handler'
 import './element-ui'
 
-console.log('[Linqa] 2023/06/11-5')
+console.log('[Linqa] 2023/06/12-2')
 
 // 1) Init dmx library
 dmx.init({

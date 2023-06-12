@@ -87,13 +87,17 @@ export default {
     },
 
     /**
-     * The topic's original language (URI suffix), or undefined for an untranslatable topic.
+     * The topic's original language (URI suffix) as stored in DB, or undefined for a topic which could not be
+     * translated (resp. is not translated yet, the latter happens for "Document").
      */
     origLang () {
-      // Note: an untranslatable topic has no "Original Language"
-      const lang = this.topic.children['linqa.language#linqa.original_language']
+      // Note 1: an untranslatable topic has no "Original Language".
+      // Note 2: only for Documents newFormModel() is called at creation time (see newDocumentViewTopic() in
+      // lq-canvas.vue). In this case "Original Language" exists but has empty value. In contrast for the other content
+      // objects (Notes, Textblocks etc.) newFormModel() is only called when editing (see edit() in lq-canvas-item.vue).
+      const lang = this.topic.children['linqa.language#linqa.original_language']?.value
       if (lang) {
-        return zw.langSuffix(lang.value)
+        return zw.langSuffix(lang)
       }
     },
 

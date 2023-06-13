@@ -2,7 +2,8 @@ declare -a USERS=($1)
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"
-HOST="https://${WEB_URL}:443/"
+#HOST="https://${WEB_URL}:443/"
+HOST="http://dmx:8080/"
 ## Test access to Administration workspace to ensure login as admin was successful.
 URL='core/topic/uri/dmx.workspaces.administration'
 BASE64="$( echo -n "${USERNAME}:${PASSWORD}" | base64 )"

@@ -9,7 +9,7 @@ version: "3.8"
 services:
 
   dmx:
-    container_name: ${CI_PROJECT_NAME}-{TIER}-dmx-container
+    container_name: ${CI_PROJECT_NAME}-${TIER}-dmx-container
     restart: always
     image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
     links:

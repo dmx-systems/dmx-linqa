@@ -165,7 +165,7 @@ function canvasFilter (topic) {
   return topic.typeUri === 'linqa.document'  ||
          topic.typeUri === 'linqa.note'      ||
          topic.typeUri === 'linqa.textblock' ||
-         topic.typeUri === 'linqa.label'     ||
+         topic.typeUri === 'linqa.heading'   ||
          topic.typeUri === 'linqa.arrow'     ||
          topic.typeUri === 'linqa.viewport' && (store.state.isTeam || store.state.isEditor)
 }

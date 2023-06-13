@@ -1,3 +1,4 @@
+
 import dmx from 'dmx-api'
 import Vue from 'vue'
 import App from './components/App'
@@ -7,7 +8,7 @@ import onHttpError from './error-handler'
 import messageHandler from './message-handler'
 import './element-ui'
 
-console.log('[Linqa] 2023/06/12-2')
+console.log('[Linqa] 2023/06/13')
 
 // 1) Init dmx library
 dmx.init({
@@ -15,7 +16,7 @@ dmx.init({
     'linqa.document',
     'linqa.note',
     'linqa.textblock',
-    'linqa.label',
+    'linqa.heading',
     'dmx.workspaces.workspace'    // needed by admin interface
   ],
   store,

@@ -9,7 +9,7 @@ import systems.dmx.core.service.Migration;
 
 
 /**
- * Creates "Locked" flag and adds it to "Document"/"Note"/"Textblock"/"Label"/"Arrow".
+ * Creates "Locked" flag and adds it to "Document"/"Note"/"Textblock"/"Heading"/"Arrow".
  * Changes "Arrow" data type "Text" -> "Entity".
  * <p>
  * Part of Linqa 1.6
@@ -29,7 +29,7 @@ public class Migration12 extends Migration {
         dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, LOCKED, ONE), FILE + "#" + LANG1);
         dmx.getTopicType(ZW_NOTE).addCompDef(mf.newCompDefModel(ZW_NOTE, LOCKED, ONE));
         dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, LOCKED, ONE));
-        dmx.getTopicType(LABEL).addCompDef(mf.newCompDefModel(LABEL, LOCKED, ONE));
+        dmx.getTopicType(HEADING).addCompDef(mf.newCompDefModel(HEADING, LOCKED, ONE));
         dmx.getTopicType(ARROW).addCompDef(mf.newCompDefModel(ARROW, LOCKED, ONE));
     }
 }

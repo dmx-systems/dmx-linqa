@@ -103,7 +103,7 @@ export default {
       return this.highlight(this.topic, this.note[this.noteLang], true)
     },
 
-    // TODO: factor out as a mixin? Copies in lq-label.vue, lq-document.vue, lq-textblock.vue
+    // TODO: factor out as a mixin? Copies in lq-heading.vue, lq-document.vue, lq-textblock.vue
     isNew () {
       return this.topic.id < 0
     },
@@ -159,7 +159,7 @@ export default {
     doTranslate () {
       this.translate().then(translation => {
         // Note: in case of translation error 'confirm' is passed (String)
-        // TODO: why is this needed here, but not in lq-label.vue or lq-document.vue?
+        // TODO: why is this needed here, but not in lq-heading.vue or lq-document.vue?
         if (translation instanceof Object) {
           this.$refs.translation.setHTML(translation.text) // TODO: atm vue-quill-minimum does not react on model change
         }

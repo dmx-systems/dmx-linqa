@@ -203,29 +203,29 @@
           }
         ]
       },
-      // Label
+      // Heading
       {
-        "value":       "Label (lang1)",
-        "uri":         "linqa.label.lang1",
+        "value":       "Heading (lang1)",
+        "uri":         "linqa.heading.lang1",
         "dataTypeUri": "dmx.core.text"
       },
       {
-        "value":       "Label (lang2)",
-        "uri":         "linqa.label.lang2",
+        "value":       "Heading (lang2)",
+        "uri":         "linqa.heading.lang2",
         "dataTypeUri": "dmx.core.text"
       },
       {
-        "value":       "Label",
-        "uri":         "linqa.label",
+        "value":       "Heading",
+        "uri":         "linqa.heading",
         "dataTypeUri": "dmx.core.entity",
         "compDefs": [
           {
-            "childTypeUri":        "linqa.label.lang1",
+            "childTypeUri":        "linqa.heading.lang1",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },
           {
-            "childTypeUri":        "linqa.label.lang2",
+            "childTypeUri":        "linqa.heading.lang2",
             "childCardinalityUri": "dmx.core.one",
             "includeInLabel":      true
           },

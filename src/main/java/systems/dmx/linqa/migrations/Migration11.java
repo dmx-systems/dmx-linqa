@@ -11,7 +11,7 @@ import systems.dmx.core.service.Migration;
 
 
 /**
- * Adds "Translation Edited" flag to "Document"/"Note"/"Textblock"/"Label".
+ * Adds "Translation Edited" flag to "Document"/"Note"/"Textblock"/"Heading".
  * <p>
  * Part of Linqa 1.6
  * Runs ALWAYS.
@@ -31,6 +31,6 @@ public class Migration11 extends Migration {
         );
         dmx.getTopicType(ZW_NOTE).addCompDef(mf.newCompDefModel(ZW_NOTE, TRANSLATION_EDITED, ONE, config));
         dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, TRANSLATION_EDITED, ONE, config));
-        dmx.getTopicType(LABEL).addCompDef(mf.newCompDefModel(LABEL, TRANSLATION_EDITED, ONE, config));
+        dmx.getTopicType(HEADING).addCompDef(mf.newCompDefModel(HEADING, TRANSLATION_EDITED, ONE, config));
     }
 }

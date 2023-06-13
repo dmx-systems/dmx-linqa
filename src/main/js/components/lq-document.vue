@@ -213,7 +213,7 @@ export default {
       return this.mediaType === 'application/pdf'
     },
 
-    // TODO: factor out as a mixin? Copies in lq-note.vue, lq-label.vue, lq-textblock.vue
+    // TODO: factor out as a mixin? Copies in lq-note.vue, lq-heading.vue, lq-textblock.vue
     isNew () {
       return this.topic.id < 0
     },

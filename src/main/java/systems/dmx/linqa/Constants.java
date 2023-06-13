@@ -13,7 +13,7 @@ public class Constants {
     public static final String DOCUMENT_NAME            = "linqa.document_name";
     public static final String ZW_NOTE                  = "linqa.note"; // "NOTE" is already used by Notes module
     public static final String TEXTBLOCK                = "linqa.textblock";
-    public static final String LABEL                    = "linqa.label";
+    public static final String HEADING                  = "linqa.heading";
     public static final String ARROW                    = "linqa.arrow";
     public static final String COMMENT                  = "linqa.comment";
     public static final String COMMENT_LANG1            = "linqa.comment.lang1";
@@ -37,6 +37,6 @@ public class Constants {
     // DB Props
     public static final String ZW_COLOR    = "linqa.color";  // Note, Textblock (String)
         // Note: COLOR is already used by Webclient module, but as type URI; here we have a prop URI
-    public static final String ANGLE       = "linqa.angle";  // Document, Note, Textblock, Label, Arrow (Integer)
+    public static final String ANGLE       = "linqa.angle";  // Document, Note, Textblock, Heading, Arrow (Integer)
     public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)
 }

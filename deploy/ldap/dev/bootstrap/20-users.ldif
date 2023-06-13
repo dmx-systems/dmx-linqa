@@ -1,11 +1,36 @@
-dn: uid=dummy_user,ou=users,dc=example,dc=org
-objectClass: top
+# user: preexisting
+# Is already member of group "preexisting_group" when system started.
+dn: uid=preexisting,ou=users,dc=example,dc=org
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
-uid: dummy_user
 userPassword: testpass
-sn: dummy_user
-cn: dummy_user
-displayName: dummy_user
-mail: dummy_user@example.org
+sn: dmx-ldap
+cn: preexisting
+
+# user: testuser
+dn: uid=testuser,ou=users,dc=example,dc=org
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+userPassword: testpass
+sn: dmx-ldap
+cn: testuser
+
+# user: testuser1
+dn: uid=testuser1,ou=users,dc=example,dc=org
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+userPassword: testpass
+sn: dmx-ldap
+cn: testuser1
+
+# user: testuser2
+dn: uid=testuser2,ou=users,dc=example,dc=org
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+userPassword: testpass
+sn: dmx-ldap
+cn: testuser2

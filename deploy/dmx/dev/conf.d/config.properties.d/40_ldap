@@ -1,8 +1,6 @@
 dmx.ldap.protocol = LDAP
 dmx.ldap.server = ldap
 dmx.ldap.port = 389
-#dmx.ldap.manager = cn=bind,dc=example,dc=org
-#dmx.ldap.password = ${LDAP_READONLY_USER_PASSWORD}
 dmx.ldap.manager = cn=admin,dc=example,dc=org
 dmx.ldap.password = ${LDAP_ADMIN_PASSWORD}
 dmx.ldap.user_base = ou=users,dc=example,dc=org

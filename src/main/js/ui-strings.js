@@ -8,8 +8,8 @@ export default {
   'item.note.sv': 'Note',
   'item.textblock.fi': 'Textblock',
   'item.textblock.sv': 'Bloc de texte',
-  'item.label.fi': 'Überschrift',
-  'item.label.sv': 'Titre',
+  'item.heading.fi': 'Überschrift',
+  'item.heading.sv': 'Titre',
   'item.arrow.fi': 'Pfeil',
   'item.arrow.sv': 'Flèche',
 

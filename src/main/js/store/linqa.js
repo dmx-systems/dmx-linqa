@@ -325,7 +325,7 @@ const actions = {
   },
 
   /**
-   * @param   type          'note'/'textblock'/'label'
+   * @param   type          'note'/'textblock'/'heading'
    * @param   topic         a dmx.ViewTopic of the respective type.
    *                        Its "value" is used for topic creation (not its "children").
    * @param   monolingual   Optional: if truish a monolingual topic is created (no auto-translation)
@@ -333,7 +333,7 @@ const actions = {
   createTopic ({dispatch}, {type, topic, monolingual}) {
     let p
     if (monolingual)  {
-      // Note: a monolingual note/textblock/label is stored in "lang1". "lang2" and "Original Language" are not set.
+      // Note: a monolingual note/textblock/heading is stored in "lang1". "lang2" and "Original Language" are not set.
       p = dmx.rpc.createTopic({
         typeUri: `linqa.${type}`,
         children: {

@@ -7,7 +7,7 @@
         <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
         <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
         <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newLabel" divided><lq-string>item.label</lq-string></el-dropdown-item>
+        <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
         <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -201,7 +201,7 @@ export default {
     // 5 methods called by dropdown menu
 
     newDocument () {
-      // TODO: align it with note/label/textblock? Possibly current model-driven approach not needed anymore
+      // TODO: align it with note/heading/textblock? Possibly current model-driven approach not needed anymore
       // as meanwhile document(name)s are auto-translated, that is single input field in create-form.
       this.$store.dispatch('newTopic', this.newDocumentViewTopic())
     },
@@ -214,8 +214,8 @@ export default {
       this.$store.dispatch('newTopic', this.newViewTopic('linqa.textblock'))
     },
 
-    newLabel () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.label'))
+    newHeading () {
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.heading'))
     },
 
     newArrow () {
@@ -238,7 +238,7 @@ export default {
       return new dmx.ViewTopic({
         id: newSynId(),
         typeUri,
-        value: '',        // used as intermediate note/label model while create
+        value: '',        // used as intermediate note/heading model while create
         viewProps: this.viewProps(typeUri)
       })
     },

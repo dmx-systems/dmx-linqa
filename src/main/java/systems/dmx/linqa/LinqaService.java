@@ -32,7 +32,7 @@ public interface LinqaService {
 
     Topic createTextblock(String textblock);
 
-    Topic createLabel(String label);
+    Topic createHeading(String heading);
 
     Topic createComment           (String comment, IdList refTopicIds, IdList fileTopicIds);
     Topic createMonolingualComment(String comment, IdList refTopicIds, IdList fileTopicIds);

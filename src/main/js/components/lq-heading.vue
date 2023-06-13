@@ -1,20 +1,20 @@
 <template>
-  <div v-if="infoMode" class="lq-label info" v-html="labelText"></div>
-  <div v-else :class="['lq-label', 'form']" v-loading="saving">
+  <div v-if="infoMode" class="lq-heading info" v-html="headingText"></div>
+  <div v-else :class="['lq-heading', 'form']" v-loading="saving">
     <template v-if="isNew">
       <div class="field-label"><lq-string>label.new_label</lq-string></div>
       <el-input v-model="topic.value" ref="input"></el-input>
     </template>
     <template v-else>
       <div class="field">
-        <div class="field-label"><lq-string>item.label</lq-string> ({{lang1}})</div>
+        <div class="field-label"><lq-string>item.heading</lq-string> ({{lang1}})</div>
         <el-input v-model="model[lang1st].value" ref="input"></el-input>
       </div>
       <div class="translate">
         <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
       </div>
       <div class="field">
-        <div class="field-label"><lq-string>item.label</lq-string> ({{lang2}})</div>
+        <div class="field-label"><lq-string>item.heading</lq-string> ({{lang2}})</div>
         <el-input v-model="model[lang2nd].value" v-loading="translating"></el-input>
         <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
       </div>
@@ -53,7 +53,7 @@ export default {
 
   props: {
 
-    topic: {                        // the Label topic to render (dmx.ViewTopic)
+    topic: {                        // the Heading topic to render (dmx.ViewTopic)
       type: dmx.ViewTopic,
       required: true
     },
@@ -68,33 +68,33 @@ export default {
 
   data () {
     return {
-      type: 'linqa.label',
-      saving: false                 // true while label is saved
+      type: 'linqa.heading',
+      saving: false                 // true while heading is saved
     }
   },
 
   computed: {
 
     /**
-     * This label's text (bilingual) as stored in DB.
+     * This heading's text (bilingual) as stored in DB.
      */
-    label () {
+    heading () {
       return {
-        // Note: in an untranslatable label "lang2" is not defined
-        lang1: this.topic.children['linqa.label.lang1']?.value,
-        lang2: this.topic.children['linqa.label.lang2']?.value
+        // Note: in an untranslatable heading "lang2" is not defined
+        lang1: this.topic.children['linqa.heading.lang1']?.value,
+        lang2: this.topic.children['linqa.heading.lang2']?.value
       }
     },
 
     /**
      * The language (URI suffix) to be rendered in info mode.
      */
-    labelLang () {
-      if (this.label.lang1 && this.label.lang2) {
+    headingLang () {
+      if (this.heading.lang1 && this.heading.lang2) {
         return zw.langSuffix(this.lang)
-      } else if (this.label.lang1) {
+      } else if (this.heading.lang1) {
         return 'lang1'
-      } else if (this.label.lang2) {
+      } else if (this.heading.lang2) {
         return 'lang2'
       }
     },
@@ -102,8 +102,8 @@ export default {
     /**
      * The text to be rendered in info mode.
      */
-    labelText () {
-      return this.highlight(this.topic, this.label[this.labelLang])
+    headingText () {
+      return this.highlight(this.topic, this.heading[this.headingLang])
     },
 
     // TODO: factor out as a mixin? Copies in lq-note.vue, lq-document.vue, lq-textblock.vue
@@ -124,7 +124,7 @@ export default {
       if (this.isNew) {
         action = 'createTopic'
         arg = {
-          type: 'label',
+          type: 'heading',
           topic: this.topic
         }
         msgBox = 'confirm'
@@ -156,12 +156,12 @@ export default {
      * @param   lang    URI suffix
      */
     setText (lang) {
-      // Note: in an untranslatable label "lang2" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.label.lang2']) {
-        this.$set(this.topic.children, 'linqa.label.lang2', {})
+      // Note: in an untranslatable heading "lang2" is not defined     // TODO: simplify
+      if (!this.topic.children['linqa.heading.lang2']) {
+        this.$set(this.topic.children, 'linqa.heading.lang2', {})
       }
       //
-      const compDefUri = 'linqa.label.' + lang
+      const compDefUri = 'linqa.heading.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
   }
@@ -169,26 +169,26 @@ export default {
 </script>
 
 <style>
-.lq-label.info {
+.lq-heading.info {
   font-size: 32px;
   font-weight: bold;
 }
 
-.lq-label.form {
+.lq-heading.form {
   background-color: var(--background-color);
   padding: 10px;
 }
 
-.lq-label.form .translate {
+.lq-heading.form .translate {
   text-align: center;
   margin-top: 12px;
 }
 
-.lq-label.form .translate .el-button {
+.lq-heading.form .translate .el-button {
   font-size: 24px;
 }
 
-.lq-label.form .save-button {
+.lq-heading.form .save-button {
   margin-top: var(--field-spacing);
 }
 </style>

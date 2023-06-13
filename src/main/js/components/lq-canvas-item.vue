@@ -178,7 +178,7 @@ export default {
     'linqa.document': require('./lq-document').default,
     'linqa.note': require('./lq-note').default,
     'linqa.textblock': require('./lq-textblock').default,
-    'linqa.label': require('./lq-label').default,
+    'linqa.heading': require('./lq-heading').default,
     'linqa.arrow': require('./lq-arrow').default,
     'linqa.viewport': require('./lq-viewport').default
   }

@@ -186,7 +186,7 @@ Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dm
     * Discussion panel: chat metaphor
     * Reply works also when doc-filter is set
     * Canvas zooms around mouse position
-    * Edit and Delete functions for all types (Notes, Documents, Comments, Labels)
+    * Edit and Delete functions for all types (Notes, Documents, Comments, Headings)
     * All forms have a Cancel button
 * Design:
     * Redesigned discussion panel
@@ -196,7 +196,7 @@ Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dm
 
 **0.8** -- Jan 15, 2022
 
-* Data model: Notes, Documents, Comments, Labels, Arrows
+* Data model: Notes, Documents, Comments, Headings, Arrows
 * Basic UI: header, canvas, discussion panel, doc-filter
 * Actions: create, reply, set doc-filter, pan, zoom, move item, resize item
 * User roles: team member (authoring), participant (commenting)

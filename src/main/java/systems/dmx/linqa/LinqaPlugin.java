@@ -205,7 +205,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     /**
      * Enriches:
-     * - Documents, Notes, Textblocks, Labels, and Arrows by "Angle"
+     * - Documents, Notes, Textblocks, Headings, and Arrows by "Angle"
      * - Notes and Textblocks by "Color"
      * - Viewports by "Zoom"
      */
@@ -214,7 +214,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         Assoc assoc = topic.getRelatingAssoc();
         String typeUri = topic.getTypeUri();
         if (typeUri.equals(DOCUMENT) || typeUri.equals(ZW_NOTE) || typeUri.equals(TEXTBLOCK)
-                                     || typeUri.equals(LABEL) || typeUri.equals(ARROW)) {
+                                     || typeUri.equals(HEADING) || typeUri.equals(ARROW)) {
             if (assoc.hasProperty(ANGLE)) {         // Angle is an optional view prop
                 viewProps.set(ANGLE, assoc.getProperty(ANGLE));
             }
@@ -314,14 +314,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @POST
-    @Path("/label")
+    @Path("/heading")
     @Transactional
     @Override
-    public Topic createLabel(String label) {
+    public Topic createHeading(String heading) {
         try {
-            return dmx.createTopic(createBilingualTopicModel(LABEL, label));
+            return dmx.createTopic(createBilingualTopicModel(HEADING, heading));
         } catch (Exception e) {
-            throw new RuntimeException("Creating label failed, label=\"" + label + "\"", e);
+            throw new RuntimeException("Creating heading failed, heading=\"" + heading + "\"", e);
         }
     }
 

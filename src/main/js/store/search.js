@@ -60,8 +60,8 @@ function itemText (topic) {
   case 'linqa.textblock':
     return dmx.utils.stripHtml(vm.textblock.lang1) +
            dmx.utils.stripHtml(vm.textblock.lang2)
-  case 'linqa.label':
-    return vm.labelText
+  case 'linqa.heading':
+    return vm.headingText
   }
 }
 

@@ -143,8 +143,8 @@ install-in-container:
     - echo "${HTTP_CODE}"
     - if [ ${HTTP_CODE} -ne 200 ]; then echo "HTTP test failed with error code ${HTTP_CODE}."; exit 1; fi
     - echo "You can now browse to https://${WEB_URL}/ for testing."
-    ## Create DMX Users
-    - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
+    ## Create DMX Users (doesn't work atm - proxy issue with ajax?)
+    #- deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make users workspace members according to their team roles
-    - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.team"
+    #- deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.team"
 

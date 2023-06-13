@@ -2,4 +2,4 @@ dn: cn=app_users,dc=example,dc=org
 objectClass: groupOfNames
 cn: app_users
 description: App Users
-memberOf: uid=dummy_user,ou=users,dc=example,dc=org
+member: uid=dummy_user,ou=users,dc=example,dc=org

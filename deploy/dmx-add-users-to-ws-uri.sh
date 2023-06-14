@@ -17,7 +17,13 @@ fi
 
 
 ## get wsid 
-WSID="$( curl -sS -X POST -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" https://${WEB_URL}/core/topic/uri/$2 | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 )"
+if [ -z $2 ]; then
+    echo "ERROR! Missing workspace uri."
+    exit 1
+else
+    WSID="$( curl -sS -X POST -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" https://${WEB_URL}/core/topic/uri/$2 | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 )"
+    echo "WSID: ${WSID}"
+fi
 
 ## add user to wsid
 for user in "${USERS[@]}"; do

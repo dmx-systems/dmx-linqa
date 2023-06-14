@@ -11,7 +11,8 @@ AUTH="Authorization: Basic ${BASE64}"
 #SESSIONID="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
 SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
 HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
-echo "HTTPCODE: ${HTTPCODE}"
+LDAPPASSWORD='testpass'
+
 if [ "${HTTPCODE}" != "200" ]; then
     echo "login ${USERNAME} failed!"
     exit 1
@@ -27,7 +28,6 @@ for user in "${USERS[@]}"; do
     MAILBOX="${MAILNAME}@example.org"
     ## replace space in DISPLAYNAME with encoded space (%20)
     DISPLAYNAME="${user}%20Testuser"
-    LDAPPASSWORD='testpass'
     LDAPPASSWORDBASE64="$( echo -n "${LDAPPASSWORD}" | base64 )"
     URL="sign-up/custom-handle/${MAILBOX}/${DISPLAYNAME}/${LDAPPASSWORDBASE64}"
     echo "GET ${URL}"
@@ -42,15 +42,15 @@ for user in "${USERS[@]}"; do
     MAILBOX="${MAILNAME}@example.org"
     BASE64=$( echo -n "${MAILBOX}:${LDAPPASSWORD}" | base64 )
     AUTH="Authorization: LDAP ${BASE64}"
-    ## Test user creation was successful by checking login and membership in Display Names workspace
-    URL='core/topic/uri/dmx.signup.display_names_ws'
+    ## Test user creation was successful by checking login and accessing the private workspace.
+    URL='access-control/user/workspace'
     LOGIN_RESPONSE="$( curl -I -sS -H "${AUTH}" "${HOST}/${URL}" )"
     HTTP_CODE="$( echo "${LOGIN_RESPONSE}" | head -n1 | cut -d' ' -f2 )"
     if [ ${HTTP_CODE} -eq 200 ]; then
         SESSION_ID="$( echo "${LOGIN_RESPONSE}" | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
-        echo "login ${MAILBOX} successful (id=${SESSION_ID})."
+        echo "login ${MAILBOX} successful (id=${SESSION_ID}). (HTTPCODE=${HTTPCODE})"
     else
-        echo "login ${MAILBOX} failed! (${HTTP_CODE})"
+        echo "login ${MAILBOX} failed! (HTTPCODE=${HTTPCODE})"
         exit 1
     fi
 done

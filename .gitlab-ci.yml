@@ -136,10 +136,11 @@ install-in-container:
     - test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
     - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log
     ## TEST
+    - sleep 1
     - echo "testing ${WEB_URL}"
     - EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
     - HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"
-    - echo "${HTTP_CODE}"
+    - echo "HTTP_CODE: ${HTTP_CODE}"
     - if [ ${HTTP_CODE} -ne 200 ]; then echo "HTTP test failed with error code ${HTTP_CODE}."; exit 1; fi
     ## Create DMX Users (doesn't work atm - proxy issue with ajax?)
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"

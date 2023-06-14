@@ -17,8 +17,7 @@ fi
 
 
 ## get wsid 
-WSID="$( curl -sS -X POST -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" https://${WEB_URL}/core/topic/uri/$2 | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 }"
-
+WSID="$( curl -sS -X POST -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" https://${WEB_URL}/core/topic/uri/$2 | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 )"
 
 ## add user to wsid
 for user in "${USERS[@]}"; do

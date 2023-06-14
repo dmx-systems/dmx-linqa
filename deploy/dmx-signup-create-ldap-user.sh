@@ -5,14 +5,19 @@ PASSWORD="${DMX_ADMIN_PASSWORD}"
 HOST="https://${WEB_URL}:443/"
 ## Test access to Administration workspace to ensure login as admin was successful.
 URL='core/topic/uri/dmx.workspaces.administration'
+# URL='access-control/user/workspace'
 BASE64="$( echo -n "${USERNAME}:${PASSWORD}" | base64 )"
 AUTH="Authorization: Basic ${BASE64}"
-SESSIONID="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
-if [ -n "${SESSIONID}" ]; then
-    echo "login ${USERNAME} successful (id=${SESSIONID})."
-else
+#SESSIONID="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
+SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
+HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
+echo "HTTPCODE: ${HTTPCODE}"
+if [ "${HTTPCODE}" != "200" ]; then
     echo "login ${USERNAME} failed!"
     exit 1
+else
+    SESSIONID="$( echo "${SESSION}" | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
+    echo "login ${USERNAME} successful (SESSIONID: ${SESSIONID})."
 fi
 
 ## create users

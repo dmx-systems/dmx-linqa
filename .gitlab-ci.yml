@@ -98,7 +98,6 @@ install-in-container:
     DEEPL_AUTH_KEY: ${DEEPL_AUTH_KEY}
     DMX_ADMIN_PASSWORD: ${DMX_ADMIN_PASSWORD}
     LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
-    LDAP_READONLY_USER_PASSWORD: ${LDAP_READONLY_USER_PASSWORD}
     WEBDIR: 'https://download.dmx.systems/ci'                              # <= stable|latest
     WEBCGI: 'https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'  # <= stable|latest
     PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail dmx-thymeleaf dmx-file-upload"
@@ -131,12 +130,9 @@ install-in-container:
     - cat "${ENV_FILE}"
     - echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_websocket_url
     - echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_host_url
-    #- docker container ls | grep ${CONTAINER_NAME} && docker container stop ${CONTAINER_NAME} || true
-    #- docker container ls -a | grep ${CONTAINER_NAME} && docker container rm ${CONTAINER_NAME} || true
     - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v || true
     - docker image rm dmx-linqa_${CI_COMMIT_REF_SLUG}-ldap || true
     - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d --remove-orphans
-    - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
     - test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
     - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log
     ## TEST

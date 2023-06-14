@@ -33,9 +33,9 @@ fi
 ## add user to wsid
 for user in "${USERS[@]}"; do
     USERNAME="$( echo "${user}" | tr '[:upper:]' '[:lower:]' | sed 's/\ /\_/g' )"
-    LOGIN="${USERNAME}@example.org"
-    echo "Adding ${user} <${LOGIN}> to workspace $2 (${WSID}):"
-    URL="access-control/user/testuser@example.org/workspace/${WSID}"
+    LOGINNAME="${USERNAME}@example.org"
+    echo "Adding ${user} <${LOGINNAME}> to workspace $2 (${WSID}):"
+    URL="access-control/user/${LOGINNAME}/workspace/${WSID}"
     echo "POST ${URL}"
     RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "dmx_workspace_id=${WSID}" -H "Content-Type: application/json" -X POST "${HOST}/${URL}" -i 2>&1 )"
     HTTPCODE="$( echo "${RESULT}" | grep HTTP | cut -d' ' -f2 )"

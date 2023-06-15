@@ -1,6 +1,6 @@
 export default {
 
-  'imprint.fi': `
+  'imprint.de': `
     <p>
       Deutsch-Französisches Zukunftswerk<br>
       c/o Helmholtz-Zentrum Potsdam<br>
@@ -45,7 +45,7 @@ export default {
       verlinkten Seite.
     </p>`,
 
-  'imprint.sv': `
+  'imprint.fr': `
     <p>
       Forum pour l’avenir franco-allemand<br>
       Secrétariat<br>
@@ -91,7 +91,7 @@ export default {
       contenu de ces pages.
     </p>`,
 
-  'privacy_policy.fi': `
+  'privacy_policy.de': `
     <p>Wir freuen uns sehr über Ihr Interesse an das Deutsch-Französische Zukunftswerk. Für den Datenschutz unserer Website bzw. Plattform trägt das Institute for Advanced Sustainability Studies e.V. (IASS) Verantwortung als die Trägerorganisation, an der die Deutsche Zukunftswerk-Geschäftsstelle angesiedelt ist. Datenschutz hat einen besonders hohen Stellenwert für die Geschäftsleitung des IASS. Sofern eine betroffene Person besondere Services unseres Instituts über unsere Plattform in Anspruch nehmen möchte, ist eine Verarbeitung personenbezogener Daten erforderlich. Ist die Verarbeitung personenbezogener Daten erforderlich und besteht für eine solche Verarbeitung keine gesetzliche Grundlage, holen wir generell eine Einwilligung der betroffenen Person ein.</p>
     <p>Die Verarbeitung personenbezogener Daten, beispielsweise des Namens, der Anschrift, E-Mail-Adresse oder Telefonnummer einer betroffenen Person, erfolgt stets im Einklang mit der Datenschutz-Grundverordnung und in Übereinstimmung mit den für das IASS geltenden landesspezifischen Datenschutzbestimmungen. Mittels dieser Datenschutzerklärung möchte unser Institut die Öffentlichkeit über Art, Umfang und Zweck der von uns erhobenen, genutzten und verarbeiteten personenbezogenen Daten informieren. Ferner werden betroffene Personen mittels dieser Datenschutzerklärung über die ihnen zustehenden Rechte aufgeklärt.</p>
     <p>Das IASS hat als für die Verarbeitung Verantwortlicher zahlreiche technische und organisatorische Maßnahmen umgesetzt, um einen möglichst lückenlosen Schutz der über diese Plattform verarbeiteten personenbezogenen Daten sicherzustellen. Dennoch können internetbasierte Datenübertragungen grundsätzlich Sicherheitslücken aufweisen, sodass ein absoluter Schutz nicht gewährleistet werden kann. Aus diesem Grund steht es jeder betroffenen Person frei, personenbezogene Daten auch auf alternativen Wegen, beispielsweise telefonisch, an uns zu übermitteln.</p>
@@ -425,7 +425,7 @@ export default {
     <p>Diese Datenschutzerklärung hat den Stand 03/2021 und ist aktuell gültig. Wir behalten uns vor, diesen Datenschutzhinweis gelegentlich anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in dem Datenschutzhinweis umzusetzen, z. B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann der neue Datenschutzhinweis.</p>
     <p>Diese Datenschutzerklärung wurde durch den Datenschutzerklärungs-Generator der DGD Deutsche Gesellschaft für Datenschutz GmbH, die als <a href="https://dg-datenschutz.de/datenschutz-dienstleistungen/externer-datenschutzbeauftragter/">Externer Datenschutzbeauftragter Niederbayern</a> tätig ist, in Kooperation mit den <a href="https://www.wbs-law.de/it-recht/datenschutzrecht">Datenschutz Anwälten der Kanzlei WILDE BEUGER SOLMECKE | Rechtsanwälte</a> erstellt.</p>`,
 
-  'privacy_policy.sv': `
+  'privacy_policy.fr': `
     <p>Nous vous remercions de l'intérêt que vous portez au Forum pour l'avenir franco-allemand. IASS - Institute for Advanced Sustainability Studies e.V. - est responsable de la protection des données sur notre site Internet ou notre plateforme en tant qu'organisme chef de file auquel est rattaché le secrétariat allemand du Forum pour l'avenir. La protection des données revêt une importance toute particulière pour la direction de l'IASS. Toute personne concernée souhaitant utiliser des services particuliers proposés par notre Institut via notre plateforme peut être invitée à saisir des données à caractère personnel nécessitant un traitement de notre part. D'une manière générale, si le traitement de données à caractère personnel est nécessaire et qu'il n'existe aucune base légale pour un tel traitement, nous demandons le consentement de la personne concernée.</p>
     <p>Le traitement de données à caractère personnel, telles que le nom, l'adresse, l'adresse électronique ou le numéro de téléphone d'une personne concernée, est toujours effectué conformément au Règlement général sur la protection des données et conformément aux législations nationales en matière de protection des données applicables à IASS. Par la présente déclaration de confidentialité, notre institut souhaite informer le public du type, de l'étendue et de la finalité des données à caractère personnel que nous collectons, utilisons et traitons. Cette déclaration de confidentialité explique, en outre, leurs droits en la matière aux personnes concernées.</p>
     <p>En tant que responsable du traitement, IASS a mis en place de nombreuses mesures techniques et organisationnelles afin d'assurer la protection la plus complète possible des données à caractère personnel traitées via cette plateforme. Néanmoins, de par leur nature même, les transferts de données sur Internet peuvent présenter des failles de sécurité, de sorte qu'une protection absolue ne peut être garantie. Pour cette raison, chaque personne concernée est libre de nous transmettre des données à caractère personnel par d'autres moyens, par exemple, par téléphone.</p>

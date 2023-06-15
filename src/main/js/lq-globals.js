@@ -73,7 +73,10 @@ function langSuffix (lang) {
 
 // TODO: make it a store getter?
 function getLogo () {
-  return logo[store.state.lang]
+  // Note: at application launch time "lang" is not yet defined
+  if (store.state.lang) {
+    return logo[langSuffix(store.state.lang)]
+  }
 }
 
 // TODO: make it a store getter?

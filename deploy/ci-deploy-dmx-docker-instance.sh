@@ -13,6 +13,8 @@ fi
 if [ -z "${COMPOSE_PROJECT_NAME}" ]; then
     COMPOSE_PROJECT_NAME="${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
 fi
+echo "CI_COMMIT_BRANCH: ${CI_COMMIT_BRANCH}"
+echo "CI_COMMIT_REF_SLUG: ${CI_COMMIT_REF_SLUG}"
 if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
     WEB_URL="${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then

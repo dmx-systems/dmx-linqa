@@ -3,24 +3,22 @@
 ## This script deploys a docker instance on# a gitlab-runner
 ## with access to the shell and docker. (jpn - 20230616)
 ##
-## INFO: Environment is the gitlab runner shell (not bash!)
-##
 ##  variables:
-    #TIER: "${CI_COMMIT_BRANCH}"
 if [ -z "${TIER}" ]; then
     TIER='dev'
 fi
 if [ -z "${COMPOSE_PROJECT_NAME}" ]; then
     COMPOSE_PROJECT_NAME="${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
 fi
-echo "CI_COMMIT_BRANCH: ${CI_COMMIT_BRANCH}"
-echo "CI_COMMIT_REF_SLUG: ${CI_COMMIT_REF_SLUG}"
+if [ "${CI_COMMIT_BRANCH}" != "${CI_COMMIT_REF_SLUG}" ]; then
+    echo "CI_COMMIT_BRANCH: ${CI_COMMIT_BRANCH}"
+    echo "CI_COMMIT_REF_SLUG: ${CI_COMMIT_REF_SLUG}"
+fi
 if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
     WEB_URL="${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then
     WEB_URL="${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 fi
-echo "WEB_URL: ${WEB_URL}"
 if [ -z "${CONFIG_DIR}" ]; then
     CONFIG_DIR='deploy/.config'
 fi
@@ -36,8 +34,6 @@ fi
 if [ -z "${WEBCGI}" ]; then                              # <= stable|latest
     WEBCGI='https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'  # <= stable|latest
 fi
-###    PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail dmx-thymeleaf dmx-file-upload"
-
 
 ##  before_script:
 echo "TIER=${TIER}"
@@ -55,8 +51,6 @@ if [ -f target/*.jar ]; then
 fi
 echo "PLUGINS: ${PLUGINS}"
 if [ ! -z "${PLUGINS}" ]; then
-    #declare -a PLUGINS=(${PLUGINS})
-    #for plugin in "${PLUGINS[@]}"; do
     for plugin in ${PLUGINS}; do
         echo "getting latest version of ${plugin} plugin"
         plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"
@@ -100,9 +94,4 @@ EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
 HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"
 echo "HTTP_CODE ${HTTP_CODE}"
 if [ ${HTTP_CODE} -ne 200 ]; then echo "HTTP test failed with error code ${HTTP_CODE}."; exit 1; fi
-#    ## Create DMX Users (doesn't work atm - proxy issue with ajax?)
-#    - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
-#    ## Make users workspace members according to their team roles
-#    - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.team"
 echo "You can now browse to https://${WEB_URL}/ for testing."
-

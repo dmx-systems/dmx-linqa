@@ -1,7 +1,14 @@
+#!/bin/bash
+
 declare -a USERS=($1)
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"
+if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
+    WEB_URL="${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
+elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then
+    WEB_URL="${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
+fi
 HOST="https://${WEB_URL}:443/"
 ## Test access to Administration workspace to ensure login as admin was successful.
 URL='core/topic/uri/dmx.workspaces.administration'

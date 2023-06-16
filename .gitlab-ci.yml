@@ -46,35 +46,6 @@ copy-to-release:
   only:
     - tags
 
-# 4) Install in signup-test-container
-#install-in-container:
-#  stage: install
-#  script:
-#    - CONTAINER='signup-test-container'
-#    - WEBCGI='https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'
-#    - CIDIR='/var/www/download.dmx.systems/ci'
-#    - DESTDIR="${CIDIR}/${CI_PROJECT_NAME}"
-#    - docker exec ${CONTAINER} sh -c "rm -f /usr/share/dmx/bundle-deploy/${CI_PROJECT_NAME}-*.jar"
-#    - latest_version="$( /usr/bin/wget -q -O - "${WEBCGI}/ci/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}-latest.jar&basename=true" )"
-#    - echo "Install ${latest_version} in ${CONTAINER}"
-#    - NUNC="$( docker exec ${CONTAINER} sh -c "date \"+%b %d, %Y %I:%M:%S %p\"" )"
-#    - docker cp ${DESTDIR}/${latest_version} ${CONTAINER}:/usr/share/dmx/bundle-deploy/
-#    - sleep 60
-#    - LOGFILE='/var/log/dmx/dmx.log'
-#    - LINE="$( docker exec ${CONTAINER} sh -c "cat ${LOGFILE} | grep -B1 -n SEVERE | tail -n2 | head -n1" )"
-#    - LINE_DATE="$( echo "${LINE}" | cut -d'-' -f2 | cut -d' ' -f1,2,3,4,5 )"
-#    - echo "${NUNC}"
-#    - echo "${LINE_DATE}"
-#    - |
-#       if [ $( date --date "${LINE_DATE}" +%s) -gt $( date --date "${NUNC}" +%s) ]; then
-#         LINE_NR="$( echo "${LINE}" | cut -d'-' -f1 )"
-#         echo "${LINE_NR}"
-#         LOG="$( docker exec ${CONTAINER} sh -c "tail -n +${LINE_NR} ${LOGFILE} | grep -v 'INFO:'" )"
-#       fi
-#    - if [ "${LOG}" ]; then echo "${LOG}"; ERROR=1; else ERROR=0; fi
-#    - exit ${ERROR}
-#  only:
-#    - master
 
 # 4) Install in docker-container
 install-in-container:
@@ -88,13 +59,7 @@ install-in-container:
   dependencies:
     - maven-build
   variables:
-    #TIER: "${CI_COMMIT_BRANCH}"
     TIER: "dev"
-    # COMPOSE_PROJECT_NAME: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
-    # CONTAINER_NAME: "${CI_COMMIT_REF_SLUG}-container"
-    # WEB_URL: "${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}.ci.dmx.systems"
-    # CONFIG_DIR: 'deploy/.config'
-    # ENV_FILE: "${CONFIG_DIR}/.env.${CI_COMMIT_REF_SLUG}.ci"
     DEEPL_AUTH_KEY: ${DEEPL_AUTH_KEY}
     DMX_ADMIN_PASSWORD: ${DMX_ADMIN_PASSWORD}
     LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}

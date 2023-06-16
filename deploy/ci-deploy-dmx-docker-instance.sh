@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##
 ## This script deploys a docker instance on# a gitlab-runner
 ## with access to the shell and docker. (jpn - 20230616)

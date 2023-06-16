@@ -53,9 +53,9 @@ fi
 echo "PLUGINS: ${PLUGINS}"
 if [ ! -z ${PLUGINS} ]; then
     #declare -a PLUGINS=(${PLUGINS})
-    declare -a PLUGINS=(${PLUGINS})
     echo "PLUGINS: ${PLUGINS}"
-    for plugin in "${PLUGINS[@]}"; do
+    #for plugin in "${PLUGINS[@]}"; do
+    for plugin in ${PLUGINS}; do
         echo "getting latest version of ${plugin} plugin"
         plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"
         echo "installing ${plugin_version}"

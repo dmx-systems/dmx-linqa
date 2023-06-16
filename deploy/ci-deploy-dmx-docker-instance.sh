@@ -81,7 +81,8 @@ echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}/conf
 echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_host_url
 
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v || true
-if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
+#if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
+if [ $( docker image ls ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap | grep "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap" ) ]; then
     docker image rm ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap || true
 fi
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d --remove-orphans

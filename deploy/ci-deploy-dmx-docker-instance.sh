@@ -51,7 +51,7 @@ if [ -f target/*.jar ]; then
     cp target/*.jar deploy/dmx/${TIER}/plugins/
 fi
 echo "PLUGINS: ${PLUGINS}"
-if [ ! -z ${PLUGINS} ]; then
+if [ ! -z "${PLUGINS}" ]; then
     #declare -a PLUGINS=(${PLUGINS})
     echo "PLUGINS: ${PLUGINS}"
     #for plugin in "${PLUGINS[@]}"; do

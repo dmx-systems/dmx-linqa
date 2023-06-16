@@ -101,47 +101,9 @@ install-in-container:
     WEBDIR: 'https://download.dmx.systems/ci'                              # <= stable|latest
     WEBCGI: 'https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'  # <= stable|latest
     PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail dmx-thymeleaf dmx-file-upload"
-  before_script:
-    - echo "TIER=${TIER}"
-    - docker version
-    - docker compose version
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" container-registry.dmx.systems/dmx-contrib/dmx-docker
-    - test -d "${CONFIG_DIR}" || mkdir -p "${CONFIG_DIR}"
-    - test -f "${ENV_FILE}" || touch "${ENV_FILE}"
-    - test -d deploy/instance/${TIER} || mkdir -p deploy/instance/${TIER}/conf deploy/instance/${TIER}/logs deploy/instance/${TIER}/db deploy/instance/${TIER}/filedir deploy/instance/${TIER}/bundle-deploy deploy/instance/${TIER}/plugins
-    - test -f deploy/scripts/dmxstate.sh || curl --silent https://git.dmx.systems/dmx-contrib/dmx-state/-/raw/master/dmxstate.sh --create-dirs -o deploy/scripts/dmxstate.sh
-    - chmod +x deploy/scripts/dmxstate.sh
-    - test -d deploy/dmx/${TIER}/plugins/ || mkdir deploy/dmx/${TIER}/plugins/
-    - cp target/*.jar deploy/dmx/${TIER}/plugins/
-    - declare -a PLUGINS=(${PLUGINS})
-    - for plugin in "${PLUGINS[@]}"; do echo "getting latest version of ${plugin} plugin"; plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"; echo "installing ${plugin_version}"; wget -q "${plugin_version}" -P deploy/dmx/${TIER}/plugins/; done
-    #- tree
   script:
-    - if [ "${CI_COMMIT_BRANCH}" == "master" ]; then WEB_URL="${CI_PROJECT_NAME}.ci.dmx.systems"; fi
-    - USER_ID="$( id -u )"
-    - GROUP_ID="$( id -g )"
-    - DMX_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=dmx | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
-    - MAIL_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=mail | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
-    # - echo "CONTAINER_NAME=${CONTAINER_NAME}" >>"${ENV_FILE}"
-    - echo "user_id=${USER_ID}" >>"${ENV_FILE}"
-    - echo "group_id=${GROUP_ID}" >>"${ENV_FILE}"
-    - echo "DMX_PORT=${DMX_PORT}" >>"${ENV_FILE}"
-    - echo "MAIL_PORT=${MAIL_PORT}" >>"${ENV_FILE}"
-    - cat "${ENV_FILE}"
-    - echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_websocket_url
-    - echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_host_url
-    - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v || true
-    - docker image rm dmx-linqa_${CI_COMMIT_REF_SLUG}-ldap || true
-    - docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d --remove-orphans
-    - test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
-    - deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log
-    ## TEST
-    - sleep 1
-    - echo "testing ${WEB_URL}"
-    - EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
-    - HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"
-    - echo "HTTP_CODE ${HTTP_CODE}"
-    - if [ ${HTTP_CODE} -ne 200 ]; then echo "HTTP test failed with error code ${HTTP_CODE}."; exit 1; fi
+    ## Deploy Test Container
+    - deploy/ci-deploy-dmx-docker-instance-sh
     ## Create DMX Users (doesn't work atm - proxy issue with ajax?)
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make users workspace members according to their team roles

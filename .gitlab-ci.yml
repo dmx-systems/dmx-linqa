@@ -73,5 +73,4 @@ install-in-container:
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make users workspace members according to their team roles
     - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.team"
-    - echo "You can now browse to https://${WEB_URL}/ for testing."
 

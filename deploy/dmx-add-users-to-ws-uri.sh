@@ -18,7 +18,7 @@ AUTH="Authorization: Basic ${BASE64}"
 #SESSIONID="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
 SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
 HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
-echo "HTTPCODE: ${HTTPCODE}"
+#echo "HTTPCODE: ${HTTPCODE}"
 if [ "${HTTPCODE}" != "200" ]; then
     echo "login ${USERNAME} failed!"
     exit 1
@@ -34,7 +34,7 @@ if [ -z $2 ]; then
     exit 1
 else
     WSID="$( curl -sS -X GET -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" ${HOST}/core/topic/uri/$2 | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 )"
-    echo "WSID: ${WSID}"
+    #echo "WSID: ${WSID}"
 fi
 
 ## add user to wsid
@@ -53,3 +53,11 @@ for user in "${USERS[@]}"; do
     fi
 done
 
+## TEST
+sleep 1
+echo "testing ${WEB_URL}"
+EXTERNAL_PROJECT_URL="https://${WEB_URL}/core/topic/0"
+HTTP_CODE="$( curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_PROJECT_URL} )"
+echo "HTTP_CODE ${HTTP_CODE}"
+if [ ${HTTP_CODE} -ne 200 ]; then echo "HTTP test failed with error code ${HTTP_CODE}."; exit 1; fi
+echo "You can now browse to https://${WEB_URL}/ for testing."

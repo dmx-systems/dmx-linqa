@@ -18,6 +18,7 @@ if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
 elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then
     WEB_URL="${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 fi
+echo "WEB_URL: ${WEB_URL}"
 if [ -z "${CONFIG_DIR}" ]; then
     CONFIG_DIR='deploy/.config'
 fi

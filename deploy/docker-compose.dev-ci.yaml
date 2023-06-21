@@ -19,6 +19,7 @@ services:
       GROUP_ID: ${group_id}
       DMX_ADMIN_PASSWORD: ${DMX_ADMIN_PASSWORD}
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
+      DEEPL_AUTH_KEY: ${DEEPL_AUTH_KEY}
       TIER: ${TIER}
     volumes:
       # - dmx-db:/opt/dmx/dmx-db

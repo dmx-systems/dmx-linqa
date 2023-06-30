@@ -4,7 +4,6 @@ import Vue from 'vue'
 import dmx from 'dmx-api'
 import store from './store/linqa'
 
-const uiStrings = require('./ui-strings').default
 const quillOptions = require('./quill-options').default   // Quill config for canvas
 const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for discussion panel
 quillOptions2.bounds = '.lq-discussion .comments'
@@ -127,8 +126,11 @@ function getUser (username) {
 }
 
 function getString (key, value) {
-  const str = uiStrings[`${key}.${store.state.lang}`]
-  return value ? substitute(str, value) : str
+  const _str = store.state.uiStrings[store.state.lang]
+  if (_str) {       // UI strings might not yet be loaded
+    const str = _str[key]
+    return value ? substitute(str, value) : str
+  }
 }
 
 function substitute (str, value) {

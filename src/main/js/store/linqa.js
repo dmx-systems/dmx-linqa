@@ -15,12 +15,13 @@ const teamWorkspace = dmx.rpc.getTopicByUri('linqa.team', true).then(workspace =
   state.teamWorkspace = workspace
   return workspace
 })
-const ready = dmx.rpc.getUsername().then(initUserState)
+const userReady = dmx.rpc.getUsername().then(initUserState)
 const width = window.innerWidth
+initLang()
 
 const state = {
 
-  ready,                        // a promise, resolved once User state is initialized
+  userReady,                    // a promise, resolved once User state is initialized
   users: [],                    // all users in the system (array of plain Username topics, sorted by username=email
                                 // address). "memberships" prop holds respective user's Workspaces (array), initialized
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
@@ -29,6 +30,7 @@ const state = {
   lang: '',                     // selected UI language (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang1: '',                    // configured UI language 1 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
+  uiStrings: {},                // 2 keys: lang1/lang2, value: object
   loginMessage: '',             // the status message shown next to Login button
 
   // User
@@ -658,7 +660,6 @@ const store = new Vuex.Store({
 
 store.registerModule('search', searchStore)     // TODO: do static registration instead
 store.registerModule('admin', adminStore)       // TODO: do static registration instead
-initLang()
 
 export default store
 
@@ -666,8 +667,14 @@ function initLang () {
   http.get('/linqa/config/lang').then(response => {
     state.lang1 = response.data[0]
     state.lang2 = response.data[1]
+    http.get(`/systems.dmx.linqa/ui-strings/${state.lang1}.json`).then(response => {
+      Vue.set(state.uiStrings, state.lang1, response.data)
+    })
+    http.get(`/systems.dmx.linqa/ui-strings/${state.lang2}.json`).then(response => {
+      Vue.set(state.uiStrings, state.lang2, response.data)
+    })
   }).then(() => {
-    let lang
+    let lang    // initial UI language
     const langC = dmx.utils.getCookie('linqa_lang')
     if (langC) {
       lang = langC

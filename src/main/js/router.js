@@ -53,7 +53,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  store.state.ready.then(() => {
+  store.state.userReady.then(() => {
     if (['imprint', 'privacy_policy'].includes(to.name)) {
       next()
     } else if (store.state.username) {

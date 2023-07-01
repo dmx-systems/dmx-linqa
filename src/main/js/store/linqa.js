@@ -674,16 +674,11 @@ function initLang () {
       Vue.set(state.uiStrings, state.lang2, response.data)
     })
   }).then(() => {
-    let lang    // initial UI language
     const langC = dmx.utils.getCookie('linqa_lang')
-    if (langC) {
-      lang = langC
-      console.log('[Linqa] lang:', lang, '(from cookie)')
-    } else {
-      const langB = navigator.language.substr(0, 2)
-      lang = [state.lang1, state.lang2].includes(langB) ? langB : state.lang1     // fallback is lang1
-      console.log('[Linqa] lang:', langB, '(from browser) ->', lang)
-    }
+    const langB = navigator.language.substr(0, 2)
+    const config = [state.lang1, state.lang2]
+    const lang = config.includes(langC) ? langC : config.includes(langB) ? langB : state.lang1
+    console.log(`[Linqa] lang: ${lang} (cookie: ${langC}, browser: ${langB}, config: ${config})`)
     store.dispatch('setLang', lang)
   })
 }

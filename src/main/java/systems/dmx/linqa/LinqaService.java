@@ -44,6 +44,8 @@ public interface LinqaService {
 
     List<String> getAvailableLanguages();
 
+    String getLegalText(String fileName);
+
     /**
      * Needed by migration 4.
      */

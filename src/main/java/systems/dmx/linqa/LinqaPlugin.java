@@ -32,6 +32,7 @@ import systems.dmx.core.service.event.PreSendTopic;
 import systems.dmx.core.storage.spi.DMXTransaction;
 import systems.dmx.core.util.DMXUtils;
 import systems.dmx.core.util.IdList;
+import systems.dmx.core.util.JavaUtils;
 import systems.dmx.deepl.DeepLService;
 import systems.dmx.deepl.Translation;
 import systems.dmx.facets.FacetsService;
@@ -49,7 +50,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -60,7 +63,7 @@ import java.util.stream.Collectors;
 
 
 @Path("/linqa")
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 public class LinqaPlugin extends PluginActivator implements LinqaService, TopicmapCustomizer, PostCreateAssoc,
                                                                                               PreDeleteAssoc,
                                                                                               PreSendTopic,
@@ -372,6 +375,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public List<String> getAvailableLanguages() {
         // TODO
         return null;
+    }
+
+    @GET
+    @Path("/legal")
+    @Produces(MediaType.TEXT_HTML)
+    @Override
+    public String getLegalText(@QueryParam("file") String fileName) {
+        String lang = Cookies.get().get("linqa_lang");
+        File file = new File(getConfDir() + "dmx-linqa/" + fileName + "." + lang + ".html");
+        return JavaUtils.readTextFile(file);
     }
 
     @Override
@@ -737,5 +750,20 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private long getDisplayNamesWorkspaceId() {
         return dmx.getTopicByUri(DISPLAY_NAME_WS_URI).getId();
+    }
+
+    // TODO: move to platform
+    private String getConfDir() {
+        String systemProps = System.getProperty("felix.system.properties");
+        logger.info("felix.system.properties=" + systemProps);
+        if (systemProps != null) {
+            if (systemProps.startsWith("file:") && systemProps.endsWith("config.properties")) {
+                return systemProps.substring("file:".length(), systemProps.length() -  "config.properties".length());
+            } else {
+                throw new RuntimeException("Unexpected felix.system.properties: \"" + systemProps + "\"");
+            }
+        } else {
+            return "";
+        }
     }
 }

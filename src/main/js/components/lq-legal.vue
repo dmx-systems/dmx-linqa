@@ -4,7 +4,7 @@
     <el-button class="home-button" type="text" @click="home"><img :src="logo"></el-button>
     <lq-string class="heading">{{heading}}</lq-string>
     <div class="scroll-container dmx-html-field">
-      <lq-string class="text" :html="true">{{routeName}}</lq-string>
+      <div class="text" v-html="html"></div>
     </div>
   </div>
 </template>
@@ -15,6 +15,18 @@ export default {
   mixins: [
     require('./mixins/logo').default
   ],
+
+  created () {
+    this.$store.dispatch('getLegalText', this.routeName).then(html => {
+      this.html = html
+    })
+  },
+
+  data () {
+    return {
+      html: ''
+    }
+  },
 
   computed: {
 

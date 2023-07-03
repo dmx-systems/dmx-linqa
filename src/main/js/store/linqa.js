@@ -632,6 +632,10 @@ const actions = {
 
   getFileContent (_, repoPath) {
     return http.get(filerepoUrl(repoPath)).then(response => response.data)
+  },
+
+  getLegalText (_, fileName) {
+    return http.get(`/linqa/legal/${fileName}`).then(response => response.data)
   }
 }
 

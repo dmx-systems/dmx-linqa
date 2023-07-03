@@ -378,10 +378,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @GET
-    @Path("/legal")
+    @Path("/legal/{file}")
     @Produces(MediaType.TEXT_HTML)
     @Override
-    public String getLegalText(@QueryParam("file") String fileName) {
+    public String getLegalText(@PathParam("file") String fileName) {
         String lang = Cookies.get().get("linqa_lang");
         File file = new File(getConfDir() + "dmx-linqa/" + fileName + "." + lang + ".html");
         return JavaUtils.readTextFile(file);

@@ -30,7 +30,7 @@ const state = {
   lang: '',                     // selected UI language (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang1: '',                    // configured UI language 1 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
-  uiStrings: {},                // 2 keys: lang1/lang2, value: object
+  uiStrings: {},                // 2 keys: lang1/lang2 (ISO 639-1 language code), value: object
   loginMessage: '',             // the status message shown next to Login button
 
   // User

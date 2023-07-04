@@ -17,9 +17,7 @@ export default {
   ],
 
   created () {
-    this.$store.dispatch('getLegalText', this.routeName).then(html => {
-      this.html = html
-    })
+    this.fetchLegalText()
   },
 
   data () {
@@ -40,10 +38,25 @@ export default {
 
     router () {
       return this.$store.state.routerModule.router
+    },
+
+    lang () {
+      return this.$store.state.lang
     }
   },
 
+  watch: {
+    lang ()      {this.fetchLegalText()},
+    routeName () {this.fetchLegalText()}
+  },
+
   methods: {
+
+    fetchLegalText () {
+      this.$store.dispatch('getLegalText', this.routeName).then(html => {
+        this.html = html
+      })
+    },
 
     home () {
       this.$store.dispatch('callRootRoute')

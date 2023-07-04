@@ -1,11 +1,56 @@
-# DMX Linqa
+## DMX Linqa
 
 The "Linqa Collaboration Platform" provides a shared media canvas for commenting on documents.
 Bilingually. With DeepL integration.
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
 
-## Version History
+### Configuration
+
+| Property           | Required | Description                                               |
+| --------           | -------- | -----------                                               |
+| dmx.linqa.lang1    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: 'de', 'fr', 'fi', 'sv' |
+| dmx.linqa.lang2    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: 'de', 'fr', 'fi', 'sv' |
+| dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the payed plan use `https://api.deepl.com/v2/` instead. |
+| dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
+
+#### Imprint and privacy policy
+
+It is required to configure site-specific imprint and privacy policy texts.
+
+To do so create a `dmx-linqa` directory within your DMX `conf` directory with this content:
+```
+imprint.de.html
+imprint.fi.html
+imprint.fr.html
+imprint.sv.html
+privacy_policy.de.html
+privacy_policy.fi.html
+privacy_policy.fr.html
+privacy_policy.sv.html
+```
+
+These files are supposed to contain HTML *fragments*, that is one or more `<p>`, `<h2>`, `<ul>`, ... elements. *No* `<html>` or `<body>` element.
+
+It is sufficient to provide the language files as configured for `lang1` and `lang2` respectively.
+
+### Version History
+
+**1.6** -- unreleased
+
+* Textblöcke
+* Suche
+* Multi-selection
+* Snap-to-grid
+* Lock
+* UI revision (auto-translate)
+* UI improvement (animation)
+* UI improvement (editor)
+* UI improvement (tooltips)
+* Arbeitsbereiche sortieren
+* Wording revision
+* User status (login)
+* Remove workspaces
 
 **1.5** -- Sep 5, 2022
 

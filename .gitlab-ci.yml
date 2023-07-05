@@ -68,6 +68,7 @@ install-in-container:
     PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail dmx-thymeleaf dmx-file-upload"
   script:
     ## Deploy Test Container
+    - deploy/ci-deploy-dmx-linqa-language-files.sh
     - deploy/ci-deploy-dmx-docker-instance.sh
     ## Create DMX Users via sign-up plugin
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"

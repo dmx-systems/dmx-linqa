@@ -53,6 +53,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -378,16 +380,18 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @GET
-    @Path("/legal/{file}")
-    @Produces(MediaType.TEXT_HTML)
+    @Path("/config/{fileName}/{fileType}")
+    @Produces(MediaType.TEXT_HTML)      // TODO: image header
     @Override
-    public String getLegalText(@PathParam("file") String fileName) {
+    public InputStream getConfigResource(@PathParam("fileName") String fileName,
+                                         @PathParam("fileType") String fileType) {
         try {
             String lang = Cookies.get().get("linqa_lang");
-            File file = new File(getConfDir() + "dmx-linqa/" + fileName + "." + lang + ".html");
-            return JavaUtils.readTextFile(file);
+            File file = new File(getConfDir() + "dmx-linqa/" + fileName + "." + lang + "." + fileType);
+            return new FileInputStream(file);
         } catch (Exception e) {
-            throw new RuntimeException("Retrieving legal text \"" + fileName + "\" failed", e);
+            throw new RuntimeException("Retrieving config resource \"" + fileName + "\" failed (fileType=\"" +
+                fileType + "\")", e);
         }
     }
 

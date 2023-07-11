@@ -1,4 +1,4 @@
-## DMX Linqa
+# DMX Linqa
 
 The "Linqa Collaboration Platform" provides a shared media canvas for commenting on documents.
 Bilingually. With DeepL integration.
@@ -9,8 +9,8 @@ Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dm
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
-| dmx.linqa.lang1    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: 'de', 'fr', 'fi', 'sv' |
-| dmx.linqa.lang2    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: 'de', 'fr', 'fi', 'sv' |
+| dmx.linqa.lang1    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: `de`, `fr`, `fi`, `sv` |
+| dmx.linqa.lang2    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: `de`, `fr`, `fi`, `sv` |
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 

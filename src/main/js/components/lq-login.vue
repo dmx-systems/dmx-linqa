@@ -1,7 +1,7 @@
 <template>
   <div class="lq-login">
     <lq-language-switch></lq-language-switch>
-    <img :src="logo">
+    <img class="logo" :src="logo">
     <div class="login-form">
       <div class="welcome">
         <lq-string>label.welcome</lq-string>
@@ -141,9 +141,11 @@ export default {
   right: 16px;
 }
 
-.lq-login img {
+.lq-login img.logo {
   align-self: flex-start;
+  height: 84px;
   margin-left: -81px;
+  filter: invert(90%);
 }
 
 .lq-login .login-form .el-input {

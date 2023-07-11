@@ -106,6 +106,7 @@ export default {
 .lq-header img.logo {
   height: 44px;
   margin-right: 72px;
+  filter: invert(90%);
 }
 
 .lq-header .workspace {

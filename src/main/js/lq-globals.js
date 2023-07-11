@@ -9,11 +9,6 @@ const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for di
 quillOptions2.bounds = '.lq-discussion .comments'
 quillOptions2.modules.toolbar.container[2].splice(2, 1)   // strip "video" button
 
-const logo = {
-  lang1: require('../resources-build/zw-logo.de.png'),
-  lang2: require('../resources-build/zw-logo.fr.png')
-}
-
 const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
 console.log('[Linqa] isChrome:', isChrome)
 
@@ -37,7 +32,6 @@ export default {
 
   langSuffix,
 
-  getLogo,
   getViewport,
   getDisplayName,
   getShowEmailAddress,
@@ -67,14 +61,6 @@ function langSuffix (lang) {
     return 'lang2'
   } else {
     throw Error(`Unsupported language: "${lang}"`)
-  }
-}
-
-// TODO: make it a store getter?
-function getLogo () {
-  // Note: at application launch time "lang" is not yet defined
-  if (store.state.lang) {
-    return logo[langSuffix(store.state.lang)]
   }
 }
 

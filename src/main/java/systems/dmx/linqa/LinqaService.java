@@ -5,6 +5,7 @@ import systems.dmx.core.Topic;
 import systems.dmx.core.util.IdList;
 import systems.dmx.deepl.Translation;
 
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -44,7 +45,7 @@ public interface LinqaService {
 
     List<String> getAvailableLanguages();
 
-    String getLegalText(String fileName);
+    InputStream getConfigResource(String fileName, String fileType);
 
     /**
      * Needed by migration 4.

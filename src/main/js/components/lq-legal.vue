@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-legal', routeName]">
     <lq-language-switch></lq-language-switch>
-    <el-button class="home-button" type="text" @click="home"><img :src="logo"></el-button>
+    <el-button class="home-button" type="text" @click="home"><img class="logo" :src="logo"></el-button>
     <lq-string class="heading">{{heading}}</lq-string>
     <div class="scroll-container dmx-html-field">
       <div class="text" v-html="html"></div>
@@ -53,7 +53,7 @@ export default {
   methods: {
 
     fetchLegalText () {
-      this.$store.dispatch('getLegalText', this.routeName).then(html => {
+      this.$store.dispatch('getConfigResource', {fileName: this.routeName, fileType: 'html'}).then(html => {
         this.html = html
       })
     },
@@ -81,6 +81,11 @@ export default {
 .lq-legal .home-button {
   align-self: flex-start;
   margin-left: -81px;
+}
+
+.lq-legal img.logo {
+  height: 84px;
+  filter: invert(90%);
 }
 
 .lq-legal .lq-language-switch {

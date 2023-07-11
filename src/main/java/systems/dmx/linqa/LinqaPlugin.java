@@ -388,7 +388,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         try {
             String lang = Cookies.get().get("linqa_lang");
             File file = new File(getConfDir() + "dmx-linqa/" + fileName + "." + lang + "." + fileType);
-            return new FileInputStream(file);
+            if (fileName.equals("logo") && !file.exists()) {
+                return bundle.getResource("/linqa-logo.png").openStream();
+            } else {
+                return new FileInputStream(file);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Retrieving config resource \"" + fileName + "\" failed (fileType=\"" +
                 fileType + "\")", e);

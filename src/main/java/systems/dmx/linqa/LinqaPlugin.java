@@ -52,6 +52,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -396,6 +397,22 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         } catch (Exception e) {
             throw new RuntimeException("Retrieving config resource \"" + fileName + "\" failed (fileType=\"" +
                 fileType + "\")", e);
+        }
+    }
+
+    @GET
+    @Path("/config/css")
+    @Produces("text/css")
+    public InputStream getCustomCSS() {
+        try {
+            File file = new File(getConfDir() + "dmx-linqa/custom.css");
+            if (file.exists()) {
+                return new FileInputStream(file);
+            } else {
+                return new ByteArrayInputStream(new byte[0]);   // send empty CSS
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Retrieving custom CSS failed", e);
         }
     }
 
@@ -767,10 +784,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // TODO: move to platform
     private String getConfDir() {
         String systemProps = System.getProperty("felix.system.properties");
-        logger.info("felix.system.properties=" + systemProps);
         if (systemProps != null) {
             if (systemProps.startsWith("file:") && systemProps.endsWith("config.properties")) {
-                return systemProps.substring("file:".length(), systemProps.length() -  "config.properties".length());
+                return systemProps.substring("file:".length(), systemProps.length() - "config.properties".length());
             } else {
                 throw new RuntimeException("Unexpected felix.system.properties: \"" + systemProps + "\"");
             }

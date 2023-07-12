@@ -18,6 +18,7 @@ const teamWorkspace = dmx.rpc.getTopicByUri('linqa.team', true).then(workspace =
 const userReady = dmx.rpc.getUsername().then(initUserState)
 const width = window.innerWidth
 initLang()
+loadCustomCSS()
 
 const state = {
 
@@ -718,6 +719,13 @@ function initUserState (username) {
     store.dispatch('deselect')
     return Promise.resolve()
   }
+}
+
+function loadCustomCSS () {
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = '/linqa/config/css'
+  document.head.appendChild(link)
 }
 
 /**

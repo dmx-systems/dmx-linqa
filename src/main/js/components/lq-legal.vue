@@ -53,7 +53,9 @@ export default {
   methods: {
 
     fetchLegalText () {
-      this.$store.dispatch('getConfigResource', {fileName: this.routeName, fileType: 'html'}).then(html => {
+      this.$store.dispatch('getConfigResource', {
+        fileName: this.routeName, fileType: 'html', multilingual: true
+      }).then(html => {
         this.html = html
       })
     },

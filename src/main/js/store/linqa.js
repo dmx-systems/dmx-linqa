@@ -635,8 +635,9 @@ const actions = {
     return http.get(filerepoUrl(repoPath)).then(response => response.data)
   },
 
-  getConfigResource (_, {fileName, fileType}) {
-    return http.get(`/linqa/config/${fileName}/${fileType}`).then(response => response.data)
+  getConfigResource (_, {fileName, fileType, multilingual}) {
+    return http.get(`/linqa/config/${fileName}/${fileType}`, {params: {multilingual}})
+      .then(response => response.data)
   }
 }
 
@@ -724,7 +725,7 @@ function initUserState (username) {
 function loadCustomCSS () {
   const link = document.createElement('link')
   link.rel = 'stylesheet'
-  link.href = '/linqa/config/css'
+  link.href = '/linqa/config/custom/css'
   document.head.appendChild(link)
 }
 

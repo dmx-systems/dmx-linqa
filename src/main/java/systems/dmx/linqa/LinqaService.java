@@ -5,12 +5,19 @@ import systems.dmx.core.Topic;
 import systems.dmx.core.util.IdList;
 import systems.dmx.deepl.Translation;
 
-import java.io.InputStream;
+import javax.ws.rs.core.Response;
+
 import java.util.List;
 
 
 
 public interface LinqaService {
+
+    List<String> getLanguageConfig();
+
+    List<String> getAvailableLanguages();
+
+    Response getConfigResource(String fileName, String fileType, boolean multilingual);
 
     /**
      * Returns the ZW shared workspaces of the current user (according to request authorization).
@@ -40,12 +47,6 @@ public interface LinqaService {
 
     // Note: there is no createArrow() call here. Arrows are created by a generic createTopic() call.
     // No auto-translation is involved.
-
-    List<String> getLanguageConfig();
-
-    List<String> getAvailableLanguages();
-
-    InputStream getConfigResource(String fileName, String fileType);
 
     /**
      * Needed by migration 4.

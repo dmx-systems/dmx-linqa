@@ -51,11 +51,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import static javax.ws.rs.core.Response.Status.*;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -240,6 +240,54 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // LinqaService
 
     @GET
+    @Path("/config/lang")
+    @Override
+    public List<String> getLanguageConfig() {
+        List<String> langs = new ArrayList();
+        langs.add(LANG1);
+        langs.add(LANG2);
+        return langs;
+    }
+
+    @GET
+    @Path("/available_lang")
+    @Override
+    public List<String> getAvailableLanguages() {
+        // TODO
+        return null;
+    }
+
+    @GET
+    @Path("/config/{fileName}/{fileType}")
+    @Produces({MediaType.TEXT_HTML, "text/css"})      // TODO: image types
+    @Override
+    public Response getConfigResource(@PathParam("fileName") String fileName,
+                                      @PathParam("fileType") String fileType,
+                                      @QueryParam("multilingual") boolean multilingual) {
+        try {
+            StringBuilder path = new StringBuilder(getConfDir() + "dmx-linqa/" + fileName);
+            if (multilingual) {
+                String lang = Cookies.get().get("linqa_lang");
+                path.append("." + lang);
+            }
+            path.append("." + fileType);
+            File file = new File(path.toString());
+            if (file.exists()) {
+                return Response.ok(new FileInputStream(file)).build();
+            } else {
+                if (fileName.equals("logo")) {
+                    return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).build();
+                } else {
+                    return Response.status(NO_CONTENT).build();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Retrieving config resource \"" + fileName + "\" failed (fileType=\"" +
+                fileType + "\", multilingual=" + multilingual + ")", e);
+        }
+    }
+
+    @GET
     @Path("/workspaces")
     @Override
     public List<RelatedTopic> getZWWorkspaces() {
@@ -359,60 +407,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         } catch (Exception e) {
             throw new RuntimeException("Creating monolingual comment failed, refTopicIds=" + refTopicIds +
                 ", fileTopicIds=" + fileTopicIds, e);
-        }
-    }
-
-    @GET
-    @Path("/config/lang")
-    @Override
-    public List<String> getLanguageConfig() {
-        List<String> langs = new ArrayList();
-        langs.add(LANG1);
-        langs.add(LANG2);
-        return langs;
-    }
-
-    @GET
-    @Path("/available_lang")
-    @Override
-    public List<String> getAvailableLanguages() {
-        // TODO
-        return null;
-    }
-
-    @GET
-    @Path("/config/{fileName}/{fileType}")
-    @Produces(MediaType.TEXT_HTML)      // TODO: image header
-    @Override
-    public InputStream getConfigResource(@PathParam("fileName") String fileName,
-                                         @PathParam("fileType") String fileType) {
-        try {
-            String lang = Cookies.get().get("linqa_lang");
-            File file = new File(getConfDir() + "dmx-linqa/" + fileName + "." + lang + "." + fileType);
-            if (fileName.equals("logo") && !file.exists()) {
-                return bundle.getResource("/linqa-logo.png").openStream();
-            } else {
-                return new FileInputStream(file);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Retrieving config resource \"" + fileName + "\" failed (fileType=\"" +
-                fileType + "\")", e);
-        }
-    }
-
-    @GET
-    @Path("/config/css")
-    @Produces("text/css")
-    public InputStream getCustomCSS() {
-        try {
-            File file = new File(getConfDir() + "dmx-linqa/custom.css");
-            if (file.exists()) {
-                return new FileInputStream(file);
-            } else {
-                return new ByteArrayInputStream(new byte[0]);   // send empty CSS
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Retrieving custom CSS failed", e);
         }
     }
 

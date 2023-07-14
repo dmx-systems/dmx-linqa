@@ -65,7 +65,7 @@ install-in-container:
     LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
     WEBDIR: 'https://download.dmx.systems/ci'                              # <= stable|latest
     WEBCGI: 'https://download.dmx.systems/cgi-bin/v1/latest-version.cgi?'  # <= stable|latest
-    PLUGINS: "dmx-deepl dmx-ldap dmx-sign-up dmx-sendmail dmx-thymeleaf dmx-file-upload"
+    PLUGINS: "dmx-deepl dmx-ldap dmx-sendmail dmx-thymeleaf dmx-file-upload"
   script:
     ## Deploy Test Container
     - deploy/ci-deploy-dmx-linqa-language-files.sh

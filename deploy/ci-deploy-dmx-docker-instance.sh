@@ -45,10 +45,10 @@ test -f "${ENV_FILE}" || touch "${ENV_FILE}"
 test -d deploy/instance/${TIER} || mkdir -p deploy/instance/${TIER}/conf deploy/instance/${TIER}/logs deploy/instance/${TIER}/db deploy/instance/${TIER}/filedir deploy/instance/${TIER}/bundle-deploy deploy/instance/${TIER}/plugins
 test -f deploy/scripts/dmxstate.sh || curl --silent https://git.dmx.systems/dmx-contrib/dmx-state/-/raw/master/dmxstate.sh --create-dirs -o deploy/scripts/dmxstate.sh
 chmod +x deploy/scripts/dmxstate.sh
-test -d deploy/dmx/${TIER}/plugins/ || mkdir deploy/dmx/${TIER}/plugins/
+test -d deploy/dmx/${TIER}-ci/plugins/ || mkdir deploy/dmx/${TIER}-ci/plugins/
 if [ -f target/*.jar ]; then
     echo "copying jar file to deploy/dmx/${TIER}/plugins/"
-    cp target/*.jar deploy/dmx/${TIER}/plugins/
+    cp target/*.jar deploy/dmx/${TIER}-ci/plugins/
 else
     echo "ERROR! No jar file in target/ found ."
 fi
@@ -58,7 +58,7 @@ if [ ! -z "${PLUGINS}" ]; then
         echo "getting latest version of ${plugin} plugin"
         plugin_version="$( wget -q -O - "${WEBCGI}/ci/${plugin}/${plugin}-latest.jar" )"
         echo "installing ${plugin_version}"
-        wget -q "${plugin_version}" -P deploy/dmx/${TIER}/plugins/
+        wget -q "${plugin_version}" -P deploy/dmx/${TIER}-ci/plugins/
     done
 fi
 ##  script:
@@ -77,8 +77,8 @@ echo "user_id=${USER_ID}" >>"${ENV_FILE}"
 echo "group_id=${GROUP_ID}" >>"${ENV_FILE}"
 echo "DMX_PORT=${DMX_PORT}" >>"${ENV_FILE}"
 cat "${ENV_FILE}"
-echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_websocket_url
-echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}/conf.d/config.properties.d/10_host_url
+echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url
+echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
 
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v || true
 sleep 1

@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
     command: "--copy-service --loglevel debug"
     build:
-      context: ./ldap/${TIER}
+      context: ./ldap/${TIER}-ci
     environment:
       LDAP_TLS: "false"
       LDAP_TLS_VERIFY_CLIENT: "never"

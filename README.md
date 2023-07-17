@@ -1,11 +1,18 @@
 # DMX Linqa
 
-The "Linqa Collaboration Platform" provides a shared media canvas for commenting on documents.
-Bilingually. With DeepL integration.
+Linqa is a platform for bilingual collaboration. It provides shared workspaces for handling and commenting
+on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by headings and arrows. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
 
-Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
+The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage menberships), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
+
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 4 languages are supported: German, French, Finnish, Swedish.
+
+Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license.
 
 ### Configuration
+
+Linqa requires adding configuration properties to DMX's `conf/config.properties` file.
+Restart of the DMX platform is required.
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
@@ -34,23 +41,61 @@ These files are supposed to contain HTML *fragments*, that is one or more `<p>`,
 
 It is sufficient to provide the language files as configured for `lang1` and `lang2` respectively.
 
+#### Logo
+
+TBD
+
+#### Custom CSS
+
+TBD
+
 ### Version History
 
 **1.6** -- unreleased
 
-* Textblöcke
-* Suche
-* Multi-selection
-* Snap-to-grid
-* Lock
-* UI revision (auto-translate)
-* UI improvement (animation)
-* UI improvement (editor)
-* UI improvement (tooltips)
-* Arbeitsbereiche sortieren
-* Wording revision
-* User status (login)
-* Remove workspaces
+* Features:
+    * **Configurability**: a Linqa installation can adapt to various usage scenarios:
+        * the 2 langauges used for a) automatic content translation, b) the UI itself
+        * the logo appearing for app header/login and legal pages, multilingual
+        * legal texts: imprint and privacy policy, multilingual
+        * CSS style (colors, fonts, decorative images)
+    * **Text blocks**: a new type of content object that shows both languages at the same time, colorizable, commentable, used for collaborative bilingual text creation
+    * **Canvas search**: user can search content on current canvas, search results are highlighted in-place, when browsing search results the canvas auto-pans to respective object (animated)
+    * **Multi-selection**: users can select multiple objects at once, editors can multi-move and multi-delete
+    * **Text highlighting**: editors can highlight text, 7 colors available, available for notes, text blocks, and comments
+    * **Snap-to-grid**: when moving content objects they snap to a 20px grid, rotation takes place in 5° steps
+    * **Object locking**: administrators can lock objects to prevent unintended changes by editors
+    * Admin area: in the user list an **"Active" checkmark** indicates whether the respective user has logged in at least once
+* Improvements:
+    * Usability improvements:
+        * All workspace lists are sorted alphabetically (in both, user area and admin area), and are resorted when the UI language is switched
+        * All bilingual text forms: a "translation modified" indicator is shown when automatic translation was modified manually, to prevent unintended overriding when redoing an automatic translation
+        * Canvas: the object commands ("Edit", "Delete", ...) have bigger click area
+        * Canvas: zoom-1:1 button is removed, it was not needed
+        * All automatic panning/zooming operations are *animated*, e.g. home button, zoom-to-fit button
+        * All buttons show tool tips when hovered
+        * More consistent wording in UI elements
+    * Rich text editor:
+        * Removed 3 formats from toolbar: code, blockquote, and code-block, these were not needed
+        * All toolbar buttons are placed in a single row (instead of 2 rows)
+    * Login page:
+        * Username/email address is handled case-insensitively
+        * Login page shows no "beta" label anymore
+    * Admin area: a workspace can be deleted by *all* team members (not only by workspace owner)
+    * The DeepL API URL is configurable, so it works with both, the free, as well as the payed DeepL plan (improved in DeepL plugin)
+    * Smaller DB size (improved in DMX platform: transaction log files are purged on a regular basis)
+    * In case of a server/network loss an alert box is shown and the application is relaunched (improved in DMX platform)
+* Fixes:
+    * Text containing special characters (HTML's `>`, `&`, ...) is properly translated (fixed in DeepL plugin)
+    * All bilingual text forms: after pressing "translate" the translation state switches back to "automatic"
+    * New workspaces are available immediately, page reload is not required
+    * The workspace menu is now scrollable, in case there are a lot of workspaces
+    * When switching to another workspace the canvas search is cleared
+    * Downloading files (documents, comment attachments) always works on 1st attempt
+    * Discussion panel: long attachment names are line-wrapped
+    * Deleting a workspace (admin area) does not corrupt other workspaces (fixed in DMX platform)
+    * Various view inconsistencies and layout oddities are fixed, particularly in the admin area
+* Compatible with DMX 5.3
 
 **1.5** -- Sep 5, 2022
 
@@ -59,6 +104,7 @@ It is sufficient to provide the language files as configured for `lang1` and `la
     * Manual-translate button is always visible (documents, notes, headings, and comments)
     * PDFs remember selected page when fullscreen is switched on/off
     * Note and heading forms have a gray background
+    * Image data-URLs are not send to the DeepL service (improved in DeepL plugin)
     * Discussion panel shows a spinner while loading
     * Admin area:
         * The respective workspace owners are displayed
@@ -93,7 +139,7 @@ It is sufficient to provide the language files as configured for `lang1` and `la
         * Item rotation is restricted to steps of 5 degrees, so resetting to 0 is easy
         * New "reset zoom" button sets the zoom back to "normal" (1)
     * Chat panel: scroll comment's OK/Cancel buttons into view when clicking Edit
-    * Impressum/privacy policy: clicking the ZW logo returns to home page
+    * Imprint/privacy policy: clicking the ZW logo returns to home page
     * Updated texts for the password-reset workflow
 * Fixes:
     * Canvas:

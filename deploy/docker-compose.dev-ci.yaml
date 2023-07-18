@@ -9,18 +9,18 @@ volumes:
 services:
 
   dmx:
-    container_name: ${CI_PROJECT_NAME}-${TIER}-dmx-container
+    container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
     restart: always
     image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
     links:
       - ldap
     environment:
-      USER_ID: ${user_id}
-      GROUP_ID: ${group_id}
-      DMX_ADMIN_PASSWORD: ${DMX_ADMIN_PASSWORD}
-      LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
-      DEEPL_AUTH_KEY: ${DEEPL_AUTH_KEY}
-      TIER: ${TIER}
+      USER_ID: "${user_id}"
+      GROUP_ID: "${group_id}"
+      DMX_ADMIN_PASSWORD: "${DMX_ADMIN_PASSWORD}"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      DEEPL_AUTH_KEY: "${DEEPL_AUTH_KEY}"
+      TIER: "${TIER}"
     volumes:
       # - dmx-db:/opt/dmx/dmx-db
       - ./instance/dev/conf:/opt/dmx/conf
@@ -35,19 +35,19 @@ services:
       - "${DMX_PORT}:8080"
 
   ldap:
-    container_name: ${CI_PROJECT_NAME}-${TIER}-ldap-container
+    container_name: "${CI_PROJECT_NAME}-${TIER}-ldap-container"
     restart: unless-stopped
     command: "--copy-service --loglevel debug"
     build:
-      context: ./ldap/${TIER}-ci
+      context: "./ldap/${TIER}-ci"
     environment:
       LDAP_TLS: "false"
       LDAP_TLS_VERIFY_CLIENT: "never"
-      LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
-      LDAP_CONFIG_PASSWORD: ${LDAP_ADMIN_PASSWORD}
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      LDAP_CONFIG_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
 
   mailhog:
-    container_name: ${CI_PROJECT_NAME}-${TIER}-mailhog-container
+    container_name: "${CI_PROJECT_NAME}-${TIER}-mailhog-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-intern/docker-images/mailhog:latest
     ports:

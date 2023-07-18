@@ -87,7 +87,6 @@ export default {
 
 .lq-legal img.logo {
   height: 84px;
-  filter: invert(90%);
 }
 
 .lq-legal .lq-language-switch {

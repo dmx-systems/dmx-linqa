@@ -145,7 +145,6 @@ export default {
   align-self: flex-start;
   height: 84px;
   margin-left: -81px;
-  filter: invert(90%);
 }
 
 .lq-login .login-form .el-input {

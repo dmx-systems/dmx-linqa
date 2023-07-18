@@ -58,7 +58,7 @@ TBD
         * the 2 langauges used for a) automatic content translation, b) the UI itself
         * the logo appearing for app header/login and legal pages, multilingual
         * legal texts: imprint and privacy policy, multilingual
-        * CSS style (colors, fonts, decorative images)
+        * CSS style (colors, fonts, decorative images, ...)
     * **Text blocks**: a new type of content object that shows both languages at the same time, colorizable, commentable, used for collaborative bilingual text creation
     * **Canvas search**: user can search content on current canvas, search results are highlighted in-place, when browsing search results the canvas auto-pans to respective object (animated)
     * **Multi-selection**: users can select multiple objects at once, editors can multi-move and multi-delete

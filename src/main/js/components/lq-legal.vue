@@ -1,7 +1,9 @@
 <template>
   <div :class="['lq-legal', routeName]">
     <lq-language-switch></lq-language-switch>
-    <el-button class="home-button" type="text" @click="home"><img class="logo" :src="logo"></el-button>
+    <el-button class="home-button" type="text" @click="home">
+      <img class="logo" :src="logo">
+    </el-button>
     <lq-string class="heading">{{heading}}</lq-string>
     <div class="scroll-container dmx-html-field">
       <div class="text" v-html="html"></div>
@@ -74,15 +76,11 @@ export default {
   height: 100%;
   box-sizing: border-box;
   background-color: black;
-  background-image: url("../../resources-build/zw-snake.png");
-  background-position: bottom right;
-  background-repeat: no-repeat;
-  padding: 50px 0 0 120px;
+  padding: 60px 0 0 120px;
 }
 
 .lq-legal .home-button {
   align-self: flex-start;
-  margin-left: -81px;
 }
 
 .lq-legal img.logo {
@@ -111,55 +109,5 @@ export default {
 .lq-legal .text {
   color: white;
   margin-bottom: 24px;
-}
-
-.lq-legal.imprint h4 {
-  margin-bottom: 0;
-}
-
-.lq-legal.privacy_policy h2 {
-  font-size: 20px;
-  line-height: normal;
-  margin-top: 32px;
-  margin-bottom: 14px;
-}
-
-.lq-legal.privacy_policy ol {
-  list-style-type: lower-alpha;
-}
-
-.lq-legal.privacy_policy p,
-.lq-legal.privacy_policy ul > li {
-  font-family: serif;
-  text-align: justify;
-}
-
-.lq-legal.privacy_policy table {
-  border-collapse: collapse;
-  margin-bottom: 2em;
-}
-
-.lq-legal.privacy_policy table td {
-  border: 1px solid #bfbfbf;
-  padding: 10px;
-}
-
-.lq-legal.privacy_policy table td p {
-  text-align: initial;
-}
-
-.lq-legal.privacy_policy ul > li {
-  margin-top: 4px;
-  margin-bottom: 4px;
-}
-
-.lq-legal.privacy_policy ol > li {
-  margin-top: 12px;
-  margin-bottom: 12px;
-}
-
-.lq-legal.privacy_policy ol > li > div {
-  font-weight: bold;
-  margin-bottom: 4px;
 }
 </style>

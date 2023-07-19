@@ -84,7 +84,9 @@ echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
 docker compose --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans
 # || true
 docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
+date +%s
 sleep 10
+date +%s
 docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
 if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then

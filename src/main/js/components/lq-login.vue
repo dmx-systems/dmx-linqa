@@ -129,9 +129,6 @@ export default {
   height: 100%;
   box-sizing: border-box;
   background-color: black;
-  background-image: url("../../resources-build/zw-snake.png");
-  background-position: bottom right;
-  background-repeat: no-repeat;
   padding: 60px 0 18px 160px;
 }
 
@@ -144,7 +141,10 @@ export default {
 .lq-login img.logo {
   align-self: flex-start;
   height: 84px;
-  margin-left: -81px;
+}
+
+.lq-login .login-form {
+  margin-top: 50px;
 }
 
 .lq-login .login-form .el-input {
@@ -154,7 +154,6 @@ export default {
 .lq-login .welcome {
   color: var(--primary-color);
   font-size: 20px;
-  margin-top: 42px;
 }
 
 .lq-login .login {
@@ -199,6 +198,6 @@ export default {
 }
 
 .lq-login .footer .el-button:nth-child(2) {
-  margin-left: 15px;
+  margin-left: 20px;
 }
 </style>

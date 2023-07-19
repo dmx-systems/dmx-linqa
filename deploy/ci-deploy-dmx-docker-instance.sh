@@ -47,7 +47,7 @@ test -f deploy/scripts/dmxstate.sh || curl --silent https://git.dmx.systems/dmx-
 chmod +x deploy/scripts/dmxstate.sh
 test -d deploy/dmx/${TIER}-ci/plugins/ || mkdir deploy/dmx/${TIER}-ci/plugins/
 if [ -f target/*.jar ]; then
-    echo "copying jar file to deploy/dmx/${TIER}/plugins/"
+    echo "copying jar file to deploy/dmx/${TIER}-ci/plugins/"
     cp target/*.jar deploy/dmx/${TIER}-ci/plugins/
 else
     echo "ERROR! No jar file in target/ found ."
@@ -87,7 +87,7 @@ if [ "$( docker image ls ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap | grep "$
     docker image rm ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap || true
 fi
 DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-ldap-container | jq .[].Config.Image | sed 's/\"//g' )"
-echo "${DOCKER_IMAGE}"
+echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d --remove-orphans
 test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
 deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log

@@ -59,6 +59,7 @@ install-in-container:
   dependencies:
     - maven-build
   variables:
+    COMPOSE_PROJECT_NAME: "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}"
     TIER: "dev"
     DEEPL_AUTH_KEY: ${DEEPL_AUTH_KEY}
     DMX_ADMIN_PASSWORD: ${DMX_ADMIN_PASSWORD}

@@ -86,6 +86,8 @@ sleep 1
 if [ "$( docker image ls ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap | grep "${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap" )" ]; then
     docker image rm ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}-ldap || true
 fi
+DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-ldap-container | jq .[].Config.Image | sed 's/\"//g' )"
+echo "${DOCKER_IMAGE}"
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d --remove-orphans
 test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
 deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log

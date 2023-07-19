@@ -82,13 +82,12 @@ echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/c
 echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
 DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-ldap-container | jq .[].Config.Image | sed 's/\"//g' )"
 echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
-docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans
-# || true
-docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
-date +%s
-sleep 10
-date +%s
-docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
+docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans || true
+#docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
+#date +%s
+#sleep 10
+#date +%s
+#docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
 if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
     docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container

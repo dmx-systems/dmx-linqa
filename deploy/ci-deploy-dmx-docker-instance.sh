@@ -81,14 +81,17 @@ echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/c
 echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
 DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-ldap-container | jq .[].Config.Image | sed 's/\"//g' )"
 echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
-docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v || true
+docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans
+# || true
 sleep 2
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
 if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
+    docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container
+    sleep 1
     echo "deleting old docker image ${DOCKER_IMAGE}"
     docker image rm ${DOCKER_IMAGE} || true
 fi
-docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d --remove-orphans
+docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
 test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
 deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log
 

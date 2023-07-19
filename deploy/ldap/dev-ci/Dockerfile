@@ -1,4 +1,5 @@
-FROM container-registry.dmx.systems/dmx-intern/docker-images/openldap
+FROM osixia/openldap:stable
+#FROM container-registry.dmx.systems/dmx-intern/docker-images/openldap
 
 ## Default LDAP Volumes
 #VOLUME ["/var/lib/ldap"]

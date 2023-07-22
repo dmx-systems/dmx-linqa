@@ -11,14 +11,13 @@ Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dm
 
 ### Configuration
 
-Linqa requires adding configuration properties to DMX's `conf/config.properties` file.
-Restart of the DMX platform is required.
+For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. To do so add some configuration properties to DMX's `conf/config.properties` file. After editing the config file restarting the DMX platform is required.
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
 | dmx.linqa.lang1    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: `de`, `fr`, `fi`, `sv` |
 | dmx.linqa.lang2    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: `de`, `fr`, `fi`, `sv` |
-| dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the payed plan use `https://api.deepl.com/v2/` instead. |
+| dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 
 #### Imprint and privacy policy
@@ -43,9 +42,47 @@ It is sufficient to provide the language files as configured for `lang1` and `la
 
 #### Logo
 
-TBD
+You can provide a custom logo for your specific Linqa installation. If you don't provide a custom logo Linqa will show its default logo:
+
+![](docs/linqa-logo.png)
+
+The Linqa UI shows the logo at 3 dedicated spots:
+
+- The Login page
+- The legal pages (Imprint and Privacy Policy)
+- The top header of the main Linqa UI
+
+The logo is language sensitive. In an e.g. German/French Linqa installation you could have 2 individual logos:
+
+![zw-logo.de.png](docs/zw-logo.de.png)
+![zw-logo.fr.png](docs/zw-logo.fr.png)
+
+The Linqa UI would then show the logo corresponding to the language currently selected by the user.
+
+For each language you need to create a separate PNG file with name `logo` and put them in DMX's `conf/dmx-linqa` directory:
+
+```
+logo.de.png
+logo.fi.png
+logo.fr.png
+logo.sv.png
+```
+
+It is sufficient to provide the logo files for the languages configured for `lang1` and `lang2` respectively. If the logo file for the current UI language is missing Linqa will show its default logo. Note: if you want the *same* custom logo appear regardless of selected UI language you still need provide separate files then (just copies).
+
+The logo files are expected to be PNGs. Other file types are not supported at the moment.
+
+The logo PNGs should have an height of at least 84px. The width is arbitrary. Note: the respective language versions are *not* required to have the same width.
+
+##### Logo style
+
+Linqa's default stlyesheet will resize the logos to a height of 84px (Login and legal pages) resp. 44px (main UI's top header). To change this style or to add further style properties to your logo see *Custom CSS* below.
 
 #### Custom CSS
+
+TBD
+
+#### Serving custon resources
 
 TBD
 

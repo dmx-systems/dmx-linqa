@@ -9,7 +9,7 @@ The pair of languages Linqa uses for automatic translation and for the UI is con
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license.
 
-### Configuration
+## Configuration
 
 For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. To do so add some configuration properties to DMX's `conf/config.properties` file. After editing the config file restarting the DMX platform is required.
 
@@ -20,7 +20,7 @@ For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. 
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 
-#### Imprint and privacy policy
+### Imprint and privacy policy
 
 It is required to configure site-specific imprint and privacy policy texts.
 
@@ -40,11 +40,11 @@ These files are supposed to contain HTML *fragments*, that is one or more `<p>`,
 
 It is sufficient to provide the language files as configured for `lang1` and `lang2` respectively.
 
-#### Logo
+### Logo
 
 You can provide a custom logo for your specific Linqa installation. If you don't provide a custom logo Linqa will show its default logo:
 
-![](docs/linqa-logo.png)
+![linqa-logo.png](docs/linqa-logo.png)
 
 The Linqa UI shows the logo at 3 dedicated spots:
 
@@ -74,19 +74,36 @@ The logo files are expected to be PNGs. Other file types are not supported at th
 
 The logo PNGs should have an height of at least 84px. The width is arbitrary. Note: the respective language versions are *not* required to have the same width.
 
-##### Logo style
+#### Logo style
 
 Linqa's default stlyesheet will resize the logos to a height of 84px (Login and legal pages) resp. 44px (main UI's top header). To change this style or to add further style properties to your logo see *Custom CSS* below.
 
-#### Custom CSS
+### Custom CSS
+
+You can override/extend Linqa's default CSS style by providing a custom stylesheet. To do so put a file named `custom.css` to DMX's `conf/dmx-linqa` directory. This stylesheet will be loaded *after* Linqa's default style, so you can override the default rules easily.
+
+Use the browser's inspector tool to investigate the Linqa markup and define your custom rules accordingly. Practically all Linqa page elements are equipped with class attributes, the major elements use `lq-` as a class prefix.
+
+Examples:
+
+```
+.lq-login, .lq-header {
+  background-color: white;      /* make Login page and main UI's header white instead of black */
+}
+
+.lq-login img.logo {
+  filter: invert(100%);         /* apply a filter to Login page's logo */
+  margin-left: -81px;           /* outdent Login page's logo */
+}
+```
+
+Note: if you run Linqa in development mode (via webpack-dev-server) stylesheet loading order is different. In order to see effect while development you might need to add `!important` to your custom rules.
+
+### Serving custon resources
 
 TBD
 
-#### Serving custon resources
-
-TBD
-
-### Version History
+## Version History
 
 **1.6** -- unreleased
 

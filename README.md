@@ -1,9 +1,9 @@
 # DMX Linqa
 
-Linqa is a platform for bilingual collaboration. It provides shared workspaces for handling and commenting
-on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by headings and arrows. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
+Linqa is a platform for bilingual collaboration. Linqa provides shared workspaces for handling and commenting
+on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by heading and arrow elements. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
 
-The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage menberships), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
+The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage menberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 
 The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 4 languages are supported: German, French, Finnish, Swedish.
 
@@ -11,7 +11,7 @@ Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dm
 
 ## Configuration
 
-For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. To do so add some configuration properties to DMX's `conf/config.properties` file. After editing the config file restarting the DMX platform is required.
+For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. To do so add entries to DMX's `conf/config.properties` file. After editing the config file restarting the DMX platform is required.
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
@@ -20,27 +20,9 @@ For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. 
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 
-### Imprint and privacy policy
+All following configuration possibilites (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
 
-It is required to configure site-specific imprint and privacy policy texts.
-
-To do so create a `dmx-linqa` directory within your DMX `conf` directory with this content:
-```
-imprint.de.html
-imprint.fi.html
-imprint.fr.html
-imprint.sv.html
-privacy_policy.de.html
-privacy_policy.fi.html
-privacy_policy.fr.html
-privacy_policy.sv.html
-```
-
-These files are supposed to contain HTML *fragments*, that is one or more `<p>`, `<h2>`, `<ul>`, ... elements. *No* `<html>` or `<body>` element.
-
-It is sufficient to provide the language files as configured for `lang1` and `lang2` respectively.
-
-### Logo
+### Site logo
 
 You can provide a custom logo for your specific Linqa installation. If you don't provide a custom logo Linqa will show its default logo:
 
@@ -59,7 +41,7 @@ The logo is language sensitive. In an e.g. German/French Linqa installation you 
 
 The Linqa UI would then show the logo corresponding to the language currently selected by the user.
 
-For each language you need to create a separate PNG file with name `logo` and put them in DMX's `conf/dmx-linqa` directory:
+For each language you need to create a separate PNG file with name `logo` and put them in DMX's `conf/dmx-linqa/` directory:
 
 ```
 logo.de.png
@@ -78,11 +60,31 @@ The logo PNGs should have an height of at least 84px. The width is arbitrary. No
 
 Linqa's default stlyesheet will resize the logos to a height of 84px (Login and legal pages) resp. 44px (main UI's top header). To change this style or to add further style properties to your logo see *Custom CSS* below.
 
+### Imprint and privacy policy
+
+It is required to configure site-specific imprint and privacy policy texts.
+
+To do so create a `dmx-linqa/` directory within your DMX `conf/` directory with this content:
+```
+imprint.de.html
+imprint.fi.html
+imprint.fr.html
+imprint.sv.html
+privacy_policy.de.html
+privacy_policy.fi.html
+privacy_policy.fr.html
+privacy_policy.sv.html
+```
+
+These files are supposed to contain HTML *fragments*, that is one or more `<p>`, `<h2>`, `<ul>`, ... elements. *No* `<html>` or `<body>` element.
+
+It is sufficient to provide the language files as configured for `lang1` and `lang2` respectively.
+
 ### Custom CSS
 
-You can override/extend Linqa's default CSS style by providing a custom stylesheet. To do so put a file named `custom.css` to DMX's `conf/dmx-linqa` directory. This stylesheet will be loaded *after* Linqa's default style, so you can override the default rules easily.
+You can override/extend Linqa's default CSS styles by providing a custom stylesheet. To do so put a file named `custom.css` to DMX's `conf/dmx-linqa/` directory. This stylesheet will be loaded *after* Linqa's default style, thus allowing easy overriding the default rules.
 
-Use the browser's inspector tool to investigate the Linqa markup and define your custom rules accordingly. Practically all Linqa page elements are equipped with class attributes, the major elements use `lq-` as a class prefix.
+Use the browser's inspector tool to investigate the Linqa markup and define your custom rules accordingly. Practically all Linqa page elements are equipped with class attributes, making them easily accessible for customization. The major elements use the `lq-` class prefix.
 
 Examples:
 
@@ -101,7 +103,44 @@ Note: if you run Linqa in development mode (via webpack-dev-server) stylesheet l
 
 ### Serving custon resources
 
-TBD
+Basically Linqa makes all files residing in DMX's `conf/dmx-linqa/` directory avilable to the web browser. So you can supply further resource files for your own purposes here. Resource files can be multilingual (individual files per langauge) or language independent.
+
+In order to access your resource files use this URL format (e.g. inside your custom CSS):
+
+```
+/linqa/config/{file name}/{file type}
+```
+
+For multilingual resource files append a query parameter:
+
+```
+/linqa/config/{file name}/{file type}?multilingual=true
+```
+
+For example, to display a decorative image (`zw-snake.png`) on both, the Login and the legal pages:
+
+1. Put the file `zw-snake.png` into DMX's `conf/dmx-linqa/` directory, and
+2. Supply some custom CSS (see above):
+   ```
+   .lq-login, .lq-legal {
+     background-image: url("/linqa/config/zw-snake/png");
+     background-position: bottom right;
+     background-repeat: no-repeat;
+   }
+   ```
+
+Note: in the URL it's `.../zw-snake/png`, not `.png`. As explained above this URL will access the corresponding `.png` file then.
+
+In case you want display a language specific image you'd have to 1) supply one file per language, and 2) use this URL: `.../zw-snake/png?multilingual=true`. This accesses the image corresponding to the selected UI langauge then:
+
+```
+conf/dmx-linqa/zw-snake.de.png
+conf/dmx-linqa/zw-snake.fi.png
+conf/dmx-linqa/zw-snake.fr.png
+conf/dmx-linqa/zw-snake.sv.png
+```
+
+While the custom logo is limited to `PNG` files, for the custom resources you can use arbitrary file types.
 
 ## Version History
 

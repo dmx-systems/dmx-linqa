@@ -62,7 +62,8 @@
   "action.submit": "OK",
   "action.cancel": "Annuler",
   "action.reply": "Réponse",
-  "action.create": "Créer",
+  "action.save_without_translation": "Enregistrer sans traduction",
+  "action.continue_editing": "Continuer à éditer",
   "action.edit": "Éditer",
   "action.lock": "Verrouiller",
   "action.unlock": "Déverrouiller",
@@ -102,12 +103,13 @@
   "tooltip.select_language": "Choisir la langue",
   "tooltip.admin": "Administration",
 
+  "warning": "Avertissement",
   "warning.delete": "Vous êtes sur le point de supprimer cet objet",
   "warning.delete_many": "Vous êtes sur le point de supprimer des ${} objets",
   "warning.delete_comment": "Vous êtes sur le point de supprimer ce commentaire",
   "warning.delete_workspace": "Vous êtes sur le point de supprimer cet espace de travail",
   "warning.delete_user": "Vous êtes sur le point de supprimer cet utilisateur",
   "warning.translation_failed": "Échec de la traduction automatique",
-  "warning.translation_confirm": "Ta saisie n'a pas pu être traduite. Clique sur \"Annuler\" pour continuer à éditer ou sur \"Créer\" pour enregistrer sans traduction. Conseil: après la création, choisis \"Éditer\" pour ajouter une traduction.",
-  "warning.translation_alert": "Ta saisie n'a pas pu être traduite."
+  "warning.translation_confirm": "Ta saisie n'a pas pu être traduite",
+  "warning.translation_alert": "Ta saisie n'a pas pu être traduite"
 }

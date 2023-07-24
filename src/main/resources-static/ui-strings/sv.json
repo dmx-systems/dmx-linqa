@@ -62,7 +62,8 @@
   "action.submit": "OK",
   "action.cancel": "Avbryt",
   "action.reply": "Svar",
-  "action.create": "Skapa",
+  "action.save_without_translation": "Spara utan översättning",
+  "action.continue_editing": "Fortsätt redigera",
   "action.edit": "Redigera",
   "action.lock": "Låsa",
   "action.unlock": "Öppna",
@@ -102,12 +103,13 @@
   "tooltip.select_language": "Välj språk",
   "tooltip.admin": "Administration",
 
+  "warning": "Varning",
   "warning.delete": "Du kommer att radera detta objekt",
   "warning.delete_many": "Du kommer att radera ${} objets",
   "warning.delete_comment": "Du kommer att radera denna kommentar",
   "warning.delete_workspace": "Du kommer att radera denna arbetsyta",
   "warning.delete_user": "Du kommer att radera denna användare",
   "warning.translation_failed": "Automatisk översättning misslyckades",
-  "warning.translation_confirm": "Din text kunde inte översättas. Fortsätt redigera genom att klicka på \"Avbryt\" eller eller \"Skapa\" för att spara utan att översätta.",
-  "warning.translation_alert": "Din text kunde inte översättas."
+  "warning.translation_confirm": "Din text kunde inte översättas",
+  "warning.translation_alert": "Din text kunde inte översättas"
 }

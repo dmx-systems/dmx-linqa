@@ -13,9 +13,9 @@ export default {
         case 'confirm':
           return this.$confirm(lq.getString('warning.translation_confirm'), {
             type: 'warning',
-            title:             lq.getString('warning.translation_failed'),
-            confirmButtonText: lq.getString('action.create'),
-            cancelButtonText:  lq.getString('action.cancel'),
+            title:             lq.getString('warning'),
+            confirmButtonText: lq.getString('action.save_without_translation'),
+            cancelButtonText:  lq.getString('action.continue_editing'),
             showClose: false,
           })
         case 'alert':

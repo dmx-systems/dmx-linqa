@@ -62,7 +62,8 @@
   "action.submit": "OK",
   "action.cancel": "Abbrechen",
   "action.reply": "Antworten",
-  "action.create": "Erstellen",
+  "action.save_without_translation": "Ohne Übersetzung speichern",
+  "action.continue_editing": "Weiter editieren",
   "action.edit": "Ändern",
   "action.lock": "Verriegeln",
   "action.unlock": "Entriegeln",
@@ -102,12 +103,13 @@
   "tooltip.select_language": "Sprache auswählen",
   "tooltip.admin": "Verwaltung",
 
+  "warning": "Warnung",
   "warning.delete": "Sie sind im Begriff dieses Objekt zu löschen",
   "warning.delete_many": "Sie sind im Begriff ${} Objekte zu löschen",
   "warning.delete_comment": "Sie sind im Begriff diesen Kommentar zu löschen",
   "warning.delete_workspace": "Sie sind im Begriff diesen Arbeitsbereich zu löschen",
   "warning.delete_user": "Sie sind im Begriff diesen Benutzer zu löschen",
   "warning.translation_failed": "Automatische Übersetzung fehlgeschlagen",
-  "warning.translation_confirm": "Deine Eingabe konnte nicht übersetzt werden. Klicke \"Abbrechen\", um weiter zu editieren oder \"Erstellen\", um ohne Übersetzung zu speichern. Tipp: Wähle nach dem Erstellen \"Ändern\", um eine Übersetzung hinzuzufügen.",
-  "warning.translation_alert": "Deine Eingabe konnte nicht übersetzt werden."
+  "warning.translation_confirm": "Deine Eingabe konnte nicht übersetzt werden",
+  "warning.translation_alert": "Deine Eingabe konnte nicht übersetzt werden"
 }

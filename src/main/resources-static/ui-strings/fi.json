@@ -62,7 +62,8 @@
   "action.submit": "OK",
   "action.cancel": "Peruuta",
   "action.reply": "Vastaus",
-  "action.create": "Luo",
+  "action.save_without_translation": "Tallenna ilman käännöstä",
+  "action.continue_editing": "Jatka muokkaamista",
   "action.edit": "Muokkaa",
   "action.lock": "Lukitse",
   "action.unlock": "Avaa",
@@ -102,12 +103,13 @@
   "tooltip.select_language": "Valitse kieli",
   "tooltip.admin": "Hallinta",
 
+  "warning": "Varoitus",
   "warning.delete": "Aiot poistaa tämän kohteen",
   "warning.delete_many": "Olet poistamassa ${} kohdetta",
   "warning.delete_comment": "Olet poistamassa näutä kommentteja",
   "warning.delete_workspace": "Olet poistamassa tämän työtilan",
   "warning.delete_user": "Olet poistamassa tämän käyttäjän",
   "warning.translation_failed": "Automaattinen käännös epäonnistui",
-  "warning.translation_confirm": "Syötettäsi ei voitu kääntää. Jatka muokkausta napsauttamalla \"Peruuta\" tai tai \"Luo\" tallentaaksesi ilman kääntämistä.",
-  "warning.translation_alert": "Tekstiäsi ei voitu kääntää."
+  "warning.translation_confirm": "Syötettäsi ei voitu kääntää",
+  "warning.translation_alert": "Syötettäsi ei voitu kääntää"
 }

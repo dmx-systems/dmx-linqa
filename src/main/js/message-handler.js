@@ -1,5 +1,4 @@
 import store from './store/linqa'
-import zw from './lq-globals'
 import dmx from 'dmx-api'
 import Vue from 'vue'
 

@@ -30,7 +30,7 @@
 
 <script>
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -91,7 +91,7 @@ export default {
      */
     headingLang () {
       if (this.heading.lang1 && this.heading.lang2) {
-        return zw.langSuffix(this.lang)
+        return lq.langSuffix(this.lang)
       } else if (this.heading.lang1) {
         return 'lang1'
       } else if (this.heading.lang2) {

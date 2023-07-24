@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -52,7 +52,7 @@ export default {
     },
 
     resetTooltip () {
-      return zw.getString('tooltip.reset_filter')
+      return lq.getString('tooltip.reset_filter')
     }
   },
 

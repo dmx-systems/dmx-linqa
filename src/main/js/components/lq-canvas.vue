@@ -47,7 +47,7 @@
 
 <script>
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 let HEADER_HEIGHT
 let synId = -1          // generator for temporary synthetic topic IDs, needed for topics not yet saved, counts down
@@ -96,7 +96,7 @@ export default {
     style () {
       return {
         'background-position': `${this.bgPos.x}px ${this.bgPos.y}px`,
-        'background-size': `${zw.CANVAS_GRID * this.zoom}px`
+        'background-size': `${lq.CANVAS_GRID * this.zoom}px`
       }
     },
 
@@ -109,8 +109,8 @@ export default {
 
     bgPos () {
       return  {
-        x: this.pan.x % (zw.CANVAS_GRID * this.zoom),
-        y: this.pan.y % (zw.CANVAS_GRID * this.zoom)
+        x: this.pan.x % (lq.CANVAS_GRID * this.zoom),
+        y: this.pan.y % (lq.CANVAS_GRID * this.zoom)
       }
     },
 
@@ -119,7 +119,7 @@ export default {
     },
 
     topics () {
-      return this.topicmap?.topics.filter(zw.canvasFilter) || []
+      return this.topicmap?.topics.filter(lq.canvasFilter) || []
     },
 
     targets () {
@@ -168,23 +168,23 @@ export default {
     },
 
     addTooltip () {
-      return zw.getString('tooltip.add')
+      return lq.getString('tooltip.add')
     },
 
     homeTooltip () {
-      return zw.getString('tooltip.home')
+      return lq.getString('tooltip.home')
     },
 
     fullscreenTooltip () {
-      return zw.getString('tooltip.zoom_to_fit')
+      return lq.getString('tooltip.zoom_to_fit')
     },
 
     zoomInTooltip () {
-      return zw.getString('tooltip.zoom_in')
+      return lq.getString('tooltip.zoom_in')
     },
 
     zoomOutTooltip () {
-      return zw.getString('tooltip.zoom_out')
+      return lq.getString('tooltip.zoom_out')
     }
   },
 
@@ -244,20 +244,20 @@ export default {
     },
 
     viewProps (typeUri)  {
-      const x = Math.round((zw.CANVAS_BORDER - this.pan.x) / this.zoom / zw.CANVAS_GRID) * zw.CANVAS_GRID
-      const y = Math.round((zw.CANVAS_BORDER - this.pan.y) / this.zoom / zw.CANVAS_GRID) * zw.CANVAS_GRID
+      const x = Math.round((lq.CANVAS_BORDER - this.pan.x) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
+      const y = Math.round((lq.CANVAS_BORDER - this.pan.y) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
       return {
         'dmx.topicmaps.x': x,
         'dmx.topicmaps.y': y,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? zw.ARROW_LENGTH : zw.FORM_WIDTH,
+        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH : lq.FORM_WIDTH,
         'linqa.angle': 0
       }
     },
 
     home () {
-      const viewport = zw.getViewport()
+      const viewport = lq.getViewport()
       this.$store.dispatch('setViewport', {
         pan: viewport.pan,
         zoom: viewport.zoom,
@@ -282,15 +282,15 @@ export default {
       const width = xMax - xMin
       const height = yMax - yMin
       const canvas = this.$refs.canvas
-      const widthC = canvas.clientWidth - 2 * zw.CANVAS_BORDER
-      const heightC = canvas.clientHeight - 2 * zw.CANVAS_BORDER
+      const widthC = canvas.clientWidth - 2 * lq.CANVAS_BORDER
+      const heightC = canvas.clientHeight - 2 * lq.CANVAS_BORDER
       const zoomW = widthC / width
       const zoomH = heightC / height
       const zoom = Math.min(zoomW, zoomH)
       const dx = (widthC / zoom - width) / 2
       const dy = (heightC / zoom - height) / 2
-      const x = (dx - xMin) * zoom + zw.CANVAS_BORDER
-      const y = (dy - yMin) * zoom + zw.CANVAS_BORDER
+      const x = (dx - xMin) * zoom + lq.CANVAS_BORDER
+      const y = (dy - yMin) * zoom + lq.CANVAS_BORDER
       this.$store.dispatch('setViewport', {pan: {x, y}, zoom, transition: true})
     },
 
@@ -425,7 +425,7 @@ export default {
     onResizeEnd ({target}) {
       // snap to grid
       const topic = this.findTopic(target)
-      const width = Math.round(topic.getViewProp('dmx.topicmaps.width') / zw.CANVAS_GRID) * zw.CANVAS_GRID
+      const width = Math.round(topic.getViewProp('dmx.topicmaps.width') / lq.CANVAS_GRID) * lq.CANVAS_GRID
       this.setWidth(target, width)
       this.$store.dispatch('storeTopicSize', topic)
     },
@@ -452,8 +452,8 @@ export default {
       const p = this.dragStartPos[topic.id]
       topic.setPosition({                                                 // update model
         // snap to grid
-        x: p.x + Math.round(dx / zw.CANVAS_GRID) * zw.CANVAS_GRID,
-        y: p.y + Math.round(dy / zw.CANVAS_GRID) * zw.CANVAS_GRID
+        x: p.x + Math.round(dx / lq.CANVAS_GRID) * lq.CANVAS_GRID,
+        y: p.y + Math.round(dy / lq.CANVAS_GRID) * lq.CANVAS_GRID
       })
     },
 

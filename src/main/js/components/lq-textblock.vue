@@ -45,7 +45,7 @@
 
 <script>
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 import errorHandler from '../error-handler'
 
 export default {
@@ -117,11 +117,11 @@ export default {
     },
 
     quillOptions () {
-      return zw.quillOptions
+      return lq.quillOptions
     },
 
     discussTooltip () {
-      return zw.getString('tooltip.discuss')
+      return lq.getString('tooltip.discuss')
     }
   },
 

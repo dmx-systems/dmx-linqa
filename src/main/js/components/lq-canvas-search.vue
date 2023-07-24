@@ -8,14 +8,14 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
   computed: {
 
     placeholder () {
-      return zw.getString('label.search')
+      return lq.getString('label.search')
     },
 
     matchInfo () {
@@ -24,7 +24,7 @@ export default {
         if (this.noMatch) {
           return '0'
         } else {
-          return `${this.matchIndex + 1} ${zw.getString('label.of')} ${this.matches.length}`
+          return `${this.matchIndex + 1} ${lq.getString('label.of')} ${this.matches.length}`
         }
       }
     },

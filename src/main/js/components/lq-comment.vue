@@ -61,7 +61,7 @@
 
 <script>
 import Vue from 'vue'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -148,11 +148,11 @@ export default {
     },
 
     displayName () {
-      return zw.getDisplayName(this.creator)
+      return lq.getDisplayName(this.creator)
     },
 
     emailAddress () {
-      return zw.getShowEmailAddress(this.creator) && this.creator
+      return lq.getShowEmailAddress(this.creator) && this.creator
     },
 
     date () {
@@ -178,15 +178,15 @@ export default {
     },
 
     translationInfo () {
-      return zw.getString('label.' + this.translationMode)
+      return lq.getString('label.' + this.translationMode)
     },
 
     quillOptions () {
-      return zw.quillOptions2
+      return lq.quillOptions2
     },
 
     replyTooltip () {
-      return zw.getString('tooltip.reply')
+      return lq.getString('tooltip.reply')
     }
   },
 
@@ -232,7 +232,7 @@ export default {
       this.$nextTick(() => {
         this.$store.dispatch('jumpToComment', {
           comment: this.topic,
-          behavior: zw.isChrome ? 'auto' : undefined,
+          behavior: lq.isChrome ? 'auto' : undefined,
           glow: false
         })
       })

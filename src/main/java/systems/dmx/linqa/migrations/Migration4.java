@@ -19,16 +19,16 @@ public class Migration4 extends Migration {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
-    @Inject private LinqaService zw;
+    @Inject private LinqaService lq;
     @Inject private WorkspacesService wss;
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 
     @Override
     public void run() {
-        zw.getAllZWWorkspaces().stream().forEach(ws -> {
-            zw.createViewport(ws.getId());
+        lq.getAllZWWorkspaces().stream().forEach(ws -> {
+            lq.createViewport(ws.getId());
         });
-        zw.createViewport(wss.getWorkspace(TEAM_WORKSPACE_URI).getId());
+        lq.createViewport(wss.getWorkspace(TEAM_WORKSPACE_URI).getId());
     }
 }

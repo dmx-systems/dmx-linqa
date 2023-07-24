@@ -44,9 +44,6 @@
 </template>
 
 <script>
-import dmx from 'dmx-api'
-import zw from '../lq-globals'
-
 export default {
 
   mixins: [

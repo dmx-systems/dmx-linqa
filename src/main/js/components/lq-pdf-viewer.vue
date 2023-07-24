@@ -16,7 +16,7 @@
 
 <script>
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.js'
 pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.js'
 
@@ -47,7 +47,7 @@ export default {
   computed: {
 
     pageNr () {
-      return this.$store.state.pageNr[zw.langSuffix(this.lang)][this.topic.id]
+      return this.$store.state.pageNr[lq.langSuffix(this.lang)][this.topic.id]
     },
 
     numPages () {
@@ -91,7 +91,7 @@ export default {
     },
 
     fullscreenTooltip () {
-      return zw.getString(this.fullscreen ? 'tooltip.close_fullscreen' : 'tooltip.open_fullscreen')
+      return lq.getString(this.fullscreen ? 'tooltip.close_fullscreen' : 'tooltip.open_fullscreen')
     }
   },
 

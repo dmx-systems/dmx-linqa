@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 
 export default {
 
@@ -56,7 +56,7 @@ export default {
     },
 
     displayName () {
-      return zw.getDisplayName(this.user.value)
+      return lq.getDisplayName(this.user.value)
     },
 
     memberships () {

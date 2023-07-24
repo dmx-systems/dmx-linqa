@@ -1,4 +1,4 @@
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 import errorHandler from '../../error-handler'
 
 export default {
@@ -11,16 +11,16 @@ export default {
       if (error.response.data.cause.match(message)) {
         switch (msgBox) {
         case 'confirm':
-          return this.$confirm(zw.getString('warning.translation_confirm'), {
+          return this.$confirm(lq.getString('warning.translation_confirm'), {
             type: 'warning',
-            title:             zw.getString('warning.translation_failed'),
-            confirmButtonText: zw.getString('action.create'),
-            cancelButtonText:  zw.getString('action.cancel'),
+            title:             lq.getString('warning.translation_failed'),
+            confirmButtonText: lq.getString('action.create'),
+            cancelButtonText:  lq.getString('action.cancel'),
             showClose: false,
           })
         case 'alert':
-          return this.$alert(  zw.getString('warning.translation_alert'), {
-            title:             zw.getString('warning.translation_failed'),
+          return this.$alert(  lq.getString('warning.translation_alert'), {
+            title:             lq.getString('warning.translation_failed'),
             type: 'warning',
             showClose: false,
           })

@@ -17,7 +17,7 @@
 
 <script>
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -78,7 +78,7 @@ export default {
     },
 
     w () {
-      return this.formMode && zw.FORM_WIDTH || this.getSize && this.getSize().w
+      return this.formMode && lq.FORM_WIDTH || this.getSize && this.getSize().w
                                             || this.topic.viewProps['dmx.topicmaps.width']
     },
 
@@ -146,7 +146,7 @@ export default {
 
     actionLabel (action) {
       const key = action === 'action.lock' && this.locked ? 'action.unlock' : action
-      return zw.getString(key)
+      return lq.getString(key)
     },
 
     setCustomClass (classname) {

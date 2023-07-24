@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 
 export default {
 
@@ -55,7 +55,7 @@ export default {
     },
 
     displayNames () {
-      return this.workspace.memberships.map(user => zw.getDisplayName(user.value))
+      return this.workspace.memberships.map(user => lq.getDisplayName(user.value))
     },
 
     owner () {

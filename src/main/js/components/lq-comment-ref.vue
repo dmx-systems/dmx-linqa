@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -30,7 +30,7 @@ export default {
     },
 
     displayName () {
-      return zw.getDisplayName(this.creator)
+      return lq.getDisplayName(this.creator)
     },
 
     lang () {

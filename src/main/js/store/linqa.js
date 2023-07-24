@@ -5,7 +5,7 @@ import dmx from 'dmx-api'
 import searchStore from './search'
 import adminStore from './admin'
 import errorHandler from '../error-handler'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 window.addEventListener('focus', updateCookies)
 
@@ -113,7 +113,7 @@ const actions = {
   fetchAllUsers () {
     if (!state.users.length) {
       return http.get('/linqa/users').then(response => {
-        state.users = response.data.sort(zw.topicSort)
+        state.users = response.data.sort(lq.topicSort)
       })
     }
   },
@@ -143,7 +143,7 @@ const actions = {
       return fetchTopicmap()
     }).then(topicmap => {
       state.topicmap = topicmap
-      const viewport = zw.getViewport()
+      const viewport = lq.getViewport()
       dispatch('setViewport', {pan: viewport.pan, zoom: viewport.zoom, transition: true})
     }).catch(error => {
       console.warn(`Workspace ${workspaceId} check failed`, error)
@@ -233,8 +233,8 @@ const actions = {
     dispatch('select', topic)     // programmatic selection
     dispatch('setViewport', {
       pan: {
-        x: -topic.pos.x * state.zoom + zw.CANVAS_BORDER,
-        y: -topic.pos.y * state.zoom + zw.CANVAS_BORDER
+        x: -topic.pos.x * state.zoom + lq.CANVAS_BORDER,
+        y: -topic.pos.y * state.zoom + lq.CANVAS_BORDER
       },
       transition: true
     })
@@ -291,14 +291,14 @@ const actions = {
   },
 
   initPageNr (_, topicId) {
-    const pageNr = state.pageNr[zw.langSuffix(state.lang)]
+    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
     if (!pageNr[topicId]) {
       Vue.set(pageNr, topicId, 1)
     }
   },
 
   prevPage (_, topicId) {
-    const pageNr = state.pageNr[zw.langSuffix(state.lang)]
+    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
     if (pageNr[topicId] > 1) {
       pageNr[topicId]--
       return true
@@ -306,7 +306,7 @@ const actions = {
   },
 
   nextPage (_, {topicId, numPages}) {
-    const pageNr = state.pageNr[zw.langSuffix(state.lang)]
+    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
     if (pageNr[topicId] < numPages) {
       pageNr[topicId]++
       return true
@@ -522,7 +522,7 @@ const actions = {
       // 2) when discussion panel is closed
       if (editor) {
         const suffix = state.documentFilter ? '_document' : state.textblockFilter ? '_textblock' : ''
-        editor.dataset.placeholder = zw.getString('label.new_comment' + suffix)
+        editor.dataset.placeholder = lq.getString('label.new_comment' + suffix)
       }
   },
 
@@ -549,7 +549,7 @@ const actions = {
 
   delete ({dispatch}, topic) {
     dispatch('select', topic)     // programmatic selection
-    zw.confirmDeletion().then(() => {
+    lq.confirmDeletion().then(() => {
       dispatch('deselect')
       state.topicmap.removeTopic(topic.id)            // update client state
       dmx.rpc.deleteTopic(topic.id)                   // update server state
@@ -557,7 +557,7 @@ const actions = {
   },
 
   deleteMany ({dispatch}, topicIds) {
-    zw.confirmDeletion('warning.delete_many', topicIds.length).then(() => {
+    lq.confirmDeletion('warning.delete_many', topicIds.length).then(() => {
       dispatch('deselect')
       topicIds.forEach(id => {                        // update client state
         state.topicmap.removeTopic(id)
@@ -567,7 +567,7 @@ const actions = {
   },
 
   deleteComment (_, comment) {
-    zw.confirmDeletion('warning.delete_comment').then(() => {
+    lq.confirmDeletion('warning.delete_comment').then(() => {
       removeComment(comment)                          // update client state
       dmx.rpc.deleteTopic(comment.id)                 // update server state
     }).catch(() => {})            // suppress unhandled rejection on cancel
@@ -602,7 +602,7 @@ const actions = {
       params: userProfile
     }).then(() => {
       updateUserProfile(userProfile)            // update client state
-      // rootState.users.sort(zw.topicSort)     // TODO: sort by display name (email address at the moment)
+      // rootState.users.sort(lq.topicSort)     // TODO: sort by display name (email address at the moment)
     })
   },
 
@@ -610,8 +610,8 @@ const actions = {
     return http.get(`/sign-up/password-token/${emailAddress}/%2f`).then(() => {      // redirectUrl=/ (%2f)
       Vue.prototype.$notify({
         type: 'success',
-        title: zw.getString('label.email_sent'),
-        message: `${zw.getString('label.to')} ${emailAddress}`,
+        title: lq.getString('label.email_sent'),
+        message: `${lq.getString('label.to')} ${emailAddress}`,
         showClose: false
       })
     }).catch(error => {
@@ -645,13 +645,13 @@ const actions = {
 const getters = {
 
   sortedWorkspaces () {
-    return state.workspaces.sort(zw.workspaceSort)
+    return state.workspaces.sort(lq.workspaceSort)
   },
 
   sortedMemberships () {
     return state.users.reduce((memberships, user) => {
       if (user.memberships) {
-        const workspaces = user.memberships.sort(zw.workspaceSort)
+        const workspaces = user.memberships.sort(lq.workspaceSort)
         memberships[user.value] = workspaces
       }
       return memberships
@@ -758,7 +758,7 @@ function updateWorkspaceState () {
 }
 
 function findWorkspace (id) {
-  const workspace = zw.findWorkspace(id)
+  const workspace = lq.findWorkspace(id)
   if (!workspace) {
     throw Error(`Workspace ${id} not found in ${state.workspaces} (${state.workspaces.length})`)
   }
@@ -783,7 +783,7 @@ function fetchTopicmap () {
 
 // TODO: basically copied from admin.js
 function updateUserProfile(userProfile) {
-  const children = zw.getUser(state.username).children
+  const children = lq.getUser(state.username).children
   if (!children['dmx.signup.display_name']) {   // TODO: refactor
     Vue.set(children, 'dmx.signup.display_name', {})
   }

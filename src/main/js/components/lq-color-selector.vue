@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -30,7 +30,7 @@ export default {
   data () {
     return {
       color: this.value,              // selected color
-      colors: zw.ITEM_COLORS          // all colors
+      colors: lq.ITEM_COLORS          // all colors
     }
   },
 

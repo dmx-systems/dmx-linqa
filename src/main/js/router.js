@@ -10,7 +10,7 @@ import Webclient from './components/lq-webclient'
 import Workspace from './components/lq-workspace'
 import Admin from './components/admin/lq-admin'
 import store from './store/linqa'
-import zw from './lq-globals'
+import lq from './lq-globals'
 import dmx from 'dmx-api'
 
 Vue.use(VueRouter)
@@ -196,7 +196,7 @@ function isValidWorkspaceId (id, origin) {
   if (!id) {
     return false
   }
-  const valid = store.state.isTeam && id === store.state.teamWorkspace.id || zw.findWorkspace(id)
+  const valid = store.state.isTeam && id === store.state.teamWorkspace.id || lq.findWorkspace(id)
   // console.log('isValidWorkspaceId', id, '(from ' + origin + ')', !!valid)
   if (!valid) {
     console.warn(`${id} is an invalid workspace ID for user "${store.state.username}"`)

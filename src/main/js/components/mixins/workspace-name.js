@@ -1,4 +1,4 @@
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 
 export default {
 
@@ -15,7 +15,7 @@ export default {
 
   methods: {
     getWorkspaceName (workspace) {
-      return zw.workspaceName(workspace)
+      return lq.workspaceName(workspace)
     }
   }
 }

@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -16,7 +16,7 @@ export default {
   computed: {
 
     string () {
-      return zw.getString(this.key, this.value)
+      return lq.getString(this.key, this.value)
     },
 
     key () {

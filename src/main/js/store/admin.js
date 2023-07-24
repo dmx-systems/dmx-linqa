@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import http from 'axios'
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 import SHA256 from '../lib/sha256'
 
 const ENCODED_PASSWORD_PREFIX = '-SHA256-'
@@ -111,13 +111,13 @@ const actions = {
     const workspace = findWorkspace(workspaceId)
     if (!workspace.memberships) {
       return dmx.rpc.getMemberships(workspaceId).then(users => {
-        Vue.set(workspace, 'memberships', users.sort(zw.topicSort))       // ad-hoc property is not reactive by default
+        Vue.set(workspace, 'memberships', users.sort(lq.topicSort))       // ad-hoc property is not reactive by default
       })
     }
   },
 
   fetchUserMemberships (_, username) {
-    const usernameTopic = zw.getUser(username)
+    const usernameTopic = lq.getUser(username)
     if (!usernameTopic.memberships) {
       return http.get(`/linqa/admin/user/${username}/workspaces`).then(response => {
         const workspaces = response.data
@@ -138,7 +138,7 @@ const actions = {
       }
     }).then(response => {
       const users = response.data
-      workspace.memberships = users.sort(zw.topicSort)
+      workspace.memberships = users.sort(lq.topicSort)
       collapseUsers(rootState, dispatch)
     })
   },
@@ -178,7 +178,7 @@ const actions = {
   },
 
   deleteWorkspace (_, workspaceId) {
-    return zw.confirmDeletion('warning.delete_workspace').then(() => {
+    return lq.confirmDeletion('warning.delete_workspace').then(() => {
       dmx.rpc.deleteWorkspace(workspaceId)          // update server state
     }).then(() => {
       removeWorkspace(workspaceId)                  // update client state
@@ -210,7 +210,7 @@ const actions = {
     }
     return p.then(user => {
       rootState.users.push(user)
-      rootState.users.sort(zw.topicSort)              // TODO: sort by display name (email address at the moment)
+      rootState.users.sort(lq.topicSort)              // TODO: sort by display name (email address at the moment)
     })
   },
 
@@ -221,12 +221,12 @@ const actions = {
       params: {displayName}
     }).then(() => {
       updateUser(username, displayName)               // update client state
-      // rootState.users.sort(zw.topicSort)           // TODO: sort by display name (email address at the moment)
+      // rootState.users.sort(lq.topicSort)           // TODO: sort by display name (email address at the moment)
     })
   },
 
   deleteUser ({rootState}, user) {
-    return zw.confirmDeletion('warning.delete_user').then(() => {
+    return lq.confirmDeletion('warning.delete_user').then(() => {
       return http.delete(`/ldap/user/${user.value}`)  // update server state
     }).then(() => {
       removeUser(user.id, rootState)                  // update client state
@@ -236,7 +236,7 @@ const actions = {
 
 const getters = {
   sortedWorkspaces () {
-    return state.workspaces.sort(zw.workspaceSort)
+    return state.workspaces.sort(lq.workspaceSort)
   }
 }
 
@@ -290,7 +290,7 @@ function replaceWorkspace (workspace, rootState, dispatch) {
 }
 
 function updateUser(username, displayName) {
-  const children = zw.getUser(username).children
+  const children = lq.getUser(username).children
   if (!children['dmx.signup.display_name']) {   // TODO: refactor
     Vue.set(children, 'dmx.signup.display_name', {})
   }

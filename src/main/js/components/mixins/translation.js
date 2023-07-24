@@ -1,4 +1,4 @@
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 
 /**
  * Note: the host component is expected to hold
@@ -97,7 +97,7 @@ export default {
       // objects (Notes, Textblocks etc.) newFormModel() is only called when editing (see edit() in lq-canvas-item.vue).
       const lang = this.topic.children['linqa.language#linqa.original_language']?.value
       if (lang) {
-        return zw.langSuffix(lang)
+        return lq.langSuffix(lang)
       }
     },
 
@@ -113,7 +113,7 @@ export default {
     },
 
     translateTooltip () {
-      return zw.getString('tooltip.translate')
+      return lq.getString('tooltip.translate')
     }
   },
 

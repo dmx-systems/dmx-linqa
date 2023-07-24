@@ -59,7 +59,7 @@
 <script>
 import Vue from 'vue'
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -140,7 +140,7 @@ export default {
       const lang1 = this.docNames.lang1?.value
       const lang2 = this.docNames.lang2?.value
       if (lang1 && lang2) {
-        return zw.langSuffix(this.lang)
+        return lq.langSuffix(this.lang)
       } else if (lang1) {
         return 'lang1'
       } else if (lang2) {
@@ -227,7 +227,7 @@ export default {
     },
 
     discussTooltip () {
-      return zw.getString('tooltip.discuss')
+      return lq.getString('tooltip.discuss')
     }
   },
 

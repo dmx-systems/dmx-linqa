@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 
 export default {
 
@@ -31,7 +31,7 @@ export default {
     if (this.isUpdate) {
       const username = this.selectedUser.value
       this.model.emailAddress = username
-      this.model.displayName = zw.getDisplayName(username)
+      this.model.displayName = lq.getDisplayName(username)
     }
   },
 

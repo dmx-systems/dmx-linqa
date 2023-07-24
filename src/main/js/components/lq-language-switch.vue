@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -30,7 +30,7 @@ export default {
     },
 
     selectTooltip () {
-      return zw.getString('tooltip.select_language')
+      return lq.getString('tooltip.select_language')
     }
   },
 

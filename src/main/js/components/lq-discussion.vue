@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 import errorHandler from '../error-handler'
 
 export default {
@@ -75,8 +75,8 @@ export default {
       uploadDialogVisible: false,     // upload dialog visibility (for comment attachments)
       submitting: false,              // true while submitting new comment
       quillOptions: {                 // options for new-comment quill editor
-        placeholder: zw.getString('label.new_comment'),
-        ...zw.quillOptions2
+        placeholder: lq.getString('label.new_comment'),
+        ...lq.quillOptions2
       }
     }
   },
@@ -135,23 +135,23 @@ export default {
     },
 
     openTooltip () {
-      return zw.getString('tooltip.open_panel')
+      return lq.getString('tooltip.open_panel')
     },
 
     closeTooltip () {
-      return zw.getString('tooltip.close_panel')
+      return lq.getString('tooltip.close_panel')
     },
 
     attachTooltip () {
-      return zw.getString('tooltip.attach')
+      return lq.getString('tooltip.attach')
     },
 
     submitTooltip () {
-      return zw.getString('tooltip.submit')
+      return lq.getString('tooltip.submit')
     },
 
     resetTooltip () {
-      return zw.getString('tooltip.reset_filter')
+      return lq.getString('tooltip.reset_filter')
     }
   },
 
@@ -218,7 +218,7 @@ export default {
       this.$refs.newComment.setHTML('')     // TODO: atm vue-quill-minimum does not react on model change
       this.refComment = undefined
       this.attachments = []
-      this.jumpTo(comment, zw.isChrome ? 'auto' : undefined)
+      this.jumpTo(comment, lq.isChrome ? 'auto' : undefined)
     },
 
     reply (comment) {

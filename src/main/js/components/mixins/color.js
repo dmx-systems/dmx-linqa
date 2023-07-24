@@ -1,9 +1,9 @@
-import zw from '../../lq-globals'
+import lq from '../../lq-globals'
 
 export default {
   computed: {
     color () {
-      return this.topic.children['linqa.color']?.value || zw.ITEM_COLORS[1]      // default is lavender
+      return this.topic.children['linqa.color']?.value || lq.ITEM_COLORS[1]      // default is lavender
     }
   }
 }

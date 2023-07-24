@@ -33,7 +33,7 @@
 
 <script>
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 import errorHandler from '../error-handler'
 
 export default {
@@ -88,7 +88,7 @@ export default {
      */
     noteLang () {
       if (this.note.lang1 && this.note.lang2) {
-        return zw.langSuffix(this.lang)
+        return lq.langSuffix(this.lang)
       } else if (this.note.lang1) {
         return 'lang1'
       } else if (this.note.lang2) {
@@ -113,7 +113,7 @@ export default {
     },
 
     quillOptions () {
-      return zw.quillOptions
+      return lq.quillOptions
     }
   },
 

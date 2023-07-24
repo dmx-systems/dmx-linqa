@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -72,8 +72,8 @@ export default {
       switch (command) {
       case 'userProfile':
         this.visible = true
-        this.displayName = zw.getDisplayName(this.username)
-        this.showEmailAddress = zw.getShowEmailAddress(this.username)
+        this.displayName = lq.getDisplayName(this.username)
+        this.showEmailAddress = lq.getShowEmailAddress(this.username)
         break
       case 'logout':
         this.$store.dispatch('logout').then(() =>

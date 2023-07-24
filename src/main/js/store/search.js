@@ -1,5 +1,5 @@
 import dmx from 'dmx-api'
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 const state = {
   searchTerm: '',
@@ -15,7 +15,7 @@ const actions = {
     state.matchIndex = 0
     if (state.searchTerm) {
       // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
-      rootState.topicmap.topics.filter(zw.canvasFilter).forEach(topic => {
+      rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
         const text = itemText(topic)
         if (text) {
           // TODO: locale lower case?

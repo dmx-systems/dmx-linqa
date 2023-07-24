@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import zw from '../lq-globals'
+import lq from '../lq-globals'
 
 export default {
 
@@ -91,8 +91,8 @@ export default {
         }
         const oldWidth = this.newWidth
         // update model
-        this[`h${nr}`].x = Math.round(left / zw.CANVAS_GRID) * zw.CANVAS_GRID
-        this[`h${nr}`].y = Math.round(top / zw.CANVAS_GRID) * zw.CANVAS_GRID
+        this[`h${nr}`].x = Math.round(left / lq.CANVAS_GRID) * lq.CANVAS_GRID
+        this[`h${nr}`].y = Math.round(top / lq.CANVAS_GRID) * lq.CANVAS_GRID
         this.topic.setViewProp('dmx.topicmaps.width', this.newWidth)
         this.topic.setViewProp('linqa.angle', this.newAngle)
         // position correction
@@ -111,7 +111,7 @@ export default {
       const sin = Math.sin(alpha)
       const cos = Math.cos(alpha)
       const cx = this.pos.x + this.width / 2
-      const cy = this.pos.y + zw.ARROW_HEIGHT / 2
+      const cy = this.pos.y + lq.ARROW_HEIGHT / 2
       const w2 = this.width / 2
       const w2sin = w2 * sin
       const w2cos = w2 * cos

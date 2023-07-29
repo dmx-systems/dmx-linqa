@@ -1,7 +1,7 @@
 <template>
   <div class="lq-comment-ref lq-comment-target-ref" v-if="comment" @click="click">
     <div class="creator label">{{displayName}}</div>
-    <lq-truncate class="comment label" :html="html[lang]"></lq-truncate>
+    <lq-truncate class="comment label" :html="commentHtml"></lq-truncate>
     <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" @click.stop="remove"></el-button>
   </div>
 </template>
@@ -18,10 +18,21 @@ export default {
 
   computed: {
 
-    html () {
+    topicHtml () {
       return {
-        lang1: this.comment.children['linqa.comment.lang1'].value,
-        lang2: this.comment.children['linqa.comment.lang2'].value      // FIXME: empty case, monolingual case
+        lang1: this.html('lang1'),
+        lang2: this.html('lang2')
+      }
+    },
+
+    commentHtml () {
+      const topicHtml = this.topicHtml
+      if (topicHtml.lang1 && topicHtml.lang2) {
+        return topicHtml[lq.langSuffix(this.lang)]
+      } else if (topicHtml.lang1) {
+        return topicHtml.lang1
+      } else if (topicHtml.lang2) {
+        return topicHtml.lang2
       }
     },
 
@@ -39,6 +50,14 @@ export default {
   },
 
   methods: {
+
+    html (lang) {
+      // Note: in a monolingual comment "lang2" is not defined
+      const html = this.comment.children['linqa.comment.' + lang]?.value
+      if (html !== '<p><br></p>') {
+        return html
+      }
+    },
 
     click () {
       this.$emit('click', this.comment)

@@ -33,7 +33,7 @@ export default {
     textblockHtml () {
       const topicHtml = this.topicHtml
       if (topicHtml.lang1 && topicHtml.lang2) {
-        return topicHtml[this.lang]
+        return topicHtml[lq.langSuffix(this.lang)]
       } else if (topicHtml.lang1) {
         return topicHtml.lang1
       } else if (topicHtml.lang2) {

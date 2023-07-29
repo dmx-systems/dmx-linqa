@@ -30,7 +30,7 @@ export default {
     docName () {
       const docNames = this.docNames
       if (docNames.lang1 && docNames.lang2) {
-        return docNames[this.lang]
+        return docNames[lq.langSuffix(this.lang)]
       } else if (docNames.lang1) {
         return docNames.lang1
       } else if (docNames.lang2) {

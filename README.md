@@ -5,7 +5,7 @@ on various kinds of content objects (documents, notes, textblocks). Content obje
 
 The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage menberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 
-The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 4 languages are supported: German, French, Finnish, Swedish.
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 5 languages are supported: German, English, Finnish, French, Swedish.
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license.
 
@@ -15,8 +15,8 @@ For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. 
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
-| dmx.linqa.lang1    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: `de`, `fr`, `fi`, `sv` |
-| dmx.linqa.lang2    | yes      | ISO 639-1 language code.<br>At the moment 4 languages are supported: `de`, `fr`, `fi`, `sv` |
+| dmx.linqa.lang1    | yes      | ISO 639-1 language code. One of `de`, `en`, `fi`, `fr`, `sv`. |
+| dmx.linqa.lang2    | yes      | ISO 639-1 language code. One of `de`, `en`, `fi`, `fr`, `sv`. |
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 
@@ -45,6 +45,7 @@ For each language you need to create a separate PNG file with name `logo` and pu
 
 ```
 logo.de.png
+logo.en.png
 logo.fi.png
 logo.fr.png
 logo.sv.png
@@ -67,10 +68,12 @@ It is required to configure site-specific imprint and privacy policy texts.
 To do so create a `dmx-linqa/` directory within your DMX `conf/` directory with this content:
 ```
 imprint.de.html
+imprint.en.html
 imprint.fi.html
 imprint.fr.html
 imprint.sv.html
 privacy_policy.de.html
+privacy_policy.en.html
 privacy_policy.fi.html
 privacy_policy.fr.html
 privacy_policy.sv.html
@@ -135,6 +138,7 @@ In case you want display a language specific image you'd have to 1) supply one f
 
 ```
 conf/dmx-linqa/zw-snake.de.png
+conf/dmx-linqa/zw-snake.en.png
 conf/dmx-linqa/zw-snake.fi.png
 conf/dmx-linqa/zw-snake.fr.png
 conf/dmx-linqa/zw-snake.sv.png

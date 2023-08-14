@@ -3,9 +3,9 @@
 Linqa is a platform for bilingual collaboration. Linqa provides shared workspaces for handling and commenting
 on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by heading and arrow elements. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
 
-The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage menberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
+The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 
-The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 5 languages are supported: German, English, Finnish, French, Swedish.
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 6 languages are supported: German, English, Spanish, Finnish, French, Swedish.
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license.
 
@@ -15,12 +15,12 @@ For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. 
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
-| dmx.linqa.lang1    | yes      | ISO 639-1 language code. One of `de`, `en`, `fi`, `fr`, `sv`. |
-| dmx.linqa.lang2    | yes      | ISO 639-1 language code. One of `de`, `en`, `fi`, `fr`, `sv`. |
+| dmx.linqa.lang1    | yes      | ISO 639-1 language code. One of `de`, `en`, `es`, `fi`, `fr`, `sv`. |
+| dmx.linqa.lang2    | yes      | ISO 639-1 language code. One of `de`, `en`, `es`, `fi`, `fr`, `sv`. |
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 
-All following configuration possibilites (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
+All following configuration possibilities (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
 
 ### Site logo
 
@@ -46,6 +46,7 @@ For each language you need to create a separate PNG file with name `logo` and pu
 ```
 logo.de.png
 logo.en.png
+logo.es.png
 logo.fi.png
 logo.fr.png
 logo.sv.png
@@ -69,11 +70,13 @@ To do so create a `dmx-linqa/` directory within your DMX `conf/` directory with 
 ```
 imprint.de.html
 imprint.en.html
+imprint.es.html
 imprint.fi.html
 imprint.fr.html
 imprint.sv.html
 privacy_policy.de.html
 privacy_policy.en.html
+privacy_policy.es.html
 privacy_policy.fi.html
 privacy_policy.fr.html
 privacy_policy.sv.html
@@ -106,7 +109,7 @@ Note: if you run Linqa in development mode (via webpack-dev-server) stylesheet l
 
 ### Serving custon resources
 
-Basically Linqa makes all files residing in DMX's `conf/dmx-linqa/` directory avilable to the web browser. So you can supply further resource files for your own purposes here. Resource files can be multilingual (individual files per langauge) or language independent.
+Basically Linqa makes all files residing in DMX's `conf/dmx-linqa/` directory available to the web browser. So you can supply further resource files for your own purposes here. Resource files can be multilingual (individual files per language) or language independent.
 
 In order to access your resource files use this URL format (e.g. inside your custom CSS):
 
@@ -134,11 +137,12 @@ For example, to display a decorative image (`zw-snake.png`) on both, the Login a
 
 Note: in the URL it's `.../zw-snake/png`, not `.png`. As explained above this URL will access the corresponding `.png` file then.
 
-In case you want display a language specific image you'd have to 1) supply one file per language, and 2) use this URL: `.../zw-snake/png?multilingual=true`. This accesses the image corresponding to the selected UI langauge then:
+In case you want display a language specific image you'd have to 1) supply one file per language, and 2) use this URL: `.../zw-snake/png?multilingual=true`. This accesses the image corresponding to the selected UI language then:
 
 ```
 conf/dmx-linqa/zw-snake.de.png
 conf/dmx-linqa/zw-snake.en.png
+conf/dmx-linqa/zw-snake.es.png
 conf/dmx-linqa/zw-snake.fi.png
 conf/dmx-linqa/zw-snake.fr.png
 conf/dmx-linqa/zw-snake.sv.png
@@ -152,7 +156,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 * Features:
     * **Configurability**: a Linqa installation can adapt to various usage scenarios:
-        * the 2 langauges used for a) automatic content translation, b) the UI itself
+        * the 2 languages used for a) automatic content translation, b) the UI itself
         * the logo appearing for app header/login and legal pages, multilingual
         * legal texts: imprint and privacy policy, multilingual
         * CSS style (colors, fonts, decorative images, ...)

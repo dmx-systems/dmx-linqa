@@ -85,11 +85,12 @@ echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans || true
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #date +%s
-#sleep 10
+sleep 2
 #date +%s
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
 if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
+    docker container stop ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
     docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container
     sleep 1
     echo "deleting old docker image ${DOCKER_IMAGE}"

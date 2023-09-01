@@ -7,7 +7,7 @@
     <name>DMX Linqa</name>
     <groupId>systems.dmx</groupId>
     <artifactId>dmx-linqa</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.6</version>
     <packaging>bundle</packaging>
 
     <description>The Linqa bilingual collaboration platform</description>

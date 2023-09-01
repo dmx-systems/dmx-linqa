@@ -152,7 +152,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**1.6** -- unreleased
+**1.6** -- Sep 1, 2023
 
 * Features:
     * **Configurability**: a Linqa installation can adapt to various usage scenarios:
@@ -167,6 +167,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
     * **Snap-to-grid**: when moving content objects they snap to a 20px grid, rotation takes place in 5° steps
     * **Object locking**: administrators can lock objects to prevent unintended changes by editors
     * Admin area: in the user list an **"Active" checkmark** indicates whether the respective user has logged in at least once
+    * 6 supported languages: German, English, Spanish, Finnish, French, Swedish
 * Improvements:
     * Usability improvements:
         * All workspace lists are sorted alphabetically (in both, user area and admin area), and are resorted when the UI language is switched

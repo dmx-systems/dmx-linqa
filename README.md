@@ -152,6 +152,8 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
+**1.7** -- unreleased
+
 **1.6** -- Sep 1, 2023
 
 * Features:

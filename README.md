@@ -154,6 +154,8 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 **1.7** -- unreleased
 
+* Password-reset dialog is URL addressable
+
 **1.6** -- Sep 1, 2023
 
 * Features:

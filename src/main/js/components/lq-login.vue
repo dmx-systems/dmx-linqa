@@ -30,7 +30,7 @@
       <el-button type="text" @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
       <el-button type="text" @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
     </div>
-    <el-dialog :visible.sync="visible" width="350px">
+    <el-dialog :visible.sync="visible" width="350px" @close="closeDialog">
       <lq-string slot="title">label.reset_password</lq-string>
       <div class="field">
         <div class="field-label"><lq-string>label.email_address</lq-string></div>
@@ -45,6 +45,10 @@
 
 <script>
 export default {
+
+  created () {
+    this.initVisibility()
+  },
 
   mixins: [
     require('./mixins/logo').default
@@ -73,8 +77,22 @@ export default {
       return this.$store.state.loginMessage
     },
 
+    reset () {
+      return this.router.currentRoute.query.resetPassword
+    },
+
+    router () {
+      return this.$store.state.routerModule.router
+    },
+
     lang () {
       return this.$store.state.lang
+    }
+  },
+
+  watch: {
+    reset () {
+      this.initVisibility()
     }
   },
 
@@ -94,12 +112,20 @@ export default {
 
     // Reset Password
 
+    initVisibility () {
+      // Note: the `resetPassword` query parameter acts as switch, based on parameter presence, there
+      // is no value. So `null` indicates presence while `undefined` indicates non-presence.
+      if (this.reset === null) {
+        this.visible = true
+      }
+    },
+
     openDialog () {
-      this.visible = true
+      this.$store.dispatch('callLoginRoute', null)
     },
 
     closeDialog () {
-      this.visible = false
+      this.$store.dispatch('callLoginRoute')
     },
 
     resetPassword () {

@@ -127,7 +127,8 @@ const actions = {
    * @param   resetPassword   optional, pass `null` (no value) to open password-reset dialog
    */
   callLoginRoute (_, resetPassword) {
-    router.push({name: 'login', query: {resetPassword}})
+    const query = {...router.currentRoute.query, ...{resetPassword}}
+    router.push({name: 'login', query})
   },
 
   callImprintRoute () {

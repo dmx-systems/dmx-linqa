@@ -607,7 +607,11 @@ const actions = {
   },
 
   resetPassword (_, emailAddress) {
-    return http.get(`/sign-up/password-token/${emailAddress}/%2f`).then(() => {      // redirectUrl=/ (%2f)
+    return http.get(`/sign-up/password-reset/${emailAddress}`).then(response => {
+      console.log('response', response.data)
+      if (response.data.result !== 'SUCCESS') {
+        throw Error(response.data.result)
+      }
       Vue.prototype.$notify({
         type: 'success',
         title: lq.getString('label.email_sent'),

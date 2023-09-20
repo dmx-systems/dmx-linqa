@@ -36,7 +36,7 @@ for user in "${USERS[@]}"; do
     ## replace space in DISPLAYNAME with encoded space (%20)
     DISPLAYNAME="${user}%20Testuser"
     LDAPPASSWORDBASE64="$( echo -n "${LDAPPASSWORD}" | base64 )"
-    URL="sign-up/custom-handle/${MAILBOX}/${DISPLAYNAME}/${LDAPPASSWORDBASE64}"
+    URL="sign-up/custom-handle/${MAILBOX}/${MAILBOX}/${DISPLAYNAME}/${LDAPPASSWORDBASE64}"
     echo "GET ${URL}"
     ## mind "Accept" header!
     RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" -X GET "${HOST}/${URL}" -i 2>&1 )"

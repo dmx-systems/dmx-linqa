@@ -192,20 +192,22 @@ const actions = {
   createUser ({rootState}, userModel) {
     let p
     if (DEV) {
+      // Note: in development mode display name is ignored and password is fixed to '123'
       p = dmx.rpc.createUserAccount(userModel.emailAddress, encodePassword('123'))
     } else {
-      const mailbox = userModel.emailAddress
-      p = http.get(`/sign-up/check/${mailbox}`).then(response => {
+      const emailAddress = userModel.emailAddress
+      p = http.get(`/sign-up/check/${emailAddress}`).then(response => {
         console.log('isAvailable', response.data)
         if (response.data.isAvailable) {
-          return mailbox
+          return emailAddress
         } else {
-          return Promise.reject(new Error(`Username "${mailbox}" is already taken`))
+          return Promise.reject(new Error(`Username "${emailAddress}" is already taken`))
         }
-      }).then(username => {
+      }).then(emailAddress => {
         const displayName = userModel.displayName
         const password = btoa(newPassword())
-        return http.get(`/sign-up/custom-handle/${username}/${displayName}/${password}`).then(response => response.data)
+        return http.get(`/sign-up/custom-handle/${emailAddress}/${emailAddress}/${displayName}/${password}`)
+          .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }
     return p.then(user => {

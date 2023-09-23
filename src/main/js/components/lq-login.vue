@@ -30,25 +30,12 @@
       <el-button type="text" @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
       <el-button type="text" @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
     </div>
-    <el-dialog :visible.sync="visible" width="350px" @close="closeDialog">
-      <lq-string slot="title">label.reset_password</lq-string>
-      <div class="field">
-        <div class="field-label"><lq-string>label.email_address</lq-string></div>
-        <el-input v-model="emailAddress"></el-input>
-      </div>
-      <el-button class="reset-button" type="primary" @click="resetPassword">
-        <lq-string>action.submit</lq-string>
-      </el-button>
-    </el-dialog>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-
-  created () {
-    this.initVisibility()
-  },
 
   mixins: [
     require('./mixins/logo').default
@@ -60,14 +47,10 @@ export default {
 
   data () {
     return {
-      // Login dialog
       credentials: {
         username: '',
         password: ''
-      },
-      // Password-reset Dialog
-      visible: false,
-      emailAddress: ''
+      }
     }
   },
 
@@ -77,22 +60,8 @@ export default {
       return this.$store.state.loginMessage
     },
 
-    reset () {
-      return this.router.currentRoute.query.resetPassword
-    },
-
-    router () {
-      return this.$store.state.routerModule.router
-    },
-
     lang () {
       return this.$store.state.lang
-    }
-  },
-
-  watch: {
-    reset () {
-      this.initVisibility()
     }
   },
 
@@ -110,26 +79,10 @@ export default {
       this.$refs.password.focus()
     },
 
-    // Reset Password
-
-    initVisibility () {
-      // Note: the `resetPassword` query parameter acts as switch, based on parameter presence, there
-      // is no value. So `null` indicates presence while `undefined` indicates non-presence.
-      if (this.reset === null) {
-        this.visible = true
-      }
-    },
+    // Password Reset
 
     openDialog () {
-      this.$store.dispatch('callLoginRoute', null)
-    },
-
-    closeDialog () {
-      this.$store.dispatch('callLoginRoute')
-    },
-
-    resetPassword () {
-      this.$store.dispatch('resetPassword', this.emailAddress).then(this.closeDialog)
+      this.$store.dispatch('callPasswordResetRoute')
     },
 
     // Legal
@@ -202,13 +155,9 @@ export default {
   margin-left: 24px;
 }
 
-.lq-login .login-button,
-.lq-login .reset-button {
+.lq-login .login-button {
   font-size: 16px;
   margin-top: 26px;
-}
-
-.lq-login .login-button {
   margin-bottom: 36px;
 }
 
@@ -220,7 +169,7 @@ export default {
   font-size: var(--secondary-font-size);
 }
 
-.lq-login .footer .el-button:nth-child(2) {
+.lq-login .footer .el-button + .el-button {
   margin-left: 20px;
 }
 </style>

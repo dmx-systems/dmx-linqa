@@ -5,6 +5,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from './components/lq-login'
+import PasswordResetDialog from './components/lq-password-reset-dialog'
 import Legal from './components/lq-legal'
 import Webclient from './components/lq-webclient'
 import Workspace from './components/lq-workspace'
@@ -37,7 +38,14 @@ const router = new VueRouter({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      children: [
+        {
+          path: '/password-reset',
+          name: 'passwordReset',
+          component: PasswordResetDialog
+        }
+      ]
     },
     {
       path: '/imprint',
@@ -46,7 +54,7 @@ const router = new VueRouter({
     },
     {
       path: '/privacy_policy',
-      name: 'privacy_policy',
+      name: 'privacy_policy',       // used directly as ui-string key component, underscore instead camel-case
       component: Legal
     }
   ]
@@ -54,7 +62,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   store.state.userReady.then(() => {
-    if (['imprint', 'privacy_policy'].includes(to.name)) {
+    if (['passwordReset', 'imprint', 'privacy_policy'].includes(to.name)) {
       next()
     } else if (store.state.username) {
       let init = true
@@ -81,7 +89,7 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       if (to.name === 'login') {
-        next()
+        next()    // needed to avoid endless redirection
       } else {
         const loc = {name: 'login', query: {}}
         if (to.name === 'workspace') {
@@ -123,12 +131,13 @@ const actions = {
     router.push({name: 'root'})
   },
 
-  /**
-   * @param   resetPassword   optional, pass `null` (no value) to open password-reset dialog
-   */
-  callLoginRoute (_, resetPassword) {
-    const query = {...router.currentRoute.query, ...{resetPassword}}
-    router.push({name: 'login', query})
+  callLoginRoute () {
+    // const query = router.currentRoute.query     // TODO: pass worspaceId when password reset
+    router.push({name: 'login' /*, query */})
+  },
+
+  callPasswordResetRoute () {
+    router.push({name: 'passwordReset'})
   },
 
   callImprintRoute () {

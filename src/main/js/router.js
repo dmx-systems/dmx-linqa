@@ -6,6 +6,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from './components/lq-login'
 import PasswordResetDialog from './components/lq-password-reset-dialog'
+import NewPasswordDialog from './components/lq-new-password-dialog'
 import Legal from './components/lq-legal'
 import Webclient from './components/lq-webclient'
 import Workspace from './components/lq-workspace'
@@ -44,6 +45,11 @@ const router = new VueRouter({
           path: '/password-reset',
           name: 'passwordReset',
           component: PasswordResetDialog
+        },
+        {
+          path: '/new-password/:emailAddress/:key',
+          name: 'newPassword',
+          component: NewPasswordDialog
         }
       ]
     },
@@ -62,7 +68,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   store.state.userReady.then(() => {
-    if (['passwordReset', 'imprint', 'privacy_policy'].includes(to.name)) {
+    if (['passwordReset', 'newPassword', 'imprint', 'privacy_policy'].includes(to.name)) {
       next()
     } else if (store.state.username) {
       let init = true

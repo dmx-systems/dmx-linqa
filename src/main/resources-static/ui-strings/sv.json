@@ -54,6 +54,7 @@
   "label.display_name": "Namn",
   "label.email_address": "E-post",
   "label.password": "Lösenord",
+  "label.new_password": "Nytt lösenord för ${}",
   "label.color": "Färg",
   "label.search": "Sök",
   "label.of": "av",

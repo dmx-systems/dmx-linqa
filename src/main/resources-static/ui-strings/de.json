@@ -54,6 +54,7 @@
   "label.display_name": "Name",
   "label.email_address": "Email",
   "label.password": "Passwort",
+  "label.new_password": "Neues Passwort für ${}",
   "label.color": "Farbe",
   "label.search": "Suche",
   "label.of": "von",

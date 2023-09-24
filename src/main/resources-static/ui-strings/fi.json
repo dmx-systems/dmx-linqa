@@ -54,6 +54,7 @@
   "label.display_name": "Nimi",
   "label.email_address": "Sähköposti",
   "label.password": "Salasana",
+  "label.new_password": "Uusi salasana ${}",
   "label.color": "Väri",
   "label.search": "Hae",
   "label.of": "-",

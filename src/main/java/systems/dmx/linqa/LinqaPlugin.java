@@ -104,6 +104,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         zwPluginTopic = dmx.getTopicByUri(ZW_PLUGIN_URI);
         teamWorkspace = dmx.getTopicByUri(TEAM_WORKSPACE_URI);
         tms.registerTopicmapCustomizer(this);
+        signup.setEmailTextProducer(new LinqaEmailTextProducer());
         me = new Messenger(dmx.getWebSocketService());
         new EmailDigests(dmx, acs, ws, timestamps, sendmail, teamWorkspace).startTimedTask();
     }

@@ -26,6 +26,10 @@ export default {
       return this.router.currentRoute.params.emailAddress
     },
 
+    key () {
+      return this.router.currentRoute.params.key
+    },
+
     router () {
       return this.$store.state.routerModule.router
     }
@@ -38,7 +42,7 @@ export default {
     },
 
     changePassword () {
-      this.$store.dispatch('changePassword', this.password).then(this.closeDialog)
+      this.$store.dispatch('changePassword', {key: this.key, password: this.password}).then(this.closeDialog)
     }
   }
 }

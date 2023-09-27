@@ -626,6 +626,26 @@ const actions = {
     })
   },
 
+  changePassword (_, {key, password}) {
+    return http.get(`/sign-up/password-reset/${key}/${password}`).then(response => {
+      console.log('response', response.data)
+      if (response.data.result !== 'SUCCESS') {
+        throw Error(response.data.result)
+      }
+      Vue.prototype.$notify({
+        type: 'success',
+        title: 'Success!',                          // TODO
+        message: 'Password changed successfully',   // TODO
+        showClose: false
+      })
+    }).catch(error => {
+      Vue.prototype.$alert('An error occurred while changing the password', {
+        type: 'error',
+        showClose: false
+      })
+    })
+  },
+
   translate (_, text) {
     // suppress standard HTTP error handler
     return dmx.rpc._http.post('/linqa/translate', text).then(response => response.data)

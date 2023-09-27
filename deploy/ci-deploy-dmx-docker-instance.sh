@@ -97,7 +97,7 @@ if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
     docker image rm ${DOCKER_IMAGE} || true
 fi
 ## pull latest images (to keep versions up to date)
-docker compose pull
+docker compose pull --file deploy/docker-compose.${TIER}-ci.yaml up
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
 test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
 deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log

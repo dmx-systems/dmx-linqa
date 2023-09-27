@@ -9,7 +9,7 @@ dmx.signup.system_mailbox = admin@dmx.systems
 dmx.signup.ldap_account_creation = true
 dmx.signup.account_creation_auth_ws_uri = linqa.team
 dmx.signup.restrict_auth_methods = LDAP, BASIC
-
+dmx.signup.username_policy = username_is_email
 
 
 

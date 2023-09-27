@@ -626,8 +626,11 @@ const actions = {
     })
   },
 
+  /**
+   * @param   password    plain text
+   */
   changePassword (_, {key, password}) {
-    return http.get(`/sign-up/password-reset/${key}/${password}`).then(response => {
+    return http.get(`/sign-up/password-reset/${key}/${btoa(password)}`).then(response => {
       console.log('response', response.data)
       if (response.data.result !== 'SUCCESS') {
         throw Error(response.data.result)

@@ -68,4 +68,4 @@ services:
     volumes:
       - ./instance/dev/logs:/home/static/logs:ro
     ports:
-      - "${LOG_PORT}:3000"
+      - "${LOGS_PORT}:3000"

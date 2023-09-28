@@ -1,5 +1,5 @@
 <template>
-  <el-dialog custom-class="lq-new-password-dialog" :visible="true" width="350px" @close="closeDialog">
+  <el-dialog custom-class="lq-new-password-dialog" :visible="visible" width="350px" @close="callLoginRoute">
     <lq-string slot="title">label.reset_password</lq-string>
     <div class="field">
       <div class="field-label"><lq-string :value="emailAddress">label.new_password</lq-string></div>
@@ -14,8 +14,24 @@
 <script>
 export default {
 
+  created () {
+    this.$store.dispatch('checkToken', this.key).then(response => {
+      if (response.result === 'SUCCESS') {
+        this.visible = true
+      } else {
+        // TODO: differentiate by error code
+        this.$alert('The token contained in the link is not valid (anymore)', {    // TODO: wording
+          title: response.result,
+          type: 'error',
+          showClose: false
+        }).then(this.callLoginRoute)
+      }
+    })
+  },
+
   data () {
     return {
+      visible: false,
       password: ''
     }
   },
@@ -37,12 +53,12 @@ export default {
 
   methods: {
 
-    closeDialog () {
+    callLoginRoute () {
       this.$store.dispatch('callLoginRoute')
     },
 
     changePassword () {
-      this.$store.dispatch('changePassword', {key: this.key, password: this.password}).then(this.closeDialog)
+      this.$store.dispatch('changePassword', {key: this.key, password: this.password}).then(this.callLoginRoute)
     }
   }
 }

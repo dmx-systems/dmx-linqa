@@ -649,6 +649,10 @@ const actions = {
     })
   },
 
+  checkToken (_, key) {
+    return http.get(`/sign-up/token/${key}`).then(response => response.data)
+  },
+
   translate (_, text) {
     // suppress standard HTTP error handler
     return dmx.rpc._http.post('/linqa/translate', text).then(response => response.data)

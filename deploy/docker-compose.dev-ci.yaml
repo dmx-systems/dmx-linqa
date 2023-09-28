@@ -62,7 +62,9 @@ services:
   dmxlog:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmxlog-container"
     restart: unless-stopped
-    image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd
+    image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd:latest
+    links:
+      - dmx
     volumes:
       - ./instance/dev/logs:/home/static/www/:ro
     ports:

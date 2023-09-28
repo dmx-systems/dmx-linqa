@@ -66,6 +66,6 @@ services:
     links:
       - dmx
     volumes:
-      - ./instance/dev/logs:/home/static/www/:ro
+      - ./instance/dev/logs:/home/static/logs:ro
     ports:
       - "${LOG_PORT}:3000"

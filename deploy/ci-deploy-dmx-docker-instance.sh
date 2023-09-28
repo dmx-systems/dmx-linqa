@@ -40,6 +40,7 @@ echo "TIER=${TIER}"
 docker version
 docker compose version
 docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" container-registry.dmx.systems/dmx-contrib/dmx-docker
+docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" container-registry.dmx.systems/dmx-contrib/busybox-httpd
 test -d "${CONFIG_DIR}" || mkdir -p "${CONFIG_DIR}"
 test -f "${ENV_FILE}" || touch "${ENV_FILE}"
 test -d deploy/instance/${TIER} || mkdir -p deploy/instance/${TIER}/conf deploy/instance/${TIER}/logs deploy/instance/${TIER}/db deploy/instance/${TIER}/filedir deploy/instance/${TIER}/bundle-deploy deploy/instance/${TIER}/plugins

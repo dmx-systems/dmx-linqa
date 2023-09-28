@@ -51,11 +51,19 @@ services:
       - ./ldap/db:/var/lib/ldap
       - ./ldap/config:/etc/ldap/slapd.d
 
-
-
   mailhog:
     container_name: "${CI_PROJECT_NAME}-${TIER}-mailhog-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-intern/docker-images/mailhog:latest
     ports:
       - "${MAIL_PORT}:8025"
+
+
+  dmxlog:
+    container_name: "${CI_PROJECT_NAME}-${TIER}-dmxlog-container"
+    restart: unless-stopped
+    image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd
+    volumes:
+      - ./instance/dev/logs:/home/static/www/:ro
+    ports:
+      - "${LOG_PORT}:3000"

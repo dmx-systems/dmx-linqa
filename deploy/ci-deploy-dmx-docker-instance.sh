@@ -65,6 +65,7 @@ fi
 USER_ID="$( id -u )"
 GROUP_ID="$( id -g )"
 DMX_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=dmx | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+LOG_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=log | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
 if [ "$( echo "${PLUGINS}" | grep dmx-sendmail )" ]; then
     MAIL_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=mail | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
     echo "MAIL_PORT=${MAIL_PORT}" >>"${ENV_FILE}"
@@ -76,6 +77,7 @@ fi
 echo "user_id=${USER_ID}" >>"${ENV_FILE}"
 echo "group_id=${GROUP_ID}" >>"${ENV_FILE}"
 echo "DMX_PORT=${DMX_PORT}" >>"${ENV_FILE}"
+echo "LOG_PORT=${LOG_PORT}" >>"${ENV_FILE}"
 echo "COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}" >>"${ENV_FILE}"
 cat "${ENV_FILE}"
 echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url

@@ -206,7 +206,7 @@ const actions = {
       }).then(emailAddress => {
         const displayName = userModel.displayName
         const password = btoa(newPassword())
-        return http.get(`/sign-up/custom-handle/${emailAddress}/${emailAddress}/${displayName}/${password}`)
+        return http.get(`/sign-up/user-account/${emailAddress}/${emailAddress}/${displayName}/${password}`)
           .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }

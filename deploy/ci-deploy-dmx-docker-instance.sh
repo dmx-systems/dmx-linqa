@@ -79,7 +79,7 @@ fi
 echo "user_id=${USER_ID}" >>"${ENV_FILE}"
 echo "group_id=${GROUP_ID}" >>"${ENV_FILE}"
 echo "DMX_PORT=${DMX_PORT}" >>"${ENV_FILE}"
-echo "LOG_PORT=${LOG_PORT}" >>"${ENV_FILE}"
+echo "LOGS_PORT=${LOGS_PORT}" >>"${ENV_FILE}"
 echo "COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}" >>"${ENV_FILE}"
 cat "${ENV_FILE}"
 echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url
@@ -101,7 +101,7 @@ if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
     docker image rm ${DOCKER_IMAGE} || true
 fi
 ## pull latest images (to keep versions up to date)
-docker compose --file deploy/docker-compose.${TIER}-ci.yaml pull
+docker compose --env-file "${ENV_FILE}"--file deploy/docker-compose.${TIER}-ci.yaml pull
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
 test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
 deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log

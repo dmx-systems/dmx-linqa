@@ -204,9 +204,10 @@ const actions = {
           return Promise.reject(new Error(`Username "${emailAddress}" is already taken`))
         }
       }).then(emailAddress => {
+        const _emailAddress = encodeURIComponent(emailAddress)
         const displayName = encodeURIComponent(userModel.displayName)
-        const password = btoa(newPassword())
-        return http.post(`/sign-up/user-account/${emailAddress}/${emailAddress}/${displayName}/${password}`)
+        const password = encodeURIComponent(btoa(newPassword()))
+        return http.post(`/sign-up/user-account/${_emailAddress}/${_emailAddress}/${displayName}/${password}`)
           .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }

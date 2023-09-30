@@ -204,10 +204,10 @@ const actions = {
           return Promise.reject(new Error(`Username "${emailAddress}" is already taken`))
         }
       }).then(emailAddress => {
-        const _emailAddress = emailAddress
-        const displayName = userModel.displayName
-        const password = btoa(newPassword())
-        return http.get(`/sign-up/user-account/${_emailAddress}/${_emailAddress}/${displayName}/${password}`)
+        const _emailAddress = emailAddress            // urlencode? Or done already by axios?
+        const displayName = userModel.displayName     // urlencode? Or done already by axios?
+        const password = btoa(newPassword())          // urlencode? Or done already by axios?
+        return http.post(`/sign-up/user-account/${_emailAddress}/${_emailAddress}/${displayName}/${password}`)
           .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }

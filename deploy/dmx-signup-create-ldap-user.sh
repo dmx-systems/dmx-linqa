@@ -37,9 +37,9 @@ for user in "${USERS[@]}"; do
     DISPLAYNAME="${user}%20Testuser"
     LDAPPASSWORDBASE64="$( echo -n "${LDAPPASSWORD}" | base64 )"
     URL="sign-up/user-account/${MAILBOX}/${MAILBOX}/${DISPLAYNAME}/${LDAPPASSWORDBASE64}"
-    echo "GET ${URL}"
+    echo "POST ${URL}"
     ## mind "Accept" header!
-    RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" -X GET "${HOST}/${URL}" -i 2>&1 )"
+    RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" -X POST "${HOST}/${URL}" -i 2>&1 )"
     echo "RESULT: ${RESULT}"
 done
 

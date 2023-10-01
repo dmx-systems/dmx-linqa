@@ -74,8 +74,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
-    private static final String LANG1 = System.getProperty("dmx.linqa.lang1");
-    private static final String LANG2 = System.getProperty("dmx.linqa.lang2");
+    private static final String CONFIG_LANG1 = System.getProperty("dmx.linqa.lang1"); // LANG1 is in use (Constans.java)
+    private static final String CONFIG_LANG2 = System.getProperty("dmx.linqa.lang2"); // LANG2 is in use (Constans.java)
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -249,8 +249,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public List<String> getLanguageConfig() {
         List<String> langs = new ArrayList();
-        langs.add(LANG1);
-        langs.add(LANG2);
+        langs.add(CONFIG_LANG1);
+        langs.add(CONFIG_LANG2);
         return langs;
     }
 
@@ -626,10 +626,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      * @param   origLang    an ISO 639-1 language code, e.g. "de", "fr", "fi", "sv"
      */
     private String targetLang(String origLang, boolean asUriSuffix) {
-        if (origLang.equals(LANG1)) {
-            return asUriSuffix ? "lang2" : LANG2;
-        } else if (origLang.equals(LANG2)) {
-            return asUriSuffix ? "lang1" : LANG1;
+        if (origLang.equals(CONFIG_LANG1)) {
+            return asUriSuffix ? "lang2" : CONFIG_LANG2;
+        } else if (origLang.equals(CONFIG_LANG2)) {
+            return asUriSuffix ? "lang1" : CONFIG_LANG1;
         } else {
             // Note: the regex in error-handling.js mixin must match this message
             throw new RuntimeException("Unsupported original language: \"" + origLang + "\" (detected)");
@@ -640,9 +640,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      * @param   lang    an ISO 639-1 language code, e.g. "de", "fr", "fi", "sv"
      */
     private String langSuffix(String lang) {
-        if (lang.equals(LANG1)) {
+        if (lang.equals(CONFIG_LANG1)) {
             return "lang1";
-        } else if (lang.equals(LANG2)) {
+        } else if (lang.equals(CONFIG_LANG2)) {
             return "lang2";
         } else {
             throw new RuntimeException("Unsupported language: \"" + lang + "\" (detected)");

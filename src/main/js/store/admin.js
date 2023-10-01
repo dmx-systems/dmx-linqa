@@ -11,7 +11,7 @@ const state = {
   primaryPanel: 'lq-workspace-list',  // 'lq-workspace-list'/'lq-user-list'
   secondaryPanel: undefined,          // 'lq-workspace-form'/... or undefined if secondary panel is not engaged
   formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
-  editBuffer: undefined,
+  editBuffer: undefined,              // workspace form model, for both, create and update (plain workspace topic)
 
   workspaces: [],                     // all ZW shared workspaces + the "Team" workspace (dmx.Topics, clone() is needed)
   expandedWorkspaceIds: [],           // IDs of the workspaces that are expanded

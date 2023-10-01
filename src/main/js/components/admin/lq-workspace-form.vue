@@ -2,11 +2,11 @@
   <div class="lq-workspace-form">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
-      <div class="field-label"><lq-string>label.workspace_name</lq-string> (lang1)</div>
+      <div class="field-label"><lq-string>label.workspace_name</lq-string> ({{$store.state.lang1}})</div>
       <el-input v-model="lang1.value"></el-input>
     </div>
     <div class="field">
-      <div class="field-label"><lq-string>label.workspace_name</lq-string> (lang2)</div>
+      <div class="field-label"><lq-string>label.workspace_name</lq-string> ({{$store.state.lang2}})</div>
       <el-input v-model="lang2.value"></el-input>
     </div>
     <el-button class="submit-button" type="primary" size="medium" @click="submit">

@@ -9,7 +9,7 @@ if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
 elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then
     WEB_URL="${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 fi
-HOST="https://${WEB_URL}:443/"
+HOST="https://${WEB_URL}:443"
 ## Test access to Administration workspace to ensure login as admin was successful.
 URL='core/topic/uri/dmx.workspaces.administration'
 # URL='access-control/user/workspace'

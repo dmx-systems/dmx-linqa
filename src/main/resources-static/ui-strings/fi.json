@@ -22,7 +22,7 @@
   "label.admin_users": "Käyttäjät ja jäsenyydet",
   "label.no_workspaces": "Ei työtiloja saatavilla",
   "label.discussion": "Keskustelu",
-  "label.no_comments": "Ei keskusteluja<br>Aloita",
+  "label.no_comments": "Ei keskusteluja.<br>Aloita",
   "label.document_filter": "järjestys: dokumentti",
   "label.textblock_filter": "järjestys: tekstikenttä",
   "label.document_name": "Dokumentin nimi",

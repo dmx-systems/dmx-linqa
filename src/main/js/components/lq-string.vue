@@ -8,10 +8,10 @@ import lq from '../lq-globals'
 
 export default {
 
-  props: [
-    'html',     // Boolean
-    'value'     // String, Number
-  ],
+  props: {
+    html: Boolean,
+    value: [Number, String]
+  },
 
   computed: {
 

@@ -7,6 +7,11 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
     private static final String HOST_URL = System.getProperty("dmx.host.url", "");
 
     @Override
+    public boolean isHtml() {
+        return false;
+    }
+
+    @Override
     public String getConfirmationActiveMailSubject() {
         return "TODO: getConfirmationActiveMailSubject()";
     }
@@ -63,7 +68,7 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     @Override
     public String getPasswordResetMailMessage(String addressee, String key) {
-        return "In order to enter a new password for " + addressee + " please click this link:<br>\n<br>\n" +
+        return "In order to enter a new password for " + addressee + " please click this link:\n\n" +
             HOST_URL + "#/new-password/" + addressee + "/" + key;
     }
 
@@ -74,6 +79,6 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     @Override
     public String getAccountCreationSystemEmailMessage(String username, String mailbox) {
-        return "A new Linqa user has registered.<br>\n<br>\nUsername: " + username + "<br>\nEmail: " + mailbox;
+        return "A new Linqa user has registered.\n\nUsername: " + username + "\nEmail: " + mailbox;
     }
 }

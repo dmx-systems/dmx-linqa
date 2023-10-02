@@ -150,7 +150,7 @@ function workspaceName (topic) {
   const lang1 = topic.children['dmx.workspaces.workspace_name#linqa.lang1']
   const lang2 = topic.children['dmx.workspaces.workspace_name#linqa.lang2']
   if (lang1 && lang2) {
-    return topic.children['dmx.workspaces.workspace_name#linqa.' + store.state.lang].value
+    return topic.children['dmx.workspaces.workspace_name#linqa.' + langSuffix(store.state.lang)].value
   } else {
     return lang1?.value || lang2?.value || '?'
   }

@@ -101,7 +101,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     @Override
     public void init() {
-        zwPluginTopic = dmx.getTopicByUri(ZW_PLUGIN_URI);
+        zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
         teamWorkspace = dmx.getTopicByUri(TEAM_WORKSPACE_URI);
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer());
@@ -224,18 +224,18 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public void customizeTopic(RelatedTopic topic, ViewProps viewProps) {
         Assoc assoc = topic.getRelatingAssoc();
         String typeUri = topic.getTypeUri();
-        if (typeUri.equals(DOCUMENT) || typeUri.equals(ZW_NOTE) || typeUri.equals(TEXTBLOCK)
+        if (typeUri.equals(DOCUMENT) || typeUri.equals(LINQA_NOTE) || typeUri.equals(TEXTBLOCK)
                                      || typeUri.equals(HEADING) || typeUri.equals(ARROW)) {
             if (assoc.hasProperty(ANGLE)) {         // Angle is an optional view prop
                 viewProps.set(ANGLE, assoc.getProperty(ANGLE));
             }
         }
-        if (typeUri.equals(ZW_NOTE) || typeUri.equals(TEXTBLOCK)) {
-            if (assoc.hasProperty(ZW_COLOR)) {      // Color is an optional view prop
+        if (typeUri.equals(LINQA_NOTE) || typeUri.equals(TEXTBLOCK)) {
+            if (assoc.hasProperty(LINQA_COLOR)) {   // Color is an optional view prop
                 // Note: we store the color not as a view prop but in the topic model (as a synthetic child value)
                 // because textblocks are rendered not only on canvas, but also in discussion panel, namely as colored
                 // textblock-refs. In contrast for notes view props could be used, but we want handle color uniformly.
-                topic.getChildTopics().getModel().set(ZW_COLOR, assoc.getProperty(ZW_COLOR));
+                topic.getChildTopics().getModel().set(LINQA_COLOR, assoc.getProperty(LINQA_COLOR));
             }
         } else if (typeUri.equals(VIEWPORT)) {
             viewProps.set(ZOOM, assoc.getProperty(ZOOM));
@@ -354,7 +354,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public Topic createNote(String note) {
         try {
-            return dmx.createTopic(createBilingualTopicModel(ZW_NOTE, note));
+            return dmx.createTopic(createBilingualTopicModel(LINQA_NOTE, note));
         } catch (Exception e) {
             throw new RuntimeException("Creating note failed, note=\"" + note + "\"", e);
         }
@@ -471,7 +471,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 // We retrieve the Plugin topic on-the-fly to allow this method to be called from a migration.
                 // Note: migrations run *before* the plugin's init hook is triggered, so we can't rely on
                 // "zwPluginTopic" here as it is not yet initialized.
-                dmx.getTopicByUri(ZW_PLUGIN_URI).getRelatedTopics(SHARED_WORKSPACE, DEFAULT, DEFAULT, WORKSPACE)
+                dmx.getTopicByUri(LINQA_PLUGIN_URI).getRelatedTopics(SHARED_WORKSPACE, DEFAULT, DEFAULT, WORKSPACE)
             );
         } catch (Exception e) {
             throw new RuntimeException("Retrieving all ZW workspaces failed", e);
@@ -565,8 +565,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Path("/admin/workspace")
     @Transactional
     @Override
-    public Topic createZWWorkspace(@QueryParam("nameLang1") String nameLang1,
-                                   @QueryParam("nameLang2") String nameLang2) {
+    public Topic createLinqaWorkspace(@QueryParam("nameLang1") String nameLang1,
+                                      @QueryParam("nameLang2") String nameLang2) {
         try {
             // 1) Create workspace
             Topic workspace = ws.createWorkspace(nameLang1, null, SharingMode.COLLABORATIVE);
@@ -579,7 +579,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             dmx.getPrivilegedAccess().runInWorkspaceContext(workspaceId, () -> {
                 dmx.createAssoc(mf.newAssocModel(
                     SHARED_WORKSPACE,
-                    mf.newTopicPlayerModel(ZW_PLUGIN_URI, DEFAULT),
+                    mf.newTopicPlayerModel(LINQA_PLUGIN_URI, DEFAULT),
                     mf.newTopicPlayerModel(workspaceId, DEFAULT)
                 ));
                 return null;
@@ -676,13 +676,13 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         long topicmapId = topicmapId();
         Assoc assoc = tms.getTopicMapcontext(topicmapId, topicId);
         // Note: assoc can be null if requested by non-ZW application e.g. DMX Webclient
-        if (assoc != null && assoc.hasProperty(ZW_COLOR)) {      // Color is an optional view prop
-            topic.getChildTopics().getModel().set(ZW_COLOR, assoc.getProperty(ZW_COLOR));
+        if (assoc != null && assoc.hasProperty(LINQA_COLOR)) {      // Color is an optional view prop
+            topic.getChildTopics().getModel().set(LINQA_COLOR, assoc.getProperty(LINQA_COLOR));
         }
     }
 
     private void enrichWithUserActive(Topic username) {
-        if (username.hasProperty(USER_ACTIVE)) {      // "User Active" is an optional DB prop
+        if (username.hasProperty(USER_ACTIVE)) {                    // "User Active" is an optional DB prop
             username.getChildTopics().getModel().set(USER_ACTIVE, username.getProperty(USER_ACTIVE));
         }
     }

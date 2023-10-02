@@ -4,14 +4,14 @@ package systems.dmx.linqa;
 
 public class Constants {
 
-    public static final String ZW_PLUGIN_URI            = "systems.dmx.linqa";
+    public static final String LINQA_PLUGIN_URI         = "systems.dmx.linqa";
     public static final String TEAM_WORKSPACE_URI       = "linqa.team";
     public static final String TEAM_WORKSPACE_NAME      = "Team";
 
     // Topic Types
     public static final String DOCUMENT                 = "linqa.document";
     public static final String DOCUMENT_NAME            = "linqa.document_name";
-    public static final String ZW_NOTE                  = "linqa.note"; // "NOTE" is already used by Notes module
+    public static final String LINQA_NOTE               = "linqa.note"; // "NOTE" is already used by Notes module
     public static final String TEXTBLOCK                = "linqa.textblock";
     public static final String HEADING                  = "linqa.heading";
     public static final String ARROW                    = "linqa.arrow";
@@ -35,7 +35,7 @@ public class Constants {
     public static final String LANG2                    = "linqa.lang2";
 
     // DB Props
-    public static final String ZW_COLOR    = "linqa.color";  // Note, Textblock (String)
+    public static final String LINQA_COLOR = "linqa.color";  // Note, Textblock (String)
         // Note: COLOR is already used by Webclient module, but as type URI; here we have a prop URI
     public static final String ANGLE       = "linqa.angle";  // Document, Note, Textblock, Heading, Arrow (Integer)
     public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)

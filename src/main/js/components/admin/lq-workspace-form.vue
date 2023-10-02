@@ -57,7 +57,7 @@ export default {
       let p
       this.$emit('loading')
       if (this.formMode === 'create') {
-        p = this.$store.dispatch('admin/createZWWorkspace', {
+        p = this.$store.dispatch('admin/createLinqaWorkspace', {
           nameLang1: this.lang1.value,
           nameLang2: this.lang2.value
         })

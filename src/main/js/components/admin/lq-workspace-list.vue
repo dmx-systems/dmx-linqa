@@ -21,7 +21,7 @@
 export default {
 
   created () {
-    this.$store.dispatch('admin/fetchAllZWWorkspaces')
+    this.$store.dispatch('admin/fetchAllLinqaWorkspaces')
   },
 
   computed: {

@@ -92,5 +92,5 @@ public interface LinqaService {
     List<RelatedTopic> bulkUpdateUserMemberships(String username, IdList addWorkspaceIds1, IdList removeWorkspaceIds1,
                                                                   IdList addWorkspaceIds2, IdList removeWorkspaceIds2);
 
-    Topic createZWWorkspace(String nameLang1, String nameLang2);
+    Topic createLinqaWorkspace(String nameLang1, String nameLang2);
 }

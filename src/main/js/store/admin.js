@@ -13,7 +13,7 @@ const state = {
   formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
   editBuffer: undefined,              // workspace form model, for both, create and update (plain workspace topic)
 
-  workspaces: [],                     // all ZW shared workspaces + the "Team" workspace (dmx.Topics, clone() is needed)
+  workspaces: [],                     // all Linqa shared workspaces + the "Team" workspace (dmx.Topic, clone() is used)
   expandedWorkspaceIds: [],           // IDs of the workspaces that are expanded
   selectedWorkspace: undefined,       // (plain Workspace topic)
 
@@ -98,7 +98,7 @@ const actions = {
     state.selectedUser = user
   },
 
-  fetchAllZWWorkspaces ({rootState}) {
+  fetchAllLinqaWorkspaces ({rootState}) {
     if (!state.workspaces.length) {
       return http.get('/linqa/admin/workspaces').then(response => {
         state.workspaces = dmx.utils.instantiateMany(response.data, dmx.Topic)
@@ -159,14 +159,14 @@ const actions = {
     })
   },
 
-  createZWWorkspace ({rootState, dispatch}, {nameLang1, nameLang2}) {
+  createLinqaWorkspace ({rootState, dispatch}, {nameLang1, nameLang2}) {
     return http.post('/linqa/admin/workspace', undefined, {
       params: {nameLang1, nameLang2}
     }).then(response => {
       // update client state
-      state.workspaces.push(new dmx.Topic(response.data))       // admin area: add to workspace list
-      collapseUsers(rootState, dispatch)                        // admin area: force refetching user's memberships
-      dispatch('fetchZWWorkspaces', undefined, {root: true})    // workspace area: add to workspace selector
+      state.workspaces.push(new dmx.Topic(response.data))         // admin area: add to workspace list
+      collapseUsers(rootState, dispatch)                          // admin area: force refetching user's memberships
+      dispatch('fetchLinqaWorkspaces', undefined, {root: true})   // workspace area: add to workspace selector
     })
   },
 

@@ -29,7 +29,7 @@ public class Migration11 extends Migration {
         dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, TRANSLATION_EDITED, ONE, config),
             FILE + "#" + LANG1
         );
-        dmx.getTopicType(ZW_NOTE).addCompDef(mf.newCompDefModel(ZW_NOTE, TRANSLATION_EDITED, ONE, config));
+        dmx.getTopicType(LINQA_NOTE).addCompDef(mf.newCompDefModel(LINQA_NOTE, TRANSLATION_EDITED, ONE, config));
         dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, TRANSLATION_EDITED, ONE, config));
         dmx.getTopicType(HEADING).addCompDef(mf.newCompDefModel(HEADING, TRANSLATION_EDITED, ONE, config));
     }

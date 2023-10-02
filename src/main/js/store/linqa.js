@@ -36,7 +36,7 @@ const state = {
 
   // User
   username: '',                 // username of current user (String), empty/undefined if not logged in
-  workspaces: [],               // ZW shared workspaces of the current user (array of plain Workspace topics),
+  workspaces: [],               // Linqa shared workspaces of the current user (array of plain Workspace topics),
                                 // "assoc" prop holds current user's Membership. "Team" workspace is not included.
                                 // Array is unsorted; a sorted array is available by the "sortedWorkspaces" getter.
   workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
@@ -104,7 +104,10 @@ const actions = {
     return dmx.rpc.logout().then(initUserState)
   },
 
-  fetchZWWorkspaces () {
+  /**
+   * Fetches the Linqa shared workspaces of the current user.
+   */
+  fetchLinqaWorkspaces () {
     return http.get('/linqa/workspaces').then(response => {
       state.workspaces = response.data
     })
@@ -741,7 +744,7 @@ function initUserState (username) {
           state.username = username
           state.isTeam = isWritable
         }),
-      store.dispatch('fetchZWWorkspaces'),
+      store.dispatch('fetchLinqaWorkspaces'),
       store.dispatch('fetchAllUsers')     // needed for accessing display names
     ])
   } else {            // Logout

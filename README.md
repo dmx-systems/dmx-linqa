@@ -154,7 +154,16 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 **1.7** -- unreleased
 
-* Password-reset dialog is URL addressable
+* Improvements:
+    * Reset-password is integrated in Linqa UI (instead utilizing separate Sign-up UI)
+        * Password-reset dialog is URL addressable
+        * New (URL addressable) new-password dialog
+        * Linqa now depends on Sign-up 3.0 (formerly Sign-up 2.1)
+* Fixes:
+    * Password-reset mail is plain text (instead multipart with broken plain text part)
+    * Newly created workspace has name
+    * Rendering of bilingual workspace names
+    * Proper field labels in workspace form
 
 **1.6** -- Sep 1, 2023
 

@@ -14,9 +14,24 @@
 <script>
 export default {
 
+  created () {
+    this.emailAddress = this.email
+  },
+
   data () {
     return {
-      emailAddress: ''
+      emailAddress: undefined
+    }
+  },
+
+  computed: {
+
+    email () {
+      return this.router.currentRoute.query.email
+    },
+
+    router () {
+      return this.$store.state.routerModule.router
     }
   },
 

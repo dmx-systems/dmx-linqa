@@ -79,6 +79,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     private static final String CONFIG_LANG1 = System.getProperty("dmx.linqa.lang1"); // LANG1 is in use (Constans.java)
     private static final String CONFIG_LANG2 = System.getProperty("dmx.linqa.lang2"); // LANG2 is in use (Constans.java)
 
+    private static final String HOST_URL = System.getProperty("dmx.host.url", "");
+
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
     @Inject private DeepLService deepls;
@@ -572,7 +574,13 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                                  @PathParam("language") String language) {
         // Note: a Linqa username is the email address
         Topic usernameTopic = signup.createUserAccount(emailAddress, emailAddress, displayName, newPassword());
-        // TODO: send email to user
+        //
+        String subject = "Welcome to Linqa!";   // TODO: language resources
+        String message = "\nHello " + displayName + ",\n\nYour Linqa account is now set up.\n\n" +
+            "Please click this link to choose your password:\n" + HOST_URL + "#/password-reset?email=" + emailAddress +
+            "\n\nYour Linqa team";              // TODO: language resources
+        sendmail.doEmailRecipient(subject, message, null, emailAddress);
+        //
         return usernameTopic;
     }
 

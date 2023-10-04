@@ -9,6 +9,10 @@
       <div class="field-label"><lq-string>label.email_address</lq-string></div>
       <el-input v-model="model.emailAddress" :disabled="isUpdate"></el-input>
     </div>
+    <div class="field" v-if="!isUpdate">
+      <div class="field-label"><lq-string>label.default_language</lq-string></div>
+      <lq-language-switch v-model="model.defaultLanguage"></lq-language-switch>
+    </div>
     <el-button class="submit-button" type="primary" size="medium" :disabled="isIncomplete" @click="submit">
       <lq-string>action.submit</lq-string>
     </el-button>
@@ -32,6 +36,8 @@ export default {
       const username = this.selectedUser.value
       this.model.emailAddress = username
       this.model.displayName = lq.getDisplayName(username)
+    } else {
+      this.model.defaultLanguage = this.lang
     }
   },
 
@@ -39,7 +45,8 @@ export default {
     return {
       model: {
         displayName: '',
-        emailAddress: ''
+        emailAddress: '',
+        defaultLanguage: ''
       }
     }
   },
@@ -64,6 +71,10 @@ export default {
 
     selectedUser () {
       return this.$store.state.admin.selectedUser
+    },
+
+    lang () {
+      return this.$store.state.lang
     }
   },
 

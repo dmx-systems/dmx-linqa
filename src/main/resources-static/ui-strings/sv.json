@@ -53,6 +53,7 @@
   "label.workspace_name": "Namn",
   "label.display_name": "Namn",
   "label.email_address": "E-post",
+  "label.default_language": "Standardspråk",
   "label.password": "Lösenord",
   "label.new_password": "Nytt lösenord för ${}",
   "label.color": "Färg",

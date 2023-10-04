@@ -53,6 +53,7 @@
   "label.workspace_name": "Name",
   "label.display_name": "Name",
   "label.email_address": "Email",
+  "label.default_language": "Voreingestellte Sprache",
   "label.password": "Passwort",
   "label.new_password": "Neues Passwort für ${}",
   "label.color": "Farbe",

@@ -53,6 +53,7 @@
   "label.workspace_name": "Nimi",
   "label.display_name": "Nimi",
   "label.email_address": "Sähköposti",
+  "label.default_language": "Oletuskieli",
   "label.password": "Salasana",
   "label.new_password": "Uusi salasana ${}",
   "label.color": "Väri",

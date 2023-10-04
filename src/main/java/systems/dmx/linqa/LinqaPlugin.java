@@ -63,6 +63,8 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.sun.jersey.core.util.Base64;
+
 
 
 @Path("/linqa")
@@ -562,6 +564,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @POST
+    @Path("/admin/user/{emailAddress}/{displayName}/{language}")
+    @Transactional
+    @Override
+    public Topic createLinqaUser(@PathParam("emailAddress") String emailAddress,
+                                 @PathParam("displayName") String displayName,
+                                 @PathParam("language") String language) {
+        // Note: a Linqa username is the email address
+        Topic usernameTopic = signup.createUserAccount(emailAddress, emailAddress, displayName, newPassword());
+        // TODO: send email to user
+        return usernameTopic;
+    }
+
+    @POST
     @Path("/admin/workspace")
     @Transactional
     @Override
@@ -792,5 +807,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         } else {
             return "";
         }
+    }
+
+    private String newPassword() {
+        return new String(Base64.encode(Double.toString(Math.random())));      // TODO: * Long.MAX_VALUE
     }
 }

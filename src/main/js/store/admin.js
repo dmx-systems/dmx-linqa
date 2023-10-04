@@ -187,7 +187,7 @@ const actions = {
   },
 
   /**
-   * @param   userModel   object w/ "displayName" and "emailAddress" props.
+   * @param   userModel   object w/ "displayName", "emailAddress" and "defaultLanguage" props.
    */
   createUser ({rootState}, userModel) {
     let p
@@ -204,10 +204,9 @@ const actions = {
           return Promise.reject(new Error(`Username "${emailAddress}" is already taken`))
         }
       }).then(emailAddress => {
-        const _emailAddress = emailAddress            // urlencode? Or done already by axios?
         const displayName = userModel.displayName     // urlencode? Or done already by axios?
-        const password = btoa(newPassword())          // urlencode? Or done already by axios?
-        return http.post(`/sign-up/user-account/${_emailAddress}/${_emailAddress}/${displayName}/${password}`)
+        const language = userModel.defaultLanguage
+        return http.post(`/linqa/admin/user/${emailAddress}/${displayName}/${language}`)
           .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }
@@ -318,8 +317,4 @@ function collapseUsers (rootState, dispatch) {
 
 function encodePassword (password) {
   return ENCODED_PASSWORD_PREFIX + SHA256(password)
-}
-
-function newPassword () {
-  return Math.floor(Number.MAX_SAFE_INTEGER * Math.random())
 }

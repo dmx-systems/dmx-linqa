@@ -1,6 +1,7 @@
 package systems.dmx.linqa;
 
 import systems.dmx.signup.EmailTextProducer;
+import systems.dmx.signup.configuration.SignUpConfigOptions;
 
 public class LinqaEmailTextProducer implements EmailTextProducer {
 
@@ -68,8 +69,9 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     @Override
     public String getPasswordResetMailMessage(String addressee, String key) {
-        return "In order to enter a new password for " + addressee + " please click this link:\n\n" +
-            HOST_URL + "#/new-password/" + addressee + "/" + key;
+        return "\nIn order to enter a new password for " + addressee + " please click this link:\n\n" +
+            HOST_URL + "#/new-password/" + addressee + "/" + key + "\n\nThe link is valid for " +
+            SignUpConfigOptions.CONFIG_TOKEN_EXPIRATION_DURATION + " hours.\n\nSincerely,\nYour Linqa team";
     }
 
     @Override

@@ -16,13 +16,14 @@ const teamWorkspace = dmx.rpc.getTopicByUri('linqa.team', true).then(workspace =
   return workspace
 })
 const userReady = dmx.rpc.getUsername().then(initUserState)
+const langReady = initLangConfig()
 const width = window.innerWidth
-initLang()
 loadCustomCSS()
 
 const state = {
 
   userReady,                    // a promise, resolved once User state is initialized
+  langReady,                    // a promise, resolved once lang1/lang2 state is initialized
   users: [],                    // all users in the system (array of plain Username topics, sorted by username=email
                                 // address). "memberships" prop holds respective user's Workspaces (array), initialized
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
@@ -704,26 +705,6 @@ store.registerModule('admin', adminStore)       // TODO: do static registration 
 
 export default store
 
-function initLang () {
-  http.get('/linqa/config/lang').then(response => {
-    state.lang1 = response.data[0]
-    state.lang2 = response.data[1]
-    http.get(`/systems.dmx.linqa/ui-strings/${state.lang1}.json`).then(response => {
-      Vue.set(state.uiStrings, state.lang1, response.data)
-    })
-    http.get(`/systems.dmx.linqa/ui-strings/${state.lang2}.json`).then(response => {
-      Vue.set(state.uiStrings, state.lang2, response.data)
-    })
-  }).then(() => {
-    const langC = dmx.utils.getCookie('linqa_lang')
-    const langB = navigator.language.substr(0, 2)
-    const config = [state.lang1, state.lang2]
-    const lang = config.includes(langC) ? langC : config.includes(langB) ? langB : state.lang1
-    console.log(`[Linqa] lang: ${lang} (cookie: ${langC}, browser: ${langB}, config: ${config})`)
-    store.dispatch('setLang', lang)
-  })
-}
-
 /**
  * Initialzes 4 states:
  *   "username"
@@ -755,6 +736,19 @@ function initUserState (username) {
     store.dispatch('deselect')
     return Promise.resolve()
   }
+}
+
+function initLangConfig () {
+  return http.get('/linqa/config/lang').then(response => {
+    state.lang1 = response.data[0]
+    state.lang2 = response.data[1]
+    http.get(`/systems.dmx.linqa/ui-strings/${state.lang1}.json`).then(response => {
+      Vue.set(state.uiStrings, state.lang1, response.data)
+    })
+    http.get(`/systems.dmx.linqa/ui-strings/${state.lang2}.json`).then(response => {
+      Vue.set(state.uiStrings, state.lang2, response.data)
+    })
+  })
 }
 
 function loadCustomCSS () {

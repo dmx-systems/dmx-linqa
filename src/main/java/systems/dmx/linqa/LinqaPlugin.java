@@ -575,11 +575,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         // Note: a Linqa username is the email address
         Topic usernameTopic = signup.createUserAccount(emailAddress, emailAddress, displayName, newPassword());
         //
-        String subject = "Welcome to Linqa!";   // TODO: language resources
+        String subject = "Welcome to Linqa!";                               // TODO: language resources
         String message = "\nHello " + displayName + ",\n\nYour Linqa account is now set up.\n\n" +
             "Please click this link to choose your password:\n" + HOST_URL + "#/password-reset?email=" + emailAddress +
-            "\n\nYour Linqa team";              // TODO: language resources
-        sendmail.doEmailRecipient(subject, message, null, emailAddress);
+            "&lang=" + language + "\n\nSincerely,\nYour Linqa team";        // TODO: language resources
+        sendmail.doEmailRecipient(subject, message, null, emailAddress);    // htmlMessage=null
         //
         return usernameTopic;
     }

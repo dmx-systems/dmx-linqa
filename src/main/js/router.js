@@ -15,6 +15,8 @@ import store from './store/linqa'
 import lq from './lq-globals'
 import dmx from 'dmx-api'
 
+let initialNavigation = true
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -67,7 +69,11 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  store.state.userReady.then(() => {
+  Promise.all([store.state.userReady, store.state.langReady]).then(() => {
+    if (initialNavigation) {
+      initLang(to)
+      initialNavigation = false
+    }
     if (['passwordReset', 'newPassword', 'imprint', 'privacy_policy'].includes(to.name)) {
       next()
     } else if (store.state.username) {
@@ -205,6 +211,18 @@ store.watch(
     }
   }
 )
+
+function initLang (route) {
+  const langQ = route.query.lang                    // from query param
+  const langC = dmx.utils.getCookie('linqa_lang')   // from cookie
+  const langB = navigator.language.substr(0, 2)     // from browser setting
+  const config = [store.state.lang1, store.state.lang2]
+  const lang = config.includes(langQ) ? langQ :
+               config.includes(langC) ? langC :
+               config.includes(langB) ? langB : store.state.lang1
+  console.log(`[Linqa] lang: ${lang} (query: ${langQ}, cookie: ${langC}, browser: ${langB}, config: ${config})`)
+  store.dispatch('setLang', lang)
+}
 
 /**
  * Returns truish if the given ID refers to a valid workspace for the current user.

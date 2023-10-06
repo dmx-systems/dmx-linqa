@@ -58,7 +58,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -566,22 +568,21 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @POST
-    @Path("/admin/user/{emailAddress}/{displayName}/{language}")
+    @Path("/admin/user/{emailAddress}/{displayName}/{lang}")
     @Transactional
     @Override
     public Topic createLinqaUser(@PathParam("emailAddress") String emailAddress,
                                  @PathParam("displayName") String displayName,
-                                 @PathParam("language") String language) {
-        // Note: a Linqa username is the email address
-        Topic usernameTopic = signup.createUserAccount(emailAddress, emailAddress, displayName, newPassword());
-        //
-        String subject = "Welcome to Linqa!";                               // TODO: language resources
-        String message = "\nHello " + displayName + ",\n\nYour Linqa account is now set up.\n\n" +
-            "Please click this link to choose your password:\n" + HOST_URL + "#/password-reset?email=" + emailAddress +
-            "&lang=" + language + "\n\nSincerely,\nYour Linqa team";        // TODO: language resources
-        sendmail.doEmailRecipient(subject, message, null, emailAddress);    // htmlMessage=null
-        //
-        return usernameTopic;
+                                 @PathParam("lang") String lang) {
+        try {
+            // Note: a Linqa username is the email address
+            Topic usernameTopic = signup.createUserAccount(emailAddress, emailAddress, displayName, newPassword());
+            sendWelcomeMail(emailAddress, displayName, lang);
+            return usernameTopic;
+        } catch (Exception e) {
+            throw new RuntimeException("Creating Linqa user \"" + displayName + "\" failed, emailAddress=\"" +
+                emailAddress + "\", lang=\"" + lang + "\"", e);
+        }
     }
 
     @POST
@@ -818,6 +819,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     private String newPassword() {
-        return new String(Base64.encode(Double.toString(Math.random())));      // TODO: * Long.MAX_VALUE
+        return new String(Base64.encode(Double.toString(Math.random())));           // TODO: * Long.MAX_VALUE
+    }
+
+    private void sendWelcomeMail(String emailAddress, String displayName, String lang) {
+        try {
+            ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang));     // TODO: caching?
+            String link = HOST_URL + "#/password-reset?email=" + emailAddress + "&lang=" + lang;
+            String subject = rb.getString("welcome_mail.subject");
+            String message = String.format(rb.getString("welcome_mail.message"), displayName, link);
+            sendmail.doEmailRecipient(subject, message, null, emailAddress);        // htmlMessage=null
+        } catch (Exception e) {
+            throw new RuntimeException("Sending welcome mail for \"" + displayName + "\" (" + emailAddress + ") failed",
+                e);
+        }
     }
 }

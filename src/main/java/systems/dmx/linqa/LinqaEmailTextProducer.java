@@ -1,7 +1,11 @@
 package systems.dmx.linqa;
 
+import systems.dmx.core.service.Cookies;
 import systems.dmx.signup.EmailTextProducer;
 import systems.dmx.signup.configuration.SignUpConfigOptions;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class LinqaEmailTextProducer implements EmailTextProducer {
 
@@ -64,23 +68,33 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     @Override
     public String getPasswordResetMailSubject() {
-        return "Reset your Linqa password";
+        return getString("new_password_mail.subject");
     }
 
     @Override
     public String getPasswordResetMailMessage(String addressee, String key) {
-        return "\nIn order to enter a new password for " + addressee + " please click this link:\n\n" +
-            HOST_URL + "#/new-password/" + addressee + "/" + key + "\n\nThe link is valid for " +
-            SignUpConfigOptions.CONFIG_TOKEN_EXPIRATION_DURATION + " hours.\n\nSincerely,\nYour Linqa team";
+        String link = HOST_URL + "#/new-password/" + addressee + "/" + key;
+        long hours = SignUpConfigOptions.CONFIG_TOKEN_EXPIRATION_DURATION.toHours();
+        return getString("new_password_mail.message", addressee, link, hours);
     }
 
     @Override
     public String getAccountCreationSystemEmailSubject() {
+        // Note: admin mails are always English
         return "A new Linqa user has registered";
     }
 
     @Override
     public String getAccountCreationSystemEmailMessage(String username, String mailbox) {
+        // Note: admin mails are always English
         return "A new Linqa user has registered.\n\nUsername: " + username + "\nEmail: " + mailbox;
+    }
+
+    // ------------------------------------------------------------------------------------------------- Private Methods
+
+    private String getString(String key, Object... args) {
+        String lang = Cookies.get().get("linqa_lang");
+        ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang));     // TODO: caching?
+        return String.format(rb.getString(key), args);
     }
 }

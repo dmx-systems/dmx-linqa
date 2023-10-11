@@ -196,12 +196,12 @@ const actions = {
       p = dmx.rpc.createUserAccount(userModel.emailAddress, encodePassword('123'))
     } else {
       const emailAddress = userModel.emailAddress
-      p = http.get(`/sign-up/check/${emailAddress}`).then(response => {
-        console.log('isAvailable', response.data)
-        if (response.data.isAvailable) {
-          return emailAddress
+      p = http.get(`/sign-up/username/${emailAddress}/taken`).then(response => {
+        console.log('isUsernameTaken', response.data)
+        if (response.data.value) {
+          return Promise.reject(new Error(`Username "${emailAddress}" is already taken.`))
         } else {
-          return Promise.reject(new Error(`Username "${emailAddress}" is already taken`))
+          return emailAddress
         }
       }).then(emailAddress => {
         const displayName = userModel.displayName     // urlencode? Or done already by axios?

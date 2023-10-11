@@ -825,7 +825,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     private void sendWelcomeMail(String emailAddress, String displayName, String lang) {
         try {
             ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang));     // TODO: caching?
-            String link = HOST_URL + "#/password-reset?email=" + emailAddress + "&lang=" + lang;
+            String link = HOST_URL + "/#/password-reset?email=" + emailAddress + "&lang=" + lang;
             String subject = rb.getString("welcome_mail.subject");
             String message = String.format(rb.getString("welcome_mail.message"), displayName, link);
             sendmail.doEmailRecipient(subject, message, null, emailAddress);        // htmlMessage=null

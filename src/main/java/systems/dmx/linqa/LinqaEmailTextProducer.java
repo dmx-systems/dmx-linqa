@@ -73,7 +73,7 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     @Override
     public String getPasswordResetMailMessage(String addressee, String key) {
-        String link = HOST_URL + "#/new-password/" + addressee + "/" + key;
+        String link = HOST_URL + "/#/new-password/" + addressee + "/" + key;
         long hours = SignUpConfigOptions.CONFIG_TOKEN_EXPIRATION_DURATION.toHours();
         return getString("new_password_mail.message", addressee, link, hours);
     }
@@ -87,7 +87,7 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
     @Override
     public String getAccountCreationSystemEmailMessage(String username, String mailbox) {
         // Note: admin mails are always English
-        return "A new Linqa user has registered.\n\nUsername: " + username + "\nEmail: " + mailbox;
+        return "\nA new Linqa user has registered.\n\nUsername: " + username + "\nEmail: " + mailbox;
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods

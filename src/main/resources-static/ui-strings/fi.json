@@ -113,5 +113,6 @@
   "warning.delete_user": "Olet poistamassa tämän käyttäjän",
   "warning.translation_failed": "Automaattinen käännös epäonnistui",
   "warning.translation_confirm": "Syötettäsi ei voitu kääntää",
-  "warning.translation_alert": "Syötettäsi ei voitu kääntää"
+  "warning.translation_alert": "Syötettäsi ei voitu kääntää",
+  "warning.no_workspace": "Käyttäjää ${} ei ole vielä määritetty työtilaan. Ota yhteyttä DMX Linqa-tiimiin."
 }

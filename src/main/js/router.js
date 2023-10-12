@@ -185,9 +185,7 @@ const actions = {
     // 4) take first workspace (based on memberships)
     workspaceId = store.getters.sortedWorkspaces[0]?.id
     if (!workspaceId) {
-      throw Error('Benutzer "' + store.state.username + '" wurde noch keinem Arbeitsbereich zugeordnet. Bitte ' +
-        'nehmen Sie Kontakt mit dem DMX Linqa-Team auf. / L\'utilisateur "' + store.state.username + '" n\'a pas ' +
-        'encore été affecté à un domaine d\'activité. N\'hésitez pas à prendre contact avec l\'équipe de DMX Linqa.')
+      throw Error(lq.getString('warning.no_workspace', store.state.username))
     }
     return workspaceId
   }

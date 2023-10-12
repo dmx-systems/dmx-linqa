@@ -113,5 +113,6 @@
   "warning.delete_user": "Sie sind im Begriff diesen Benutzer zu löschen",
   "warning.translation_failed": "Automatische Übersetzung fehlgeschlagen",
   "warning.translation_confirm": "Deine Eingabe konnte nicht übersetzt werden",
-  "warning.translation_alert": "Deine Eingabe konnte nicht übersetzt werden"
+  "warning.translation_alert": "Deine Eingabe konnte nicht übersetzt werden",
+  "warning.no_workspace": "Benutzer ${} wurde noch keinem Arbeitsbereich zugeordnet. Bitte nehmen Sie Kontakt mit dem DMX Linqa-Team auf."
 }

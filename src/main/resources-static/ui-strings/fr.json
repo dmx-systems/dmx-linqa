@@ -113,5 +113,6 @@
   "warning.delete_user": "Vous êtes sur le point de supprimer cet utilisateur",
   "warning.translation_failed": "Échec de la traduction automatique",
   "warning.translation_confirm": "Ta saisie n'a pas pu être traduite",
-  "warning.translation_alert": "Ta saisie n'a pas pu être traduite"
+  "warning.translation_alert": "Ta saisie n'a pas pu être traduite",
+  "warning.no_workspace": "L'utilisateur ${} n'a pas encore été affecté à un domaine d'activité. N'hésitez pas à prendre contact avec l'équipe de DMX Linqa."
 }

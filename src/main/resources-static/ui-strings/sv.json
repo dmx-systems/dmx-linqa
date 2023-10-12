@@ -113,5 +113,6 @@
   "warning.delete_user": "Du kommer att radera denna användare",
   "warning.translation_failed": "Automatisk översättning misslyckades",
   "warning.translation_confirm": "Din text kunde inte översättas",
-  "warning.translation_alert": "Din text kunde inte översättas"
+  "warning.translation_alert": "Din text kunde inte översättas",
+  "warning.no_workspace": "Användaren ${} har ännu inte tilldelats en arbetsyta. Vänligen kontakta DMX Linqa-teamet."
 }

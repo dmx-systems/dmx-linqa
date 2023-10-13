@@ -35,8 +35,8 @@ for user in "${USERS[@]}"; do
     MAILBOX="${MAILNAME}@example.org"
     ## replace space in DISPLAYNAME with encoded space (%20)
     DISPLAYNAME="${user}%20Testuser"
-    LDAPPASSWORDBASE64="$( echo -n "${LDAPPASSWORD}" | base64 )"
-    URL="sign-up/user-account/${MAILBOX}/${MAILBOX}/${DISPLAYNAME}/${LDAPPASSWORDBASE64}"
+    # LDAPPASSWORDBASE64="$( echo -n "${LDAPPASSWORD}" | base64 )"
+    URL="sign-up/user-account/${MAILBOX}/${MAILBOX}/${DISPLAYNAME}/${LDAPPASSWORD}"
     echo "POST ${URL}"
     ## mind "Accept" header!
     RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" -X POST "${HOST}/${URL}" -i 2>&1 )"

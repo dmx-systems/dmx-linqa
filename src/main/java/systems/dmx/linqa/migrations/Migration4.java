@@ -10,7 +10,7 @@ import systems.dmx.linqa.LinqaService;
 
 
 /**
- * Creates viewports for all the ZW Shared Workspaces, and for the "Team" workspace.
+ * Creates viewports for all the Linqa Shared Workspaces, and for the "Team" workspace.
  * <p>
  * Part of Linqa 1.1
  * Runs ALWAYS.
@@ -26,7 +26,7 @@ public class Migration4 extends Migration {
 
     @Override
     public void run() {
-        lq.getAllZWWorkspaces().stream().forEach(ws -> {
+        lq.getAllLinqaWorkspaces().stream().forEach(ws -> {
             lq.createViewport(ws.getId());
         });
         lq.createViewport(wss.getWorkspace(TEAM_WORKSPACE_URI).getId());

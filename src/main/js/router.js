@@ -178,7 +178,7 @@ const actions = {
     if (isValidWorkspaceId(workspaceId, 'cookie')) {
       return workspaceId
     }
-    // 3) team members land in "Team" workspace (at first login there are no ZW event workspaces)
+    // 3) team members land in "Team" workspace (at first login there are no Linqa event workspaces)
     if (store.state.isTeam) {
       return store.state.teamWorkspace.id
     }

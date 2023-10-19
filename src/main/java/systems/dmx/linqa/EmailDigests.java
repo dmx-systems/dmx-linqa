@@ -63,7 +63,7 @@ class EmailDigests {
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
     // Digests are emailed every morning at 6am.
-    // Note: if the ZW plugin is deployed after 6am, the first digests are sent right away.
+    // Note: if the Linqa plugin is deployed after 6am, the first digests are sent right away.
     void startTimedTask() {
         Calendar cal = new GregorianCalendar();
         cal.set(Calendar.HOUR_OF_DAY, 6);    // 6am
@@ -89,7 +89,7 @@ class EmailDigests {
                 .collect(Collectors.groupingBy(this::workspace))
                 .forEach((workspaceId, comments) -> {
                     String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
-                    String subject = "[ZW Platform] " + workspace;
+                    String subject = "[Linqa Platform] " + workspace;
                     StringBuilder message = new StringBuilder();
                     logger.info("### Sending email digest for workspace \"" + workspace + "\" (" + comments.size() +
                         " comments)");
@@ -136,13 +136,13 @@ class EmailDigests {
     }
 
     private void forEachTeamMember(Consumer<String> consumer) {
-        getZWTeamMembers().stream().forEach(username -> {
+        getLinqaTeamMembers().stream().forEach(username -> {
             consumer.accept(username.getSimpleValue().toString());
         });
     }
 
     // TODO: copied from LinqaPlugin.java
-    private List<RelatedTopic> getZWTeamMembers() {
+    private List<RelatedTopic> getLinqaTeamMembers() {
         return acs.getMemberships(teamWorkspace.getId());
     }
 }

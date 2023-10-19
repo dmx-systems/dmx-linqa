@@ -10,7 +10,7 @@ import systems.dmx.core.service.Migration;
 
 /**
  * Extends topic type "Document" by "Original Language".
- * Note: before ZW 1.5 Document(Name)s were not auto-translated.
+ * Note: before Linqa 1.5 Document(Name)s were not auto-translated.
  * <p>
  * Part of Linqa 1.5
  * Runs ALWAYS.

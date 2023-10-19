@@ -20,12 +20,12 @@ public interface LinqaService {
     Response getConfigResource(String fileName, String fileType, boolean multilingual);
 
     /**
-     * Returns the ZW shared workspaces of the current user (according to request authorization).
+     * Returns the Linqa shared workspaces of the current user (according to request authorization).
      *
      * @return  the workspaces as a list of RelatedTopics. Their "relating associations" are the Memberships.
      *          Note: the "Team" workspace is not included.
      */
-    List<RelatedTopic> getZWWorkspaces();
+    List<RelatedTopic> getLinqaWorkspaces();
 
     /**
      * Returns the comments of the current workspace (according to workspace cookie).
@@ -70,22 +70,22 @@ public interface LinqaService {
     // --- Admin ---
 
     /**
-     * Returns all ZW shared workspaces. Note: the "Team" workspace is not included.
+     * Returns all Linqa shared workspaces. Note: the "Team" workspace is not included.
      */
-    List<RelatedTopic> getAllZWWorkspaces();
+    List<RelatedTopic> getAllLinqaWorkspaces();
 
     /**
-     * Returns the ZW shared workspaces of the given user plus the "Team" workspace, if the
+     * Returns the Linqa shared workspaces of the given user plus the "Team" workspace, if the
      * given user is a "Team" member.
      */
-    List<RelatedTopic> getZWWorkspacesOfUser(String username);
+    List<RelatedTopic> getLinqaWorkspacesOfUser(String username);
 
     /**
-     * Returns all ZW "Team" members.
+     * Returns all Linqa "Team" members.
      *
      * @return    list of Username topics.
      */
-    List<RelatedTopic> getZWTeamMembers();
+    List<RelatedTopic> getLinqaTeamMembers();
 
     List<RelatedTopic> bulkUpdateWorkspaceMemberships(long workspaceId, IdList addUserIds1, IdList removeUserIds1,
                                                                         IdList addUserIds2, IdList removeUserIds2);

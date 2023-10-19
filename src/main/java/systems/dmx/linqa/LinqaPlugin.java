@@ -131,9 +131,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             // 1) Create "System" membership
             logger.info("### Inviting user \"" + username + "\" to \"System\" workspace");
             acs.createMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
-            // 2) Create ZW event workspace memberships
-            List<RelatedTopic> workspaces = getAllZWWorkspaces();
-            logger.info("### Inviting user \"" + username + "\" to " + workspaces.size() + " ZW workspaces");
+            // 2) Create Linqa event workspace memberships
+            List<RelatedTopic> workspaces = getAllLinqaWorkspaces();
+            logger.info("### Inviting user \"" + username + "\" to " + workspaces.size() + " Linqa workspaces");
             acs.bulkUpdateMemberships(username, new IdList(workspaces), null);
         });
     }
@@ -151,7 +151,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             if (systemMembership != null) {
                 systemMembership.delete();
             }
-            // Note: when a user looses Team status we don't know in which ZW workspaces she stays.
+            // Note: when a user looses Team status we don't know in which Linqa workspaces she stays.
             // We leave all memberships intact (no bulkUpdateMemberships() here).
         });
     }
@@ -301,17 +301,17 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @GET
     @Path("/workspaces")
     @Override
-    public List<RelatedTopic> getZWWorkspaces() {
+    public List<RelatedTopic> getLinqaWorkspaces() {
         try {
             // FIXME: public workspaces (w/o Membership) are not supported
             Topic username = acs.getUsernameTopic();
             if (username != null) {
-                return getZWWorkspaces(username);
+                return getLinqaWorkspaces(username);
             } else {
                 return new ArrayList();
             }
         } catch (Exception e) {
-            throw new RuntimeException("Retrieving the user's ZW workspaces failed", e);
+            throw new RuntimeException("Retrieving the user's Linqa workspaces failed", e);
         }
     }
 
@@ -335,7 +335,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         try {
             return dmx.getTopicsByType(USERNAME);
         } catch (Exception e) {
-            throw new RuntimeException("Retrieving all ZW users failed", e);
+            throw new RuntimeException("Retrieving all Linqa users failed", e);
         }
     }
 
@@ -471,7 +471,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @GET
     @Path("/admin/workspaces")
     @Override
-    public List<RelatedTopic> getAllZWWorkspaces() {
+    public List<RelatedTopic> getAllLinqaWorkspaces() {
         try {
             return DMXUtils.loadChildTopics(
                 // We retrieve the Plugin topic on-the-fly to allow this method to be called from a migration.
@@ -480,32 +480,32 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 dmx.getTopicByUri(LINQA_PLUGIN_URI).getRelatedTopics(SHARED_WORKSPACE, DEFAULT, DEFAULT, WORKSPACE)
             );
         } catch (Exception e) {
-            throw new RuntimeException("Retrieving all ZW workspaces failed", e);
+            throw new RuntimeException("Retrieving all Linqa workspaces failed", e);
         }
     }
 
     @GET
     @Path("/admin/user/{username}/workspaces")
     @Override
-    public List<RelatedTopic> getZWWorkspacesOfUser(@PathParam("username") String username) {
+    public List<RelatedTopic> getLinqaWorkspacesOfUser(@PathParam("username") String username) {
         try {
             Topic usernameTopic = acs.getUsernameTopic(username);
             if (usernameTopic == null) {
                 throw new IllegalArgumentException("No such user: \"" + username + "\"");
             }
-            List<RelatedTopic> workspaces = getZWWorkspaces(usernameTopic);
+            List<RelatedTopic> workspaces = getLinqaWorkspaces(usernameTopic);
             Assoc membership = acs.getMembership(username, teamWorkspace.getId());
             if (membership != null) {
                 workspaces.add(membership.getDMXObjectByType(WORKSPACE).loadChildTopics());
             }
             return workspaces;
         } catch (Exception e) {
-            throw new RuntimeException("Retrieving ZW workspaces of user \"" + username + "\" failed", e);
+            throw new RuntimeException("Retrieving Linqa workspaces of user \"" + username + "\" failed", e);
         }
     }
 
     @Override
-    public List<RelatedTopic> getZWTeamMembers() {
+    public List<RelatedTopic> getLinqaTeamMembers() {
         return acs.getMemberships(teamWorkspace.getId());
     }
 
@@ -534,7 +534,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             }
             return users;
         } catch (Exception e) {
-            throw new RuntimeException("Editor role bulk update for ZW workspace " + workspaceId + " failed", e);
+            throw new RuntimeException("Editor role bulk update for Linqa workspace " + workspaceId + " failed", e);
         }
     }
 
@@ -561,7 +561,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                     updateEditorFacet(username, wsId, true);
                 }
             }
-            return getZWWorkspacesOfUser(username);
+            return getLinqaWorkspacesOfUser(username);
         } catch (Exception e) {
             throw new RuntimeException("Editor role bulk update for user \"" + username + "\" failed", e);
         }
@@ -598,7 +598,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 .set(WORKSPACE_NAME + "#" + LANG1, nameLang1)
                 .set(WORKSPACE_NAME + "#" + LANG2, nameLang2)
             );
-            // 2) Mark it as "ZW Shared Workspace"
+            // 2) Mark it as "Linqa Shared Workspace"
             long workspaceId = workspace.getId();
             dmx.getPrivilegedAccess().runInWorkspaceContext(workspaceId, () -> {
                 dmx.createAssoc(mf.newAssocModel(
@@ -611,13 +611,13 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             // 3)
             createViewport(workspaceId);
             // 4) Give all "Team" members access
-            List<RelatedTopic> usernames = getZWTeamMembers();
+            List<RelatedTopic> usernames = getLinqaTeamMembers();
             logger.info("### Inviting " + usernames.size() + " Team members to workspace \"" +
                 workspace.getSimpleValue() + "\"");
             acs.bulkUpdateMemberships(workspaceId, new IdList(usernames), null);
             return workspace;
         } catch (Exception e) {
-            throw new RuntimeException("Creating a ZW workspace failed", e);
+            throw new RuntimeException("Creating a Linqa workspace failed", e);
         }
     }
 
@@ -699,7 +699,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         long topicId = topic.getId();
         long topicmapId = topicmapId();
         Assoc assoc = tms.getTopicMapcontext(topicmapId, topicId);
-        // Note: assoc can be null if requested by non-ZW application e.g. DMX Webclient
+        // Note: assoc can be null if requested by non-Linqa application e.g. DMX Webclient
         if (assoc != null && assoc.hasProperty(LINQA_COLOR)) {      // Color is an optional view prop
             topic.getChildTopics().getModel().set(LINQA_COLOR, assoc.getProperty(LINQA_COLOR));
         }
@@ -721,14 +721,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private List<RelatedTopic> getZWWorkspaces(Topic username) {
+    private List<RelatedTopic> getLinqaWorkspaces(Topic username) {
         return DMXUtils.loadChildTopics(
             username.getRelatedTopics(MEMBERSHIP, DEFAULT, DEFAULT, WORKSPACE)
-                .stream().filter(this::isZWWorkspace).collect(Collectors.toList())
+                .stream().filter(this::isLinqaWorkspace).collect(Collectors.toList())
         );
     }
 
-    private boolean isZWWorkspace(Topic workspace) {
+    private boolean isLinqaWorkspace(Topic workspace) {
         return dmx.getAssocBetweenTopicAndTopic(
             SHARED_WORKSPACE, workspace.getId(), zwPluginTopic.getId(), DEFAULT, DEFAULT
         ) != null;

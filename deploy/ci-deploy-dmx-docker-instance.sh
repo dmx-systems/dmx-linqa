@@ -66,6 +66,10 @@ fi
 USER_ID="$( id -u )"
 GROUP_ID="$( id -g )"
 DMX_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=dmx | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+if [ -z "${DMX_PORT}" ]; then
+    echo "ERROR! Could not retrieve the DMX containers proxyport from ${WEB_URL}."
+    exit 1
+fi
 sleep 1
 LOGS_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=log | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
 if [ "$( echo "${PLUGINS}" | grep dmx-sendmail )" ]; then

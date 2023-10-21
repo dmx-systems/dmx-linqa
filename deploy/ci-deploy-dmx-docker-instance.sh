@@ -98,13 +98,15 @@ sleep 2
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
 if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
-    docker container stop ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
-    if [ "$( docker container ls -a | grep ${CI_PROJECT_NAME}-${TIER}-ldap-container )" ]; then 
-        docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
-        sleep 1
+    if [ "$( docker ps --filter "status=running" --filter "name=dmx" --format "{{.Names}}" | grep ${CI_PROJECT_NAME}-${TIER}-ldap-container )" ]; then
+        docker container stop ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
+        if [ "$( docker container ls -a | grep ${CI_PROJECT_NAME}-${TIER}-ldap-container )" ]; then 
+            docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
+            sleep 1
+        fi
+        echo "deleting old docker image ${DOCKER_IMAGE}"
+        docker image rm ${DOCKER_IMAGE} || true
     fi
-    echo "deleting old docker image ${DOCKER_IMAGE}"
-    docker image rm ${DOCKER_IMAGE} || true
 fi
 ## pull latest images (to keep versions up to date)
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml pull

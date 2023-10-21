@@ -1,12 +1,10 @@
-## Sign-Up Plugin Config
-
 dmx.signup.account_creation = admin
 dmx.signup.account_creation_password_handling = generated
-dmx.signup.self_registration = false
+dmx.signup.username_policy = username_is_email
 dmx.signup.confirm_email_address = false
 dmx.signup.admin_mailbox = admin@dmx.systems
 dmx.signup.system_mailbox = admin@dmx.systems
 dmx.signup.ldap_account_creation = true
 dmx.signup.account_creation_auth_ws_uri = linqa.team
 dmx.signup.restrict_auth_methods = LDAP, BASIC
-dmx.signup.username_policy = username_is_email
+dmx.signup.token_expiration_time = 2

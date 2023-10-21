@@ -108,6 +108,7 @@ if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
         docker image rm ${DOCKER_IMAGE} || true
     fi
 fi
+sleep 1
 ## pull latest images (to keep versions up to date)
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml pull
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d

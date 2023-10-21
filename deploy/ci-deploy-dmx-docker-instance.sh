@@ -99,8 +99,10 @@ sleep 2
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
 if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
     docker container stop ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
-    docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container
-    sleep 1
+    if [ "$( docker container ls -a | grep ${CI_PROJECT_NAME}-${TIER}-ldap-container )" ]; then 
+        docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
+        sleep 1
+    fi
     echo "deleting old docker image ${DOCKER_IMAGE}"
     docker image rm ${DOCKER_IMAGE} || true
 fi

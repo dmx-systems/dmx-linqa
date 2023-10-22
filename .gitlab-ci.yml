@@ -71,7 +71,7 @@ install-in-container:
     ## Deploy Test Container
     - deploy/ci-deploy-dmx-linqa-language-files.sh
     - deploy/ci-deploy-dmx-docker-instance.sh
-    - sleep 5
+    - sleep 10
     ## Create DMX Users via sign-up plugin
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make users workspace members according to their team roles

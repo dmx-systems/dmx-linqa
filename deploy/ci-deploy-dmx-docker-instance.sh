@@ -88,8 +88,11 @@ echo "COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}" >>"${ENV_FILE}"
 cat "${ENV_FILE}"
 echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url
 echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
-DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-ldap-container | jq .[].Config.Image | sed 's/\"//g' )"
-echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
+CONTAINERS='dmx ldap mailhog'
+for cont in ${CONTAINERS}; do
+    DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-${cont}-container | jq .[].Config.Image | sed 's/\"//g' )"
+    echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
+done
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans || true
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #date +%s

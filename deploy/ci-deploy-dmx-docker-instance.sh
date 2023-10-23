@@ -88,7 +88,7 @@ echo "COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}" >>"${ENV_FILE}"
 cat "${ENV_FILE}"
 echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url
 echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
-CONTAINERS='dmx ldap mailhog'
+CONTAINERS='dmx dmxlog ldap mailhog'
 c=0
 for cont in ${CONTAINERS}; do
     declare -a DOCKER_IMAGES
@@ -96,7 +96,7 @@ for cont in ${CONTAINERS}; do
     echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
     DOCKER_IMAGES+="${DOCKER_IMAGE}"
 done
-echo "DOCKER_IMAGES: ${DOCKER_IMAGES[@]}"
+# echo "DOCKER_IMAGES: ${DOCKER_IMAGES[*]}"
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans || true
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #date +%s
@@ -104,17 +104,22 @@ sleep 2
 #date +%s
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #if [ $( echo "${PLUGINS}" | grep dmx-ldap ) ] || [ "${CI_PROJECT_NAME}" == "dmx-ldap" ]; then
-if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
-    if [ "$( docker ps --filter "status=running" --filter "name=dmx" --format "{{.Names}}" | grep ${CI_PROJECT_NAME}-${TIER}-ldap-container )" ]; then
-        docker container stop ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
-        if [ "$( docker container ls -a | grep ${CI_PROJECT_NAME}-${TIER}-ldap-container )" ]; then 
-            docker container rm ${CI_PROJECT_NAME}-${TIER}-ldap-container || true
-            sleep 1
+for DOCKER_IMAGE in ${DOCKER_IMAGES}[@]; do
+    for cont in ${CONTAINERS}; do
+        if [ "$( docker image ls | grep "${DOCKER_IMAGE}" )" ]; then
+            if [ "$( docker ps --filter "status=running" --filter "name=dmx" --format "{{.Names}}" | grep ${CI_PROJECT_NAME}-${TIER}-${cont}-container )" ]; then
+                docker container stop ${CI_PROJECT_NAME}-${TIER}-${cont}-container || true
+                if [ "$( docker container ls -a | grep ${CI_PROJECT_NAME}-${TIER}-${cont}-container )" ]; then 
+                    echo "deleting docker container ${CI_PROJECT_NAME}-${TIER}-${cont}-container"
+                    docker container rm ${CI_PROJECT_NAME}-${TIER}-${cont}-container || true
+                    sleep 1
+                fi
+                echo "deleting old docker image ${DOCKER_IMAGE}"
+                docker image rm ${DOCKER_IMAGE} || true
+            fi
         fi
-        echo "deleting old docker image ${DOCKER_IMAGE}"
-        docker image rm ${DOCKER_IMAGE} || true
-    fi
-fi
+    done
+done
 sleep 1
 ## pull latest images (to keep versions up to date)
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml pull

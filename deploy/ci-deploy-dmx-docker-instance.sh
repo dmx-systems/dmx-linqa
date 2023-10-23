@@ -89,9 +89,12 @@ cat "${ENV_FILE}"
 echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url
 echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
 CONTAINERS='dmx ldap mailhog'
+c=0
 for cont in ${CONTAINERS}; do
+    declare -a DOCKER_IMAGES
     DOCKER_IMAGE="$( docker inspect ${CI_PROJECT_NAME}-${TIER}-${cont}-container | jq .[].Config.Image | sed 's/\"//g' )"
     echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
+    DOCKER_IMAGES+="${DOCKER_IMAGE}"
 done
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans || true
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}

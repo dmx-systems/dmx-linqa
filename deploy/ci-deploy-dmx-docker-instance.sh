@@ -127,11 +127,12 @@ if [ "$( docker network ls | grep "${CI_PROJECT_NAME}-${TIER}_default" )" ]; the
     docker network rm ${CI_PROJECT_NAME}-${TIER}_default || true
 fi
 sleep 1
-test -d ./deploy/instance/${TIER}/logs/ || mkdir ./deploy/instance/${TIER}/logs/
+# test -d ./deploy/instance/${TIER}/logs/ || mkdir ./deploy/instance/${TIER}/logs/
 ## pull latest images (to keep versions up to date)
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml pull
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml up --force-recreate -d
-test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found."
+sleep 1
+test -d ./deploy/instance/${TIER}/logs/ || echo "ERROR! Directory ./deploy/instance/${TIER}/logs/ not found. Container up?"; exit 1
 deploy/scripts/dmxstate.sh ./deploy/instance/${TIER}/logs/dmx0.log 30 || cat ./deploy/instance/${TIER}/logs/dmx0.log
 
 ## TEST

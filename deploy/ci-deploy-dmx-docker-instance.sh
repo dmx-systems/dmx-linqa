@@ -96,6 +96,7 @@ for cont in ${CONTAINERS}; do
     echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
     DOCKER_IMAGES+="${DOCKER_IMAGE}"
 done
+echo "DOCKER_IMAGES: ${DOCKER_IMAGES[@]}"
 docker compose --env-file "${ENV_FILE}" --file deploy/docker-compose.${TIER}-ci.yaml down -v --remove-orphans || true
 #docker container ls | grep ${CI_PROJECT_NAME}-${TIER}
 #date +%s

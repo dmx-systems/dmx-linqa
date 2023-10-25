@@ -87,7 +87,7 @@ echo "LOGS_PORT=${LOGS_PORT}" >>"${ENV_FILE}"
 echo "COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}" >>"${ENV_FILE}"
 cat "${ENV_FILE}"
 echo "dmx.websockets.url = wss://${WEB_URL}/websocket" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_websocket_url
-echo "dmx.host.url = https://${WEB_URL}/" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
+echo "dmx.host.url = https://${WEB_URL}" > deploy/dmx/${TIER}-ci/conf.d/config.properties.d/10_host_url
 CONTAINERS='dmx dmxlog ldap mailhog'
 for cont in ${CONTAINERS}; do
     declare -a DOCKER_IMAGES

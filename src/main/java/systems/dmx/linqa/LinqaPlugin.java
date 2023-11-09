@@ -276,7 +276,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                                       @PathParam("fileType") String fileType,
                                       @QueryParam("multilingual") boolean multilingual) {
         try {
-            StringBuilder path = new StringBuilder(getConfDir() + "dmx-linqa/" + fileName);
+            StringBuilder path = new StringBuilder(DMXUtils.getConfigDir() + "dmx-linqa/" + fileName);
             if (multilingual) {
                 String lang = Cookies.get().get("linqa_lang");
                 path.append("." + lang);
@@ -802,20 +802,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private long getDisplayNamesWorkspaceId() {
         return dmx.getTopicByUri(DISPLAY_NAME_WS_URI).getId();
-    }
-
-    // TODO: move to platform
-    private String getConfDir() {
-        String systemProps = System.getProperty("felix.system.properties");
-        if (systemProps != null) {
-            if (systemProps.startsWith("file:") && systemProps.endsWith("config.properties")) {
-                return systemProps.substring("file:".length(), systemProps.length() - "config.properties".length());
-            } else {
-                throw new RuntimeException("Unexpected felix.system.properties: \"" + systemProps + "\"");
-            }
-        } else {
-            return "";
-        }
     }
 
     private String newPassword() {

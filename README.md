@@ -5,7 +5,17 @@ on various kinds of content objects (documents, notes, textblocks). Content obje
 
 The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 
-The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 6 languages are supported: German, English, Spanish, Finnish, French, Swedish.
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 7 languages are supported:
+
+| Code | Language  |
+| ---- | --------- |
+| `de` | German    |
+| `en` | English   |
+| `es` | Spanish   |
+| `fi` | Finnish   |
+| `fr` | French    |
+| `sv` | Swedish   |
+| `uk` | Ukrainian |
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license.
 
@@ -15,8 +25,8 @@ For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. 
 
 | Property           | Required | Description                                               |
 | --------           | -------- | -----------                                               |
-| dmx.linqa.lang1    | yes      | ISO 639-1 language code. One of `de`, `en`, `es`, `fi`, `fr`, `sv`. |
-| dmx.linqa.lang2    | yes      | ISO 639-1 language code. One of `de`, `en`, `es`, `fi`, `fr`, `sv`. |
+| dmx.linqa.lang1    | yes      | ISO 639-1 language code, see table above. |
+| dmx.linqa.lang2    | yes      | ISO 639-1 language code, see table above. |
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 
@@ -50,6 +60,7 @@ logo.es.png
 logo.fi.png
 logo.fr.png
 logo.sv.png
+logo.uk.png
 ```
 
 It is sufficient to provide the logo files for the languages configured for `lang1` and `lang2` respectively. If the logo file for the current UI language is missing Linqa will show its default logo. Note: if you want the *same* custom logo appear regardless of selected UI language you still need provide separate files then (just copies).
@@ -74,12 +85,14 @@ imprint.es.html
 imprint.fi.html
 imprint.fr.html
 imprint.sv.html
+imprint.uk.html
 privacy_policy.de.html
 privacy_policy.en.html
 privacy_policy.es.html
 privacy_policy.fi.html
 privacy_policy.fr.html
 privacy_policy.sv.html
+privacy_policy.uk.html
 ```
 
 These files are supposed to contain HTML *fragments*, that is one or more `<p>`, `<h2>`, `<ul>`, ... elements. *No* `<html>` or `<body>` element.
@@ -146,6 +159,7 @@ conf/dmx-linqa/zw-snake.es.png
 conf/dmx-linqa/zw-snake.fi.png
 conf/dmx-linqa/zw-snake.fr.png
 conf/dmx-linqa/zw-snake.sv.png
+conf/dmx-linqa/zw-snake.uk.png
 ```
 
 While the custom logo is limited to `PNG` files, for the custom resources you can use arbitrary file types.
@@ -154,13 +168,16 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 **1.7** -- unreleased
 
+* Features:
+    * 2 additional languages: Ukrainian, ...
 * Improvements:
-    * Reset-password is integrated in Linqa UI (instead utilizing separate Sign-up UI)
+    * Reset-password is integrated in Linqa UI (instead utilizing separate DMX Sign-up UI)
         * Password-reset dialog is URL addressable
         * New (URL addressable) new-password dialog
         * Linqa now depends on Sign-up 3.0 (formerly Sign-up 2.1)
 * Fixes:
     * Password-reset mail is plain text (instead multipart with broken plain text part)
+    * Newly created document renders properly also if document name is auto-tranlated
     * Newly created workspace has name
     * Rendering of bilingual workspace names
     * Proper field labels in workspace form

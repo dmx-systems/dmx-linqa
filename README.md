@@ -5,17 +5,18 @@ on various kinds of content objects (documents, notes, textblocks). Content obje
 
 The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 
-The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 7 languages are supported:
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 8 languages are supported:
 
-| Code | Language  |
-| ---- | --------- |
-| `de` | German    |
-| `en` | English   |
-| `es` | Spanish   |
-| `fi` | Finnish   |
-| `fr` | French    |
-| `sv` | Swedish   |
-| `uk` | Ukrainian |
+| Code | Language               |
+| ---- | ---------------------- |
+| `de` | German                 |
+| `en` | English                |
+| `es` | Spanish                |
+| `fi` | Finnish                |
+| `fr` | French                 |
+| `pt` | Portuguese (Brazilian) |
+| `sv` | Swedish                |
+| `uk` | Ukrainian              |
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license.
 
@@ -59,6 +60,7 @@ logo.en.png
 logo.es.png
 logo.fi.png
 logo.fr.png
+logo.pt.png
 logo.sv.png
 logo.uk.png
 ```
@@ -84,6 +86,7 @@ imprint.en.html
 imprint.es.html
 imprint.fi.html
 imprint.fr.html
+imprint.pt.html
 imprint.sv.html
 imprint.uk.html
 privacy_policy.de.html
@@ -91,6 +94,7 @@ privacy_policy.en.html
 privacy_policy.es.html
 privacy_policy.fi.html
 privacy_policy.fr.html
+privacy_policy.pt.html
 privacy_policy.sv.html
 privacy_policy.uk.html
 ```
@@ -158,6 +162,7 @@ conf/dmx-linqa/zw-snake.en.png
 conf/dmx-linqa/zw-snake.es.png
 conf/dmx-linqa/zw-snake.fi.png
 conf/dmx-linqa/zw-snake.fr.png
+conf/dmx-linqa/zw-snake.pt.png
 conf/dmx-linqa/zw-snake.sv.png
 conf/dmx-linqa/zw-snake.uk.png
 ```
@@ -169,7 +174,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 **1.7** -- unreleased
 
 * Features:
-    * 2 additional languages: Ukrainian, ...
+    * 2 additional languages: Ukrainian, Portuguese (Brazilian)
 * Improvements:
     * Reset-password is integrated in Linqa UI (instead utilizing separate DMX Sign-up UI)
         * Password-reset dialog is URL addressable

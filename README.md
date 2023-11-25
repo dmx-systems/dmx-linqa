@@ -175,6 +175,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
         * Password-reset dialog is URL addressable
         * New (URL addressable) new-password dialog
         * Linqa now depends on Sign-up 3.0 (formerly Sign-up 2.1)
+    * Support for non-Latin languages (app-strings .properties files are expected to be UTF-8)
 * Fixes:
     * Password-reset mail is plain text (instead multipart with broken plain text part)
     * Newly created document renders properly also if document name is auto-tranlated

@@ -94,7 +94,7 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     private String getString(String key, Object... args) {
         String lang = Cookies.get().get("linqa_lang");
-        ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang));     // TODO: caching?
+        ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang), new UTF8Control());
         return String.format(rb.getString(key), args);
     }
 }

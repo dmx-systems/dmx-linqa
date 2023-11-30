@@ -65,15 +65,15 @@ fi
 ##  script:
 USER_ID="$( id -u )"
 GROUP_ID="$( id -g )"
-DMX_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=dmx | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+DMX_PORT="$( get_port.sh ${WEB_URL}-dmx )"
 if [ -z "${DMX_PORT}" ]; then
     echo "ERROR! Could not retrieve the DMX containers proxyport from ${WEB_URL}."
     exit 1
 fi
 sleep 1
-LOGS_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=log | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+LOGS_PORT="$( get_port.sh ${WEB_URL}-log )"
 if [ "$( echo "${PLUGINS}" | grep dmx-sendmail )" ]; then
-    MAIL_PORT="$( curl --silent --cookie-jar - https://${WEB_URL}/?proxyport=mail | grep PROXYPORT | grep -o '[^PROXYPORT$]*$' | sed s'/\s//g' )"
+    MAIL_PORT="$( get_port.sh ${WEB_URL}-mail )"
     echo "MAIL_PORT=${MAIL_PORT}" >>"${ENV_FILE}"
 else
     MAIL_PORT=

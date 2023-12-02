@@ -66,7 +66,7 @@ export default {
 
   data () {
     return {
-      type: 'linqa.note',
+      biTypeUri: 'linqa.note_text',   // URI of the bilingual child type
       saving: false                   // true while note is saved
     }
   },
@@ -171,7 +171,7 @@ export default {
      */
     html (lang) {
       // Note: in an untranslatable note "lang2" is not defined
-      const html = this.topic.children['linqa.note.' + lang]?.value
+      const html = this.topic.children['linqa.note_text#linqa.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }
@@ -182,11 +182,11 @@ export default {
      */
     setNote (lang) {
       // Note: in an untranslatable note "lang2" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.note.lang2']) {
-        this.$set(this.topic.children, 'linqa.note.lang2', {})
+      if (!this.topic.children['linqa.note_text#linqa.lang2']) {
+        this.$set(this.topic.children, 'linqa.note_text#linqa.lang2', {})
       }
       //
-      const compDefUri = 'linqa.note.' + lang
+      const compDefUri = 'linqa.note_text#linqa.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
   },

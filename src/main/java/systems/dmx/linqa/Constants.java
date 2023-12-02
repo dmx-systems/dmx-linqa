@@ -16,8 +16,7 @@ public class Constants {
     public static final String HEADING                  = "linqa.heading";
     public static final String ARROW                    = "linqa.arrow";
     public static final String COMMENT                  = "linqa.comment";
-    public static final String COMMENT_LANG1            = "linqa.comment.lang1";
-    public static final String COMMENT_LANG2            = "linqa.comment.lang2";
+    public static final String COMMENT_TEXT             = "linqa.comment_text";
     public static final String LANGUAGE                 = "linqa.language";
     public static final String TRANSLATION_EDITED       = "linqa.translation_edited";
     public static final String LOCKED                   = "linqa.locked";

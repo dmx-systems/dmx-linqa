@@ -345,7 +345,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public Topic createDocument(String docName, @QueryParam("fileId") long fileId) {
         try {
-            TopicModel document = createBilingualTopicModel(DOCUMENT, docName, DOCUMENT_NAME);
+            TopicModel document = createBilingualTopicModel(DOCUMENT, docName, "_name");
             String lang = document.getChildTopics().getString(LANGUAGE + "#" + ORIGINAL_LANGUAGE);
             document.getChildTopics().setRef(FILE + "#linqa." + langSuffix(lang), fileId);
             return dmx.createTopic(document);
@@ -413,7 +413,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         try {
             // Note: a monolingual comment is stored in "lang1". "lang2" and "Original Language" are not set.
             return _createComment(mf.newTopicModel(COMMENT, mf.newChildTopicsModel()
-                .set(COMMENT_LANG1, comment)
+                .set(COMMENT_TEXT + "#" + LANG1, comment)
             ), refTopicIds, fileTopicIds);
         } catch (Exception e) {
             throw new RuntimeException("Creating monolingual comment failed, refTopicIds=" + refTopicIds +
@@ -626,16 +626,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // ------------------------------------------------------------------------------------------------- Private Methods
 
     private TopicModel createBilingualTopicModel(String topicTypeUri, String text) {
-        return createBilingualTopicModel(topicTypeUri, text, topicTypeUri);
+        return createBilingualTopicModel(topicTypeUri, text, "_text");
     }
 
-    private TopicModel createBilingualTopicModel(String topicTypeUri, String text, String childTypeUri) {
+    private TopicModel createBilingualTopicModel(String topicTypeUri, String text, String uriSuffix) {
         Translation translation = translate(text, null);
         String origLang = translation.detectedSourceLang;
         return mf.newTopicModel(topicTypeUri, mf.newChildTopicsModel()
-            .set(childTypeUri + "." + langSuffix(origLang), text)
-            .set(childTypeUri + "." + targetLang(origLang, true), translation.text)     // asUriSuffix=true
-            .set(LANGUAGE + "#" + ORIGINAL_LANGUAGE, origLang)
+            .set(topicTypeUri + uriSuffix + "#linqa." + langSuffix(origLang), text)
+            .set(topicTypeUri + uriSuffix + "#linqa." + targetLang(origLang, true), translation.text)
+            .set(LANGUAGE + "#" + ORIGINAL_LANGUAGE, origLang)               // asUriSuffix=true
         );
     }
 

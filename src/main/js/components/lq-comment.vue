@@ -79,10 +79,10 @@ export default {
 
   data () {
     return {
-      type: 'linqa.comment',
-      mode: 'info',             // 'info'/'form'
-      topicBuffer: undefined,   // the edit buffer (dmx.Topic)
-      saving: false             // true while comment is saved
+      biTypeUri: 'linqa.comment_text',    // URI of the bilingual child type
+      mode: 'info',                       // 'info'/'form'
+      topicBuffer: undefined,             // the edit buffer (dmx.Topic)
+      saving: false                       // true while comment is saved
     }
   },
 
@@ -94,8 +94,8 @@ export default {
     comment () {
       return {
         // Note: in an untranslatable comment "lang2" is not defined.
-        lang1: this.topic.children['linqa.comment.lang1']?.value,
-        lang2: this.topic.children['linqa.comment.lang2']?.value
+        lang1: this.topic.children['linqa.comment_text#linqa.lang1']?.value,
+        lang2: this.topic.children['linqa.comment_text#linqa.lang2']?.value
       }
     },
 
@@ -161,7 +161,7 @@ export default {
 
     translationMode () {
       if (this.infoMode) {
-        const topic = this.topic.children['linqa.comment.' + this.lang2nd]
+        const topic = this.topic.children['linqa.comment_text#linqa.' + this.lang2nd]
         if (!topic || topic.value === '<p><br></p>') {
           return 'none'
         } else {
@@ -200,8 +200,8 @@ export default {
       this.saving = true
       // transfer edit buffer to topic model
       this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-      this.topic.children['linqa.comment.lang1'] = this.model.lang1
-      this.topic.children['linqa.comment.lang2'] = this.model.lang2
+      this.topic.children['linqa.comment_text#linqa.lang1'] = this.model.lang1
+      this.topic.children['linqa.comment_text#linqa.lang2'] = this.model.lang2
       this.$store.dispatch('updateComment', this.topic).then(() => {
         this.mode = 'info'
         this.saving = false
@@ -226,8 +226,8 @@ export default {
       // Note 1: in an untranslatable comment "lang2" is not defined. We meed it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
       // Note 3: we need Vue.set() as topic clone is put into state already.
-      if (!this.topicBuffer.children['linqa.comment.lang2']) {
-        Vue.set(this.topicBuffer.children, 'linqa.comment.lang2', {value: ''})
+      if (!this.topicBuffer.children['linqa.comment_text#linqa.lang2']) {
+        Vue.set(this.topicBuffer.children, 'linqa.comment_text#linqa.lang2', {value: ''})
       }
       this.$nextTick(() => {
         this.$store.dispatch('jumpToComment', {

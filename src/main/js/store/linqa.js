@@ -345,7 +345,7 @@ const actions = {
       p = dmx.rpc.createTopic({
         typeUri: `linqa.${type}`,
         children: {
-          [`linqa.${type}.lang1`]: topic.value
+          [`linqa.${type}_text#linqa.lang1`]: topic.value
         }
       })
     } else {
@@ -368,7 +368,7 @@ const actions = {
       // Note: a monolingual document name is stored in "lang1". "lang2" and "Original Language" are not set.
       p = dmx.rpc.createTopic(topic)
     } else {
-      const docName = topic.children['linqa.document_name.lang1'].value
+      const docName = topic.children['linqa.document_name#linqa.lang1'].value
       const fileId = topic.children['dmx.files.file#linqa.lang1'].id
       // suppress standard HTTP error handler
       p = dmx.rpc._http.post('/linqa/document', docName, {params: {fileId}}).then(response => response.data)

@@ -3,8 +3,8 @@ import lq from '../../lq-globals'
 /**
  * Note: the host component is expected to hold
  * - topic        any topic which has an "Original Language" field (dmx.ViewTopic)
- * - type         base URI of topic's type, e.g. 'linqa.note'
  * - topicBuffer  the buffer used for topic editing (dmx.ViewTopic)
+ * - biTypeUri    URI of the bilingual child type, e.g. 'linqa.note_text', "linqa.document_name"
  */
 export default {
 
@@ -23,8 +23,8 @@ export default {
 
     model () {
       return {
-        lang1: this.topicBuffer.children[`${this.type}.lang1`],
-        lang2: this.topicBuffer.children[`${this.type}.lang2`]
+        lang1: this.topicBuffer.children[`${this.biTypeUri}#linqa.lang1`],
+        lang2: this.topicBuffer.children[`${this.biTypeUri}#linqa.lang2`]
       }
     },
 
@@ -71,7 +71,7 @@ export default {
      * The topic's "edited" flag computed dynamically while typing.
      */
     editedFlag () {
-      const uri = `${this.type}.${this.lang2nd}`            // the "edited" flag always relates to translation (lang2nd)
+      const uri = `${this.biTypeUri}#linqa.${this.lang2nd}` // the "edited" flag always relates to translation (lang2nd)
       const buffer = this.model[this.lang2nd].value
       if (!buffer || buffer === '<p><br></p>') {
         return false                                        // regard empty buffer as non-edited

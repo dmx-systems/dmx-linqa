@@ -43,7 +43,7 @@ export default {
 
   mounted () {
     if (this.formMode) {
-      this.$refs.input.focus()      // FIXME
+      this.$refs.input.focus()            // FIXME
     }
   },
 
@@ -53,14 +53,14 @@ export default {
 
   props: {
 
-    topic: {                        // the Heading topic to render (dmx.ViewTopic)
+    topic: {                              // the Heading topic to render (dmx.ViewTopic)
       type: dmx.ViewTopic,
       required: true
     },
 
-    topicBuffer: dmx.ViewTopic,     // the edit buffer (dmx.ViewTopic)
+    topicBuffer: dmx.ViewTopic,           // the edit buffer (dmx.ViewTopic)
 
-    mode: {                         // 'info'/'form'
+    mode: {                               // 'info'/'form'
       type: String,
       default: 'info'
     }
@@ -68,8 +68,8 @@ export default {
 
   data () {
     return {
-      type: 'linqa.heading',
-      saving: false                 // true while heading is saved
+      biTypeUri: 'linqa.heading_text',    // URI of the bilingual child type
+      saving: false                       // true while heading is saved
     }
   },
 
@@ -81,8 +81,8 @@ export default {
     heading () {
       return {
         // Note: in an untranslatable heading "lang2" is not defined
-        lang1: this.topic.children['linqa.heading.lang1']?.value,
-        lang2: this.topic.children['linqa.heading.lang2']?.value
+        lang1: this.topic.children['linqa.heading_text#linqa.lang1']?.value,
+        lang2: this.topic.children['linqa.heading_text#linqa.lang2']?.value
       }
     },
 
@@ -157,11 +157,11 @@ export default {
      */
     setText (lang) {
       // Note: in an untranslatable heading "lang2" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.heading.lang2']) {
-        this.$set(this.topic.children, 'linqa.heading.lang2', {})
+      if (!this.topic.children['linqa.heading_text#linqa.lang2']) {
+        this.$set(this.topic.children, 'linqa.heading_text#linqa.lang2', {})
       }
       //
-      const compDefUri = 'linqa.heading.' + lang
+      const compDefUri = 'linqa.heading_text#linqa.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
   }

@@ -3,13 +3,8 @@
   "topic_types": [
     // Textblock
     {
-      "value":       "Textblock (lang1)",
-      "uri":         "linqa.textblock.lang1",
-      "dataTypeUri": "dmx.core.html"
-    },
-    {
-      "value":       "Textblock (lang2)",
-      "uri":         "linqa.textblock.lang2",
+      "value":       "Textblock Text",
+      "uri":         "linqa.textblock_text",
       "dataTypeUri": "dmx.core.html"
     },
     {
@@ -18,13 +13,15 @@
       "dataTypeUri": "dmx.core.entity",
       "compDefs": [
         {
-          "childTypeUri":        "linqa.textblock.lang1",
+          "childTypeUri":        "linqa.textblock_text",
           "childCardinalityUri": "dmx.core.one",
+          "customAssocTypeUri":  "linqa.lang1",
           "includeInLabel":      true
         },
         {
-          "childTypeUri":        "linqa.textblock.lang2",
+          "childTypeUri":        "linqa.textblock_text",
           "childCardinalityUri": "dmx.core.one",
+          "customAssocTypeUri":  "linqa.lang2",
           "includeInLabel":      true
         },
         {

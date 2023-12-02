@@ -108,19 +108,19 @@ export default {
 
   data () {
     return {
-      type: 'linqa.document_name',
-      text: '',                     // used only for text files: the contained text (String)      FIXME: 2x ?
-      isLoading: false,             // true while document is loaded/saved (Boolean)
-      saveButtonDisabled: false,    // true when save button is disabled (Boolean)
-      onSuccess: {                  // upload success handler (2x Function)
+      biTypeUri: 'linqa.document_name',   // URI of the bilingual child type
+      text: '',                           // used only for text files: the contained text (String)      FIXME: 2x ?
+      isLoading: false,                   // true while document is loaded/saved (Boolean)
+      saveButtonDisabled: false,          // true when save button is disabled (Boolean)
+      onSuccess: {                        // upload success handler (2x Function)
         lang1: this.createSuccessHandler('lang1'),
         lang2: this.createSuccessHandler('lang2')
       },
-      onError: {                    // upload error handler (2x Function)
+      onError: {                          // upload error handler (2x Function)
         lang1: this.createErrorHandler('lang1'),
         lang2: this.createErrorHandler('lang2')
       },
-      error: {                      // the error happened while upload, if any (String)
+      error: {                            // the error happened while upload, if any (String)
         lang1: '',
         lang2: ''
       }
@@ -131,8 +131,8 @@ export default {
 
     docNames () {
       return {
-        lang1: this.topic.children['linqa.document_name.lang1'],
-        lang2: this.topic.children['linqa.document_name.lang2']
+        lang1: this.topic.children['linqa.document_name#linqa.lang1'],
+        lang2: this.topic.children['linqa.document_name#linqa.lang2']
       }
     },
 
@@ -163,8 +163,8 @@ export default {
       } else {
         return {
           names: {
-            lang1: this.topicBuffer.children['linqa.document_name.lang1'],
-            lang2: this.topicBuffer.children['linqa.document_name.lang2']
+            lang1: this.topicBuffer.children['linqa.document_name#linqa.lang1'],
+            lang2: this.topicBuffer.children['linqa.document_name#linqa.lang2']
           },
           files: {
             lang1: this.topicBuffer.children['dmx.files.file#linqa.lang1'],
@@ -267,8 +267,8 @@ export default {
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-        Vue.set(this.topic.children, 'linqa.document_name.lang1', this.docModel.names.lang1)
-        Vue.set(this.topic.children, 'linqa.document_name.lang2', this.docModel.names.lang2)
+        Vue.set(this.topic.children, 'linqa.document_name#linqa.lang1', this.docModel.names.lang1)
+        Vue.set(this.topic.children, 'linqa.document_name#linqa.lang2', this.docModel.names.lang2)
         this.topic.children['dmx.files.file#linqa.lang1'] = this.docModel.paths.lang1.value ? this.docModel.files.lang1
           : undefined
         this.topic.children['dmx.files.file#linqa.lang2'] = this.docModel.paths.lang2.value ? this.docModel.files.lang2

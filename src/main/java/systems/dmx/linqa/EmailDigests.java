@@ -127,8 +127,8 @@ class EmailDigests {
     }
 
     private String emailMessage(Topic comment) {
-        String commentLang1 = comment.getChildTopics().getString(COMMENT_LANG1);
-        String commentLang2 = comment.getChildTopics().getString(COMMENT_LANG2, "");
+        String commentLang1 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG1);
+        String commentLang2 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG2, "");
         String creator = comment.getModel().getChildTopics().getString(CREATOR);     // synthetic, so operate on model
         long modified  = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
         return "<br>\nAuthor: " + creator + "<br>\nDate: " + new Date(modified) + "<br><br>\n\n" +

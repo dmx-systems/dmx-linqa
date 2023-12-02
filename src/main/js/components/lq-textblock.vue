@@ -78,8 +78,8 @@ export default {
 
   data () {
     return {
-      type: 'linqa.textblock',
-      saving: false                   // true while textblock is saved
+      biTypeUri: 'linqa.textblock_text',  // URI of the bilingual child type
+      saving: false                       // true while textblock is saved
     }
   },
 
@@ -183,7 +183,7 @@ export default {
      */
     html (lang) {
       // Note: in an untranslatable textblock "lang2" is not defined
-      const html = this.topic.children['linqa.textblock.' + lang]?.value
+      const html = this.topic.children['linqa.textblock_text#linqa.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }
@@ -194,11 +194,11 @@ export default {
      */
     setText (lang) {
       // Note: in an untranslatable textblock "lang2" is not defined     // TODO: simplify
-      if (!this.topic.children['linqa.textblock.lang2']) {
-        this.$set(this.topic.children, 'linqa.textblock.lang2', {})
+      if (!this.topic.children['linqa.textblock_text#linqa.lang2']) {
+        this.$set(this.topic.children, 'linqa.textblock_text#linqa.lang2', {})
       }
       //
-      const compDefUri = 'linqa.textblock.' + lang
+      const compDefUri = 'linqa.textblock_text#linqa.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
   },

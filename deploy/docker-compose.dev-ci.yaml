@@ -55,6 +55,8 @@ services:
     container_name: "${CI_PROJECT_NAME}-${TIER}-mailhog-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-intern/docker-images/mailhog:latest
+    environment:
+      MH_UI_WEB_PATH: "mails"
     ports:
       - "${MAIL_PORT}:8025"
 

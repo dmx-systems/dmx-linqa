@@ -15,7 +15,7 @@ import systems.dmx.core.service.Migration;
  * Part of Linqa 1.6
  * Runs ALWAYS.
  */
-public class Migration12 extends Migration {
+public class Migration9 extends Migration {
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 

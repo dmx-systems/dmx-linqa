@@ -1,15 +1,18 @@
 package systems.dmx.linqa.migrations;
 
 import static systems.dmx.core.Constants.*;
+import static systems.dmx.files.Constants.*;
 import static systems.dmx.linqa.Constants.*;
+
 import systems.dmx.core.service.Migration;
 
 
 
 /**
- * Redefine the "Editor" topic type.
+ * Extends topic type "Document" by "Original Language".
+ * Note: before Linqa 1.5 Document(Name)s were not auto-translated.
  * <p>
- * Part of Linqa 1.2
+ * Part of Linqa 1.5
  * Runs ALWAYS.
  */
 public class Migration5 extends Migration {
@@ -18,7 +21,10 @@ public class Migration5 extends Migration {
 
     @Override
     public void run() {
-        dmx.getTopicsByType(EDITOR).stream().forEach(t -> t.delete());      // delete all instances
-        dmx.getTopicType(EDITOR).setDataTypeUri(TEXT);                      // change data type Boolean -> Text
+        dmx.getTopicType(DOCUMENT).addCompDefBefore(
+            mf.newCompDefModel(ORIGINAL_LANGUAGE, false, false, DOCUMENT, LANGUAGE, ONE),
+            FILE + "#" + LANG1
+        );
+        // FIXME: add view config to comp def: Widget=Select, Clearable=true
     }
 }

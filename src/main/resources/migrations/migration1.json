@@ -26,6 +26,12 @@
   },
   {
     "topic_types": [
+      // Language
+      {
+        "value":       "Language",
+        "uri":         "linqa.language",
+        "dataTypeUri": "dmx.core.text"
+      },
       // Document
       {
         "value":       "Document Name",
@@ -69,12 +75,6 @@
             }
           }
         ]
-      },
-      // Language
-      {
-        "value":       "Language",
-        "uri":         "linqa.language",
-        "dataTypeUri": "dmx.core.text"
       },
       // Comment
       {
@@ -247,6 +247,46 @@
         "value":       "Arrow",
         "uri":         "linqa.arrow",
         "dataTypeUri": "dmx.core.text"
+      },
+      // Viewport
+      {
+        "value":       "Viewport",
+        "uri":         "linqa.viewport",
+        "dataTypeUri": "dmx.core.text"
+      },
+      // Editor / Editor Facet
+      {
+        "value":       "Editor",
+        "uri":         "linqa.editor",
+        "dataTypeUri": "dmx.core.text"
+      },
+      {
+        "value":       "Editor Facet",
+        "uri":         "linqa.editor_facet",
+        "dataTypeUri": "dmx.core.entity",
+        "compDefs": [
+          {
+            "childTypeUri":        "linqa.editor",
+            "childCardinalityUri": "dmx.core.one"
+          }
+        ]
+      },
+      // Show Email Address / Show Email Address Facet
+      {
+        "value":       "Show Email Address",
+        "uri":         "linqa.show_email_address",
+        "dataTypeUri": "dmx.core.boolean"
+      },
+      {
+        "value":       "Show Email Address Facet",
+        "uri":         "linqa.show_email_address_facet",
+        "dataTypeUri": "dmx.core.entity",
+        "compDefs": [
+          {
+            "childTypeUri":        "linqa.show_email_address",
+            "childCardinalityUri": "dmx.core.one"
+          }
+        ]
       }
     ],
     "assoc_types": [

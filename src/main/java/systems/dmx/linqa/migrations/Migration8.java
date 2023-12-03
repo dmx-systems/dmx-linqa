@@ -2,17 +2,18 @@ package systems.dmx.linqa.migrations;
 
 import static systems.dmx.core.Constants.*;
 import static systems.dmx.files.Constants.*;
+import static systems.dmx.webclient.Constants.*;
 import static systems.dmx.linqa.Constants.*;
 
+import systems.dmx.core.model.ViewConfigModel;
 import systems.dmx.core.service.Migration;
 
 
 
 /**
- * Extends topic type "Document" by "Original Language".
- * Note: before Linqa 1.5 Document(Name)s were not auto-translated.
+ * Adds "Translation Edited" flag to "Document"/"Note"/"Textblock"/"Heading".
  * <p>
- * Part of Linqa 1.5
+ * Part of Linqa 1.6
  * Runs ALWAYS.
  */
 public class Migration8 extends Migration {
@@ -21,10 +22,15 @@ public class Migration8 extends Migration {
 
     @Override
     public void run() {
-        dmx.getTopicType(DOCUMENT).addCompDefBefore(
-            mf.newCompDefModel(ORIGINAL_LANGUAGE, false, false, DOCUMENT, LANGUAGE, ONE),
+        ViewConfigModel config = mf.newViewConfigModel().addConfigTopic(mf.newTopicModel(VIEW_CONFIG));
+        // Note: view config model can be reused. Individual topics will be created.
+        // FIXME: view config topic has empty label (instead "View Configuration")
+        //
+        dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, TRANSLATION_EDITED, ONE, config),
             FILE + "#" + LANG1
         );
-        // FIXME: add view config to comp def: Widget=Select, Clearable=true
+        dmx.getTopicType(LINQA_NOTE).addCompDef(mf.newCompDefModel(LINQA_NOTE, TRANSLATION_EDITED, ONE, config));
+        dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, TRANSLATION_EDITED, ONE, config));
+        dmx.getTopicType(HEADING).addCompDef(mf.newCompDefModel(HEADING, TRANSLATION_EDITED, ONE, config));
     }
 }

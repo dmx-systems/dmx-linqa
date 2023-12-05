@@ -1,34 +1,30 @@
 package systems.dmx.linqa.migrations;
 
+import static systems.dmx.core.Constants.*;
+import static systems.dmx.files.Constants.*;
 import static systems.dmx.linqa.Constants.*;
-import systems.dmx.core.Topic;
-import systems.dmx.core.service.Inject;
+
 import systems.dmx.core.service.Migration;
-import systems.dmx.workspaces.WorkspacesService;
-import systems.dmx.linqa.LinqaService;
 
 
 
 /**
- * Creates viewports for all the Linqa Shared Workspaces, and for the "Team" workspace.
+ * Extends topic type "Document" by "Original Language".
+ * Note: before Linqa 1.5 Document(Name)s were not auto-translated.
  * <p>
- * Part of Linqa 1.1
+ * Part of Linqa 1.5
  * Runs ALWAYS.
  */
 public class Migration3 extends Migration {
-
-    // ---------------------------------------------------------------------------------------------- Instance Variables
-
-    @Inject private LinqaService lq;
-    @Inject private WorkspacesService wss;
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 
     @Override
     public void run() {
-        lq.getAllLinqaWorkspaces().stream().forEach(ws -> {
-            lq.createViewport(ws.getId());
-        });
-        lq.createViewport(wss.getWorkspace(TEAM_WORKSPACE_URI).getId());
+        dmx.getTopicType(DOCUMENT).addCompDefBefore(
+            mf.newCompDefModel(ORIGINAL_LANGUAGE, false, false, DOCUMENT, LANGUAGE, ONE),
+            FILE + "#" + LANG1
+        );
+        // FIXME: add view config to comp def: Widget=Select, Clearable=true
     }
 }

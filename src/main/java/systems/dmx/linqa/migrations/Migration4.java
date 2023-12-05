@@ -1,33 +1,66 @@
 package systems.dmx.linqa.migrations;
 
-import static systems.dmx.core.Constants.*;
-import static systems.dmx.files.Constants.*;
-import static systems.dmx.webclient.Constants.*;
 import static systems.dmx.linqa.Constants.*;
-
+import static systems.dmx.workspaces.Constants.*;
+import systems.dmx.core.Assoc;
+import systems.dmx.core.RelatedTopic;
+import systems.dmx.core.Topic;
+import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.Migration;
+import systems.dmx.workspaces.WorkspacesService;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 
 
 /**
- * Extends topic type "Comment" by "Textblock".
+ * Repairs workspaces: remove random assignments of workspace constituting associations.
  * <p>
  * Part of Linqa 1.6
  * Runs ALWAYS.
  */
 public class Migration4 extends Migration {
 
+    // ---------------------------------------------------------------------------------------------- Instance Variables
+
+    @Inject
+    private WorkspacesService ws;
+
+    private Map<String, Integer> repaired = new HashMap();
+
+    private Logger logger = Logger.getLogger(getClass().getName());
+
     // -------------------------------------------------------------------------------------------------- Public Methods
 
     @Override
     public void run() {
-        dmx.getTopicType(COMMENT).addCompDefBefore(
-            mf.newCompDefModel(
-                COMMENT, TEXTBLOCK, ONE,
-                mf.newViewConfigModel().addConfigTopic(mf.newTopicModel(VIEW_CONFIG))
-                // FIXME: view config topic has empty label (instead "View Configuration")
-            ),
-            FILE + "#" + ATTACHMENT
-        );
+        for (Topic workspace : dmx.getTopicsByType(WORKSPACE)) {
+            int r = repair(workspace, WORKSPACE_NAME + "#" + LANG1) +
+                    repair(workspace, WORKSPACE_NAME + "#" + LANG2);
+            if (r > 0) {
+                repaired.put(workspace.getSimpleValue().toString(), r);
+            }
+        }
+        logger.info("##### Repaired workspaces: " + repaired.size() + "\n  " + repaired.keySet().stream().map(
+            ws -> "\"" + ws + "\" (" + repaired.get(ws) + " assocs)"
+        ).collect(Collectors.joining("\n  ")));
+    }
+
+    // ------------------------------------------------------------------------------------------------- Private Methods
+
+    private int repair(Topic workspace, String compDefUri) {
+        RelatedTopic topic = workspace.getChildTopics().getTopicOrNull(compDefUri);
+        if (topic != null) {
+            Assoc assoc = topic.getRelatingAssoc();
+            Topic _workspace = ws.getAssignedWorkspace(assoc.getId());
+            if (_workspace != null) {
+                ws.assignToWorkspace(assoc, -1);
+                return 1;
+            }
+        }
+        return 0;
     }
 }

@@ -9,10 +9,10 @@ import systems.dmx.core.service.Migration;
 
 
 /**
- * Extends topic type "Document" by "Original Language".
- * Note: before Linqa 1.5 Document(Name)s were not auto-translated.
+ * Creates "Locked" flag and adds it to "Document"/"Note"/"Textblock"/"Heading"/"Arrow".
+ * Changes "Arrow" data type "Text" -> "Entity".
  * <p>
- * Part of Linqa 1.5
+ * Part of Linqa 1.6
  * Runs ALWAYS.
  */
 public class Migration3 extends Migration {
@@ -21,10 +21,15 @@ public class Migration3 extends Migration {
 
     @Override
     public void run() {
-        dmx.getTopicType(DOCUMENT).addCompDefBefore(
-            mf.newCompDefModel(ORIGINAL_LANGUAGE, false, false, DOCUMENT, LANGUAGE, ONE),
-            FILE + "#" + LANG1
-        );
-        // FIXME: add view config to comp def: Widget=Select, Clearable=true
+        // Change "Arrow" data type "Text" -> "Entity"
+        dmx.getTopicType(ARROW).setDataTypeUri(ENTITY);
+        // Create "Locked" flag
+        dmx.createTopicType(mf.newTopicTypeModel(LOCKED, "Locked", BOOLEAN));
+        // Add "Locked" flag
+        dmx.getTopicType(DOCUMENT).addCompDefBefore(mf.newCompDefModel(DOCUMENT, LOCKED, ONE), FILE + "#" + LANG1);
+        dmx.getTopicType(LINQA_NOTE).addCompDef(mf.newCompDefModel(LINQA_NOTE, LOCKED, ONE));
+        dmx.getTopicType(TEXTBLOCK).addCompDef(mf.newCompDefModel(TEXTBLOCK, LOCKED, ONE));
+        dmx.getTopicType(HEADING).addCompDef(mf.newCompDefModel(HEADING, LOCKED, ONE));
+        dmx.getTopicType(ARROW).addCompDef(mf.newCompDefModel(ARROW, LOCKED, ONE));
     }
 }

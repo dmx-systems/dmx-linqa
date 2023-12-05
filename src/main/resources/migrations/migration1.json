@@ -31,6 +31,12 @@
         "uri":         "linqa.language",
         "dataTypeUri": "dmx.core.text"
       },
+      // Translation Edited
+      {
+        "value":       "Translation Edited",
+        "uri":         "linqa.translation_edited",
+        "dataTypeUri": "dmx.core.boolean"
+      },
       // Document
       {
         "value":       "Document Name",
@@ -55,6 +61,24 @@
             "includeInLabel":      true
           },
           {
+            "childTypeUri":        "linqa.language",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.original_language",
+            "viewConfigTopics": [
+              {
+                "typeUri": "dmx.webclient.view_config",
+                "children": {
+                  "dmx.webclient.widget": "ref_uri:dmx.webclient.select",
+                  "dmx.webclient.clearable": true
+                }
+              }
+            ]
+          },
+          {
+            "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
+          },
+          {
             "childTypeUri":        "dmx.files.file",
             "childCardinalityUri": "dmx.core.one",
             "customAssocTypeUri":  "linqa.lang1"
@@ -75,16 +99,63 @@
           }
         ]
       },
+      // Textblock
+      {
+        "value":       "Textblock Text",
+        "uri":         "linqa.textblock_text",
+        "dataTypeUri": "dmx.core.html"
+      },
+      {
+        "value":       "Textblock",
+        "uri":         "linqa.textblock",
+        "dataTypeUri": "dmx.core.entity",
+        "compDefs": [
+          {
+            "childTypeUri":        "linqa.textblock_text",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.lang1",
+            "includeInLabel":      true
+          },
+          {
+            "childTypeUri":        "linqa.textblock_text",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.lang2",
+            "includeInLabel":      true
+          },
+          {
+            "childTypeUri":        "linqa.language",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.original_language",
+            "viewConfigTopics": [
+              {
+                "typeUri": "dmx.webclient.view_config",
+                "children": {
+                  "dmx.webclient.widget": "ref_uri:dmx.webclient.select",
+                  "dmx.webclient.clearable": true
+                }
+              }
+            ]
+          },
+          {
+            "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
+          }
+        ],
+        "viewConfigTopics": [
+          {
+            "typeUri": "dmx.webclient.view_config",
+            "children": {
+              "dmx.webclient.icon": "\uf036",
+              "dmx.webclient.add_to_create_menu": true
+            }
+          }
+        ]
+      },
       // Comment
       {
         "value":       "Comment Text",
         "uri":         "linqa.comment_text",
         "dataTypeUri": "dmx.core.html"
-      },
-      {
-        "value":       "Translation Edited",
-        "uri":         "linqa.translation_edited",
-        "dataTypeUri": "dmx.core.boolean"
       },
       {
         "value":       "Comment",
@@ -127,6 +198,10 @@
           },
           {
             "childTypeUri":        "linqa.document",
+            "childCardinalityUri": "dmx.core.one"
+          },
+          {
+            "childTypeUri":        "linqa.textblock",
             "childCardinalityUri": "dmx.core.one"
           },
           {
@@ -181,6 +256,10 @@
                 }
               }
             ]
+          },
+          {
+            "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
           }
         ],
         "viewConfigTopics": [
@@ -229,6 +308,10 @@
                 }
               }
             ]
+          },
+          {
+            "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
           }
         ],
         "viewConfigTopics": [
@@ -236,54 +319,6 @@
             "typeUri": "dmx.webclient.view_config",
             "children": {
               "dmx.webclient.icon": "\uf1dc",
-              "dmx.webclient.add_to_create_menu": true
-            }
-          }
-        ]
-      },
-      // Textblock
-      {
-        "value":       "Textblock Text",
-        "uri":         "linqa.textblock_text",
-        "dataTypeUri": "dmx.core.html"
-      },
-      {
-        "value":       "Textblock",
-        "uri":         "linqa.textblock",
-        "dataTypeUri": "dmx.core.entity",
-        "compDefs": [
-          {
-            "childTypeUri":        "linqa.textblock_text",
-            "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.lang1",
-            "includeInLabel":      true
-          },
-          {
-            "childTypeUri":        "linqa.textblock_text",
-            "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.lang2",
-            "includeInLabel":      true
-          },
-          {
-            "childTypeUri":        "linqa.language",
-            "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.original_language",
-            "viewConfigTopics": [
-              {
-                "typeUri": "dmx.webclient.view_config",
-                "children": {
-                  "dmx.webclient.widget": "ref_uri:dmx.webclient.select",
-                  "dmx.webclient.clearable": true
-                }
-              }
-            ]
-          }
-        ],
-        "viewConfigTopics": [
-          {
-            "typeUri": "dmx.webclient.view_config",
-            "children": {
-              "dmx.webclient.icon": "\uf036",
               "dmx.webclient.add_to_create_menu": true
             }
           }

@@ -193,7 +193,7 @@ const actions = {
     let p
     if (DEV) {
       // Note: in development mode display name is ignored and password is fixed to '123'
-      p = dmx.rpc.createUserAccount(userModel.emailAddress, encodePassword('123'))
+      p = dmx.rpc.createUserAccount(userModel.emailAddress, '123')
     } else {
       const emailAddress = userModel.emailAddress
       p = http.get(`/sign-up/username/${emailAddress}/taken`).then(response => {
@@ -311,10 +311,4 @@ function collapseUsers (rootState, dispatch) {
     delete user.memberships                     // force refetch once needed
     dispatch('setExpandedUsernames', [])        // TODO: don't collapse but refetch later on when needed
   })
-}
-
-// helper
-
-function encodePassword (password) {
-  return ENCODED_PASSWORD_PREFIX + SHA256(password)
 }

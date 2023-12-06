@@ -37,6 +37,12 @@
         "uri":         "linqa.translation_edited",
         "dataTypeUri": "dmx.core.boolean"
       },
+      // Locked
+      {
+        "value":       "Locked",
+        "uri":         "linqa.locked",
+        "dataTypeUri": "dmx.core.boolean"
+      },
       // Document
       {
         "value":       "Document Name",
@@ -76,6 +82,10 @@
           },
           {
             "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
+          },
+          {
+            "childTypeUri":        "linqa.locked",
             "childCardinalityUri": "dmx.core.one"
           },
           {
@@ -138,6 +148,10 @@
           },
           {
             "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
+          },
+          {
+            "childTypeUri":        "linqa.locked",
             "childCardinalityUri": "dmx.core.one"
           }
         ],
@@ -260,6 +274,10 @@
           {
             "childTypeUri":        "linqa.translation_edited",
             "childCardinalityUri": "dmx.core.one"
+          },
+          {
+            "childTypeUri":        "linqa.locked",
+            "childCardinalityUri": "dmx.core.one"
           }
         ],
         "viewConfigTopics": [
@@ -312,6 +330,10 @@
           {
             "childTypeUri":        "linqa.translation_edited",
             "childCardinalityUri": "dmx.core.one"
+          },
+          {
+            "childTypeUri":        "linqa.locked",
+            "childCardinalityUri": "dmx.core.one"
           }
         ],
         "viewConfigTopics": [
@@ -328,7 +350,13 @@
       {
         "value":       "Arrow",
         "uri":         "linqa.arrow",
-        "dataTypeUri": "dmx.core.text"
+        "dataTypeUri": "dmx.core.entity",
+        "compDefs": [
+          {
+            "childTypeUri":        "linqa.locked",
+            "childCardinalityUri": "dmx.core.one"
+          }
+        ]
       },
       // Viewport
       {

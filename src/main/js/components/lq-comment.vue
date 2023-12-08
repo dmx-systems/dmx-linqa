@@ -123,8 +123,8 @@ export default {
       return this.$store.state.username
     },
 
-    isTeam () {
-      return this.$store.state.isTeam
+    isLinqaAdmin () {
+      return this.$store.state.isLinqaAdmin
     },
 
     isEditor () {
@@ -136,7 +136,7 @@ export default {
     },
 
     commentIsWritable () {
-      return this.isWritable && (this.username === this.creator || this.isTeam)
+      return this.isWritable && (this.username === this.creator || this.isLinqaAdmin)
     },
 
     created () {

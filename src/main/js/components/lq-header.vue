@@ -14,7 +14,7 @@
             <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
               {{getWorkspaceName(workspace)}}
             </el-dropdown-item>
-            <el-dropdown-item v-if="isTeam && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
+            <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
               {{getWorkspaceName(linqaAdminWs)}}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -22,7 +22,7 @@
       </template>
     </div>
     <!-- Admin button -->
-    <el-button class="admin-button fa fa-wrench" v-if="isTeam" type="text" :title="adminTooltip" @click="admin">
+    <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="text" :title="adminTooltip" @click="admin">
     </el-button>
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>
@@ -53,8 +53,8 @@ export default {
       return this.$store.getters.sortedWorkspaces
     },
 
-    isTeam () {
-      return this.$store.state.isTeam
+    isLinqaAdmin () {
+      return this.$store.state.isLinqaAdmin
     },
 
     workspace () {

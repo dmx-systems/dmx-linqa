@@ -105,7 +105,7 @@ class EmailDigests {
                     comments.forEach(comment -> {
                         message.append(emailMessage(comment));
                     });
-                    forEachTeamMember(username -> {
+                    forEachLinqaAdmin(username -> {
                         sendmail.doEmailRecipient(subject, null, message.toString(), username);
                     });
                     digestCount++;
@@ -135,14 +135,14 @@ class EmailDigests {
             commentLang1 + "\n>>>\n" + commentLang2 + "\n\n------------------------------------------------<br>\n";
     }
 
-    private void forEachTeamMember(Consumer<String> consumer) {
-        getLinqaTeamMembers().stream().forEach(username -> {
+    private void forEachLinqaAdmin(Consumer<String> consumer) {
+        getLinqaAdmins().stream().forEach(username -> {
             consumer.accept(username.getSimpleValue().toString());
         });
     }
 
     // TODO: copied from LinqaPlugin.java
-    private List<RelatedTopic> getLinqaTeamMembers() {
+    private List<RelatedTopic> getLinqaAdmins() {
         return acs.getMemberships(linqaAdminWs.getId());
     }
 }

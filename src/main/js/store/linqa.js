@@ -43,7 +43,7 @@ const state = {
   workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
   isWritable: false,            // true if the workspace is writable by the current user (Boolean)
   isEditor: false,              // true if the current user is an editor of the selected workspace (Boolean)
-  isTeam: false,                // true if the "Team" workspace is writable by the current user (Boolean)
+  isLinqaAdmin: false,          // true if the "Team" workspace is writable by the current user (Boolean)
 
   // Canvas
   topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)
@@ -709,7 +709,7 @@ export default store
  * Initialzes 4 states:
  *   "username"
  *   "workspaces"
- *   "isTeam"
+ *   "isLinqaAdmin"
  *   "users"
  *
  * @param   username  the username or empty/undefined if not logged in
@@ -723,7 +723,7 @@ function initUserState (username) {
         .then(workspace => workspace.isWritable())
         .then(isWritable => {
           state.username = username
-          state.isTeam = isWritable
+          state.isLinqaAdmin = isWritable
         }),
       store.dispatch('fetchLinqaWorkspaces'),
       store.dispatch('fetchAllUsers')     // needed for accessing display names
@@ -731,7 +731,7 @@ function initUserState (username) {
   } else {            // Logout
     state.username = ''
     state.workspaces = []
-    state.isTeam = false
+    state.isLinqaAdmin = false
     state.workspace = undefined
     store.dispatch('deselect')
     return Promise.resolve()

@@ -3,11 +3,11 @@ export default {
   computed: {
 
     editable () {
-      return this.isTeam || this.isEditor
+      return this.isLinqaAdmin || this.isEditor
     },
 
-    isTeam () {
-      return this.$store.state.isTeam
+    isLinqaAdmin () {
+      return this.$store.state.isLinqaAdmin
     },
 
     isEditor () {

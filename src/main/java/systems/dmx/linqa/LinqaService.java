@@ -85,7 +85,7 @@ public interface LinqaService {
      *
      * @return    list of Username topics.
      */
-    List<RelatedTopic> getLinqaTeamMembers();
+    List<RelatedTopic> getLinqaAdmins();
 
     List<RelatedTopic> bulkUpdateWorkspaceMemberships(long workspaceId, IdList addUserIds1, IdList removeUserIds1,
                                                                         IdList addUserIds2, IdList removeUserIds2);

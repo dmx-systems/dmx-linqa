@@ -84,7 +84,7 @@ router.beforeEach((to, from, next) => {
           init = false
         }
       } else if (to.name === 'admin') {
-        if (store.state.isTeam) {
+        if (store.state.isLinqaAdmin) {
           next()
           init = false
         } else {
@@ -179,7 +179,7 @@ const actions = {
       return workspaceId
     }
     // 3) team members land in "Team" workspace (at first login there are no Linqa event workspaces)
-    if (store.state.isTeam) {
+    if (store.state.isLinqaAdmin) {
       return store.state.linqaAdminWs.id
     }
     // 4) take first workspace (based on memberships)
@@ -231,7 +231,7 @@ function isValidWorkspaceId (id, origin) {
   if (!id) {
     return false
   }
-  const valid = store.state.isTeam && id === store.state.linqaAdminWs.id || lq.findWorkspace(id)
+  const valid = store.state.isLinqaAdmin && id === store.state.linqaAdminWs.id || lq.findWorkspace(id)
   // console.log('isValidWorkspaceId', id, '(from ' + origin + ')', !!valid)
   if (!valid) {
     console.warn(`${id} is an invalid workspace ID for user "${store.state.username}"`)

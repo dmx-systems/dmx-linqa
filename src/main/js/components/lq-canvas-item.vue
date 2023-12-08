@@ -100,7 +100,7 @@ export default {
     },
 
     isEditableItem () {
-      return this.isTeam || this.isEditor && !this.locked
+      return this.isLinqaAdmin || this.isEditor && !this.locked
     },
 
     draggable () {
@@ -141,7 +141,7 @@ export default {
 
     isActionAvailable (action) {
       return (this.isEditableItem || action.enabledForReadOnly) && (action.action !== 'action.edit' || this.editEnabled)
-                                                                && (action.action !== 'action.lock' || this.isTeam)
+                                                                && (action.action !== 'action.lock' || this.isLinqaAdmin)
     },
 
     actionLabel (action) {

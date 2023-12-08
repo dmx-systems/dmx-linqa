@@ -131,7 +131,7 @@ export default {
     },
 
     editableSelection () {
-      return this.isTeam || this.isEditor &&
+      return this.isLinqaAdmin || this.isEditor &&
         this.selection.every(topic => !topic.children['linqa.locked']?.value)
     },
 
@@ -323,7 +323,7 @@ export default {
     },
 
     deleteManyFilter (topic) {
-      return this.config('deleteEnabled', topic) && (this.isTeam || !topic.children['linqa.locked']?.value)
+      return this.config('deleteEnabled', topic) && (this.isLinqaAdmin || !topic.children['linqa.locked']?.value)
     },
 
     transitionend () {

@@ -127,7 +127,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void postCreateAssoc(Assoc assoc) {
-        processTeamMembership(assoc, username -> {
+        processLinqaAdminMembership(assoc, username -> {
             // 1) Create "System" membership
             logger.info("### Inviting user \"" + username + "\" to \"System\" workspace");
             acs.createMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
@@ -143,7 +143,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void preDeleteAssoc(Assoc assoc) {
-        processTeamMembership(assoc, username -> {
+        processLinqaAdminMembership(assoc, username -> {
             // Delete "System" membership
             logger.info("### Removing \"System\" membership from user \"" + username + "\"");
             Assoc systemMembership = acs.getMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
@@ -505,7 +505,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @Override
-    public List<RelatedTopic> getLinqaTeamMembers() {
+    public List<RelatedTopic> getLinqaAdmins() {
         return acs.getMemberships(linqaAdminWs.getId());
     }
 
@@ -611,7 +611,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             // 3)
             createViewport(workspaceId);
             // 4) Give all "Team" members access
-            List<RelatedTopic> usernames = getLinqaTeamMembers();
+            List<RelatedTopic> usernames = getLinqaAdmins();
             logger.info("### Inviting " + usernames.size() + " Team members to workspace \"" +
                 workspace.getSimpleValue() + "\"");
             acs.bulkUpdateMemberships(workspaceId, new IdList(usernames), null);
@@ -711,7 +711,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private void processTeamMembership(Assoc assoc, Consumer<String> consumer) {
+    private void processLinqaAdminMembership(Assoc assoc, Consumer<String> consumer) {
         if (assoc.getTypeUri().equals(MEMBERSHIP)) {
             Topic workspace = assoc.getDMXObjectByType(WORKSPACE);
             if (workspace.getUri().equals(LINQA_ADMIN_WS_URI)) {

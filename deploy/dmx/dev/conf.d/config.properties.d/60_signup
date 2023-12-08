@@ -32,4 +32,4 @@ dmx.signup.ldap_account_creation = true
 #dmx.ldap.user_creation.enabled = true
 
 ## Test dmx.signup.account_creation_auth_ws_uri
-dmx.signup.account_creation_auth_ws_uri = zukunftswerk.team
+dmx.signup.account_creation_auth_ws_uri = linqa.admin_ws

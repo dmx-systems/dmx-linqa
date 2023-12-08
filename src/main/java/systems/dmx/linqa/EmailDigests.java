@@ -43,7 +43,7 @@ class EmailDigests {
     private TimestampsService timestamps;
     private SendmailService sendmail;
 
-    private Topic teamWorkspace;
+    private Topic linqaAdminWs;
     private int digestCount;        // manipulated from lambda, so we make it a field (instead a local variable)
 
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -51,13 +51,13 @@ class EmailDigests {
     // ---------------------------------------------------------------------------------------------------- Constructors
 
     EmailDigests(CoreService dmx, AccessControlService acs, WorkspacesService ws, TimestampsService timestamps,
-                 SendmailService sendmail, Topic teamWorkspace) {
+                 SendmailService sendmail, Topic linqaAdminWs) {
         this.dmx = dmx;
         this.acs = acs;
         this.ws = ws;
         this.timestamps = timestamps;
         this.sendmail = sendmail;
-        this.teamWorkspace = teamWorkspace;
+        this.linqaAdminWs = linqaAdminWs;
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
@@ -143,6 +143,6 @@ class EmailDigests {
 
     // TODO: copied from LinqaPlugin.java
     private List<RelatedTopic> getLinqaTeamMembers() {
-        return acs.getMemberships(teamWorkspace.getId());
+        return acs.getMemberships(linqaAdminWs.getId());
     }
 }

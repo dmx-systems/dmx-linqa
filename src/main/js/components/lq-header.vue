@@ -14,8 +14,8 @@
             <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
               {{getWorkspaceName(workspace)}}
             </el-dropdown-item>
-            <el-dropdown-item v-if="isTeam && teamWorkspace" :command="teamWorkspace.id" :divided="workspacesExist">
-              {{getWorkspaceName(teamWorkspace)}}
+            <el-dropdown-item v-if="isTeam && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
+              {{getWorkspaceName(linqaAdminWs)}}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -45,8 +45,8 @@ export default {
       return this.workspaces.length > 0
     },
 
-    teamWorkspace () {
-      return this.$store.state.teamWorkspace
+    linqaAdminWs () {
+      return this.$store.state.linqaAdminWs
     },
 
     workspaces () {

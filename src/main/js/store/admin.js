@@ -99,7 +99,7 @@ const actions = {
     if (!state.workspaces.length) {
       return http.get('/linqa/admin/workspaces').then(response => {
         state.workspaces = dmx.utils.instantiateMany(response.data, dmx.Topic)
-        state.workspaces.push(rootState.teamWorkspace)
+        state.workspaces.push(rootState.linqaAdminWs)
       })
     }
   },

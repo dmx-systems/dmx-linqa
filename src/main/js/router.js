@@ -180,7 +180,7 @@ const actions = {
     }
     // 3) team members land in "Team" workspace (at first login there are no Linqa event workspaces)
     if (store.state.isTeam) {
-      return store.state.teamWorkspace.id
+      return store.state.linqaAdminWs.id
     }
     // 4) take first workspace (based on memberships)
     workspaceId = store.getters.sortedWorkspaces[0]?.id
@@ -231,7 +231,7 @@ function isValidWorkspaceId (id, origin) {
   if (!id) {
     return false
   }
-  const valid = store.state.isTeam && id === store.state.teamWorkspace.id || lq.findWorkspace(id)
+  const valid = store.state.isTeam && id === store.state.linqaAdminWs.id || lq.findWorkspace(id)
   // console.log('isValidWorkspaceId', id, '(from ' + origin + ')', !!valid)
   if (!valid) {
     console.warn(`${id} is an invalid workspace ID for user "${store.state.username}"`)

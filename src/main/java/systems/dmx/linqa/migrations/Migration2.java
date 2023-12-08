@@ -42,9 +42,9 @@ public class Migration2 extends Migration {
             .addCompDefBefore(mf.newCompDefModel(LANG2, false, false, WORKSPACE, WORKSPACE_NAME, ONE), SHARING_MODE);
         //
         // Create "Team" workspace ### TODO: the frontend relies on a public team workspace
-        Topic team = wss.createWorkspace(TEAM_WORKSPACE_NAME, TEAM_WORKSPACE_URI, SharingMode.PUBLIC);
+        Topic team = wss.createWorkspace(LINQA_ADMIN_WS_NAME, LINQA_ADMIN_WS_URI, SharingMode.PUBLIC);
         acs.setWorkspaceOwner(team, ADMIN_USERNAME);
-        team.update(mf.newChildTopicsModel().set(WORKSPACE_NAME + "#" + LANG1, TEAM_WORKSPACE_NAME));
+        team.update(mf.newChildTopicsModel().set(WORKSPACE_NAME + "#" + LANG1, LINQA_ADMIN_WS_NAME));
         lq.createViewport(team.getId());
     }
 }

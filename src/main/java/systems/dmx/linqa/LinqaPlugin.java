@@ -95,7 +95,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Inject private SendmailService sendmail;
 
     private Topic zwPluginTopic;
-    private Topic teamWorkspace;
+    private Topic linqaAdminWs;
     private Messenger me;
     private Random random = new Random();
 
@@ -108,11 +108,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public void init() {
         zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
-        teamWorkspace = dmx.getTopicByUri(TEAM_WORKSPACE_URI);
+        linqaAdminWs = dmx.getTopicByUri(LINQA_ADMIN_WS_URI);
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer());
         me = new Messenger(dmx.getWebSocketService());
-        new EmailDigests(dmx, acs, ws, timestamps, sendmail, teamWorkspace).startTimedTask();
+        new EmailDigests(dmx, acs, ws, timestamps, sendmail, linqaAdminWs).startTimedTask();
     }
 
     @Override
@@ -494,7 +494,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 throw new IllegalArgumentException("No such user: \"" + username + "\"");
             }
             List<RelatedTopic> workspaces = getLinqaWorkspaces(usernameTopic);
-            Assoc membership = acs.getMembership(username, teamWorkspace.getId());
+            Assoc membership = acs.getMembership(username, linqaAdminWs.getId());
             if (membership != null) {
                 workspaces.add(membership.getDMXObjectByType(WORKSPACE).loadChildTopics());
             }
@@ -506,7 +506,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     @Override
     public List<RelatedTopic> getLinqaTeamMembers() {
-        return acs.getMemberships(teamWorkspace.getId());
+        return acs.getMemberships(linqaAdminWs.getId());
     }
 
     @PUT
@@ -714,7 +714,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     private void processTeamMembership(Assoc assoc, Consumer<String> consumer) {
         if (assoc.getTypeUri().equals(MEMBERSHIP)) {
             Topic workspace = assoc.getDMXObjectByType(WORKSPACE);
-            if (workspace.getUri().equals(TEAM_WORKSPACE_URI)) {
+            if (workspace.getUri().equals(LINQA_ADMIN_WS_URI)) {
                 String username = assoc.getDMXObjectByType(USERNAME).getSimpleValue().toString();
                 consumer.accept(username);
             }

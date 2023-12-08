@@ -5,8 +5,8 @@ package systems.dmx.linqa;
 public class Constants {
 
     public static final String LINQA_PLUGIN_URI         = "systems.dmx.linqa";
-    public static final String TEAM_WORKSPACE_URI       = "linqa.team";
-    public static final String TEAM_WORKSPACE_NAME      = "Team";
+    public static final String LINQA_ADMIN_WS_URI       = "linqa.admin_ws";
+    public static final String LINQA_ADMIN_WS_NAME      = "Linqa Administration";
 
     // Topic Types
     public static final String DOCUMENT                 = "linqa.document";

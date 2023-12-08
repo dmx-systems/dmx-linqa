@@ -11,8 +11,8 @@ window.addEventListener('focus', updateCookies)
 
 Vue.use(Vuex)
 
-const teamWorkspace = dmx.rpc.getTopicByUri('linqa.team', true).then(workspace => {      // includeChildren=true
-  state.teamWorkspace = workspace
+const linqaAdminWs = dmx.rpc.getTopicByUri('linqa.admin_ws', true).then(workspace => {      // includeChildren=true
+  state.linqaAdminWs = workspace
   return workspace
 })
 const userReady = dmx.rpc.getUsername().then(initUserState)
@@ -28,7 +28,7 @@ const state = {
                                 // address). "memberships" prop holds respective user's Workspaces (array), initialized
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
                                 // available by the "sortedMemberships" getter (object).
-  teamWorkspace: undefined,     // the "Team" Workspace topic (dmx.Topic); guaranteed inited once User state is ready
+  linqaAdminWs: undefined,      // the "Team" Workspace topic (dmx.Topic); guaranteed inited once User state is ready
   lang: '',                     // selected UI language (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang1: '',                    // configured UI language 1 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
@@ -719,7 +719,7 @@ export default store
 function initUserState (username) {
   if (username) {     // Login
     return Promise.all([
-      teamWorkspace
+      linqaAdminWs
         .then(workspace => workspace.isWritable())
         .then(isWritable => {
           state.username = username
@@ -780,7 +780,7 @@ function updateWorkspaceState () {
   state.workspace.isWritable().then(isWritable => {
     state.isWritable = isWritable
   })
-  if (state.workspace.id !== state.teamWorkspace.id) {
+  if (state.workspace.id !== state.linqaAdminWs.id) {
     state.isEditor = findWorkspace(state.workspace.id).assoc.children['linqa.editor']?.value
   }
 }

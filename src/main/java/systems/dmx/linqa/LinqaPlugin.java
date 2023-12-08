@@ -123,7 +123,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // Listeners
 
     /**
-     * Creates required memberships for new Team members.
+     * Creates required memberships for new Linqa admins.
      */
     @Override
     public void postCreateAssoc(Assoc assoc) {
@@ -131,7 +131,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             // 1) Create "System" membership
             logger.info("### Inviting user \"" + username + "\" to \"System\" workspace");
             acs.createMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
-            // 2) Create Linqa event workspace memberships
+            // 2) Create Linqa shared workspace memberships
             List<RelatedTopic> workspaces = getAllLinqaWorkspaces();
             logger.info("### Inviting user \"" + username + "\" to " + workspaces.size() + " Linqa workspaces");
             acs.bulkUpdateMemberships(username, new IdList(workspaces), null);
@@ -139,7 +139,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     /**
-     * Deletes "System" membership for users who loose Team status.
+     * Deletes "System" membership for users who loose Linqa admin status.
      */
     @Override
     public void preDeleteAssoc(Assoc assoc) {
@@ -151,7 +151,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             if (systemMembership != null) {
                 systemMembership.delete();
             }
-            // Note: when a user looses Team status we don't know in which Linqa workspaces she stays.
+            // Note: when a user looses Linqa admin status we don't know in which Linqa workspaces she stays.
             // We leave all memberships intact (no bulkUpdateMemberships() here).
         });
     }
@@ -608,11 +608,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 ));
                 return null;
             });
-            // 3)
+            // 3) Create vieport for new workspace
             createViewport(workspaceId);
-            // 4) Give all "Team" members access
+            // 4) Grant access to all Linqa admins
             List<RelatedTopic> usernames = getLinqaAdmins();
-            logger.info("### Inviting " + usernames.size() + " Team members to workspace \"" +
+            logger.info("### Inviting " + usernames.size() + " Linqa admins to workspace \"" +
                 workspace.getSimpleValue() + "\"");
             acs.bulkUpdateMemberships(workspaceId, new IdList(usernames), null);
             return workspace;

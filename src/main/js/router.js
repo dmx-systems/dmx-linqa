@@ -178,7 +178,7 @@ const actions = {
     if (isValidWorkspaceId(workspaceId, 'cookie')) {
       return workspaceId
     }
-    // 3) team members land in "Team" workspace (at first login there are no Linqa event workspaces)
+    // 3) Linqa admins land in "Linqa Administration" workspace (at first login there are no Linqa shared workspaces)
     if (store.state.isLinqaAdmin) {
       return store.state.linqaAdminWs.id
     }

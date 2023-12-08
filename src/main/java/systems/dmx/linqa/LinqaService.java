@@ -23,7 +23,7 @@ public interface LinqaService {
      * Returns the Linqa shared workspaces of the current user (according to request authorization).
      *
      * @return  the workspaces as a list of RelatedTopics. Their "relating associations" are the Memberships.
-     *          Note: the "Team" workspace is not included.
+     *          Note: the "Linqa Administration" workspace is not included.
      */
     List<RelatedTopic> getLinqaWorkspaces();
 
@@ -70,18 +70,18 @@ public interface LinqaService {
     // --- Admin ---
 
     /**
-     * Returns all Linqa shared workspaces. Note: the "Team" workspace is not included.
+     * Returns all Linqa shared workspaces. Note: the "Linqa Administration" workspace is not included.
      */
     List<RelatedTopic> getAllLinqaWorkspaces();
 
     /**
-     * Returns the Linqa shared workspaces of the given user plus the "Team" workspace, if the
-     * given user is a "Team" member.
+     * Returns the Linqa shared workspaces of the given user plus the "Linqa Administration" workspace, if the
+     * given user is a Linqa admin.
      */
     List<RelatedTopic> getLinqaWorkspacesOfUser(String username);
 
     /**
-     * Returns all Linqa "Team" members.
+     * Returns all Linqa admins.
      *
      * @return    list of Username topics.
      */

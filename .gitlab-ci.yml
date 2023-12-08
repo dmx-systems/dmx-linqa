@@ -77,6 +77,6 @@ install-in-container:
     - sleep 5
     ## Create DMX Users via sign-up plugin
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
-    ## Make users workspace members according to their team roles
+    ## Make some users Linqa admins
     - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.admin_ws"
 

@@ -10,7 +10,7 @@ const state = {
   formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
   editBuffer: undefined,              // workspace form model, for both, create and update (plain workspace topic)
 
-  workspaces: [],                     // all Linqa shared workspaces + the "Team" workspace (dmx.Topic, clone() is used)
+  workspaces: [],                     // all Linqa shared workspaces + "Linqa Administration" (dmx.Topic, clone() used)
   expandedWorkspaceIds: [],           // IDs of the workspaces that are expanded
   selectedWorkspace: undefined,       // (plain Workspace topic)
 

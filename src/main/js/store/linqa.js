@@ -28,7 +28,7 @@ const state = {
                                 // address). "memberships" prop holds respective user's Workspaces (array), initialized
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
                                 // available by the "sortedMemberships" getter (object).
-  linqaAdminWs: undefined,      // the "Team" Workspace topic (dmx.Topic); guaranteed inited once User state is ready
+  linqaAdminWs: undefined,      // the "Linqa Administration" Workspace (dmx.Topic); inited once User state is ready
   lang: '',                     // selected UI language (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang1: '',                    // configured UI language 1 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
@@ -37,13 +37,13 @@ const state = {
 
   // User
   username: '',                 // username of current user (String), empty/undefined if not logged in
-  workspaces: [],               // Linqa shared workspaces of the current user (array of plain Workspace topics),
-                                // "assoc" prop holds current user's Membership. "Team" workspace is not included.
+  workspaces: [],               // Linqa shared workspaces of current user (array of plain Workspace topics), "assoc"
+                                // prop holds user's Membership. "Linqa Administration" workspace is not included.
                                 // Array is unsorted; a sorted array is available by the "sortedWorkspaces" getter.
   workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
   isWritable: false,            // true if the workspace is writable by the current user (Boolean)
   isEditor: false,              // true if the current user is an editor of the selected workspace (Boolean)
-  isLinqaAdmin: false,          // true if the "Team" workspace is writable by the current user (Boolean)
+  isLinqaAdmin: false,          // true if the current user is a Linqa admin (Boolean)
 
   // Canvas
   topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)

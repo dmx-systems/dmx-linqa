@@ -7,7 +7,7 @@
     <name>DMX Linqa</name>
     <groupId>systems.dmx</groupId>
     <artifactId>dmx-linqa</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7</version>
     <packaging>bundle</packaging>
 
     <description>The Linqa bilingual collaboration platform</description>
@@ -15,7 +15,7 @@
     <parent>
         <groupId>systems.dmx</groupId>
         <artifactId>dmx-plugin</artifactId>
-        <version>5.3.4-SNAPSHOT</version>
+        <version>5.3.3</version>
     </parent>
 
     <dependencies>
@@ -27,27 +27,27 @@
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-files</artifactId>
-            <version>5.3.4-SNAPSHOT</version>
+            <version>5.3.3</version>
         </dependency>
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-workspaces</artifactId>
-            <version>5.3.4-SNAPSHOT</version>
+            <version>5.3.3</version>
         </dependency>
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-accesscontrol</artifactId>
-            <version>5.3.4-SNAPSHOT</version>
+            <version>5.3.3</version>
         </dependency>
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-timestamps</artifactId>
-            <version>5.3.4-SNAPSHOT</version>
+            <version>5.3.3</version>
         </dependency>
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-sign-up</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
 

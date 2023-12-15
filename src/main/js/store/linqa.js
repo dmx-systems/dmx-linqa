@@ -40,10 +40,10 @@ const state = {
   workspaces: [],               // Linqa shared workspaces of current user (array of plain Workspace topics), "assoc"
                                 // prop holds user's Membership. "Linqa Administration" workspace is not included.
                                 // Array is unsorted; a sorted array is available by the "sortedWorkspaces" getter.
-  workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
-  isWritable: false,            // true if the workspace is writable by the current user (Boolean)
-  isEditor: false,              // true if the current user is an editor of the selected workspace (Boolean)
   isLinqaAdmin: false,          // true if the current user is a Linqa admin (Boolean)
+  workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
+  isWritable: false,            // true if the selected workspace is writable by the current user (Boolean)
+  isEditor: false,              // true if the current user is an editor of the selected workspace (Boolean)
 
   // Canvas
   topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)
@@ -708,13 +708,14 @@ export default store
 /**
  * Initialzes 4 states:
  *   "username"
- *   "workspaces"
  *   "isLinqaAdmin"
+ *   "workspaces"
  *   "users"
  *
  * @param   username  the username or empty/undefined if not logged in
  *
- * @return  a promise, resolved once the state is initialized.
+ * @return  a promise, resolved once the state is initialized (logged in case),
+ *          or undefined (logged out case).
  */
 function initUserState (username) {
   if (username) {     // Login
@@ -730,11 +731,10 @@ function initUserState (username) {
     ])
   } else {            // Logout
     state.username = ''
-    state.workspaces = []
     state.isLinqaAdmin = false
+    state.workspaces = []
     state.workspace = undefined
     store.dispatch('deselect')
-    return Promise.resolve()
   }
 }
 

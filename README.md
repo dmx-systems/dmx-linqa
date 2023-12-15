@@ -124,7 +124,7 @@ Examples:
 
 Note: if you run Linqa in development mode (via webpack-dev-server) stylesheet loading order is different. In order to see effect while development you might need to add `!important` to your custom rules.
 
-### Serving custon resources
+### Serving custom resources
 
 Basically Linqa makes all files residing in DMX's `conf/dmx-linqa/` directory available to the web browser. So you can supply further resource files for your own purposes here. Resource files can be multilingual (individual files per language) or language independent.
 
@@ -171,22 +171,29 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**1.7** -- unreleased
+**1.7** -- Dec 15, 2023
 
 * Features:
+    * A welcome-mail is sent to new users automatically
+        * The welcome-mail is in the language selected by admin when creating the account
+        * That language is also used as user's initial UI language
+        * The welcome-mail contains a link to the password-reset dialog, prefilled with user's email address
+    * Support for non-Latin languages (app-strings .properties files are accepted as UTF-8)
     * 2 additional languages: Ukrainian, Portuguese (Brazilian)
 * Improvements:
     * Reset-password is integrated in Linqa UI (instead utilizing separate DMX Sign-up UI)
         * Password-reset dialog is URL addressable
         * New (URL addressable) new-password dialog
         * Linqa now depends on Sign-up 3.0 (formerly Sign-up 2.1)
-    * Support for non-Latin languages (app-strings .properties files are expected to be UTF-8)
+    * Workspace "Team" is renamed to "Linqa Administration"
 * Fixes:
     * Password-reset mail is plain text (instead multipart with broken plain text part)
-    * Newly created document renders properly also if document name is auto-tranlated
+    * Newly created document renders properly also if document name is auto-translated
     * Newly created workspace has name
-    * Rendering of bilingual workspace names
-    * Proper field labels in workspace form
+    * Bilingual workspace names are rendered properly
+    * Workspace form shows proper field labels
+    * Alert box "User not yet assigned to any workspace" is translated
+    * Wording: final "ZW" occurrences are replaced by "Linqa" e.g. in digest email subject
 
 **1.6** -- Sep 1, 2023
 

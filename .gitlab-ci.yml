@@ -95,7 +95,7 @@ install-in-container:
   script:
     - deploy/ci-deploy-dmx-linqa-language-files.sh
     - deploy/ci-deploy-docker-instances.sh
-    - sleep 5
+    - sleep 10
     ## Create DMX Users via sign-up plugin
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make some users Linqa admins

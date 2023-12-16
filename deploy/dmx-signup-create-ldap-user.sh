@@ -16,12 +16,13 @@ URL='core/topic/uri/dmx.workspaces.administration'
 BASE64="$( echo -n "${USERNAME}:${PASSWORD}" | base64 )"
 AUTH="Authorization: Basic ${BASE64}"
 #SESSIONID="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
-SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
+#SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
+SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i )"
 HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
 LDAPPASSWORD='testpass'
 
 if [ "${HTTPCODE}" != "200" -a "${HTTPCODE}" != "204" ]; then
-    echo "login ${USERNAME} failed! (HTTPCODE=${HTTPCODE}"
+    echo "login ${USERNAME} failed! (HTTPCODE=${HTTPCODE})"
     exit 1
 else
     SESSIONID="$( echo "${SESSION}" | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"

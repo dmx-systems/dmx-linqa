@@ -20,7 +20,7 @@ SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
 HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
 LDAPPASSWORD='testpass'
 
-if [ "${HTTPCODE}" != "200" ]; then
+if [ "${HTTPCODE}" != "200" -a "${HTTPCODE}" != "204" ]; then
     echo "login ${USERNAME} failed!"
     exit 1
 else

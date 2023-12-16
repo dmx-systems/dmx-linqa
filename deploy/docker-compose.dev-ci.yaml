@@ -23,11 +23,11 @@ services:
       TIER: "${TIER}"
     volumes:
       # - dmx-db:/opt/dmx/dmx-db
-      - ./instance/dev/conf:/opt/dmx/conf
-      - ./instance/dev/logs:/opt/dmx/logs
-      - ./instance/dev/db:/opt/dmx/dmx-db
-      - ./instance/dev/filedir:/opt/dmx/dmx-filedir
-      - ./instance/dev/bundle-deploy:/opt/dmx/bundle-deploy
+      - ./instance/dev-ci/conf:/opt/dmx/conf
+      - ./instance/dev-ci/logs:/opt/dmx/logs
+      - ./instance/dev-ci/db:/opt/dmx/dmx-db
+      - ./instance/dev-ci/filedir:/opt/dmx/dmx-filedir
+      - ./instance/dev-ci/bundle-deploy:/opt/dmx/bundle-deploy
       - ./dmx/dev-ci/plugins:/opt/dmx/plugins:ro
       - ./dmx/dev-ci/conf.d/config.properties.d:/opt/dmx/conf.d/config.properties.d:ro
       - ./dmx/dev-ci/conf.d/logging.properties.d:/opt/dmx/conf.d/logging.properties.d:ro
@@ -66,6 +66,6 @@ services:
     links:
       - dmx
     volumes:
-      - ./instance/dev/logs:/home/static/logs:ro
+      - ./instance/dev-ci/logs:/home/static/logs:ro
     ports:
       - "${LOGS_PORT}:3000"

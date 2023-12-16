@@ -48,11 +48,11 @@ function mkpw() {
 }
 
 if [ -z "${DMX_ADMIN_PASSWORD}" ]; then
-    DMX_ADMIN_PASSWORD="$( mkpw )"
+    export DMX_ADMIN_PASSWORD="$( mkpw )"
     echo "DMX_ADMIN_PASSWORD=${DMX_ADMIN_PASSWORD}"
 fi
 if [ -z "${LDAP_ADMIN_PASSWORD}" ]; then
-    LDAP_ADMIN_PASSWORD="$( mkpw )$( mkpw )"
+    export LDAP_ADMIN_PASSWORD="$( mkpw )$( mkpw )"
     echo "LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}"
 fi
 if [ -z "${DMX_DIRS}" ]; then

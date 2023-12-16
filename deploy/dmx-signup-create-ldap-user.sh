@@ -4,9 +4,9 @@ declare -a USERS=($1)
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"
-if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
+if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" -o "${CI_COMMIT_BRANCH}" == "main" ]; then
     WEB_URL="${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
-elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then
+elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" -a "${CI_COMMIT_BRANCH}" == "main" ]; then
     WEB_URL="${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 fi
 HOST="https://${WEB_URL}:443"

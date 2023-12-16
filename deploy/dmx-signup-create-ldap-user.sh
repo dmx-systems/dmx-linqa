@@ -21,7 +21,7 @@ HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
 LDAPPASSWORD='testpass'
 
 if [ "${HTTPCODE}" != "200" -a "${HTTPCODE}" != "204" ]; then
-    echo "login ${USERNAME} failed!"
+    echo "login ${USERNAME} failed! (HTTPCODE=${HTTPCODE}"
     exit 1
 else
     SESSIONID="$( echo "${SESSION}" | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"

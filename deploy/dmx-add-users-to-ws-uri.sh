@@ -4,6 +4,9 @@ declare -a USERS=($1)
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"
+if [ -z "${TIER}" ]; then
+    export TIER='dev'
+fi
 if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" ]; then
     WEB_URL="${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" ]; then

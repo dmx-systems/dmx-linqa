@@ -171,6 +171,11 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
+**1.7.1** -- not released
+
+* On all platforms the Linqa UI utilizes the "Ubuntu" web font
+* Fix: render color emojis in all browsers and platforms
+
 **1.7** -- Dec 15, 2023
 
 * Features:

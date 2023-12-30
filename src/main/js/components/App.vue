@@ -31,7 +31,7 @@
     All the mess vanish if multiple-word font names are not quoted at all in CSS. There are some debates whether this
     is valid CSS or not. Fact is multiple-word font names without quotes do work in all major browsers.
   */
-  --primary-font-family: Ubuntu;
+  --primary-font-family: Ubuntu, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji;
   --primary-font-size: 14px;
   --secondary-font-size: 13px;
   --secondary-color: #808080;

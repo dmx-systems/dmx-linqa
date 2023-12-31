@@ -6,8 +6,9 @@ import router from './router'
 import onHttpError from './error-handler'
 import messageHandler from './message-handler'
 import './element-ui'
+import './country-flag-polyfill'
 
-console.log('[Linqa] 2023/12/30-5')
+console.log('[Linqa] 2023/12/31')
 
 // 1) Init dmx library
 dmx.init({

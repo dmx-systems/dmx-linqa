@@ -14,6 +14,7 @@
     "stats": "webpack -p --json > stats.json && webpack-bundle-analyzer stats.json src/main/resources/web"
   },
   "dependencies": {
+    "country-flag-emoji-polyfill": "0.1.5",
     "dmx-api": "3.0.1",
     "element-ui": "2.13.2",
     "pdfjs-dist": "2.12.313",

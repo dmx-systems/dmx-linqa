@@ -17,7 +17,7 @@
       To have colorful emoji rendering in all browsers the solution is utilizing a font for primary text rendering which
       does not contain any emoji glphys, e.g. the "Ubuntu" web font (see index.html).
 
-    Note 2: multiple-word font names like "Trebuchet MS" are not quoted.
+    Note 2: multiple-word font names like "Apple Color Emoji" are not quoted.
     In various browsers DOM style.getPropertyValue() works differently (see https://jsfiddle.net/jri_/tt8o97yu/2/):
       Safari: converts " -> '
       Chrome: converts ' -> "
@@ -31,7 +31,8 @@
     All the mess vanish if multiple-word font names are not quoted at all in CSS. There are some debates whether this
     is valid CSS or not. Fact is multiple-word font names without quotes do work in all major browsers.
   */
-  --primary-font-family: Ubuntu, Twemoji Mozilla, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji;
+  --primary-font-family: Ubuntu,
+      Twemoji Country Flags, Twemoji Mozilla, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji;
   --primary-font-size: 14px;
   --secondary-font-size: 13px;
   --secondary-color: #808080;

@@ -110,6 +110,12 @@ body.fixed {
   visibility: visible;
 }
 
+/* User Agent Stylesheet Overrides */
+
+input, button {
+  font-family: unset;     /* Firefox (Mac) default is "-apple-system", Chrome (Mac) default is "Arial" */
+}
+
 /* Element UI Overrides */
 .el-button--text {
   padding: 0 !important;

@@ -15,7 +15,7 @@
     <parent>
         <groupId>systems.dmx</groupId>
         <artifactId>dmx-plugin</artifactId>
-        <version>5.3.3</version>
+        <version>5.3.4-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -59,6 +59,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-Activator>systems.dmx.linqa.LinqaPlugin</Bundle-Activator>
+                        <Include-Resource>{maven-resources},web=target/classes/web</Include-Resource>
                     </instructions>
                 </configuration>
             </plugin>

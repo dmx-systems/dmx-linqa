@@ -3,34 +3,7 @@
 </template>
 
 <style>
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../../resources-build/fonts/Ubuntu-Regular.ttf") format('truetype');
-}
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("../../resources-build/fonts/Ubuntu-Medium.ttf") format('truetype');
-}
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../../resources-build/fonts/Ubuntu-Italic.ttf") format('truetype');
-}
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url("../../resources-build/fonts/Ubuntu-MediumItalic.ttf") format('truetype');
-}
+@import url(../../resources-build/ubuntu-font/fonts.css);
 
 :root {
   /*

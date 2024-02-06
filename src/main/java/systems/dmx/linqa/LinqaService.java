@@ -49,7 +49,7 @@ public interface LinqaService {
     // No auto-translation is involved.
 
     /**
-     * Needed by migration 4.
+     * Needed by migration 2.
      */
     Topic createViewport(long workspaceId);
 

@@ -22,8 +22,8 @@ export default {
 
     docNames () {
       return {
-        lang1: this.document.children['linqa.document_name.lang1']?.value,
-        lang2: this.document.children['linqa.document_name.lang2']?.value
+        lang1: this.document.children['linqa.document_name#linqa.lang1']?.value,
+        lang2: this.document.children['linqa.document_name#linqa.lang2']?.value
       }
     },
 

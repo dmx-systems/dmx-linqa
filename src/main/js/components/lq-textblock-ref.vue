@@ -60,7 +60,7 @@ export default {
 
     html (lang) {
       // Note: in a monolingual textblock "lang2" is not defined
-      const html = this.topic.children['linqa.textblock.' + lang]?.value
+      const html = this.topic.children['linqa.textblock_text#linqa.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }

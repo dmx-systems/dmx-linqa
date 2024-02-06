@@ -53,7 +53,7 @@ export default {
 
     html (lang) {
       // Note: in a monolingual comment "lang2" is not defined
-      const html = this.comment.children['linqa.comment.' + lang]?.value
+      const html = this.comment.children['linqa.comment_text#linqa.' + lang]?.value
       if (html !== '<p><br></p>') {
         return html
       }

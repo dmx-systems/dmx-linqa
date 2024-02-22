@@ -93,8 +93,6 @@ deploy-to-gitlab-maven:
 # 6) Install in docker-container
 install-in-container:
   stage: install
-  except:
-    - tags
   tags:
     ## requires shell-docker runner
     - shell-docker

@@ -16,6 +16,10 @@ maven-build:
     paths:
       - target
     name: ${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_TAG != null
 
 # 2) Run SonarQube Tests
 sonarqube-check:
@@ -34,6 +38,10 @@ sonarqube-check:
   script:
     - mvn -Pcoverage verify sonar:sonar -Dsonar.host.url=https://sonar.dmx.systems -Dsonar.projectKey=${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}_${SONAR_PROJECT_KEY}
   allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_TAG != null
 
 # 3) Copies SNAPSHOT builds on 'main' and 'dm4' branch into download.dmx.systems/ci/ directory
 copy-to-ci:
@@ -100,4 +108,6 @@ install-in-container:
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
     ## Make some users Linqa admins
     - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.admin_ws"
-
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_COMMIT_TAG == null

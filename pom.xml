@@ -18,6 +18,20 @@
         <version>5.3.4-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <dagger.version>2.48.1</dagger.version>
+        <dmx.version>5.3.3</dmx.version>
+        <dmx-sign-up.version>3.0.2-SNAPSHOT</dmx-sign-up.version>
+        <maven-bundle-plugin.version>4.1.0</maven-bundle-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <mockito.version>4.11.0</mockito.version>
+        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
+    </properties>
+
     <profiles>
         <profile>
             <!-- Activate this profile to use the docker deployment included in the project -->

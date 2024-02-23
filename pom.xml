@@ -118,7 +118,7 @@
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-sign-up</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 

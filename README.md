@@ -171,7 +171,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**1.7.1** -- not released
+**1.7.1** -- Feb 23, 2024
 
 * Fixes:
     * Render color emojis in all browsers and platforms

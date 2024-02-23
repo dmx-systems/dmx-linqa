@@ -178,6 +178,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
     * Discussion panel: redering of comments-refs, doc-refs, and textblock-refs
 * Changes:
     * On all platforms the Linqa UI utilizes the "Ubuntu" web font
+* Compatible with DMX 5.3.4
 
 **1.7** -- Dec 15, 2023
 
@@ -202,6 +203,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
     * Workspace form shows proper field labels
     * Alert box "User not yet assigned to any workspace" is translated
     * Wording: final "ZW" occurrences are replaced by "Linqa" e.g. in digest email subject
+* Compatible with DMX 5.3.3
 
 **1.6** -- Sep 1, 2023
 

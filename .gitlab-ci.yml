@@ -6,12 +6,15 @@ stages:
 
 # 1) Build every commit on every branch and add the COMMIT SHORT SHA as suffix
 maven-build:
+  #image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
   stage: build
   tags:
+    #- docker
     - shell
   script:
     - export MAVEN_OPTS='-Xmx128m'
     - mvn clean install -DskipTests=true
+    - echo "BUILD_JOB_ID=${CI_JOB_ID}" > target/.build_job_id.env
   artifacts:
     paths:
       - target
@@ -24,9 +27,10 @@ maven-build:
 
 # 2) Run SonarQube Tests
 sonarqube-check:
+  image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
   stage: test
   tags:
-    - shell
+    - docker
   dependencies:
     - maven-build
   variables:
@@ -48,15 +52,17 @@ sonarqube-check:
 # 3) Copies SNAPSHOT builds on 'main' and 'dm4' branch into download.dmx.systems/ci/ directory
 copy-to-ci:
   stage: deploy
+  tags:
+    - shell
   script:
-    - CIDIR='/var/www/download.dmx.systems/ci'
-    - DESTDIR="${CIDIR}/${CI_PROJECT_NAME}"
+    - source target/.build_job_id.env
+    - rm target/.build_job_id.env
+    - WEBCGI='https://download.dmx.systems/cgi-bin/v1/deploy-version.cgi?'
     - JARFILE="$( basename $( ls target/*.jar | tail -n1) )"
-    - NUNC="$( date +%F )"
-    - DESTJARFILE="$( basename ${JARFILE} .jar )_${NUNC}_${CI_PIPELINE_ID}.jar"
-    - if [ ! -d  ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
-    - cp target/${JARFILE} ${DESTDIR}/${DESTJARFILE}
-    - ln -sf  ${DESTDIR}/${DESTJARFILE} ${DESTDIR}/${CI_PROJECT_NAME}-latest.jar
+    - APPEND="$( date +%F )_${CI_PIPELINE_ID}"
+    - PARAMS=("&append=${APPEND}&project=${CI_PROJECT_NAME}&tag=none")
+    - RESULT="$( wget --server-response -q -O - "${WEBCGI}/${CI_PROJECT_PATH}/-/jobs/${BUILD_JOB_ID}/artifacts/raw/target/${JARFILE}${PARAMS}" 2>&1 | head -n1 )"
+    - echo "RESULT=${RESULT}"
   dependencies:
     - maven-build
   only:
@@ -67,12 +73,16 @@ copy-to-ci:
 # 4) Copies tagged RELEASE builds into download.dmx.systems/plugins/ directory
 copy-to-release:
   stage: deploy
+  tags:
+    - shell
   script:
-    - RELEASEDIR='/var/www/download.dmx.systems/plugins'
-    - DESTDIR="${RELEASEDIR}/${CI_PROJECT_NAME}"
+    - source target/.build_job_id.env
+    - rm target/.build_job_id.env
+    - WEBCGI='https://download.dmx.systems/cgi-bin/v1/deploy-version.cgi?'
     - JARFILE="$( basename $( ls target/*.jar | tail -n1) )"
-    - if [ ! -d  ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
-    - cp target/${JARFILE} ${DESTDIR}/
+    - PARAMS=("&append=none&project=${CI_PROJECT_NAME}&tag=${CI_COMMIT_TAG}")
+    - RESULT="$( wget --server-response -q -O - "${WEBCGI}/${CI_PROJECT_PATH}/-/jobs/${BUILD_JOB_ID}/artifacts/raw/target/${JARFILE}${PARAMS}" 2>&1 | head -n1 )"
+    - echo "RESULT=${RESULT}"
   dependencies:
     - maven-build
   only:
@@ -80,10 +90,10 @@ copy-to-release:
 
 # 5) Deploy into gitlab maven repository
 deploy-to-gitlab-maven:
+  image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
   stage: deploy
   tags:
-    - shell
-  #image: maven:3.6-jdk-11
+    - docker
   script:
     - 'mvn -Pgitlab-maven-deployment deploy -s ci_settings.xml'
   only:
@@ -96,13 +106,11 @@ deploy-to-gitlab-maven:
 install-in-container:
   stage: install
   tags:
-    ## requires shell-docker runner
     - shell-docker
   dependencies:
     - maven-build
   script:
-    - deploy/ci-deploy-dmx-linqa-language-files.sh
-    - deploy/ci-deploy-docker-instances.sh
+    - ci-deploy-docker-instances.sh
     - sleep 5
     ## Create DMX Users via sign-up plugin
     - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"

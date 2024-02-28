@@ -32,9 +32,9 @@ function selectLocalImage() {
 
 function saveToServer(file, editor) {
   const fd = new FormData()
-  fd.append('image', file)
   const xhr = new XMLHttpRequest()
-  xhr.open('POST', '/upload/' + encodeURIComponent('/'), true)    // upload to repo root dir
+  fd.append('image', file)
+  xhr.open('POST', '/linqa/image')
   xhr.onload = () => {
     if (xhr.status === 200) {
       console.log('response', JSON.parse(xhr.response))

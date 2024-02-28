@@ -32,10 +32,12 @@ import systems.dmx.core.service.event.PreSendTopic;
 import systems.dmx.core.storage.spi.DMXTransaction;
 import systems.dmx.core.util.DMXUtils;
 import systems.dmx.core.util.IdList;
-import systems.dmx.core.util.JavaUtils;
 import systems.dmx.deepl.DeepLService;
 import systems.dmx.deepl.Translation;
 import systems.dmx.facets.FacetsService;
+import systems.dmx.files.FilesService;
+import systems.dmx.files.StoredFile;
+import systems.dmx.files.UploadedFile;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
@@ -43,6 +45,7 @@ import systems.dmx.topicmaps.TopicmapCustomizer;
 import systems.dmx.topicmaps.TopicmapsService;
 import systems.dmx.workspaces.WorkspacesService;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -91,6 +94,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Inject private WorkspacesService ws;
     @Inject private AccessControlService acs;
     @Inject private FacetsService facets;
+    @Inject private FilesService files;
     @Inject private SignupService signup;
     @Inject private SendmailService sendmail;
 
@@ -464,6 +468,20 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         String username = acs.getUsername();
         signup.updateDisplayName(username, displayName);
         updateShowEmailAddressFacet(username, showEmailAddress);
+    }
+
+    @POST
+    @Path("/image")
+    @Consumes("multipart/form-data")
+    @Transactional
+    @Override
+    public StoredFile storeScaledImage(UploadedFile imageFile) {
+        try {
+            UploadedFile scaledImage = new ImageScaler().scale(imageFile);
+            return files.storeFile(scaledImage, "/");
+        } catch (Exception e) {
+            throw new RuntimeException("Uploading image \"" + imageFile + "\" failed", e);
+        }
     }
 
     // --- Admin ---

@@ -4,10 +4,11 @@ import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
 import systems.dmx.core.util.IdList;
 import systems.dmx.deepl.Translation;
-
-import javax.ws.rs.core.Response;
+import systems.dmx.files.StoredFile;
+import systems.dmx.files.UploadedFile;
 
 import java.util.List;
+import javax.ws.rs.core.Response;
 
 
 
@@ -66,6 +67,8 @@ public interface LinqaService {
      * Updates the profile of the current user.
      */
     void updateUserProfile(String displayName, boolean showEmailAddress);
+
+    StoredFile storeScaledImage(UploadedFile imageFile);
 
     // --- Admin ---
 

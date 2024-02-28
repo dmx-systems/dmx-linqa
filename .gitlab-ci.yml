@@ -6,10 +6,9 @@ stages:
 
 # 1) Build every commit on every branch and add the COMMIT SHORT SHA as suffix
 maven-build:
-  #image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
+  image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
   stage: build
   tags:
-    #- docker
     - shell
   script:
     - export MAVEN_OPTS='-Xmx128m'

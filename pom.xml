@@ -22,54 +22,6 @@
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
     </properties>
 
-    <profiles>
-        <profile>
-            <!-- Activate this profile to use the docker deployment included in the project -->
-            <id>docker</id>
-            <activation>
-                <property>
-                    <name>env.DMX_DEPLOYMENT</name>
-                    <value>docker</value>
-                </property>
-            </activation>
-            <properties>
-                <dmx.deploy.dir>./deploy/instance/dev/bundle-deploy</dmx.deploy.dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>coverage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <formats>
-                                        <format>HTML</format>
-                                        <format>XML</format>
-                                    </formats>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>systems.dmx</groupId>
@@ -145,4 +97,52 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- Activate this profile to use the docker deployment included in the project -->
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>env.DMX_DEPLOYMENT</name>
+                    <value>docker</value>
+                </property>
+            </activation>
+            <properties>
+                <dmx.deploy.dir>./deploy/instance/dev/bundle-deploy</dmx.deploy.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>HTML</format>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

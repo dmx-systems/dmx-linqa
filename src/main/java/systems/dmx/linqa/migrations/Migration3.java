@@ -64,7 +64,7 @@ public class Migration3 extends Migration {
             for (Element image : images) {
                 String src = image.attr("src");
                 StringBuilder log = new StringBuilder();
-                log.append(typeUri + ":" + topic.getId() + " " + src.substring(0, Math.min(src.length(), 50)) + " -> ");
+                log.append(typeUri + ":" + topic.getId() + " " + src.substring(0, Math.min(src.length(), 40)) + " -> ");
                 if (src.startsWith("data:")) {
                     CharacterReader reader = new CharacterReader(src);
                     reader.consumeTo(':'); reader.advance();
@@ -73,14 +73,15 @@ public class Migration3 extends Migration {
                     if (!encoding.equals("base64")) {
                         throw new RuntimeException("Unexpected encoding: \"" + encoding + "\"");
                     }
-                    log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\"");
-                    String base64 = reader.consumeTo('"');
+                    String base64 = src.substring(reader.pos());
+                    log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
+                    logger.info(log.toString());
                     writeImageFile(base64, mimeType);
                 } else {
                     log.append("not a data-URL");
+                    logger.info(log.toString());
                     nonDataUrls++;
                 }
-                logger.info(log.toString());
             }
             return true;
         }).count();

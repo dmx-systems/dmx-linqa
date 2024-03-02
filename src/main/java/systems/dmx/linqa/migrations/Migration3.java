@@ -5,6 +5,7 @@ import systems.dmx.core.service.Migration;
 import systems.dmx.files.FilesService;
 import systems.dmx.files.UploadedFile;
 import static systems.dmx.linqa.Constants.*;
+import systems.dmx.linqa.ImageScaler;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -92,8 +93,9 @@ public class Migration3 extends Migration {
             String extension = mimeType.split("/")[1];
             String fileName = String.format(IMAGE_FILE_NAME, ++imageCount, extension);
             byte[] bytes = DatatypeConverter.parseBase64Binary(base64);
-            UploadedFile file = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
-            files.storeFile(file, "/");
+            UploadedFile imageFile = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
+            UploadedFile scaledImage = new ImageScaler().scale(imageFile);
+            files.storeFile(scaledImage, "/");
         } catch (Exception e) {
             throw new RuntimeException("Writing image file failed", e);
         }

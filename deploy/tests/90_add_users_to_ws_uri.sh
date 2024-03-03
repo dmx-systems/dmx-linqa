@@ -1,6 +1,24 @@
 #!/bin/bash
 
-declare -a USERS=($1)
+## catch some sleep
+sleep 5
+
+## users
+if [ -z "$1" ]; then
+    USER_LIST='Testuser Tom Tabea'
+else
+    USER_LIST="$1"
+fi
+
+## ws uri
+if [ -z "$2" ]; then
+    WS_URI='linqa.admin_ws'
+else
+    WS_URI="$2"
+fi
+
+
+declare -a USERS=("${USER_LIST}")
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"
@@ -20,7 +38,7 @@ BASE64="$( echo -n "${USERNAME}:${PASSWORD}" | base64 )"
 AUTH="Authorization: Basic ${BASE64}"
 #SESSIONID="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 | grep ^Set-Cookie: | cut -d';' -f1 | cut -d'=' -f2 )"
 SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
-HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
+HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 | sed 's/[^0-9]//g' )"
 #echo "HTTPCODE: ${HTTPCODE}"
 if [ "${HTTPCODE}" != "200" -a "${HTTPCODE}" != "204" ]; then
     echo "login ${USERNAME} failed! (HTTPCODE=${HTTPCODE})"
@@ -32,11 +50,11 @@ fi
 
 
 ## get wsid 
-if [ -z $2 ]; then
+if [ -z "${WS_URI}" ]; then
     echo "ERROR! Missing workspace uri."
     exit 1
 else
-    WSID="$( curl -sS -X GET -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" ${HOST}/core/topic/uri/$2 | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 )"
+    WSID="$( curl -sS -X GET -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: application/json" ${HOST}/core/topic/uri/${WS_URI} | jq {id} | grep : | sed 's/\ //g' | cut -d':' -f2 | sed 's/[^0-9]//g' )"
     #echo "WSID: ${WSID}"
 fi
 

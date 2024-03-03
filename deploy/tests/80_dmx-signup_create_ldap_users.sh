@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+    - sleep 5
+    ## Create DMX Users via sign-up plugin
+    - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
+    ## Make some users Linqa admins
+    - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.admin_ws"
+
+
+
+
 declare -a USERS=($1)
 
 USERNAME='admin'

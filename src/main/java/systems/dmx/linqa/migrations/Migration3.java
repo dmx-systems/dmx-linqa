@@ -65,10 +65,12 @@ public class Migration3 extends Migration {
             OutputSettings settings = doc.outputSettings();
             settings.prettyPrint(false);    // default is true, adds line breaks
             Elements images = doc.select("img");
+            boolean hasDataUrl = false;
             for (Element image : images) {
                 String src = image.attr("src");
                 StringBuilder log = new StringBuilder();
-                log.append(typeUri + ":" + topic.getId() + " " + src.substring(0, Math.min(src.length(), 40)) + " -> ");
+                log.append("---------------------------------------- " + typeUri + " (" + topic.getId() + ")\n" +
+                    src.substring(0, Math.min(src.length(), 40)) + " -> ");
                 if (src.startsWith("data:")) {
                     CharacterReader reader = new CharacterReader(src);
                     reader.consumeTo(':'); reader.advance();
@@ -81,13 +83,18 @@ public class Migration3 extends Migration {
                     log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
                     logger.info(log.toString());
                     String url = writeImageFile(base64, mimeType);
-                    String newHtml = transformTopicHtml(doc, image, url);
-                    topic.setSimpleValue(newHtml);
+                    image.attr("src", url);
+                    hasDataUrl = true;
                 } else {
                     log.append("not a data-URL");
                     logger.info(log.toString());
                     nonDataUrls++;
                 }
+            }
+            if (hasDataUrl) {
+                String newHtml = doc.body().html(); // parseBodyFragment() creates an empty document, with head and body
+                logger.info(newHtml);
+                topic.setSimpleValue(newHtml);
             }
             return true;
         }).count();
@@ -105,12 +112,5 @@ public class Migration3 extends Migration {
         } catch (Exception e) {
             throw new RuntimeException("Writing image file failed", e);
         }
-    }
-
-    private String transformTopicHtml(Document doc, Element image, String newUrl) {
-        image.attr("src", newUrl);
-        String newHtml = doc.body().html();   // parseBodyFragment() creates an empty shell document, with head and body
-        logger.info(newHtml);
-        return newHtml;
     }
 }

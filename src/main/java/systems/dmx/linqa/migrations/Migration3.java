@@ -2,6 +2,7 @@ package systems.dmx.linqa.migrations;
 
 import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.Migration;
+import systems.dmx.core.util.JavaUtils;
 import systems.dmx.files.FilesService;
 import systems.dmx.files.UploadedFile;
 import static systems.dmx.linqa.Constants.*;
@@ -9,6 +10,7 @@ import systems.dmx.linqa.ImageScaler;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.CharacterReader;
 import org.jsoup.select.Elements;
@@ -52,7 +54,6 @@ public class Migration3 extends Migration {
         transformImages(LINQA_NOTE_TEXT);
         transformImages(TEXTBLOCK_TEXT);
         transformImages(COMMENT_TEXT);
-        throw new RuntimeException("BOOOOM! :-)");
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
@@ -61,6 +62,8 @@ public class Migration3 extends Migration {
         return dmx.getTopicsByType(typeUri).stream().filter(topic -> {
             String html = topic.getSimpleValue().toString();
             Document doc = Jsoup.parseBodyFragment(html);
+            OutputSettings settings = doc.outputSettings();
+            settings.prettyPrint(false);    // default is true, adds line breaks
             Elements images = doc.select("img");
             for (Element image : images) {
                 String src = image.attr("src");
@@ -77,7 +80,9 @@ public class Migration3 extends Migration {
                     String base64 = src.substring(reader.pos());
                     log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
                     logger.info(log.toString());
-                    writeImageFile(base64, mimeType);
+                    String url = writeImageFile(base64, mimeType);
+                    String newHtml = transformTopicHtml(doc, image, url);
+                    topic.setSimpleValue(newHtml);
                 } else {
                     log.append("not a data-URL");
                     logger.info(log.toString());
@@ -88,16 +93,24 @@ public class Migration3 extends Migration {
         }).count();
     }
 
-    void writeImageFile(String base64, String mimeType) {
+    private String writeImageFile(String base64, String mimeType) {
         try {
             String extension = mimeType.split("/")[1];
             String fileName = String.format(IMAGE_FILE_NAME, ++imageCount, extension);
             byte[] bytes = DatatypeConverter.parseBase64Binary(base64);
             UploadedFile imageFile = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
             UploadedFile scaledImage = new ImageScaler().scale(imageFile);
-            files.storeFile(scaledImage, "/");
+            String repoPath = files.storeFile(scaledImage, "/").getRepoPath();
+            return "/filerepo/" + JavaUtils.encodeURIComponent(repoPath);
         } catch (Exception e) {
             throw new RuntimeException("Writing image file failed", e);
         }
+    }
+
+    private String transformTopicHtml(Document doc, Element image, String newUrl) {
+        image.attr("src", newUrl);
+        String newHtml = doc.body().html();   // parseBodyFragment() creates an empty shell document, with head and body
+        logger.info(newHtml);
+        return newHtml;
     }
 }

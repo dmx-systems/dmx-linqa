@@ -94,7 +94,7 @@ deploy-to-gitlab-maven:
   tags:
     - docker
   script:
-    - 'mvn -Pgitlab-maven-deployment deploy -s ci_settings.xml'
+    - 'mvn -Pgitlab-maven-deployment deploy -s /usr/local/lib/ci_settings.xml'
   only:
     - master
     - main

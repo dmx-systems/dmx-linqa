@@ -18,7 +18,7 @@ else
 fi
 
 
-declare -a USERS=("${USER_LIST}")
+declare -a USERS=(${USER_LIST})
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"

@@ -51,8 +51,12 @@ public class Migration3 extends Migration {
 
     @Override
     public void run() {
+        // Note: data-URLs appear in the parent labels as well, duplicated from the child texts
+        transformImages(LINQA_NOTE);
         transformImages(LINQA_NOTE_TEXT);
+        transformImages(TEXTBLOCK);
         transformImages(TEXTBLOCK_TEXT);
+        transformImages(COMMENT);
         transformImages(COMMENT_TEXT);
     }
 

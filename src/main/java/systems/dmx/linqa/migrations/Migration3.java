@@ -1,5 +1,6 @@
 package systems.dmx.linqa.migrations;
 
+import systems.dmx.core.Topic;
 import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.Migration;
 import systems.dmx.core.util.JavaUtils;
@@ -75,28 +76,8 @@ public class Migration3 extends Migration {
             Elements images = doc.select("img");
             boolean hasDataUrl = false;
             for (Element image : images) {
-                String src = image.attr("src");
-                StringBuilder log = new StringBuilder();
-                log.append("---------------------------------------- " + typeUri + " (" + topic.getId() + ")\n" +
-                    src.substring(0, Math.min(src.length(), 40)) + " -> ");
-                if (src.startsWith("data:")) {
-                    CharacterReader reader = new CharacterReader(src);
-                    reader.consumeTo(':'); reader.advance();
-                    String mimeType = reader.consumeTo(';'); reader.advance();
-                    String encoding = reader.consumeTo(','); reader.advance();
-                    if (!encoding.equals("base64")) {
-                        throw new RuntimeException("Unexpected encoding: \"" + encoding + "\"");
-                    }
-                    String base64 = src.substring(reader.pos());
-                    log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
-                    logger.info(log.toString());
-                    String url = writeImageFile(base64, mimeType);
-                    image.attr("src", url);
+                if (transformImage(image, topic)) {
                     hasDataUrl = true;
-                } else {
-                    log.append("not a data-URL");
-                    logger.info(log.toString());
-                    nonDataUrls++;
                 }
             }
             if (hasDataUrl) {
@@ -106,6 +87,32 @@ public class Migration3 extends Migration {
             }
             return true;
         }).count();
+    }
+
+    private boolean transformImage(Element image, Topic topic) {
+        String src = image.attr("src");
+        StringBuilder log = new StringBuilder();
+        log.append("---------------------------------------- " + topic.getTypeUri() + " (" + topic.getId() + ")\n" +
+            src.substring(0, Math.min(src.length(), 40)) + " -> ");
+        if (!src.startsWith("data:")) {
+            log.append("not a data-URL");
+            logger.info(log.toString());
+            nonDataUrls++;
+            return false;
+        }
+        CharacterReader reader = new CharacterReader(src);
+        reader.consumeTo(':'); reader.advance();
+        String mimeType = reader.consumeTo(';'); reader.advance();
+        String encoding = reader.consumeTo(','); reader.advance();
+        if (!encoding.equals("base64")) {
+            throw new RuntimeException("Unexpected encoding: \"" + encoding + "\"");
+        }
+        String base64 = src.substring(reader.pos());
+        log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
+        logger.info(log.toString());
+        String url = writeImageFile(base64, mimeType);
+        image.attr("src", url);
+        return true;
     }
 
     private String writeImageFile(String base64, String mimeType) {

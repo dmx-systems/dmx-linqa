@@ -1,16 +1,13 @@
 #!/bin/bash
 
+## users
+if [ -z "$1" ]; then
+    USER_LIST='Testuser Peter Paula Tom Tabea Claude'
+else
+    USER_LIST="$1"
+fi
 
-    - sleep 5
-    ## Create DMX Users via sign-up plugin
-    - deploy/dmx-signup-create-ldap-user.sh "Testuser Peter Paula Tom Tabea Claude"
-    ## Make some users Linqa admins
-    - deploy/dmx-add-users-to-ws-uri.sh "Testuser Tom Tabea" "linqa.admin_ws"
-
-
-
-
-declare -a USERS=($1)
+declare -a USERS=("${USER_LIST}")
 
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"

@@ -8,6 +8,7 @@ import systems.dmx.files.FilesService;
 import systems.dmx.files.UploadedFile;
 import static systems.dmx.linqa.Constants.*;
 import systems.dmx.linqa.ImageScaler;
+import systems.dmx.workspaces.WorkspacesService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,6 +41,7 @@ public class Migration3 extends Migration {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
+    private static final boolean FILE_REPOSITORY_PER_WORKSPACE = Boolean.getBoolean("dmx.filerepo.per_workspace");
     private static final String IMAGE_FILE_NAME = "zw-image-%d.%s";
     private static final String STATS = "  %-20s - topics: %3d, image tags: %3d, data-URLs: %3d, images: %3d, " +
         "duplicates: %3d -> %3d repo files created\n";
@@ -47,6 +49,7 @@ public class Migration3 extends Migration {
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
     @Inject private FilesService files;
+    @Inject private WorkspacesService ws;
 
     private Map<String, String> storedImages = new HashMap();   // base64 -> image URL (in file repo)
 
@@ -144,7 +147,7 @@ public class Migration3 extends Migration {
         String base64 = src.substring(reader.pos());
         log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
         logger.info(log.toString());
-        String url = writeImageFile(base64, mimeType, typeUri);
+        String url = writeImageFile(base64, mimeType, topic);
         image.attr("src", url);
         return true;
     }
@@ -155,9 +158,10 @@ public class Migration3 extends Migration {
      *
      * @return  a (relative) file repo URL to access the created filed.
      */
-    private String writeImageFile(String base64, String mimeType, String typeUri) {
+    private String writeImageFile(String base64, String mimeType, Topic topic) {
         try {
             String url = storedImages.get(base64);
+            String typeUri = topic.getTypeUri();
             if (url != null) {
                 logger.info("Duplicate already stored (" + url + ")");
                 inc(typeUri, 4);
@@ -168,12 +172,21 @@ public class Migration3 extends Migration {
             byte[] bytes = Base64.getDecoder().decode(base64);
             UploadedFile imageFile = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
             UploadedFile scaledImage = new ImageScaler().scale(imageFile);
-            String repoPath = files.storeFile(scaledImage, "/").getRepoPath();
+            String repoPath = files.storeFile(scaledImage, getRepoPath(topic)).getRepoPath();
             url = "/filerepo/" + JavaUtils.encodeURIComponent(repoPath);
             storedImages.put(base64, url);
             return url;
         } catch (Exception e) {
             throw new RuntimeException("Writing image file failed", e);
+        }
+    }
+
+    private String getRepoPath(Topic topic) {
+        if (FILE_REPOSITORY_PER_WORKSPACE) {
+            long wsId = ws.getAssignedWorkspace(topic.getId()).getId();
+            return "/workspace-" + wsId;
+        } else {
+            return "/";
         }
     }
 

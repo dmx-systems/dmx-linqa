@@ -144,7 +144,7 @@ public class Migration3 extends Migration {
         if (!encoding.equals("base64")) {
             throw new RuntimeException("Unexpected encoding: \"" + encoding + "\"");
         }
-        String base64 = src.substring(reader.pos());
+        String base64 = src.substring(reader.pos()).replace(' ', '+');     // some ZW Base64 is accidentally URL-decoded
         log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
         logger.info(log.toString());
         String url = writeImageFile(base64, mimeType, topic);

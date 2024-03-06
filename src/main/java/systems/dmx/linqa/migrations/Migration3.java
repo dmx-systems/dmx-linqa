@@ -20,12 +20,12 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
 
 
@@ -165,7 +165,7 @@ public class Migration3 extends Migration {
             }
             String extension = mimeType.split("/")[1];
             String fileName = String.format(IMAGE_FILE_NAME, ++imageCount, extension);
-            byte[] bytes = DatatypeConverter.parseBase64Binary(base64);
+            byte[] bytes = Base64.getDecoder().decode(base64);
             UploadedFile imageFile = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
             UploadedFile scaledImage = new ImageScaler().scale(imageFile);
             String repoPath = files.storeFile(scaledImage, "/").getRepoPath();

@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 
 
-class ImageScaler {
+public class ImageScaler {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
@@ -25,7 +25,7 @@ class ImageScaler {
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
-    UploadedFile scale(UploadedFile imageFile) {
+    public UploadedFile scale(UploadedFile imageFile) {
         try {
             imageFile.setBuffered();    // storing the original (unscaled) image requires re-reading the input stream
             InputStream in = imageFile.getInputStream();

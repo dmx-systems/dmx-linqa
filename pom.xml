@@ -53,6 +53,11 @@
             <artifactId>dmx-sign-up</artifactId>
             <version>3.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.16.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -64,6 +69,10 @@
                     <instructions>
                         <Bundle-Activator>systems.dmx.linqa.LinqaPlugin</Bundle-Activator>
                         <Include-Resource>{maven-resources},web=target/classes/web</Include-Resource>
+                        <Embed-Dependency>jsoup</Embed-Dependency>
+                        <Import-Package>
+                            !javax.annotation.meta, *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

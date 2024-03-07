@@ -25,11 +25,18 @@ public class ImageScaler {
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
+    /**
+     * @return  the scaled image resp. the original image when no scaling was needed.
+     *          Returns null if the original image data could not be decoded.
+     */
     public UploadedFile scale(UploadedFile imageFile) {
         try {
             imageFile.setBuffered();    // storing the original (unscaled) image requires re-reading the input stream
             InputStream in = imageFile.getInputStream();
             BufferedImage image = ImageIO.read(in);
+            if (image == null) {
+                return null;
+            }
             int width = image.getWidth();
             int height = image.getHeight();
             int max = Math.max(width, height);

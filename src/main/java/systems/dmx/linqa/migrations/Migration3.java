@@ -43,8 +43,8 @@ public class Migration3 extends Migration {
 
     private static final boolean FILE_REPOSITORY_PER_WORKSPACE = Boolean.getBoolean("dmx.filerepo.per_workspace");
     private static final String IMAGE_FILE_NAME = "zw-image-%d.%s";
-    private static final String STATS = "  %-20s - topics: %3d, image tags: %3d, data-URLs: %3d, images: %3d, " +
-        "duplicates: %3d -> %3d repo files created\n";
+    private static final String STATS = "  %-20s - topics: %4d, image tags: %3d, data-URLs: %3d, images: %3d, " +
+        "duplicates: %3d, corrupt: %3d -> %3d repo files created\n";
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -78,15 +78,16 @@ public class Migration3 extends Migration {
         StringBuilder sb = new StringBuilder();
         stats.keySet().stream().forEach(typeUri -> {
             sb.append(String.format(STATS, typeUri, stats.get(typeUri)[0], stats.get(typeUri)[1], stats.get(typeUri)[2],
-                stats.get(typeUri)[3], stats.get(typeUri)[4], stats.get(typeUri)[3] - stats.get(typeUri)[4]));
+                stats.get(typeUri)[3], stats.get(typeUri)[4], stats.get(typeUri)[5],
+                stats.get(typeUri)[3] - stats.get(typeUri)[4] - stats.get(typeUri)[5]));
         });
-        logger.info("##### Image data-URL migration complete #####\n" + sb);
+        logger.info("\n##### Image data-URL migration complete #####\n" + sb);
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
 
     private void transformImages(String typeUri) {
-        stats.put(typeUri, new int[5]);
+        stats.put(typeUri, new int[6]);
         dmx.getTopicsByType(typeUri).stream().forEach(topic -> {
             inc(typeUri, 0);
             String html = topic.getSimpleValue().toString();
@@ -148,6 +149,9 @@ public class Migration3 extends Migration {
         log.append("mimeType=\"" + mimeType + "\", encoding=\"" + encoding + "\", size=" + base64.length());
         logger.info(log.toString());
         String url = writeImageFile(base64, mimeType, topic);
+        if (url == null) {
+            return false;
+        }
         image.attr("src", url);
         return true;
     }
@@ -157,6 +161,7 @@ public class Migration3 extends Migration {
      * If these data has been written already, nothing is performed.
      *
      * @return  a (relative) file repo URL to access the created filed.
+     *          Returns null if the image data could not be decoded.
      */
     private String writeImageFile(String base64, String mimeType, Topic topic) {
         try {
@@ -172,6 +177,11 @@ public class Migration3 extends Migration {
             byte[] bytes = Base64.getDecoder().decode(base64);
             UploadedFile imageFile = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
             UploadedFile scaledImage = new ImageScaler().scale(imageFile);
+            if (scaledImage == null) {
+                logger.info("### Image could not be decoded");
+                inc(typeUri, 5);
+                return null;
+            }
             String repoPath = files.storeFile(scaledImage, getRepoPath(topic)).getRepoPath();
             url = "/filerepo/" + JavaUtils.encodeURIComponent(repoPath);
             storedImages.put(base64, url);
@@ -190,7 +200,7 @@ public class Migration3 extends Migration {
         }
     }
 
-    void inc(String typeUri, int item) {
+    private void inc(String typeUri, int item) {
         stats.get(typeUri)[item]++;
     }
 }

@@ -27,8 +27,9 @@ public class ImageScaler {
 
     /**
      * @return  the scaled image or null if no scaling was needed.
-
-     * @throws  RuntimeException    if the original image data could not be decoded.
+     *
+     * @throws  RuntimeException    if an error occurred, in particular if the original image data could not be read
+     *          resp. decoded.
      */
     public UploadedFile scale(UploadedFile originalImage) {
         try {
@@ -36,7 +37,7 @@ public class ImageScaler {
             InputStream in = originalImage.getInputStream();
             BufferedImage image = ImageIO.read(in);    // throws IOException
             if (image == null) {
-                throw new RuntimeException("Original image could not be read");
+                throw new RuntimeException("Original image could not be read/decoded");
             }
             in.reset();                                // throws IOException
             int width = image.getWidth();

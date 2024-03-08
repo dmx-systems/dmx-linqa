@@ -88,7 +88,7 @@ public class Migration3 extends Migration {
     private void transformImages(String typeUri) {
         stats.put(typeUri, new int[6]);
         dmx.getTopicsByType(typeUri).stream().forEach(topic -> {
-            inc(typeUri, 0);
+            incStats(typeUri, 0);
             String html = topic.getSimpleValue().toString();
             Document doc = Jsoup.parseBodyFragment(html);
             OutputSettings settings = doc.outputSettings();
@@ -96,7 +96,7 @@ public class Migration3 extends Migration {
             Elements images = doc.select("img");
             boolean hasDataUrl = false;
             for (Element image : images) {
-                inc(typeUri, 1);
+                incStats(typeUri, 1);
                 if (transformImageTag(image, topic)) {
                     hasDataUrl = true;
                 }
@@ -128,7 +128,7 @@ public class Migration3 extends Migration {
             logger.info(log.toString());
             return false;
         }
-        inc(typeUri, 2);
+        incStats(typeUri, 2);
         CharacterReader reader = new CharacterReader(src);
         reader.consumeTo(':'); reader.advance();
         String mimeType = reader.consumeTo(';'); reader.advance();
@@ -139,7 +139,7 @@ public class Migration3 extends Migration {
             image.remove();
             return true;
         }
-        inc(typeUri, 3);
+        incStats(typeUri, 3);
         String encoding = reader.consumeTo(','); reader.advance();
         if (!encoding.equals("base64")) {
             throw new RuntimeException("Unexpected encoding: \"" + encoding + "\"");
@@ -169,7 +169,7 @@ public class Migration3 extends Migration {
             typeUri = topic.getTypeUri();
             if (url != null) {
                 logger.info("Duplicate already stored (" + url + ")");
-                inc(typeUri, 4);
+                incStats(typeUri, 4);
                 return url;
             }
             String extension = mimeType.split("/")[1];
@@ -190,8 +190,8 @@ public class Migration3 extends Migration {
             storedImages.put(base64, url);
             return url;
         } catch (Exception e) {
-            logger.info("### " + e);
-            inc(typeUri, 5);
+            logger.warning("### " + dump(e));
+            incStats(typeUri, 5);
             return null;
         }
     }
@@ -205,7 +205,15 @@ public class Migration3 extends Migration {
         }
     }
 
-    private void inc(String typeUri, int item) {
+    private String dump(Throwable e) {
+        StringBuilder m = new StringBuilder(e.toString());
+        while ((e = e.getCause()) != null) {
+            m.append(", Cause: " + e.toString());
+        }
+        return m.toString();
+    }
+
+    private void incStats(String typeUri, int item) {
         stats.get(typeUri)[item]++;
     }
 }

@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 
 
@@ -42,18 +41,18 @@ public class Migration3 extends Migration {
     // ------------------------------------------------------------------------------------------------------- Constants
 
     private static final boolean FILE_REPOSITORY_PER_WORKSPACE = Boolean.getBoolean("dmx.filerepo.per_workspace");
-    private static final String IMAGE_FILE_NAME = "zw-image-%d.%s";
-    private static final String STATS = "  %-20s - topics: %4d, image tags: %3d, data-URLs: %3d, images: %3d, " +
-        "duplicates: %3d, corrupt: %3d -> %3d repo files created\n";
+    private static final String IMAGE_FILE_NAME = "image-%d.%s";
+    private static final String STATS = "  %-20s - topics: %5d, image tags: %4d, data-URLs: %4d, images: %4d, " +
+        "duplicates: %4d, corrupt: %2d -> %2d repo files created\n";
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
     @Inject private FilesService files;
     @Inject private WorkspacesService ws;
 
-    private Map<String, String> storedImages = new HashMap();   // base64 -> image URL (in file repo)
+    private Map<String, String> storedImages = new HashMap();   // base64 -> file repo image URL
 
-    private int imageCount = 0;
+    private int imageCount = 0;                                 // counter for creating unique filenames
 
     private Map<String, int[]> stats = new TreeMap();           // type URI -> 0: topic count
                                                                 //             1: image tag count
@@ -164,9 +163,10 @@ public class Migration3 extends Migration {
      *          Returns null if the image data could not be decoded.
      */
     private String writeImageFile(String base64, String mimeType, Topic topic) {
+        String typeUri = null;
         try {
             String url = storedImages.get(base64);
-            String typeUri = topic.getTypeUri();
+            typeUri = topic.getTypeUri();
             if (url != null) {
                 logger.info("Duplicate already stored (" + url + ")");
                 inc(typeUri, 4);
@@ -175,23 +175,28 @@ public class Migration3 extends Migration {
             String extension = mimeType.split("/")[1];
             String fileName = String.format(IMAGE_FILE_NAME, ++imageCount, extension);
             byte[] bytes = Base64.getDecoder().decode(base64);
-            UploadedFile imageFile = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
-            UploadedFile scaledImage = new ImageScaler().scale(imageFile);
-            if (scaledImage == null) {
-                logger.info("### Image could not be decoded");
-                inc(typeUri, 5);
-                return null;
+            UploadedFile originalImage = new UploadedFile(fileName, bytes.length, new ByteArrayInputStream(bytes));
+            UploadedFile scaledImage = new ImageScaler().scale(originalImage);      // throws RuntimeException
+            UploadedFile image;
+            String repoDir = getRepoDir(topic);
+            if (scaledImage != null) {
+                image = scaledImage;
+                files.storeFile(originalImage, repoDir).getRepoPath();
+            } else {
+                image = originalImage;
             }
-            String repoPath = files.storeFile(scaledImage, getRepoPath(topic)).getRepoPath();
+            String repoPath = files.storeFile(image, repoDir).getRepoPath();
             url = "/filerepo/" + JavaUtils.encodeURIComponent(repoPath);
             storedImages.put(base64, url);
             return url;
         } catch (Exception e) {
-            throw new RuntimeException("Writing image file failed", e);
+            logger.info("### " + e);
+            inc(typeUri, 5);
+            return null;
         }
     }
 
-    private String getRepoPath(Topic topic) {
+    private String getRepoDir(Topic topic) {
         if (FILE_REPOSITORY_PER_WORKSPACE) {
             long wsId = ws.getAssignedWorkspace(topic.getId()).getId();
             return "/workspace-" + wsId;

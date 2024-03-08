@@ -17,7 +17,7 @@ public class ImageScaler {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
-    final float MAX_PIXEL = 1024f;
+    private static final int MAX_IMAGE_SIZE = 1024;  // max dimension in pixel
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -26,32 +26,33 @@ public class ImageScaler {
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
     /**
-     * @return  the scaled image resp. the original image when no scaling was needed.
-     *          Returns null if the original image data could not be decoded.
+     * @return  the scaled image or null if no scaling was needed.
+
+     * @throws  RuntimeException    if the original image data could not be decoded.
      */
-    public UploadedFile scale(UploadedFile imageFile) {
+    public UploadedFile scale(UploadedFile originalImage) {
         try {
-            imageFile.setBuffered();    // storing the original (unscaled) image requires re-reading the input stream
-            InputStream in = imageFile.getInputStream();
-            BufferedImage image = ImageIO.read(in);
+            originalImage.setBuffered();               // storing the original image requires re-reading the input stream
+            InputStream in = originalImage.getInputStream();
+            BufferedImage image = ImageIO.read(in);    // throws IOException
             if (image == null) {
-                return null;
+                throw new RuntimeException("Original image could not be read");
             }
+            in.reset();                                // throws IOException
             int width = image.getWidth();
             int height = image.getHeight();
             int max = Math.max(width, height);
-            if (max <= MAX_PIXEL) {
+            if (max <= MAX_IMAGE_SIZE) {
                 logger.info("Size " + width + "x" + height + " (no scaling needed)");
-                in.reset();
-                return imageFile;
+                return null;
             }
-            float scale = MAX_PIXEL / max;
+            float scale = MAX_IMAGE_SIZE / (float) max;
             int targetWidth = (int) (width * scale);
             int targetHeight = (int) (height * scale);
             logger.info("Original " + width + "x" + height + " -> " + targetWidth + "x" + targetHeight + " (scale=" +
                 scale + ")");
             BufferedImage scaledImage = createScaledImage(image, targetWidth, targetHeight);
-            return outputImage(scaledImage, imageFile.getName());
+            return outputScaledImage(scaledImage, originalImage.getName());
         } catch (Exception e) {
             throw new RuntimeException("ImageScaler failed", e);
         }
@@ -68,7 +69,7 @@ public class ImageScaler {
         return scaledImage;
     }
 
-    private UploadedFile outputImage(BufferedImage image, String fileName) {
+    private UploadedFile outputScaledImage(BufferedImage image, String fileName) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream() {
                 @Override
@@ -76,11 +77,13 @@ public class ImageScaler {
                     return this.buf;
                 }
             };
+            String basename = JavaUtils.getBasename(fileName);
             String format = JavaUtils.getExtension(fileName);
+            String scaledFilename = basename + "-" + MAX_IMAGE_SIZE + "." + format;
             ImageIO.write(image, format, out);
             int size = out.size();
             InputStream in = new ByteArrayInputStream(out.toByteArray(), 0, size);
-            return new UploadedFile(fileName, size, in);
+            return new UploadedFile(scaledFilename, size, in);
         } catch (Exception e) {
             throw new RuntimeException("Output image failed", e);
         }

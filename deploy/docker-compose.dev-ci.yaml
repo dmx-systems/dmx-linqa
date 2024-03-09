@@ -12,6 +12,9 @@ services:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
+    links:
+      - ldap
+      - mailhog
     depends_on:
       - ldap
       - mailhog
@@ -24,7 +27,6 @@ services:
       DEEPL_AUTH_KEY: "${DEEPL_AUTH_KEY}"
       TIER: "${TIER}"
     volumes:
-      # - dmx-db:/opt/dmx/dmx-db
       - ./instance/dev-ci/conf:/opt/dmx/conf
       - ./instance/dev-ci/logs:/opt/dmx/logs
       - ./instance/dev-ci/db:/opt/dmx/dmx-db

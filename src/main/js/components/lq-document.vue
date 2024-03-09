@@ -8,7 +8,7 @@
       <pre v-if="isText">{{text}}</pre>
       <img v-if="isImage" :src="fileUrl" @loadstart="loading" @load="complete">
       <audio v-if="isAudio" :src="fileUrl" controls></audio>
-      <video v-if="isVideo" :src="fileUrl" controls @loadeddata="update"></video>
+      <video v-if="isVideo" :src="fileUrl" controls preload="metadata" @loadeddata="update"></video>
       <lq-pdf-viewer v-if="isPDF" :topic="topic" :src="fileUrl" @loading="loading" @complete="complete"></lq-pdf-viewer>
     </template>
     <template v-else>

@@ -10,7 +10,7 @@ services:
 
   dmx:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
-    restart: always
+    restart: unless-stopped
     image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
     links:
       - ldap
@@ -36,7 +36,6 @@ services:
 
   ldap:
     container_name: "${CI_PROJECT_NAME}-${TIER}-ldap-container"
-    restart: unless-stopped
     command: "--copy-service --loglevel debug"
     build:
       context: "./ldap/${TIER}-ci"
@@ -57,7 +56,6 @@ services:
     image: container-registry.dmx.systems/dmx-intern/docker-images/mailhog:latest
     ports:
       - "${MAIL_PORT}:8025"
-
 
   dmxlog:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmxlog-container"

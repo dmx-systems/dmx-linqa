@@ -12,8 +12,10 @@ services:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
-    links:
+    depends_on:
       - ldap
+      - mailhog
+      - dmxlog
     environment:
       USER_ID: "${user_id}"
       GROUP_ID: "${group_id}"
@@ -61,8 +63,6 @@ services:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmxlog-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd:latest
-    links:
-      - dmx
     volumes:
       - ./instance/dev-ci/logs:/home/static/logs:ro
     ports:

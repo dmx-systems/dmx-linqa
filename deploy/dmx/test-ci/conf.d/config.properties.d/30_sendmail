@@ -1,0 +1,12 @@
+dmx.sendmail.system_admin_mailbox = root@localhost
+dmx.sendmail.system_from_mailbox = ${TIER}@localhost
+dmx.sendmail.system_from_name = ${TIER}_Sendmail
+dmx.sendmail.type = smtp
+
+## Sendmail SMTP Configuration
+dmx.sendmail.smtp_host = mailhog
+dmx.sendmail.smtp_username =
+dmx.sendmail.smtp_password =
+dmx.sendmail.smtp_port = 1025
+dmx.sendmail.smtp_security =
+dmx.sendmail.smtp_debug = true

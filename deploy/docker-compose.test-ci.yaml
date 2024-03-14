@@ -1,0 +1,70 @@
+version: "3.8"
+
+volumes:
+  dmx-filedir:
+  dmx-db:
+  ldap-cfg:
+  ldap-db:
+
+
+services:
+
+  dmx:
+    container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
+    restart: unless-stopped
+    image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
+    depends_on:
+      - ldap
+      - mailhog
+      - dmxlog
+    environment:
+      USER_ID: "${user_id}"
+      GROUP_ID: "${group_id}"
+      DMX_ADMIN_PASSWORD: "${DMX_ADMIN_PASSWORD}"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      DEEPL_AUTH_KEY: "${DEEPL_AUTH_KEY}"
+      TIER: "${TIER}"
+    volumes:
+      - ./instance/dev-ci/conf:/opt/dmx/conf
+      - ./instance/dev-ci/logs:/opt/dmx/logs
+      #- ./instance/dev-ci/db:/opt/dmx/dmx-db
+      #- ./instance/dev-ci/filedir:/opt/dmx/dmx-filedir
+      - ./instance/dev-ci/bundle-deploy:/opt/dmx/bundle-deploy
+      - ./dmx/dev-ci/plugins:/opt/dmx/plugins:ro
+      - ./dmx/dev-ci/conf.d:/opt/dmx/conf.d:ro
+      - dmx-db:/opt/dmx/dmx-db
+      - dmx-filedir:/opt/dmx/dmx-filedir
+    ports:
+      - "${DMX_PORT}:8080"
+
+  ldap:
+    container_name: "${CI_PROJECT_NAME}-${TIER}-ldap-container"
+    command: "--copy-service --loglevel debug"
+    build:
+      context: "./ldap/${TIER}-ci"
+    environment:
+      LDAP_OPENLDAP_UID: "${user_id}"
+      LDAP_OPENLDAP_GID: "${group_id}"
+      LDAP_TLS: "false"
+      LDAP_TLS_VERIFY_CLIENT: "never"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      LDAP_CONFIG_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+    volumes:
+      - ldap-db:/var/lib/ldap
+      - ldap-cfg:/etc/ldap/slapd.d
+
+  mailhog:
+    container_name: "${CI_PROJECT_NAME}-${TIER}-mailhog-container"
+    restart: unless-stopped
+    image: container-registry.dmx.systems/dmx-intern/docker-images/mailhog:latest
+    ports:
+      - "${MAIL_PORT}:8025"
+
+  dmxlog:
+    container_name: "${CI_PROJECT_NAME}-${TIER}-dmxlog-container"
+    restart: unless-stopped
+    image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd:latest
+    volumes:
+      - ./instance/dev-ci/logs:/home/static/logs:ro
+    ports:
+      - "${LOGS_PORT}:3000"

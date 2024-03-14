@@ -3,6 +3,7 @@ stages:
   - test
   - deploy
   - install
+  - present
 
 # 1) Build every commit on every branch and add the COMMIT SHORT SHA as suffix
 maven-build:
@@ -102,7 +103,7 @@ install-in-container:
 
 # 7) Install and reset test instance
 reset-linqa-test:
-  stage: install
+  stage: present
   tags:
     - shell-docker
   when: manual

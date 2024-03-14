@@ -12,9 +12,6 @@ services:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-contrib/dmx-docker/dmx-latest:latest
-    links:
-      - ldap
-      - mailhog
     depends_on:
       - ldap
       - mailhog
@@ -33,8 +30,7 @@ services:
       - ./instance/dev-ci/filedir:/opt/dmx/dmx-filedir
       - ./instance/dev-ci/bundle-deploy:/opt/dmx/bundle-deploy
       - ./dmx/dev-ci/plugins:/opt/dmx/plugins:ro
-      - ./dmx/dev-ci/conf.d/config.properties.d:/opt/dmx/conf.d/config.properties.d:ro
-      - ./dmx/dev-ci/conf.d/logging.properties.d:/opt/dmx/conf.d/logging.properties.d:ro
+      - ./dmx/dev-ci/conf.d:/opt/dmx/conf.d:ro
     ports:
       - "${DMX_PORT}:8080"
 

@@ -1,0 +1,7 @@
+dn: cn=app_users,dc=example,dc=org
+objectClass: groupOfNames
+cn: app_users
+description: App Users
+member: uid=testuser,ou=users,dc=example,dc=org
+member: uid=testuser1,ou=users,dc=example,dc=org
+member: uid=testuser2,ou=users,dc=example,dc=org

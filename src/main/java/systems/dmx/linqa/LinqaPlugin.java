@@ -62,6 +62,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -845,8 +846,25 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
         @Override
         public String getString(String lang, String key, Object... args) {
-            ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang), new UTF8Control());
-            return String.format(rb.getString(key), args);
+            try {
+                String str = null;
+                // 1) external resource file
+                File f = new File(DMXUtils.getConfigDir() + "dmx-linqa/strings." + lang + ".properties");
+                if (f.exists()) {
+                    Properties props = new Properties();
+                    props.load(new FileInputStream(f));     // throws IOException, FileNotFoundException
+                    str = props.getProperty(key);
+                }
+                // 2) Fallback: embedded resource
+                if (str == null) {
+                    ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang), new UTF8Control());
+                    str = rb.getString(key);
+                }
+                //
+                return String.format(str, args);
+            } catch (Exception e) {
+                throw new RuntimeException("Getting \"" + key + "\" resource failed, lang=\"" + lang + "\"");
+            }
         }
     }
 }

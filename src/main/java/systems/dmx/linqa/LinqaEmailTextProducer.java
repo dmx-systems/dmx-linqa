@@ -9,7 +9,21 @@ import java.util.ResourceBundle;
 
 public class LinqaEmailTextProducer implements EmailTextProducer {
 
+    // ------------------------------------------------------------------------------------------------------- Constants
+
     private static final String HOST_URL = System.getProperty("dmx.host.url", "");
+
+    // ---------------------------------------------------------------------------------------------- Instance Variables
+
+    private StringProvider sp;
+
+    // ---------------------------------------------------------------------------------------------------- Constructors
+
+    LinqaEmailTextProducer(StringProvider sp) {
+        this.sp = sp;
+    }
+
+    // -------------------------------------------------------------------------------------------------- Public Methods
 
     @Override
     public boolean isHtml() {
@@ -94,7 +108,6 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     private String getString(String key, Object... args) {
         String lang = Cookies.get().get("linqa_lang");
-        ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang), new UTF8Control());
-        return String.format(rb.getString(key), args);
+        return sp.getString(lang, key, args);
     }
 }

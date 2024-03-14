@@ -100,6 +100,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private Topic zwPluginTopic;
     private Topic linqaAdminWs;
+    private StringProvider sp = new LinqaStringProvider();
     private Messenger me;
     private Random random = new Random();
 
@@ -114,7 +115,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
         linqaAdminWs = dmx.getTopicByUri(LINQA_ADMIN_WS_URI);
         tms.registerTopicmapCustomizer(this);
-        signup.setEmailTextProducer(new LinqaEmailTextProducer());
+        signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());
         new EmailDigests(dmx, acs, ws, timestamps, sendmail, linqaAdminWs).startTimedTask();
     }
@@ -828,14 +829,24 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private void sendWelcomeMail(String emailAddress, String displayName, String lang) {
         try {
-            ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang), new UTF8Control());
             String link = HOST_URL + "/#/password-reset?email=" + emailAddress + "&lang=" + lang;
-            String subject = rb.getString("welcome_mail.subject");
-            String message = String.format(rb.getString("welcome_mail.message"), displayName, link);
+            String subject = sp.getString(lang, "welcome_mail.subject");
+            String message = sp.getString(lang, "welcome_mail.message", displayName, link);
             sendmail.doEmailRecipient(subject, message, null, emailAddress);        // htmlMessage=null
         } catch (Exception e) {
             throw new RuntimeException("Sending welcome mail for \"" + displayName + "\" (" + emailAddress + ") failed",
                 e);
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------- Nested Classes
+
+    private class LinqaStringProvider implements StringProvider {
+
+        @Override
+        public String getString(String lang, String key, Object... args) {
+            ResourceBundle rb = ResourceBundle.getBundle("app-strings/", new Locale(lang), new UTF8Control());
+            return String.format(rb.getString(key), args);
         }
     }
 }

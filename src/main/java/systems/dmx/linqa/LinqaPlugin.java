@@ -59,6 +59,7 @@ import static javax.ws.rs.core.Response.Status.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -852,7 +853,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 File f = new File(DMXUtils.getConfigDir() + "dmx-linqa/strings." + lang + ".properties");
                 if (f.exists()) {
                     Properties props = new Properties();
-                    props.load(new FileInputStream(f));     // throws IOException, FileNotFoundException
+                    props.load(new FileReader(f));          // throws IOException, FileNotFoundException
                     str = props.getProperty(key);
                 }
                 // 2) Fallback: embedded resource

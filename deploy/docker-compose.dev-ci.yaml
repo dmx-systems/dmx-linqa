@@ -23,6 +23,7 @@ services:
       LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
       DEEPL_AUTH_KEY: "${DEEPL_AUTH_KEY}"
       TIER: "${TIER}"
+      LANG: "C.UTF-8"
     volumes:
       - ./instance/dev-ci/conf:/opt/dmx/conf
       - ./instance/dev-ci/logs:/opt/dmx/logs

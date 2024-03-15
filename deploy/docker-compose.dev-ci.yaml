@@ -25,11 +25,11 @@ services:
       TIER: "${TIER}"
       LANG: "C.UTF-8"
     volumes:
-      - ./instance/dev-ci/conf:/opt/dmx/conf
-      - ./instance/dev-ci/logs:/opt/dmx/logs
-      - ./instance/dev-ci/db:/opt/dmx/dmx-db
-      - ./instance/dev-ci/filedir:/opt/dmx/dmx-filedir
-      - ./instance/dev-ci/bundle-deploy:/opt/dmx/bundle-deploy
+      #- ./instance/dev-ci/conf:/opt/dmx/conf
+      #- ./instance/dev-ci/logs:/opt/dmx/logs
+      #- ./instance/dev-ci/db:/opt/dmx/dmx-db
+      #- ./instance/dev-ci/filedir:/opt/dmx/dmx-filedir
+      #- ./instance/dev-ci/bundle-deploy:/opt/dmx/bundle-deploy
       - ./dmx/dev-ci/plugins:/opt/dmx/plugins:ro
       - ./dmx/dev-ci/conf.d:/opt/dmx/conf.d:ro
     ports:

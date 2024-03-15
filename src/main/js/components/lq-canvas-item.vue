@@ -47,9 +47,10 @@ export default {
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       customClass: undefined,   // Custom class (String)
       actions: [                // Actions appearing in the button panel
-        {action: 'action.edit',   handler: this.edit},
-        {action: 'action.lock',   handler: this.toggleLock},
-        {action: 'action.delete', handler: this.deleteItem}
+        {action: 'action.edit',      handler: this.edit},
+        {action: 'action.lock',      handler: this.toggleLock},
+        {action: 'action.duplicate', handler: this.duplicate},
+        {action: 'action.delete',    handler: this.deleteItem}
       ],
       editEnabled: true,        // Edit button visibility (Boolean)
       resizeStyle: 'x',         // 'x'/'xy'/'none' (String)
@@ -123,6 +124,10 @@ export default {
 
     toggleLock () {
       this.$store.dispatch('toggleLock', this.topic)
+    },
+
+    duplicate () {
+      this.$store.dispatch('duplicate', this.topic)
     },
 
     // Note: can't be named "delete"

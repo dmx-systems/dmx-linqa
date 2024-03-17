@@ -114,3 +114,17 @@ reset-linqa-test:
   rules:
     - if: $CI_COMMIT_BRANCH == 'master' && $CI_COMMIT_TAG == null
     - if: $CI_COMMIT_BRANCH == 'main' && $CI_COMMIT_TAG == null
+
+# 8) Re-install test instance without reset
+persist-linqa-test:
+  stage: present
+  tags:
+    - shell-docker
+  when: manual
+  variables:
+    TIER: 'test'
+  script:
+    - ci-deploy-docker-instances.sh persist
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'master' && $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_COMMIT_TAG == null

@@ -3,6 +3,9 @@ version: "3.8"
 volumes:
   dmx-filedir:
   dmx-db:
+  dmx-logs:
+  dmx-conf:
+  dmx-bundle-deploy:
   ldap-cfg:
   ldap-db:
 
@@ -25,15 +28,18 @@ services:
       DEEPL_AUTH_KEY: "${DEEPL_AUTH_KEY}"
       TIER: "${TIER}"
     volumes:
-      - ./instance/test-ci/conf:/opt/dmx/conf
-      - ./instance/test-ci/logs:/opt/dmx/logs
+      #- ./instance/test-ci/conf:/opt/dmx/conf
+      #- ./instance/test-ci/logs:/opt/dmx/logs
       #- ./instance/test-ci/db:/opt/dmx/dmx-db
       #- ./instance/test-ci/filedir:/opt/dmx/dmx-filedir
-      - ./instance/test-ci/bundle-deploy:/opt/dmx/bundle-deploy
+      #- ./instance/test-ci/bundle-deploy:/opt/dmx/bundle-deploy
       - ./dmx/test-ci/plugins:/opt/dmx/plugins:ro
       - ./dmx/test-ci/conf.d:/opt/dmx/conf.d:ro
       - dmx-db:/opt/dmx/dmx-db
       - dmx-filedir:/opt/dmx/dmx-filedir
+      - dmx-logs:/opt/dmx/logs
+      - dmx-conf:/opt/dmx/conf
+      - dmx-bundle-deploy:/opt/dmx/bundle-deploy
     ports:
       - "${DMX_PORT}:8080"
 
@@ -65,6 +71,7 @@ services:
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd:latest
     volumes:
-      - ./instance/test-ci/logs:/home/static/logs:ro
+      #- ./instance/test-ci/logs:/home/static/logs:ro
+      - dmx-logs:/home/static/logs:ro
     ports:
       - "${LOGS_PORT}:3000"

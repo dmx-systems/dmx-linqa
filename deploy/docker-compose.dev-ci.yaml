@@ -1,6 +1,7 @@
 version: "3.8"
 
-#volumes:
+volumes:
+  dmx-logs:
 #  # dmx-db:
 #  ldap-cfg:
 #  ldap-db:
@@ -30,6 +31,7 @@ services:
       #- ./instance/dev-ci/db:/opt/dmx/dmx-db
       #- ./instance/dev-ci/filedir:/opt/dmx/dmx-filedir
       #- ./instance/dev-ci/bundle-deploy:/opt/dmx/bundle-deploy
+      - dmx-logs:/opt/dmx/logs
       - ./dmx/dev-ci/plugins:/opt/dmx/plugins:ro
       - ./dmx/dev-ci/conf.d:/opt/dmx/conf.d:ro
     ports:
@@ -63,6 +65,6 @@ services:
     restart: unless-stopped
     image: container-registry.dmx.systems/dmx-intern/docker-images/busybox-httpd:latest
     volumes:
-      - ./instance/dev-ci/logs:/home/static/logs:ro
+      - dmx-logs:/home/static/logs:ro
     ports:
       - "${LOGS_PORT}:3000"

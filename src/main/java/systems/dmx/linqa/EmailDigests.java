@@ -31,6 +31,8 @@ class EmailDigests {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
+    static final String DIGEST_EMAIL_SUBJECT = System.getProperty("dmx.linqa.digest_email_subject", "Linqa Platform");
+
     static final long MILLISECS_PER_DAY = 1000 * 60 * 60 * 24;
 
     // static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy HH:mm:ss z");
@@ -89,7 +91,7 @@ class EmailDigests {
                 .collect(Collectors.groupingBy(this::workspace))
                 .forEach((workspaceId, comments) -> {
                     String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
-                    String subject = "[Linqa Platform] " + workspace;
+                    String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
                     StringBuilder message = new StringBuilder();
                     logger.info("### Sending email digest for workspace \"" + workspace + "\" (" + comments.size() +
                         " comments)");

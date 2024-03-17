@@ -69,6 +69,7 @@
   "action.edit": "Edit",
   "action.lock": "Lock",
   "action.unlock": "Unlock",
+  "action.duplicate": "Duplicate",
   "action.delete": "Delete",
   "action.delete_many": "Delete ${} objects",
   "action.download": "Download",

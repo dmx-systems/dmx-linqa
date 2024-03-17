@@ -69,6 +69,7 @@
   "action.edit": "Éditer",
   "action.lock": "Verrouiller",
   "action.unlock": "Déverrouiller",
+  "action.duplicate": "Dupliquer",
   "action.delete": "Supprimer",
   "action.delete_many": "Supprimer ${} objets",
   "action.download": "Télécharger",

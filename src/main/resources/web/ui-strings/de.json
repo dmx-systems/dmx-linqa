@@ -69,6 +69,7 @@
   "action.edit": "Ändern",
   "action.lock": "Verriegeln",
   "action.unlock": "Entriegeln",
+  "action.duplicate": "Duplizieren",
   "action.delete": "Löschen",
   "action.delete_many": "${} Objekte löschen",
   "action.download": "Download",

@@ -551,6 +551,16 @@ const actions = {
     })
   },
 
+  duplicate ({dispatch}, topic) {
+    const dup = topic.clone()
+    const grid2 = 2 * lq.CANVAS_GRID
+    dup.viewProps['dmx.topicmaps.x'] += grid2
+    dup.viewProps['dmx.topicmaps.y'] += grid2
+    dmx.rpc.createTopic(dup).then(_topic => {
+      addTopicToTopicmap(dup, _topic, dispatch)
+    })
+  },
+
   delete ({dispatch}, topic) {
     dispatch('select', topic)     // programmatic selection
     lq.confirmDeletion().then(() => {

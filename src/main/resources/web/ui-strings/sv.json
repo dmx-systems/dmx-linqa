@@ -69,7 +69,7 @@
   "action.edit": "Redigera",
   "action.lock": "Låsa",
   "action.unlock": "Öppna",
-  "action.duplicate": "Duplicate",
+  "action.duplicate": "Dubblett",
   "action.delete": "Radera",
   "action.delete_many": "Radera ${} objekt",
   "action.download": "Ladda ner",

@@ -69,7 +69,7 @@
   "action.edit": "Editar",
   "action.lock": "Bloquear",
   "action.unlock": "Desbloquear",
-  "action.duplicate": "Duplicate",
+  "action.duplicate": "Duplicar",
   "action.delete": "Borrar",
   "action.delete_many": "Borrar ${} objetos",
   "action.download": "Descargar",

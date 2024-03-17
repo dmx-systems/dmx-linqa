@@ -69,7 +69,7 @@
   "action.edit": "Редагувати",
   "action.lock": "Заблокувати",
   "action.unlock": "Розблокувати",
-  "action.duplicate": "Duplicate",
+  "action.duplicate": "Дублікат",
   "action.delete": "Видалити",
   "action.delete_many": "Видалити ${} об'єктів",
   "action.download": "Завантажити",

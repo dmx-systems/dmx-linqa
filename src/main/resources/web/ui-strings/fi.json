@@ -69,7 +69,7 @@
   "action.edit": "Muokkaa",
   "action.lock": "Lukitse",
   "action.unlock": "Avaa",
-  "action.duplicate": "Duplicate",
+  "action.duplicate": "Kaksoiskappaleet",
   "action.delete": "Poista",
   "action.delete_many": "Poista ${} kohteet",
   "action.download": "Lataa",

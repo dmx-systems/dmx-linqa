@@ -8,6 +8,12 @@ export default {
       }
     },
 
+    iconStyle () {
+      return {
+        'font-size': `${20 / this.zoom}px`      // icons need to be bigger than text
+      }
+    },
+
     zoom () {
       return this.$store.state.zoom
     }

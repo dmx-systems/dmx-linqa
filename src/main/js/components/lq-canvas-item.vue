@@ -8,8 +8,9 @@
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
       <el-button v-for="action in actions" v-if="isActionAvailable(action)" type="text" :style="buttonStyle"
-          :key="action.action" @click="action.handler" @mousedown.native.stop>
-        {{actionLabel(action.action)}}
+          :key="action.key" @click="action.handler" @mousedown.native.stop>
+        <i v-if="action.icon" :class="action.icon" :title="actionLabel(action)" :style="iconStyle"></i>
+        <span v-else>{{actionLabel(action)}}</span>
       </el-button>
     </div>
   </div>
@@ -47,10 +48,10 @@ export default {
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       customClass: undefined,   // Custom class (String)
       actions: [                // Actions appearing in the button panel
-        {action: 'action.edit',      handler: this.edit},
-        {action: 'action.lock',      handler: this.toggleLock},
-        {action: 'action.duplicate', handler: this.duplicate},
-        {action: 'action.delete',    handler: this.deleteItem}
+        {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
+        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
+        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
+        {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
       editEnabled: true,        // Edit button visibility (Boolean)
       resizeStyle: 'x',         // 'x'/'xy'/'none' (String)
@@ -145,12 +146,12 @@ export default {
     },
 
     isActionAvailable (action) {
-      return (this.isEditableItem || action.enabledForReadOnly) && (action.action !== 'action.edit' || this.editEnabled)
-                                                                && (action.action !== 'action.lock' || this.isLinqaAdmin)
+      return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.edit' || this.editEnabled)
+                                                                && (action.key !== 'action.lock' || this.isLinqaAdmin)
     },
 
     actionLabel (action) {
-      const key = action === 'action.lock' && this.locked ? 'action.unlock' : action
+      const key = action.key === 'action.lock' && this.locked ? 'action.unlock' : action.key
       return lq.getString(key)
     },
 

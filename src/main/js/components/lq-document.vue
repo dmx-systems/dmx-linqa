@@ -74,7 +74,8 @@ export default {
   created () {
     // console.log('lq-document', this.topic, this.topicBuffer, this.isNew)
     this.$emit('action', {
-      action: 'action.download',
+      key: 'action.download',
+      icon: 'el-icon-download',
       handler: this.download,
       enabledForReadOnly: true
     })

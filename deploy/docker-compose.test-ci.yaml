@@ -1,7 +1,8 @@
 version: "3.8"
 
 volumes:
-  dmx-filedir: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-filedir"
+
+  dmx-filedir:
     driver: local
     driver_opts:
       type: overlay2

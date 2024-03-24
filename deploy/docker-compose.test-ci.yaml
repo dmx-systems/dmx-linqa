@@ -1,13 +1,13 @@
 version: "3.8"
 
 volumes:
-  dmx-filedir:
-  dmx-db:
+  dmx-filedir: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-filedir"
+  dmx-db: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-db"
   dmx-logs:
   dmx-conf:
   dmx-bundle-deploy:
-  ldap-cfg:
-  ldap-db:
+  ldap-cfg: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/ldap-cfg"
+  ldap-db: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/ldap-db"
 
 
 services:

@@ -7,7 +7,6 @@ dmx.sendmail.greeting_subject = Sendmail successfuly started
 dmx.sendmail.greeting_message = Sendmail was successfuly started on ${TIER}.
 dmx.sendmail.greeting_html_message = <p>Sendmail was successfuly started on ${TIER}.</p>
 
-
 ## Sendmail SMTP Configuration
 dmx.sendmail.smtp_host = mailhog
 dmx.sendmail.smtp_username =

@@ -4,13 +4,13 @@ volumes:
   dmx-filedir: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-filedir"
     driver: local
     driver_opts:
-      type: none
+      type: overlay2
       o: bind
       device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-filedir"
   dmx-db: 
     driver: local
     driver_opts:
-      type: none
+      type: overlay2
       o: bind
       device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-db"
   dmx-logs:
@@ -19,13 +19,13 @@ volumes:
   ldap-cfg: 
     driver: local
     driver_opts:
-      type: none
+      type: overlay2
       o: bind
       device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/ldap-cfg"
   ldap-db:
     driver: local
     driver_opts:
-      type: none
+      type: overlay2
       o: bind
       device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/ldap-db"
 

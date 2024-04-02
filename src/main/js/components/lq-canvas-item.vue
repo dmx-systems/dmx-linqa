@@ -47,7 +47,7 @@ export default {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       customClass: undefined,   // Custom class (String)
-      actions: [                // Actions appearing in the button panel
+      actions: [                // Actions appearing in the item toolbar
         {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
         {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
@@ -204,7 +204,7 @@ export default {
   z-index: 2 !important;
 }
 
-.lq-canvas-item.selected {                  /* Place the selected item (including button panel) in front */
+.lq-canvas-item.selected {                  /* Place the selected item (including item toolbar) in front */
   z-index: 3 !important;
 }
 

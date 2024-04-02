@@ -58,6 +58,7 @@
   "label.new_password": "Новий пароль для ${}",
   "label.color": "Колір",
   "label.search": "Пошук",
+  "label.multi_select": "${} об'єктів",
   "label.of": "з",
   "label.warning": "Попередження",
 

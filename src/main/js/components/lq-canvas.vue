@@ -32,8 +32,9 @@
       </vue-moveable>
       <div class="group-toolbar" v-show="isMultiSelection && groupHover && editable" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
-        <el-button type="text" :style="buttonStyle" @click="deleteMany" @mousedown.native.stop>
-          <lq-string :value="deleteCount">action.delete_many</lq-string>
+        <lq-string :value="deleteCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
+        <el-button v-for="action in groupActions" type="text" :title="actionLabel(action)" :icon="action.icon"
+          :style="iconStyle" :key="action.key" @click="action.handler" @mousedown.native.stop>
         </el-button>
       </div>
     </div>
@@ -87,7 +88,12 @@ export default {
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
       groupToolbarPos: {x: 0, y: 0},    // object with x/y props
-      groupHover: false                 // true while group is hovered
+      groupHover: false,                // true while group is hovered
+      groupActions: [                   // Actions appearing in the group toolbar
+        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLockMulti},
+        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicateMulti},
+        {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteMulti}
+      ]
     }
   },
 
@@ -127,7 +133,7 @@ export default {
     },
 
     deleteCount () {
-      return this.selection.filter(this.deleteManyFilter).length
+      return this.selection.filter(this.deleteMultiFilter).length
     },
 
     editableSelection () {
@@ -318,11 +324,25 @@ export default {
       })
     },
 
-    deleteMany () {
-      this.$store.dispatch('deleteMany', this.selection.filter(this.deleteManyFilter).map(topic => topic.id))
+    actionLabel (action) {
+      // TODO: this.locked is undefined
+      const key = action.key === 'action.lock' && this.locked ? 'action.unlock' : action.key
+      return lq.getString(key)
     },
 
-    deleteManyFilter (topic) {
+    toggleLockMulti () {
+      // this.$store.dispatch('toggleLock', this.topic)   // TODO
+    },
+
+    duplicateMulti () {
+      // this.$store.dispatch('duplicate', this.topic)    // TODO
+    },
+
+    deleteMulti () {
+      this.$store.dispatch('deleteMulti', this.selection.filter(this.deleteMultiFilter).map(topic => topic.id))
+    },
+
+    deleteMultiFilter (topic) {
       return this.config('deleteEnabled', topic) && (this.isLinqaAdmin || !topic.children['linqa.locked']?.value)
     },
 
@@ -558,6 +578,10 @@ function newSynId () {
   position: absolute;
   padding-top: 4px;
   padding-bottom: 12px;
+}
+
+.lq-canvas .content-layer .group-toolbar > .lq-string {
+  margin-right: 8px;
 }
 
 .lq-canvas .content-layer .moveable-control-box[data-able-draggable] .moveable-area {

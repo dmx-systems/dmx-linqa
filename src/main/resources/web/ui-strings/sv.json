@@ -58,6 +58,7 @@
   "label.new_password": "Nytt lösenord för ${}",
   "label.color": "Färg",
   "label.search": "Sök",
+  "label.multi_select": "${} objekt",
   "label.of": "av",
   "label.warning": "Varning",
 

@@ -58,6 +58,7 @@
   "label.new_password": "Uusi salasana ${}",
   "label.color": "Väri",
   "label.search": "Hae",
+  "label.multi_select": "${} kohteet",
   "label.of": "-",
   "label.warning": "Varoitus",
 

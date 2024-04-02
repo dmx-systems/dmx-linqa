@@ -58,6 +58,7 @@
   "label.new_password": "Nueva contraseña para ${}",
   "label.color": "Color",
   "label.search": "Buscar",
+  "label.multi_select": "${} objetos",
   "label.of": "de",
   "label.warning": "Alerta",
 

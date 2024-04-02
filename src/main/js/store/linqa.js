@@ -570,7 +570,7 @@ const actions = {
     }).catch(() => {})            // suppress unhandled rejection on cancel
   },
 
-  deleteMany ({dispatch}, topicIds) {
+  deleteMulti ({dispatch}, topicIds) {
     lq.confirmDeletion('warning.delete_many', topicIds.length).then(() => {
       dispatch('deselect')
       topicIds.forEach(id => {                        // update client state

@@ -18,11 +18,6 @@ maven-build:
     paths:
       - target
     name: ${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'master'
-    - if: $CI_COMMIT_BRANCH == 'main'
-    - if: $CI_COMMIT_TAG != null
 
 # 2) Run SonarQube Tests
 sonarqube-check:
@@ -42,13 +37,8 @@ sonarqube-check:
   script:
     - mvn -Pcoverage verify sonar:sonar -Dsonar.host.url=https://sonar.dmx.systems -Dsonar.projectKey=${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}_${SONAR_PROJECT_KEY}
   allow_failure: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'master'
-    - if: $CI_COMMIT_BRANCH == 'main'
-    - if: $CI_COMMIT_TAG != null
 
-# 3) Copies SNAPSHOT builds on 'main' and 'dm4' branch into download.dmx.systems/ci/ directory
+# 3) Copies SNAPSHOT builds on 'main' and 'master' branch into download.dmx.systems/ci/ directory
 publish-snapshot:
   stage: deploy
   tags:
@@ -83,9 +73,8 @@ deploy-to-gitlab-maven:
   script:
     - 'mvn -Pgitlab-maven-deployment deploy -s /usr/local/lib/ci_settings.xml'
   rules:
-    - if: $CI_PIPELINE_SOURCE != 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'master'
-    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'master' && $CI_PIPELINE_SOURCE != 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_PIPELINE_SOURCE != 'merge_request_event'
 
 # 6) Install in docker-container
 install-in-container:
@@ -97,9 +86,8 @@ install-in-container:
   script:
     - ci-deploy-docker-instances.sh
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'master' && $CI_COMMIT_TAG == null
-    - if: $CI_COMMIT_BRANCH == 'main' && $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == 'master' && $CI_PIPELINE_SOURCE != 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_PIPELINE_SOURCE != 'merge_request_event'
 
 # 7) Install and reset test instance
 reset-linqa-test:
@@ -110,10 +98,10 @@ reset-linqa-test:
   variables:
     TIER: 'test'
   script:
-    - ci-deploy-docker-instances.sh
+    - ci-deploy-docker-instances.sh reset
   rules:
-    - if: $CI_COMMIT_BRANCH == 'master' && $CI_COMMIT_TAG == null
-    - if: $CI_COMMIT_BRANCH == 'main' && $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == 'master' && $CI_PIPELINE_SOURCE != 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_PIPELINE_SOURCE != 'merge_request_event'
 
 # 8) Re-install test instance without reset
 persist-linqa-test:
@@ -126,5 +114,5 @@ persist-linqa-test:
   script:
     - ci-deploy-docker-instances.sh persist
   rules:
-    - if: $CI_COMMIT_BRANCH == 'master' && $CI_COMMIT_TAG == null
-    - if: $CI_COMMIT_BRANCH == 'main' && $CI_COMMIT_TAG == null
+    - if: $CI_COMMIT_BRANCH == 'master' && $CI_PIPELINE_SOURCE != 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_PIPELINE_SOURCE != 'merge_request_event'

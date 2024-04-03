@@ -32,7 +32,7 @@
       </vue-moveable>
       <div class="group-toolbar" v-show="isMultiSelection && groupHover && editable" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
-        <lq-string :value="deleteCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
+        <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
         <el-button v-for="action in groupActions" type="text" :title="actionLabel(action)" :icon="action.icon"
           :style="iconStyle" :key="action.key" @click="action.handler" @mousedown.native.stop>
         </el-button>
@@ -69,7 +69,7 @@ export default {
   data () {
     return {
       DEFAULT: {
-        deleteEnabled: true,
+        multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
         resizeStyle: 'x',
         rotateEnabled: true,
         moveHandler: this.moveHandler
@@ -81,23 +81,30 @@ export default {
           moveHandler: this.arrowMoveHandler
         },
         'linqa.viewport': {
-          deleteEnabled: false,
+          multiEnabled: false,
           resizeStyle: 'none',
           rotateEnabled: false
         }
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
       groupToolbarPos: {x: 0, y: 0},    // object with x/y props
-      groupHover: false,                // true while group is hovered
-      groupActions: [                   // Actions appearing in the group toolbar
-        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLockMulti},
-        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicateMulti},
-        {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteMulti}
-      ]
+      groupHover: false                 // true while group is hovered
     }
   },
 
   computed: {
+
+    // actions appearing in the group toolbar
+    groupActions () {
+      return [
+        {key: 'action.lock_multi',      value: this.writableCount, icon: 'el-icon-lock',
+                                                                   handler: this.toggleLockMulti},
+        {key: 'action.duplicate_multi', value: this.readableCount, icon: 'el-icon-document-copy',
+                                                                   handler: this.duplicateMulti},
+        {key: 'action.delete_multi',    value: this.writableCount, icon: 'el-icon-delete-solid',
+                                                                   handler: this.deleteMulti}
+      ]
+    },
 
     style () {
       return {
@@ -132,8 +139,16 @@ export default {
       return this.selection.map(topic => document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`))
     },
 
-    deleteCount () {
-      return this.selection.filter(this.deleteMultiFilter).length
+    objectCount () {
+      return this.selection.length
+    },
+
+    writableCount () {
+      return this.selection.filter(this.writableTopicFilter).length
+    },
+
+    readableCount () {
+      return this.selection.filter(this.readableTopicFilter).length
     },
 
     editableSelection () {
@@ -326,8 +341,8 @@ export default {
 
     actionLabel (action) {
       // TODO: this.locked is undefined
-      const key = action.key === 'action.lock' && this.locked ? 'action.unlock' : action.key
-      return lq.getString(key)
+      const key = action.key === 'action.lock_multi' && this.locked ? 'action.unlock_multi' : action.key
+      return lq.getString(key, action.value)
     },
 
     toggleLockMulti () {
@@ -339,11 +354,15 @@ export default {
     },
 
     deleteMulti () {
-      this.$store.dispatch('deleteMulti', this.selection.filter(this.deleteMultiFilter).map(topic => topic.id))
+      this.$store.dispatch('deleteMulti', this.selection.filter(this.writableTopicFilter).map(topic => topic.id))
     },
 
-    deleteMultiFilter (topic) {
-      return this.config('deleteEnabled', topic) && (this.isLinqaAdmin || !topic.children['linqa.locked']?.value)
+    writableTopicFilter (topic) {
+      return this.config('multiEnabled', topic) && (this.isLinqaAdmin || !topic.children['linqa.locked']?.value)
+    },
+
+    readableTopicFilter (topic) {
+      return this.config('multiEnabled', topic)
     },
 
     transitionend () {

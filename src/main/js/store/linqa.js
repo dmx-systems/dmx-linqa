@@ -551,6 +551,10 @@ const actions = {
     })
   },
 
+  toggleLockMulti (_, {locked, topicIds}) {
+    // TODO
+  },
+
   duplicate ({dispatch}, topic) {
     const dup = topic.clone()
     const grid2 = 2 * lq.CANVAS_GRID
@@ -571,7 +575,7 @@ const actions = {
   },
 
   deleteMulti ({dispatch}, topicIds) {
-    lq.confirmDeletion('warning.delete_many', topicIds.length).then(() => {
+    lq.confirmDeletion('warning.delete_multi', topicIds.length).then(() => {
       dispatch('deselect')
       topicIds.forEach(id => {                        // update client state
         state.topicmap.removeTopic(id)

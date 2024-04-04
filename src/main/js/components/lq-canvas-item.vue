@@ -9,7 +9,7 @@
     <div class="item-toolbar" v-if="infoMode">
       <el-button v-for="action in actions" v-if="isActionAvailable(action)" type="text" :style="buttonStyle"
           :key="action.key" @click="action.handler" @mousedown.native.stop>
-        <i v-if="action.icon" :class="action.icon" :title="actionLabel(action)" :style="iconStyle"></i>
+        <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
         <span v-else>{{actionLabel(action)}}</span>
       </el-button>
     </div>
@@ -148,14 +148,22 @@ export default {
       }
     },
 
+    // TODO: refactor, attach logic to action instead
     isActionAvailable (action) {
       return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.edit' || this.editEnabled)
                                                                 && (action.key !== 'action.lock' || this.isLinqaAdmin)
     },
 
+    // TODO: refactor, attach logic to action instead
     actionLabel (action) {
       const key = action.key === 'action.lock' && this.locked ? 'action.unlock' : action.key
       return lq.getString(key)
+    },
+
+    // TODO: refactor, attach logic to action instead
+    actionIcon (action) {
+      const icon = action.key === 'action.lock' && this.locked ? 'el-icon-unlock' : action.icon
+      return icon
     },
 
     setCustomClass (classname) {

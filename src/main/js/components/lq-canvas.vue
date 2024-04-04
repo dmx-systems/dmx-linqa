@@ -34,7 +34,7 @@
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
         <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
-          :title="actionLabel(action)" :icon="action.icon" :style="iconStyle" :key="action.key"
+          :title="actionLabel(action)" :icon="actionIcon(action)" :style="iconStyle" :key="action.key"
           @click="action.handler" @mousedown.native.stop>
         </el-button>
       </div>
@@ -99,7 +99,7 @@ export default {
       return [{
         key: 'action.lock_multi', value: this.writableCount,
         icon: 'el-icon-lock', handler: this.toggleLockMulti,
-        only: this.isLinqaAdmin   // lock/unlock action is available only for admins
+        only: this.isLinqaAdmin         // lock/unlock action is available only for admins
       }, {
         key: 'action.duplicate_multi', value: this.readableCount,
         icon: 'el-icon-document-copy', handler: this.duplicateMulti
@@ -152,6 +152,13 @@ export default {
 
     readableCount () {
       return this.selection.filter(this.readableTopicFilter).length
+    },
+
+    isSelectionLocked () {
+      const topic = this.selection.find(topic => this.config('multiEnabled', topic))  // take 1st best topic as a sample
+      // TODO: more elaborate calculation, are more topics locked or unlocked?
+      const locked = topic?.children['linqa.locked']?.value
+      return locked
     },
 
     editableSelection () {
@@ -347,15 +354,18 @@ export default {
     },
 
     actionLabel (action) {
-      // TODO: this.locked is undefined
-      const key = action.key === 'action.lock_multi' && this.locked ? 'action.unlock_multi' : action.key
+      const key = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'action.unlock_multi' : action.key
       return lq.getString(key, action.value)
     },
 
+    actionIcon (action) {
+      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'el-icon-unlock' : action.icon
+      return icon
+    },
+
     toggleLockMulti () {
-      const topic = this.selection[0]       // take 1st topic as a sample
       this.$store.dispatch('setLockedMulti', {
-        locked: !topic.children['linqa.locked']?.value,
+        locked: !this.isSelectionLocked,
         topics: this.selection.filter(this.writableTopicFilter)
       })
     },

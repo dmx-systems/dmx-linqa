@@ -33,8 +33,9 @@
       <div class="group-toolbar" v-show="isMultiSelection && groupHover && editable" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
-        <el-button v-for="action in groupActions" type="text" :title="actionLabel(action)" :icon="action.icon"
-          :style="iconStyle" :key="action.key" @click="action.handler" @mousedown.native.stop>
+        <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
+          :title="actionLabel(action)" :icon="action.icon" :style="iconStyle" :key="action.key"
+          @click="action.handler" @mousedown.native.stop>
         </el-button>
       </div>
     </div>
@@ -95,14 +96,17 @@ export default {
   computed: {
 
     groupActions () {
-      return [
-        {key: 'action.lock_multi',      value: this.writableCount, icon: 'el-icon-lock',
-                                                                   handler: this.toggleLockMulti},
-        {key: 'action.duplicate_multi', value: this.readableCount, icon: 'el-icon-document-copy',
-                                                                   handler: this.duplicateMulti},
-        {key: 'action.delete_multi',    value: this.writableCount, icon: 'el-icon-delete-solid',
-                                                                   handler: this.deleteMulti}
-      ]
+      return [{
+        key: 'action.lock_multi', value: this.writableCount,
+        icon: 'el-icon-lock', handler: this.toggleLockMulti,
+        only: this.isLinqaAdmin   // lock/unlock action is available only for admins
+      }, {
+        key: 'action.duplicate_multi', value: this.readableCount,
+        icon: 'el-icon-document-copy', handler: this.duplicateMulti
+      }, {
+        key: 'action.delete_multi', value: this.writableCount,
+        icon: 'el-icon-delete-solid', handler: this.deleteMulti
+      }]
     },
 
     style () {
@@ -336,6 +340,10 @@ export default {
         zoom,
         transition
       })
+    },
+
+    isActionAvailable (action) {
+      return action.only !== undefined ? action.only : true
     },
 
     actionLabel (action) {

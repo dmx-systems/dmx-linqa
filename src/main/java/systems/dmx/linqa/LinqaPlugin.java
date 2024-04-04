@@ -463,6 +463,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @PUT
+    @Path("/locked/{locked}/{topicIds}")
+    @Transactional
+    @Override
+    public void setLockedMulti(@PathParam("locked") boolean locked, @PathParam("topicIds") IdList topicIds) {
+        topicIds.stream().forEach(topicId -> {
+            dmx.updateTopic(mf.newTopicModel(topicId, mf.newChildTopicsModel().set(LOCKED, locked)));
+        });
+    }
+
+    @PUT
     @Path("/user_profile")
     @Transactional
     @Override

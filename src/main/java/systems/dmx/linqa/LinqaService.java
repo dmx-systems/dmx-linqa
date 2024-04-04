@@ -63,6 +63,8 @@ public interface LinqaService {
      */
     Translation translate(String text, String targetLang);
 
+    void setLockedMulti(boolean locked, IdList topicIds);
+
     /**
      * Updates the profile of the current user.
      */

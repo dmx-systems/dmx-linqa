@@ -535,24 +535,17 @@ const actions = {
     state.isEditActive.push(topic.id)
   },
 
-  toggleLock (_, topic) {
+  setLockedMulti (_, {locked, topics}) {
     // update client state
-    if (!topic.children['linqa.locked']) {
-      Vue.set(topic.children, 'linqa.locked', {})
-    }
-    const locked = !topic.children['linqa.locked'].value
-    Vue.set(topic.children['linqa.locked'], 'value', locked)
-    // update server state
-    dmx.rpc.updateTopic({
-      id: topic.id,
-      children: {
-        'linqa.locked': locked
+    const topicIds = topics.map(topic => {
+      if (!topic.children['linqa.locked']) {
+        Vue.set(topic.children, 'linqa.locked', {})
       }
+      Vue.set(topic.children['linqa.locked'], 'value', locked)
+      return topic.id
     })
-  },
-
-  toggleLockMulti (_, {locked, topicIds}) {
-    // TODO
+    // update server state
+    http.put(`/linqa/locked/${locked}/${topicIds}`)
   },
 
   duplicate ({dispatch}, topic) {

@@ -119,7 +119,7 @@ function getString (key, value) {
   const _str = store.state.uiStrings[store.state.lang]
   if (_str) {       // UI strings might not yet be loaded
     const str = _str[key]
-    return value ? substitute(str, value) : str
+    return value !== undefined ? substitute(str, value) : str
   }
 }
 

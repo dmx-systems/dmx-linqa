@@ -94,7 +94,6 @@ export default {
 
   computed: {
 
-    // actions appearing in the group toolbar
     groupActions () {
       return [
         {key: 'action.lock_multi',      value: this.writableCount, icon: 'el-icon-lock',
@@ -346,7 +345,11 @@ export default {
     },
 
     toggleLockMulti () {
-      // this.$store.dispatch('toggleLock', this.topic)   // TODO
+      const topic = this.selection[0]       // take 1st topic as a sample
+      this.$store.dispatch('setLockedMulti', {
+        locked: !topic.children['linqa.locked']?.value,
+        topics: this.selection.filter(this.writableTopicFilter)
+      })
     },
 
     duplicateMulti () {
@@ -357,12 +360,12 @@ export default {
       this.$store.dispatch('deleteMulti', this.selection.filter(this.writableTopicFilter).map(topic => topic.id))
     },
 
-    writableTopicFilter (topic) {
-      return this.config('multiEnabled', topic) && (this.isLinqaAdmin || !topic.children['linqa.locked']?.value)
-    },
-
     readableTopicFilter (topic) {
       return this.config('multiEnabled', topic)
+    },
+
+    writableTopicFilter (topic) {
+      return this.config('multiEnabled', topic) && (this.isLinqaAdmin || !topic.children['linqa.locked']?.value)
     },
 
     transitionend () {

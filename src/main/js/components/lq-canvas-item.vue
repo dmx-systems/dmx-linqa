@@ -124,7 +124,10 @@ export default {
     },
 
     toggleLock () {
-      this.$store.dispatch('toggleLock', this.topic)
+      this.$store.dispatch('setLockedMulti', {
+        locked: !this.topic.children['linqa.locked']?.value,
+        topics: [this.topic]
+      })
     },
 
     duplicate () {

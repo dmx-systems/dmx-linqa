@@ -153,5 +153,15 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>coverage</id>
+            <properties>
+                <sonar.sources>src/main/java,src/main/js,src/main/resources</sonar.sources>
+                <!-- TODO: there are actually no tests yet -->
+                <sonar.tests>src/test/java,src/test/js</sonar.tests>
+                <!-- TODO: JavaScript coverage needs some tool support (-> jest) -->
+                <sonar.javascript.lcov.reportPaths>coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+            </properties>
+        </profile>
     </profiles>
 </project>

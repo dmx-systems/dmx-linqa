@@ -161,21 +161,21 @@ export default {
       return locked
     },
 
-    editableSelection () {
+    isSelectionEditable () {
       return this.isLinqaAdmin || this.isEditor &&
         this.selection.every(topic => !topic.children['linqa.locked']?.value)
     },
 
     draggable () {
-      return this.editableSelection
+      return this.isSelectionEditable
     },
 
     resizable () {
-      return this.editableSelection && this.resizeStyle !== 'none'
+      return this.isSelectionEditable && this.resizeStyle !== 'none'
     },
 
     rotatable () {
-      return this.editableSelection && this.rotateEnabled
+      return this.isSelectionEditable && this.rotateEnabled
     },
 
     resizeStyle () {

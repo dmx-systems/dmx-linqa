@@ -125,7 +125,7 @@ export default {
 
     toggleLock () {
       this.$store.dispatch('setLockedMulti', {
-        locked: !this.topic.children['linqa.locked']?.value,
+        locked: !this.locked,
         topics: [this.topic]
       })
     },

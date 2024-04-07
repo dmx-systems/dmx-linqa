@@ -548,13 +548,28 @@ const actions = {
     http.put(`/linqa/locked/${locked}/${topicIds}`)
   },
 
-  duplicate ({dispatch}, topic) {
+  duplicate ({dispatch}, topic) {     // TODO: drop it, always dispatch "duplicateMulti"
     const dup = topic.clone()
     const grid2 = 2 * lq.CANVAS_GRID
     dup.viewProps['dmx.topicmaps.x'] += grid2
     dup.viewProps['dmx.topicmaps.y'] += grid2
     dmx.rpc.createTopic(dup).then(_topic => {
       addTopicToTopicmap(dup, _topic, dispatch)
+    })
+  },
+
+  duplicateMulti ({dispatch}, topicIds) {
+    // update server state
+    http.post(`/linqa/duplicate/${topicIds}`, undefined, {
+      params: {xyOffset: 2 * lq.CANVAS_GRID}
+    }).then(response => {
+      // update client state
+      response.data.forEach(viewTopic => {
+        state.topicmap.addTopic(new dmx.ViewTopic(viewTopic))
+      })
+      // Vue.nextTick(() => {
+      //   dispatch('select', viewTopic)     // programmatic selection    // TODO
+      // })
     })
   },
 

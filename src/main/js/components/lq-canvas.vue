@@ -371,7 +371,7 @@ export default {
     },
 
     duplicateMulti () {
-      // this.$store.dispatch('duplicate', this.topic)    // TODO
+      this.$store.dispatch('duplicateMulti', this.selection.filter(this.readableTopicFilter).map(topic => topic.id))
     },
 
     deleteMulti () {

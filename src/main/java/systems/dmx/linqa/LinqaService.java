@@ -2,6 +2,7 @@ package systems.dmx.linqa;
 
 import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
+import systems.dmx.core.model.topicmaps.ViewTopic;
 import systems.dmx.core.util.IdList;
 import systems.dmx.deepl.Translation;
 import systems.dmx.files.StoredFile;
@@ -62,6 +63,8 @@ public interface LinqaService {
      *                                  Supported languages are "lang1" and "lang2".
      */
     Translation translate(String text, String targetLang);
+
+    List<ViewTopic> duplicateMulti(IdList topicIds, int xyOffset);
 
     void setLockedMulti(boolean locked, IdList topicIds);
 

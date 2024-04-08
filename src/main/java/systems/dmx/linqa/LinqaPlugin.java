@@ -236,17 +236,15 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void customizeTopic(RelatedTopic topic, ViewProps viewProps) {
-        String typeUri = topic.getTypeUri();
-        fetchLinqaViewProps(typeUri, topic.getRelatingAssoc(), viewProps);
-        // Note: we store the color not as a view prop but in the topic model (as a synthetic child value)
-        // because textblocks are rendered not only on canvas, but also in discussion panel, namely as colored
-        // textblock-refs. In contrast for notes view props could be used, but we want handle color uniformly.
-        if (typeUri.equals(LINQA_NOTE) || typeUri.equals(TEXTBLOCK)) {
-            String color = viewProps.getString(LINQA_COLOR);
-            if (color != null) {   // Color is an optional view prop
-                topic.getChildTopics().getModel().set(LINQA_COLOR, color);
-            }
-        }
+        fetchLinqaViewProps(topic.getTypeUri(), topic.getRelatingAssoc(), viewProps);
+        // Note: when transporting a topic's "color" information to the frontend we can't use view props. The frontend
+        // renders Textblocks not only on canvas but also in discussion panel, namely as colored textblock-refs. There
+        // we have Topics, not ViewTopics, so there are no view props. The solution is to transport "color" as a
+        // synthetic child value (in the topic model) instead.
+        // Despite not strictly needed we do the same for Notes because the frontend handles the color aspect (e.g.
+        // the color selector) of both, Notes and Textblocks, uniformly by a common Vue.js mixin
+        // (see src/main/js/components/mixins/color.js)
+        enrichWithColor(topic, viewProps);
     }
 
     // LinqaService
@@ -471,6 +469,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             Assoc assoc = tms.getTopicMapcontext(topicmapId, topicId);
             ViewProps viewProps = tms.getTopicViewProps(topicmapId, topicId);
             fetchLinqaViewProps(topic.getTypeUri(), assoc, viewProps);
+            enrichWithColor(dupTopic, viewProps);
             viewProps.set(X, viewProps.getInt(X) + xyOffset);
             viewProps.set(Y, viewProps.getInt(Y) + xyOffset);
             // 3) add to topicmap
@@ -766,11 +765,26 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
+    /**
+     * Enriches the given topic by "color" information.
+     * The "color" information is read from DB, from current topicmap (based on topicmap cookie).
+     */
     private void enrichWithColor(Topic topic) {
         Assoc assoc = tms.getTopicMapcontext(topicmapId(), topic.getId());
         // Note: assoc can be null if requested by non-Linqa application e.g. DMX Webclient
         if (assoc != null && assoc.hasProperty(LINQA_COLOR)) {      // Color is an optional view prop
             topic.getChildTopics().getModel().set(LINQA_COLOR, assoc.getProperty(LINQA_COLOR));
+        }
+    }
+
+    /**
+     * Enriches the given topic by "color" information.
+     * The "color" information is taken from given view props.
+     */
+    private void enrichWithColor(Topic topic, ViewProps viewProps) {
+        String color = viewProps.getString(LINQA_COLOR);
+        if (color != null) {   // Color is an optional view prop
+            topic.getChildTopics().getModel().set(LINQA_COLOR, color);
         }
     }
 

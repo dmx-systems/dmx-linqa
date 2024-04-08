@@ -97,12 +97,12 @@ export default {
 
     groupActions () {
       return [{
+        key: 'action.duplicate_multi', value: this.readableCount,
+        icon: 'el-icon-document-copy', handler: this.duplicateMulti
+      }, {
         key: 'action.lock_multi', value: this.writableCount,
         icon: 'el-icon-lock', handler: this.toggleLockMulti,
         only: this.isLinqaAdmin         // lock/unlock action is available only for admins
-      }, {
-        key: 'action.duplicate_multi', value: this.readableCount,
-        icon: 'el-icon-document-copy', handler: this.duplicateMulti
       }, {
         key: 'action.delete_multi', value: this.writableCount,
         icon: 'el-icon-delete-solid', handler: this.deleteMulti
@@ -146,12 +146,12 @@ export default {
       return this.selection.length
     },
 
-    writableCount () {
-      return this.selection.filter(this.writableTopicFilter).length
-    },
-
     readableCount () {
       return this.selection.filter(this.readableTopicFilter).length
+    },
+
+    writableCount () {
+      return this.selection.filter(this.writableTopicFilter).length
     },
 
     isSelectionLocked () {
@@ -363,15 +363,15 @@ export default {
       return icon
     },
 
+    duplicateMulti () {
+      this.$store.dispatch('duplicateMulti', this.selection.filter(this.readableTopicFilter).map(topic => topic.id))
+    },
+
     toggleLockMulti () {
       this.$store.dispatch('setLockedMulti', {
         locked: !this.isSelectionLocked,
         topics: this.selection.filter(this.writableTopicFilter)
       })
-    },
-
-    duplicateMulti () {
-      this.$store.dispatch('duplicateMulti', this.selection.filter(this.readableTopicFilter).map(topic => topic.id))
     },
 
     deleteMulti () {

@@ -49,8 +49,8 @@ export default {
       customClass: undefined,   // Custom class (String)
       actions: [                // Actions appearing in the item toolbar
         {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
-        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
+        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
       editEnabled: true,        // Edit button visibility (Boolean)
@@ -123,15 +123,15 @@ export default {
       this.$store.dispatch('edit', this.topic)
     },
 
+    duplicate () {
+      this.$store.dispatch('duplicateMulti', [this.topic.id])
+    },
+
     toggleLock () {
       this.$store.dispatch('setLockedMulti', {
         locked: !this.locked,
         topics: [this.topic]
       })
-    },
-
-    duplicate () {
-      this.$store.dispatch('duplicateMulti', [this.topic.id])
     },
 
     // Note: can't be named "delete"

@@ -540,19 +540,6 @@ const actions = {
     state.isEditActive.push(topic.id)
   },
 
-  setLockedMulti (_, {locked, topics}) {
-    // update client state
-    const topicIds = topics.map(topic => {
-      if (!topic.children['linqa.locked']) {
-        Vue.set(topic.children, 'linqa.locked', {})
-      }
-      Vue.set(topic.children['linqa.locked'], 'value', locked)
-      return topic.id
-    })
-    // update server state
-    http.put(`/linqa/locked/${locked}/${topicIds}`)
-  },
-
   duplicateMulti ({dispatch}, topicIds) {
     // update server state
     http.post(`/linqa/duplicate/${topicIds}`, undefined, {
@@ -568,6 +555,19 @@ const actions = {
         dispatch('select', viewTopics)    // programmatic selection
       })
     })
+  },
+
+  setLockedMulti (_, {locked, topics}) {
+    // update client state
+    const topicIds = topics.map(topic => {
+      if (!topic.children['linqa.locked']) {
+        Vue.set(topic.children, 'linqa.locked', {})
+      }
+      Vue.set(topic.children['linqa.locked'], 'value', locked)
+      return topic.id
+    })
+    // update server state
+    http.put(`/linqa/locked/${locked}/${topicIds}`)
   },
 
   delete ({dispatch}, topic) {

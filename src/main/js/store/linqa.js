@@ -163,16 +163,18 @@ const actions = {
   },
 
   /**
-   * Selects a topic *programmatically*.
-   * Precondition: the topic is in DOM already.
+   * Selects topics *programmatically*.
+   * Precondition: the topics are already in DOM.
    *
-   * @param   topic   a dmx.ViewTopic
+   * @param   topics    array of dmx.ViewTopic
    */
-  select ({dispatch}, topic) {
-    state.selection = [topic]
+  select ({dispatch}, topics) {
+    state.selection = topics
     // update "Selecto" component's internal selection state
-    const target = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
-    document.querySelector('.lq-canvas .selecto-selection').__vue__.setSelectedTargets([target])
+    const targets = topics.map(topic => {
+      return document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
+    })
+    document.querySelector('.lq-canvas .selecto-selection').__vue__.setSelectedTargets(targets)
   },
 
   /**
@@ -234,7 +236,7 @@ const actions = {
   },
 
   revealTopic ({dispatch}, topic) {
-    dispatch('select', topic)     // programmatic selection
+    dispatch('select', [topic])     // programmatic selection
     dispatch('setViewport', {
       pan: {
         x: -topic.pos.x * state.zoom + lq.CANVAS_BORDER,
@@ -284,12 +286,12 @@ const actions = {
     state.isDragging = false
   },
 
-  setFullscreen (_, fullscreen) {
+  setFullscreen ({dispatch}, fullscreen) {
     state.fullscreen = fullscreen
     if (!fullscreen) {
       Vue.nextTick(() => {
         document.querySelector('.lq-resizer').__vue__.resize()
-        store.dispatch('select', state.selection[0])      // sync Selecto model/view with app state
+        dispatch('select', [state.selection[0]])      // sync Selecto model/view with app state
       })
     }
   },
@@ -328,7 +330,7 @@ const actions = {
     Vue.nextTick(() => {
       // a fixed body would not adapt to window resize anymore
       document.body.classList.remove('fixed')
-      dispatch('select', topic)       // programmatic selection
+      dispatch('select', [topic])       // programmatic selection
     })
   },
 
@@ -531,7 +533,7 @@ const actions = {
   },
 
   edit ({dispatch}, topic) {
-    dispatch('select', topic)     // programmatic selection
+    dispatch('select', [topic])     // programmatic selection
     state.isEditActive.push(topic.id)
   },
 
@@ -548,38 +550,30 @@ const actions = {
     http.put(`/linqa/locked/${locked}/${topicIds}`)
   },
 
-  duplicate ({dispatch}, topic) {     // TODO: drop it, always dispatch "duplicateMulti"
-    const dup = topic.clone()
-    const grid2 = 2 * lq.CANVAS_GRID
-    dup.viewProps['dmx.topicmaps.x'] += grid2
-    dup.viewProps['dmx.topicmaps.y'] += grid2
-    dmx.rpc.createTopic(dup).then(_topic => {
-      addTopicToTopicmap(dup, _topic, dispatch)
-    })
-  },
-
   duplicateMulti ({dispatch}, topicIds) {
     // update server state
     http.post(`/linqa/duplicate/${topicIds}`, undefined, {
       params: {xyOffset: 2 * lq.CANVAS_GRID}
     }).then(response => {
       // update client state
-      response.data.forEach(viewTopic => {
-        state.topicmap.addTopic(new dmx.ViewTopic(viewTopic))
+      const viewTopics = response.data.map(viewTopic => {
+        const _viewTopic = new dmx.ViewTopic(viewTopic)
+        state.topicmap.addTopic(_viewTopic)
+        return _viewTopic
       })
-      // Vue.nextTick(() => {
-      //   dispatch('select', viewTopic)     // programmatic selection    // TODO
-      // })
+      Vue.nextTick(() => {
+        dispatch('select', viewTopics)    // programmatic selection
+      })
     })
   },
 
   delete ({dispatch}, topic) {
-    dispatch('select', topic)     // programmatic selection
+    dispatch('select', [topic])           // programmatic selection
     lq.confirmDeletion().then(() => {
       dispatch('deselect')
       state.topicmap.removeTopic(topic.id)            // update client state
       dmx.rpc.deleteTopic(topic.id)                   // update server state
-    }).catch(() => {})            // suppress unhandled rejection on cancel
+    }).catch(() => {})                    // suppress unhandled rejection on cancel
   },
 
   deleteMulti ({dispatch}, topicIds) {
@@ -589,24 +583,24 @@ const actions = {
         state.topicmap.removeTopic(id)
       })
       dmx.rpc.deleteMulti({topicIds, assocIds: []})   // update server state
-    }).catch(() => {})            // suppress unhandled rejection on cancel
+    }).catch(() => {})                    // suppress unhandled rejection on cancel
   },
 
   deleteComment (_, comment) {
     lq.confirmDeletion('warning.delete_comment').then(() => {
       removeComment(comment)                          // update client state
       dmx.rpc.deleteTopic(comment.id)                 // update server state
-    }).catch(() => {})            // suppress unhandled rejection on cancel
+    }).catch(() => {})                    // suppress unhandled rejection on cancel
   },
 
   cancel ({dispatch}, topic) {
     if (topic.id < 0) {
       // abort creation
-      removeNewTopic(topic)       // update client state
+      removeNewTopic(topic)               // update client state
       dispatch('deselect')
     } else {
       // abort update
-      removeEditActive(topic)     // update client state
+      removeEditActive(topic)             // update client state
     }
   },
 
@@ -852,7 +846,7 @@ function addTopicToTopicmap (viewTopic, topic, dispatch) {
   state.topicmap.addTopic(viewTopic)                                                // update client state
   dmx.rpc.addTopicToTopicmap(state.topicmap.id, topic.id, viewTopic.viewProps)      // update server state
   Vue.nextTick(() => {
-    dispatch('select', viewTopic)     // programmatic selection
+    dispatch('select', [viewTopic])     // programmatic selection
   })
 }
 

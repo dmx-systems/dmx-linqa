@@ -131,7 +131,7 @@ export default {
     },
 
     duplicate () {
-      this.$store.dispatch('duplicate', this.topic)
+      this.$store.dispatch('duplicateMulti', [this.topic.id])
     },
 
     // Note: can't be named "delete"

@@ -175,6 +175,9 @@ const actions = {
       return document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
     })
     document.querySelector('.lq-canvas .selecto-selection').__vue__.setSelectedTargets(targets)
+    setTimeout(() => {    // Vue.nextTick() does not work here
+      document.querySelector('.lq-canvas').__vue__.positionGroupToolbar()
+    }, 100)
   },
 
   /**

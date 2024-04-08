@@ -412,9 +412,9 @@ export default {
         addTopics: e.added.map(el => el.__vue__.topic),
         removeTopicIds: e.removed.map(el => Number(el.dataset.id))
       })
-      setTimeout(() => {
+      setTimeout(() => {    // Vue.nextTick() does not work here
         this.positionGroupToolbar()
-      }, 50)
+      }, 100)
     },
 
     onSelectEnd (e) {

@@ -394,8 +394,8 @@ const actions = {
     })
   },
 
-  // 3 update() methods, called when "OK" is pressed in a form.
-  // Both, client and server are updated and the form is closed.
+  // 3 update() methods, called when "OK" is pressed in an update form.
+  // Both, client state and server state is updated and the form is closed.
 
   /**
    * @param   topic   a dmx.ViewTopic
@@ -415,12 +415,11 @@ const actions = {
   },
 
   /**
-   * Updates a shape's view props and closes the from.
+   * Updates a shape's view props and closes the form.
    *
    * @param   topic   the topic (dmx.ViewTopic)
    */
   updateShape (_, topic) {
-    // TODO: store only selected props
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
       'linqa.shape': topic.viewProps['linqa.shape'],
       'linqa.color': topic.viewProps['linqa.color']

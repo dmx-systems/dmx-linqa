@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-shape', mode]" :style="style">
+  <div :class="['lq-shape', shape, mode]" :style="style">
     <template v-if="infoMode">
       Das ist eine Form 😊
     </template>
@@ -48,8 +48,6 @@ export default {
       required: true
     },
 
-    topicBuffer: dmx.ViewTopic,       // the edit buffer (dmx.ViewTopic)
-
     mode: {                           // 'info'/'form'
       type: String,
       default: 'info'
@@ -88,15 +86,8 @@ export default {
       this.topic.setViewProp('linqa.shape', this.selectedShape)
       this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
       this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
-      let action
-      if (this.isNew) {
-        action = 'createShape'
-      } else {
-        action = 'updateShape'
-        // transfer edit buffer to topic model
-        // TODO?
-      }
-      this.$store.dispatch(action, this.topic)
+      //
+      this.$store.dispatch(this.isNew ? 'createShape' : 'updateShape', this.topic)
     },
 
     cancelShape () {
@@ -112,6 +103,10 @@ export default {
 </script>
 
 <style>
+.lq-shape.info.ellipse {
+  border-radius: 50%;
+}
+
 .lq-shape.form {
   background-color: var(--background-color);
   padding: 12px;

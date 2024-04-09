@@ -745,23 +745,27 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     /**
      * Fetches a topic's Linqa specific view properties and stores them in the given ViewProps object.
      * These properties are fetched:
-     * - "linqa.color" (optional), applies to Notes and Textblocks
-     * - "linqa.angle" (optional), applies to Documents, Notes, Textblocks, Headings, and Arrows
-     * - "dmx.topicmaps.zoom" (mandatory), applies to Viewports
+     * - "linqa.color" (optional), used for Notes and Textblocks
+     * - "linqa.angle" (optional), used for Documents, Notes, Textblocks, Headings, and Arrows
+     * - "linqa.shape" (optional), used for Shape
+     * - "dmx.topicmaps.zoom" (mandatory), used for Viewports
      *
-     * @param   topicTypeUri    the type of the topic for which to fetch the view props
+     * @param   topicTypeUri    the type of the topic for which the view props are fetched
      * @param   assoc           the topicmap context of the topic
      * @param   viewProps       the fetched view props are stored into this ViewProps object
      */
     private void fetchLinqaViewProps(String topicTypeUri, Assoc assoc, ViewProps viewProps) {
-        if (assoc.hasProperty(ANGLE)) {         // "angle" is an optional view prop
-            viewProps.set(ANGLE, assoc.getProperty(ANGLE));
-        }
         if (assoc.hasProperty(LINQA_COLOR)) {   // "color" is an optional view prop
             viewProps.set(LINQA_COLOR, assoc.getProperty(LINQA_COLOR));
         }
-        if (topicTypeUri.equals(VIEWPORT)) {    // a viewport's "zoom" value is mandatory
-            viewProps.set(ZOOM, assoc.getProperty(ZOOM));
+        if (assoc.hasProperty(ANGLE)) {         // "angle" is an optional view prop
+            viewProps.set(ANGLE, assoc.getProperty(ANGLE));
+        }
+        if (assoc.hasProperty(SHAPE)) {         // "shape" is an optional view prop
+            viewProps.set(SHAPE, assoc.getProperty(SHAPE));
+        }
+        if (topicTypeUri.equals(VIEWPORT)) {
+            viewProps.set(ZOOM, assoc.getProperty(ZOOM));   // a viewport's "zoom" value is mandatory
         }
     }
 

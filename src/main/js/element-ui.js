@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {
-  Button, Input, Checkbox, Select, Option, Dropdown, DropdownMenu, DropdownItem, Dialog, Upload,
+  Button, Input, Checkbox, Radio, RadioGroup, Select, Option, Dropdown, DropdownMenu, DropdownItem, Dialog, Upload,
   Collapse, CollapseItem, Loading, MessageBox, Notification
 } from 'element-ui'
 import locale from 'element-ui/lib/locale'
@@ -13,6 +13,8 @@ locale.use(require('element-ui/lib/locale/lang/en').default)
 Vue.use(Button)
 Vue.use(Input)
 Vue.use(Checkbox)
+Vue.use(Radio)
+Vue.use(RadioGroup)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Dropdown)

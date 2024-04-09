@@ -9,6 +9,7 @@
         <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
         <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
         <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
+        <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- Toolbar -->
@@ -229,7 +230,7 @@ export default {
       this[command]()
     },
 
-    // 5 methods called by dropdown menu
+    // 6 methods called by dropdown menu
 
     newDocument () {
       // TODO: align it with note/heading/textblock? Possibly current model-driven approach not needed anymore
@@ -255,6 +256,10 @@ export default {
       this.$store.dispatch('createArrow', arrow)
     },
 
+    newShape () {
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.shape'))
+    },
+
     //
 
     newDocumentViewTopic () {
@@ -269,11 +274,14 @@ export default {
       return new dmx.ViewTopic({
         id: newSynId(),
         typeUri,
-        value: '',        // used as intermediate note/heading model while create
+        value: '',        // used as intermediate note/textblock/heading model while create
         viewProps: this.viewProps(typeUri)
       })
     },
 
+    /**
+     * Creates default view props, used for *all* 6 item types
+     */
     viewProps (typeUri)  {
       const x = Math.round((lq.CANVAS_BORDER - this.pan.x) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
       const y = Math.round((lq.CANVAS_BORDER - this.pan.y) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID

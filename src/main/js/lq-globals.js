@@ -162,6 +162,7 @@ function canvasFilter (topic) {
          topic.typeUri === 'linqa.textblock' ||
          topic.typeUri === 'linqa.heading'   ||
          topic.typeUri === 'linqa.arrow'     ||
+         topic.typeUri === 'linqa.shape'     ||
          topic.typeUri === 'linqa.viewport' && (store.state.isLinqaAdmin || store.state.isEditor)
 }
 

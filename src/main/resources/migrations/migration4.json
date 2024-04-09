@@ -1,0 +1,16 @@
+{
+  "topic_types": [
+    // Shape
+    {
+      "value":       "Shape",
+      "uri":         "linqa.shape",
+      "dataTypeUri": "dmx.core.entity",
+      "compDefs": [
+        {
+          "childTypeUri":        "linqa.locked",
+          "childCardinalityUri": "dmx.core.one"
+        }
+      ]
+    }
+  ]
+}

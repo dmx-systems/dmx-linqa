@@ -396,6 +396,16 @@ const actions = {
   /**
    * @param   topic   a dmx.ViewTopic
    */
+  createShape ({dispatch}, topic) {
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
+      removeNewTopic(topic)
+    })
+  },
+
+  /**
+   * @param   topic   a dmx.ViewTopic
+   */
   updateAndStoreColor ({dispatch}, topic) {
     dispatch('update', topic)
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {

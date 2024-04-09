@@ -38,7 +38,7 @@ export default {
   },
 
   updated () {
-    // this.$store.dispatch('updateControlBox')   // TODO: needed? Move to mixin?
+    this.$store.dispatch('updateControlBox')    // TODO: move to mixin?
   },
 
   props: {

@@ -29,6 +29,8 @@ export default {
   FORM_WIDTH: 384,              // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
   ARROW_LENGTH: 200,            // Should be a multiple of CANVAS_GRID
   ARROW_HEIGHT: 40,             // Should be a multiple of CANVAS_GRID
+  SHAPE_WIDTH: 200,             // Should be a multiple of CANVAS_GRID
+  SHAPE_HEIGHT: 140,            // Should be a multiple of CANVAS_GRID
 
   langSuffix,
 

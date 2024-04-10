@@ -1,9 +1,6 @@
 <template>
   <div :class="['lq-shape', shape, mode]" :style="style">
-    <template v-if="infoMode">
-      Das ist eine Form 😊
-    </template>
-    <template v-else>
+    <template v-if="formMode">
       <div class="field">
         <div class="field-label"><lq-string>item.shape</lq-string></div>
         <el-radio-group v-model="selectedShape">
@@ -33,7 +30,7 @@ export default {
   ],
 
   created () {
-    console.log('lq-shape created', this.shape)
+    this.$emit('resize-style', 'xy')
     this.selectedShape = this.shape
   },
 
@@ -103,6 +100,10 @@ export default {
 </script>
 
 <style>
+.lq-shape {
+  height: 100%;
+}
+
 .lq-shape.info.ellipse {
   border-radius: 50%;
 }

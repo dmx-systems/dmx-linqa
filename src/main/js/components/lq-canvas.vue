@@ -25,7 +25,7 @@
       <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
       <lq-canvas-item v-for="topic in newTopics" :topic="topic" mode="form" :key="topic.id"></lq-canvas-item>
       <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
-        :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="['e']"
+        :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
         @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
@@ -71,10 +71,10 @@ export default {
   data () {
     return {
       DEFAULT: {
-        multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
         resizeStyle: 'x',
         rotateEnabled: true,
-        moveHandler: this.moveHandler
+        moveHandler: this.moveHandler,
+        multiEnabled: true              // topic can be target of a multi-command (lock/unlock/duplicate/delete)
       },
       CONFIG: {
         'linqa.arrow': {
@@ -82,10 +82,13 @@ export default {
           rotateEnabled: false,
           moveHandler: this.arrowMoveHandler
         },
+        'linqa.shape': {
+          resizeStyle: 'xy',
+        },
         'linqa.viewport': {
-          multiEnabled: false,
           resizeStyle: 'none',
-          rotateEnabled: false
+          rotateEnabled: false,
+          multiEnabled: false
         }
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
@@ -167,6 +170,8 @@ export default {
         this.selection.every(topic => !topic.children['linqa.locked']?.value)
     },
 
+    // 3 vue-moveable config flags
+
     draggable () {
       return this.isSelectionEditable
     },
@@ -177,6 +182,16 @@ export default {
 
     rotatable () {
       return this.isSelectionEditable && this.rotateEnabled
+    },
+
+    //
+
+    renderDirections () {
+      return {
+        'x': ['e'],
+        'xy': ['s', 'se', 'e'],    // ['n', 'nw', 'ne', 's', 'se', 'sw', 'e', 'w']    // TODO
+        'none': false
+      }[this.resizeStyle]
     },
 
     resizeStyle () {
@@ -280,7 +295,7 @@ export default {
     },
 
     /**
-     * Creates default view props, used for *all* 6 item types
+     * Creates default view props for *all* the 6 item types
      */
     viewProps (typeUri)  {
       const x = Math.round((lq.CANVAS_BORDER - this.pan.x) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
@@ -290,7 +305,9 @@ export default {
         'dmx.topicmaps.y': y,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH : lq.FORM_WIDTH,
+        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH :
+                               typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.FORM_WIDTH,
+        'dmx.topicmaps.height': typeUri === 'linqa.shape' ? lq.SHAPE_HEIGHT : undefined,
         'linqa.angle': 0
       }
     },
@@ -434,7 +451,7 @@ export default {
       }
     },
 
-    // "Moveable" event handling
+    // 11 vue-moveable event handlers
 
     onDragStart (e) {
       const topic = this.findTopic(e.target)
@@ -487,14 +504,15 @@ export default {
     onResize (e) {
       // Note: snap-to-grid while resize is in progress did not work as expected (the mouse is no longer over the
       // component when width is changed programmatically?). Workaround is to snap only on resize-end.
-      this.setWidth(e.target, e.width)
+      this.setSize(e.target, e.width, e.height)
     },
 
     onResizeEnd ({target}) {
       // snap to grid
       const topic = this.findTopic(target)
       const width = Math.round(topic.getViewProp('dmx.topicmaps.width') / lq.CANVAS_GRID) * lq.CANVAS_GRID
-      this.setWidth(target, width)
+      const height = topic.getViewProp('dmx.topicmaps.height')    // TODO: snap if resizeStyle is 'xy'
+      this.setSize(target, width, height)
       this.$store.dispatch('storeTopicSize', topic)
     },
 
@@ -508,6 +526,8 @@ export default {
       this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
     },
 
+    //
+
     onEnter () {
       this.groupHover = true
     },
@@ -515,6 +535,8 @@ export default {
     onLeave () {
       this.groupHover = false
     },
+
+    //
 
     moveHandler (topic, dx, dy) {
       const p = this.dragStartPos[topic.id]
@@ -533,11 +555,18 @@ export default {
       }
     },
 
-    setWidth (target, width) {
+    //
+
+    setSize (target, width, height) {
       // Note: for width measurement "moveable" relies on an up-to-date *view*.
       // In contrast updating the *model* (view props) updates the view asynchronously.
-      this.findTopic(target).setViewProp('dmx.topicmaps.width', width)    // update model
-      target.style.width = `${width}px`                                   // update view
+      const topic = this.findTopic(target)
+      topic.setViewProp('dmx.topicmaps.width', width)         // update model
+      target.style.width = `${width}px`                       // update view
+      if (this.resizeStyle === 'xy') {
+        topic.setViewProp('dmx.topicmaps.height', height)       // update model
+        target.style.height = `${height}px`                     // update view
+      }
     },
 
     positionGroupToolbar () {

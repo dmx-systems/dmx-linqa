@@ -18,7 +18,6 @@ import lq from '../lq-globals'
 export default {
 
   created () {
-    // console.log('lq-arrow', this.topic.pos, this.pos, this.size)
     this.$emit('custom-class', 'lq-arrow')
     this.$emit('edit-enabled', false)
     this.$emit('resize-style', 'none')

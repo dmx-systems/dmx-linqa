@@ -85,8 +85,8 @@ export default {
     },
 
     h () {
-      return this.getSize && this.getSize().h || this.resizeStyle === 'x' ? 'auto' :
-                                                 this.topic.viewProps['dmx.topicmaps.height']
+      return this.formMode && 'auto' || this.getSize && this.getSize().h
+                                     || this.resizeStyle === 'x' ? 'auto' : this.topic.viewProps['dmx.topicmaps.height']
     },
 
     angle () {

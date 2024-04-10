@@ -1,9 +1,8 @@
 <template>
-  <div :class="['lq-canvas-item', customClass, mode, {selected: isSelected, draggable}]" :data-id="topic.id"
-      :style="style">
+  <div :class="['lq-canvas-item', mode, {selected: isSelected, draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @custom-class="setCustomClass" @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled"
-      @resize-style="setResizeStyle" @get-size="setGetSizeHandler" @mousedown.native="mousedown">
+      @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @resize-style="setResizeStyle"
+      @get-size="setGetSizeHandler" @mousedown.native="mousedown">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -29,6 +28,8 @@ export default {
     require('./mixins/zoom').default
   ],
 
+  inject: ['context'],
+
   props: {
 
     topic: {                    // the topic to render (dmx.ViewTopic)
@@ -46,7 +47,6 @@ export default {
     return {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
-      customClass: undefined,   // Custom class (String)
       actions: [                // Actions appearing in the item toolbar
         {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
         {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
@@ -67,7 +67,8 @@ export default {
         left: `${this.x}px`,
         width: `${this.w}px`,
         height: `${this.h}${this.h !== 'auto' ? 'px' : ''}`,
-        transform: `rotate(${this.angle}deg)`
+        transform: `rotate(${this.angle}deg)`,
+        zIndex: this.context.config('zIndex', this.topic)
       }
     },
 
@@ -179,10 +180,6 @@ export default {
       return icon
     },
 
-    setCustomClass (classname) {
-      this.customClass = classname
-    },
-
     addAction (action) {
       this.actions.push(action)
     },
@@ -219,10 +216,6 @@ export default {
 <style>
 .lq-canvas-item {
   position: absolute;
-}
-
-.lq-canvas-item.lq-arrow {
-  z-index: 1 !important;                    /* Place arrows before other canvas items */
 }
 
 .lq-canvas-item.form {                      /* Place forms before arrows */

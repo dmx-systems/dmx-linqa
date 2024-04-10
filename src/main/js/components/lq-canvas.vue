@@ -52,6 +52,8 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
 
+const context = {}
+
 let HEADER_HEIGHT
 let synId = -1          // generator for temporary synthetic topic IDs, needed for topics not yet saved, counts down
 
@@ -64,6 +66,14 @@ export default {
     require('./mixins/zoom').default
   ],
 
+  provide: {
+    context
+  },
+
+  created () {
+    context.config = this.config
+  },
+
   mounted () {
     HEADER_HEIGHT = document.querySelector('.lq-header').clientHeight
   },
@@ -74,16 +84,19 @@ export default {
         resizeStyle: 'x',
         rotateEnabled: true,
         moveHandler: this.moveHandler,
-        multiEnabled: true              // topic can be target of a multi-command (lock/unlock/duplicate/delete)
+        multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
+        zIndex: 0
       },
       CONFIG: {
         'linqa.arrow': {
           resizeStyle: 'none',
           rotateEnabled: false,
-          moveHandler: this.arrowMoveHandler
+          moveHandler: this.arrowMoveHandler,
+          zIndex: 1                     // place arrows before other canvas items
         },
         'linqa.shape': {
           resizeStyle: 'xy',
+          zIndex: -1                    // place shapes in the background
         },
         'linqa.viewport': {
           resizeStyle: 'none',

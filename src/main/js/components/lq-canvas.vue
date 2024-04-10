@@ -311,8 +311,8 @@ export default {
      * Creates default view props for *all* the 6 item types
      */
     viewProps (typeUri)  {
-      const x = Math.round((lq.CANVAS_BORDER - this.pan.x) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
-      const y = Math.round((lq.CANVAS_BORDER - this.pan.y) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
+      const x = snapToGrid((lq.CANVAS_BORDER - this.pan.x) / this.zoom)
+      const y = snapToGrid((lq.CANVAS_BORDER - this.pan.y) / this.zoom)
       return {
         'dmx.topicmaps.x': x,
         'dmx.topicmaps.y': y,
@@ -517,14 +517,14 @@ export default {
     onResize (e) {
       // Note: snap-to-grid while resize is in progress did not work as expected (the mouse is no longer over the
       // component when width is changed programmatically?). Workaround is to snap only on resize-end.
-      this.setSize(e.target, e.width, e.height)
+      const height = this.resizeStyle === 'xy' && e.height
+      this.setSize(e.target, e.width, height)
     },
 
     onResizeEnd ({target}) {
-      // snap to grid
       const topic = this.findTopic(target)
-      const width = Math.round(topic.getViewProp('dmx.topicmaps.width') / lq.CANVAS_GRID) * lq.CANVAS_GRID
-      const height = topic.getViewProp('dmx.topicmaps.height')    // TODO: snap if resizeStyle is 'xy'
+      const width = snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
+      const height = this.resizeStyle === 'xy' && snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
       this.setSize(target, width, height)
       this.$store.dispatch('storeTopicSize', topic)
     },
@@ -554,9 +554,8 @@ export default {
     moveHandler (topic, dx, dy) {
       const p = this.dragStartPos[topic.id]
       topic.setPosition({                                                 // update model
-        // snap to grid
-        x: p.x + Math.round(dx / lq.CANVAS_GRID) * lq.CANVAS_GRID,
-        y: p.y + Math.round(dy / lq.CANVAS_GRID) * lq.CANVAS_GRID
+        x: p.x + snapToGrid(dx),
+        y: p.y + snapToGrid(dy)
       })
     },
 
@@ -576,7 +575,7 @@ export default {
       const topic = this.findTopic(target)
       topic.setViewProp('dmx.topicmaps.width', width)         // update model
       target.style.width = `${width}px`                       // update view
-      if (this.resizeStyle === 'xy') {
+      if (height) {
         topic.setViewProp('dmx.topicmaps.height', height)     // update model
         target.style.height = `${height}px`                   // update view
       }
@@ -610,6 +609,10 @@ export default {
     'lq-arrow-handles': require('./lq-arrow-handles').default,
     'vue-selecto': require('vue-selecto').default
   }
+}
+
+function snapToGrid(value) {
+  return Math.round(value / lq.CANVAS_GRID) * lq.CANVAS_GRID
 }
 
 function newArrowId () {

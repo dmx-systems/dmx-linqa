@@ -17,7 +17,7 @@ public class Constants {
     public static final String TEXTBLOCK_TEXT           = "linqa.textblock_text";
     public static final String HEADING                  = "linqa.heading";
     public static final String ARROW                    = "linqa.arrow";
-    public static final String SHAPE                    = "linqa.shape";    // also used as prop URI    // FIXME
+    public static final String SHAPE                    = "linqa.shape";
     public static final String COMMENT                  = "linqa.comment";
     public static final String COMMENT_TEXT             = "linqa.comment_text";
     public static final String LANGUAGE                 = "linqa.language";
@@ -40,5 +40,6 @@ public class Constants {
     public static final String LINQA_COLOR = "linqa.color";  // Note, Textblock (String)
         // Note: COLOR is already used by Webclient module, but as type URI; here we have a prop URI
     public static final String ANGLE       = "linqa.angle";  // Document, Note, Textblock, Heading, Arrow (Integer)
+    public static final String SHAPE_TYPE  = "linqa.shape_type";    // Shape
     public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)
 }

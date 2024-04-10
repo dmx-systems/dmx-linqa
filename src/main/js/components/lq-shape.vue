@@ -60,7 +60,7 @@ export default {
   computed: {
 
     shape () {
-      return this.topic.viewProps['linqa.shape'] || 'rectangle'
+      return this.topic.viewProps['linqa.shape_type'] || 'rectangle'
     },
 
     style () {
@@ -80,9 +80,9 @@ export default {
   methods: {
 
     save () {
-      this.topic.setViewProp('linqa.shape', this.selectedShape)
       this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
       this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
+      this.topic.setViewProp('linqa.shape_type', this.selectedShape)
       //
       this.$store.dispatch(this.isNew ? 'createShape' : 'updateShape', this.topic)
     },

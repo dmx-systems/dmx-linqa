@@ -564,8 +564,8 @@ export default {
       topic.setViewProp('dmx.topicmaps.width', width)         // update model
       target.style.width = `${width}px`                       // update view
       if (this.resizeStyle === 'xy') {
-        topic.setViewProp('dmx.topicmaps.height', height)       // update model
-        target.style.height = `${height}px`                     // update view
+        topic.setViewProp('dmx.topicmaps.height', height)     // update model
+        target.style.height = `${height}px`                   // update view
       }
     },
 

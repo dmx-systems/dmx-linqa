@@ -80,13 +80,26 @@ export default {
     },
 
     w () {
-      return this.formMode && lq.FORM_WIDTH || this.getSize && this.getSize().w
-                                            || this.topic.viewProps['dmx.topicmaps.width']
+      if (this.formMode) {
+        return lq.FORM_WIDTH
+      }
+      if (this.getSize) {
+        return this.getSize().w
+      }
+      return this.topic.viewProps['dmx.topicmaps.width']
     },
 
     h () {
-      return this.formMode && 'auto' || this.getSize && this.getSize().h
-                                     || this.resizeStyle === 'x' ? 'auto' : this.topic.viewProps['dmx.topicmaps.height']
+      if (this.formMode) {
+        return 'auto'
+      }
+      if (this.getSize) {
+        return this.getSize().h
+      }
+      if (this.resizeStyle === 'x') {
+        return 'auto'
+      }
+      return this.topic.viewProps['dmx.topicmaps.height']
     },
 
     angle () {

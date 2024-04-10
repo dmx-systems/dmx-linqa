@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-canvas-item', mode, {selected: isSelected, draggable}]" :data-id="topic.id" :style="style">
+  <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
       @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @resize-style="setResizeStyle"
       @get-size="setGetSizeHandler" @mousedown.native="mousedown">
@@ -68,7 +68,7 @@ export default {
         width: `${this.w}px`,
         height: `${this.h}${this.h !== 'auto' ? 'px' : ''}`,
         transform: `rotate(${this.angle}deg)`,
-        zIndex: this.context.config('zIndex', this.topic)
+        zIndex: this.z
       }
     },
 
@@ -101,6 +101,20 @@ export default {
         return 'auto'
       }
       return this.topic.viewProps['dmx.topicmaps.height']
+    },
+
+    z () {
+      const z = this.context.config('zIndex', this.topic)
+      const raise = this.context.config('raiseOnSelect', this.topic)
+      if (this.isSelected && (raise || this.formMode)) {
+        // selected items appear frontmost,
+        // but only if configured so, or when in form mode
+        return 3
+      } else if (this.formMode) {
+        // forms appear above normal items, also above arrows (z-index 1)
+        return 2
+      }
+      return z
     },
 
     angle () {
@@ -216,14 +230,6 @@ export default {
 <style>
 .lq-canvas-item {
   position: absolute;
-}
-
-.lq-canvas-item.form {                      /* Place forms before arrows */
-  z-index: 2 !important;
-}
-
-.lq-canvas-item.selected {                  /* Place the selected item (including item toolbar) in front */
-  z-index: 3 !important;
 }
 
 .lq-canvas-item.draggable {

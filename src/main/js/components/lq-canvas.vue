@@ -85,7 +85,8 @@ export default {
         rotateEnabled: true,
         moveHandler: this.moveHandler,
         multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
-        zIndex: 0
+        zIndex: 0,
+        raiseOnSelect: true
       },
       CONFIG: {
         'linqa.arrow': {
@@ -96,7 +97,8 @@ export default {
         },
         'linqa.shape': {
           resizeStyle: 'xy',
-          zIndex: -1                    // place shapes in the background
+          zIndex: -1,                   // place shapes in the background
+          raiseOnSelect: false
         },
         'linqa.viewport': {
           resizeStyle: 'none',

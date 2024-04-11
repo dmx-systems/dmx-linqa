@@ -18,7 +18,6 @@ export default {
 
   created () {
     this.$emit('edit-enabled', false)
-    this.$emit('resize-style', 'none')
     this.$emit('get-size', () => this.size)
   },
 

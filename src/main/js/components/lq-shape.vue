@@ -30,7 +30,6 @@ export default {
   ],
 
   created () {
-    this.$emit('resize-style', 'xy')
     this.selectedShape = this.shape
   },
 

@@ -1,8 +1,8 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @resize-style="setResizeStyle"
-      @get-size="setGetSizeHandler" @mousedown.native="mousedown">
+      @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @get-size="setGetSizeHandler"
+      @mousedown.native="mousedown">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -54,7 +54,6 @@ export default {
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
       editEnabled: true,        // Edit button visibility (Boolean)
-      resizeStyle: 'x',         // 'x'/'xy'/'none' (String)
       getSize: undefined        // Custom get-size function (Function)
     }
   },
@@ -83,24 +82,23 @@ export default {
     w () {
       if (this.formMode) {
         return lq.FORM_WIDTH
-      }
-      if (this.getSize) {
+      } else if (this.getSize) {
         return this.getSize().w
+      } else {
+        return this.topic.viewProps['dmx.topicmaps.width']
       }
-      return this.topic.viewProps['dmx.topicmaps.width']
     },
 
     h () {
       if (this.formMode) {
         return 'auto'
-      }
-      if (this.getSize) {
+      } else if (this.getSize) {
         return this.getSize().h
-      }
-      if (this.resizeStyle === 'x') {
+      } else if (this.context.config('zIndex', this.topic) === 'x') {
         return 'auto'
+      } else {
+        return this.topic.viewProps['dmx.topicmaps.height']
       }
-      return this.topic.viewProps['dmx.topicmaps.height']
     },
 
     z () {
@@ -113,8 +111,9 @@ export default {
       } else if (this.formMode) {
         // forms appear above normal items, also above arrows (z-index 1)
         return 2
+      } else {
+        return z
       }
-      return z
     },
 
     angle () {
@@ -204,10 +203,6 @@ export default {
 
     setEditEnabled (enabled) {
       this.editEnabled = enabled
-    },
-
-    setResizeStyle (style) {
-      this.resizeStyle = style
     },
 
     setGetSizeHandler (handler) {

@@ -11,7 +11,6 @@ export default {
 
   created () {
     this.$emit('actions', [{key: 'action.set_zoom', handler: this.setZoom}])
-    this.$emit('resize-style', 'none')
     this.$emit('get-size', () => this.size)
   },
 

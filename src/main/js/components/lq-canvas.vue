@@ -81,7 +81,7 @@ export default {
   data () {
     return {
       DEFAULT: {
-        resizeStyle: 'x',
+        resizeStyle: 'x',               // 'x'/'xy'/'none' (String)
         rotateEnabled: true,
         moveHandler: this.moveHandler,
         multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)

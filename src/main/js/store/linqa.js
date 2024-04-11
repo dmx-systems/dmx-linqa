@@ -229,15 +229,6 @@ const actions = {
     })
   },
 
-  /**
-   * Persists all of the given topic's view props.
-   *
-   * @param   topic   the topic (dmx.ViewTopic)
-   */
-  storeTopicViewProps (_, topic) {
-    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, topic.viewProps)
-  },
-
   revealTopic ({dispatch}, topic) {
     dispatch('select', [topic])     // programmatic selection
     dispatch('setViewport', {
@@ -396,6 +387,26 @@ const actions = {
   /**
    * @param   topic   a dmx.ViewTopic
    */
+  createShape ({dispatch}, topic) {
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
+      removeNewTopic(topic)
+    })
+  },
+
+  // 3 update() methods, called when "OK" is pressed in an update form.
+  // Both, client state and server state is updated and the form is closed.
+
+  /**
+   * @param   topic   a dmx.ViewTopic
+   */
+  update (_, topic) {
+    return dmx.rpc.updateTopic(topic).then(removeEditActive)
+  },
+
+  /**
+   * @param   topic   a dmx.ViewTopic
+   */
   updateAndStoreColor ({dispatch}, topic) {
     dispatch('update', topic)
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
@@ -404,11 +415,19 @@ const actions = {
   },
 
   /**
-   * @param   topic   a dmx.ViewTopic
+   * Updates a shape's view props and closes the form.
+   *
+   * @param   topic   the topic (dmx.ViewTopic)
    */
-  update (_, topic) {
-    return dmx.rpc.updateTopic(topic).then(removeEditActive)
+  updateShape (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.color': topic.viewProps['linqa.color'],
+      'linqa.shape_type': topic.viewProps['linqa.shape_type']
+    })
+    removeEditActive(topic)
   },
+
+  //
 
   /**
    * @param   comment         the comment (String)

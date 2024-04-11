@@ -36,7 +36,7 @@
       <el-button class="save-button" type="primary" size="medium" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="doCancel">
+      <el-button size="medium" @click="cancelColor">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
@@ -137,8 +137,8 @@ export default {
 
     save () {
       this.saving = true
-      this.topic.setViewProp('linqa.color', this.selectedColor)            // persistence
-      this.topic.children['linqa.color'] = {value: this.selectedColor}     // view
+      this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
+      this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
       let action, arg, msgBox
       if (this.isNew) {
         action = 'createTopic'

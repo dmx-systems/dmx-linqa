@@ -1,6 +1,5 @@
 <template>
-  <!-- Note: class "lq-arrow" is located at parent -->
-  <svg class="svg" xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox">
+  <svg class="lq-arrow" xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox">
     <defs>
       <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
         <polygon points="0 0, 6 2.5, 0 5" fill="#909399" />
@@ -18,10 +17,7 @@ import lq from '../lq-globals'
 export default {
 
   created () {
-    // console.log('lq-arrow', this.topic.pos, this.pos, this.size)
-    this.$emit('custom-class', 'lq-arrow')
     this.$emit('edit-enabled', false)
-    this.$emit('resize-style', 'none')
     this.$emit('get-size', () => this.size)
   },
 
@@ -49,7 +45,7 @@ export default {
 </script>
 
 <style>
-.lq-arrow .svg {
+.lq-arrow {
   overflow: visible;
 }
 </style>

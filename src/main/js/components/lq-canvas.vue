@@ -9,6 +9,7 @@
         <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
         <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
         <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
+        <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- Toolbar -->
@@ -24,7 +25,7 @@
       <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
       <lq-canvas-item v-for="topic in newTopics" :topic="topic" mode="form" :key="topic.id"></lq-canvas-item>
       <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
-        :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="['e']"
+        :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
         @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
@@ -51,6 +52,8 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
 
+const context = {}
+
 let HEADER_HEIGHT
 let synId = -1          // generator for temporary synthetic topic IDs, needed for topics not yet saved, counts down
 
@@ -63,6 +66,14 @@ export default {
     require('./mixins/zoom').default
   ],
 
+  provide: {
+    context
+  },
+
+  created () {
+    context.config = this.config
+  },
+
   mounted () {
     HEADER_HEIGHT = document.querySelector('.lq-header').clientHeight
   },
@@ -70,21 +81,29 @@ export default {
   data () {
     return {
       DEFAULT: {
-        multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
-        resizeStyle: 'x',
+        resizeStyle: 'x',               // 'x'/'xy'/'none' (String)
         rotateEnabled: true,
-        moveHandler: this.moveHandler
+        moveHandler: this.moveHandler,
+        multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
+        raiseOnSelect: true,
+        zIndex: 0
       },
       CONFIG: {
         'linqa.arrow': {
           resizeStyle: 'none',
           rotateEnabled: false,
-          moveHandler: this.arrowMoveHandler
+          moveHandler: this.arrowMoveHandler,
+          zIndex: 1                     // place arrows before other canvas items
+        },
+        'linqa.shape': {
+          resizeStyle: 'xy',
+          raiseOnSelect: false,
+          zIndex: -1                    // place shapes in the background
         },
         'linqa.viewport': {
-          multiEnabled: false,
           resizeStyle: 'none',
-          rotateEnabled: false
+          rotateEnabled: false,
+          multiEnabled: false
         }
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
@@ -166,6 +185,8 @@ export default {
         this.selection.every(topic => !topic.children['linqa.locked']?.value)
     },
 
+    // 3 vue-moveable config flags
+
     draggable () {
       return this.isSelectionEditable
     },
@@ -176,6 +197,16 @@ export default {
 
     rotatable () {
       return this.isSelectionEditable && this.rotateEnabled
+    },
+
+    //
+
+    renderDirections () {
+      return {
+        'x': ['e'],
+        'xy': ['s', 'se', 'e'],    // ['n', 'nw', 'ne', 's', 'se', 'sw', 'e', 'w']    // TODO
+        'none': false
+      }[this.resizeStyle]
     },
 
     resizeStyle () {
@@ -229,7 +260,7 @@ export default {
       this[command]()
     },
 
-    // 5 methods called by dropdown menu
+    // 6 methods called by dropdown menu
 
     newDocument () {
       // TODO: align it with note/heading/textblock? Possibly current model-driven approach not needed anymore
@@ -255,6 +286,10 @@ export default {
       this.$store.dispatch('createArrow', arrow)
     },
 
+    newShape () {
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.shape'))
+    },
+
     //
 
     newDocumentViewTopic () {
@@ -269,20 +304,25 @@ export default {
       return new dmx.ViewTopic({
         id: newSynId(),
         typeUri,
-        value: '',        // used as intermediate note/heading model while create
+        value: '',        // used as intermediate note/textblock/heading model while create
         viewProps: this.viewProps(typeUri)
       })
     },
 
+    /**
+     * Creates default view props for *all* the 6 item types
+     */
     viewProps (typeUri)  {
-      const x = Math.round((lq.CANVAS_BORDER - this.pan.x) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
-      const y = Math.round((lq.CANVAS_BORDER - this.pan.y) / this.zoom / lq.CANVAS_GRID) * lq.CANVAS_GRID
+      const x = snapToGrid((lq.CANVAS_BORDER - this.pan.x) / this.zoom)
+      const y = snapToGrid((lq.CANVAS_BORDER - this.pan.y) / this.zoom)
       return {
         'dmx.topicmaps.x': x,
         'dmx.topicmaps.y': y,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH : lq.FORM_WIDTH,
+        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH :
+                               typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.FORM_WIDTH,
+        'dmx.topicmaps.height': typeUri === 'linqa.shape' ? lq.SHAPE_HEIGHT : undefined,
         'linqa.angle': 0
       }
     },
@@ -426,7 +466,7 @@ export default {
       }
     },
 
-    // "Moveable" event handling
+    // 11 vue-moveable event handlers
 
     onDragStart (e) {
       const topic = this.findTopic(e.target)
@@ -479,14 +519,15 @@ export default {
     onResize (e) {
       // Note: snap-to-grid while resize is in progress did not work as expected (the mouse is no longer over the
       // component when width is changed programmatically?). Workaround is to snap only on resize-end.
-      this.setWidth(e.target, e.width)
+      const height = this.resizeStyle === 'xy' && e.height
+      this.setSize(e.target, e.width, height)
     },
 
     onResizeEnd ({target}) {
-      // snap to grid
       const topic = this.findTopic(target)
-      const width = Math.round(topic.getViewProp('dmx.topicmaps.width') / lq.CANVAS_GRID) * lq.CANVAS_GRID
-      this.setWidth(target, width)
+      const width = snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
+      const height = this.resizeStyle === 'xy' && snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
+      this.setSize(target, width, height)
       this.$store.dispatch('storeTopicSize', topic)
     },
 
@@ -500,6 +541,8 @@ export default {
       this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
     },
 
+    //
+
     onEnter () {
       this.groupHover = true
     },
@@ -508,12 +551,13 @@ export default {
       this.groupHover = false
     },
 
+    //
+
     moveHandler (topic, dx, dy) {
       const p = this.dragStartPos[topic.id]
       topic.setPosition({                                                 // update model
-        // snap to grid
-        x: p.x + Math.round(dx / lq.CANVAS_GRID) * lq.CANVAS_GRID,
-        y: p.y + Math.round(dy / lq.CANVAS_GRID) * lq.CANVAS_GRID
+        x: p.x + snapToGrid(dx),
+        y: p.y + snapToGrid(dy)
       })
     },
 
@@ -525,11 +569,18 @@ export default {
       }
     },
 
-    setWidth (target, width) {
+    //
+
+    setSize (target, width, height) {
       // Note: for width measurement "moveable" relies on an up-to-date *view*.
       // In contrast updating the *model* (view props) updates the view asynchronously.
-      this.findTopic(target).setViewProp('dmx.topicmaps.width', width)    // update model
-      target.style.width = `${width}px`                                   // update view
+      const topic = this.findTopic(target)
+      topic.setViewProp('dmx.topicmaps.width', width)         // update model
+      target.style.width = `${width}px`                       // update view
+      if (height) {
+        topic.setViewProp('dmx.topicmaps.height', height)     // update model
+        target.style.height = `${height}px`                   // update view
+      }
     },
 
     positionGroupToolbar () {
@@ -560,6 +611,10 @@ export default {
     'lq-arrow-handles': require('./lq-arrow-handles').default,
     'vue-selecto': require('vue-selecto').default
   }
+}
+
+function snapToGrid(value) {
+  return Math.round(value / lq.CANVAS_GRID) * lq.CANVAS_GRID
 }
 
 function newArrowId () {

@@ -1,9 +1,8 @@
 <template>
-  <div :class="['lq-canvas-item', customClass, mode, {selected: isSelected, draggable}]" :data-id="topic.id"
-      :style="style">
+  <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @custom-class="setCustomClass" @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled"
-      @resize-style="setResizeStyle" @get-size="setGetSizeHandler" @mousedown.native="mousedown">
+      @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @get-size="setGetSizeHandler"
+      @mousedown.native="mousedown">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -29,6 +28,8 @@ export default {
     require('./mixins/zoom').default
   ],
 
+  inject: ['context'],
+
   props: {
 
     topic: {                    // the topic to render (dmx.ViewTopic)
@@ -46,15 +47,13 @@ export default {
     return {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
-      customClass: undefined,   // Custom class (String)
       actions: [                // Actions appearing in the item toolbar
         {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
         {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
         {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
-      editEnabled: true,        // Edit button visibility (Boolean)
-      resizeStyle: 'x',         // 'x'/'xy'/'none' (String)
+      editEnabled: true,        // Edit button visibility (Boolean)       // TODO: drop as soon as arrow is editable
       getSize: undefined        // Custom get-size function (Function)
     }
   },
@@ -67,7 +66,8 @@ export default {
         left: `${this.x}px`,
         width: `${this.w}px`,
         height: `${this.h}${this.h !== 'auto' ? 'px' : ''}`,
-        transform: `rotate(${this.angle}deg)`
+        transform: `rotate(${this.angle}deg)`,
+        zIndex: this.z
       }
     },
 
@@ -80,13 +80,40 @@ export default {
     },
 
     w () {
-      return this.formMode && lq.FORM_WIDTH || this.getSize && this.getSize().w
-                                            || this.topic.viewProps['dmx.topicmaps.width']
+      if (this.formMode) {
+        return lq.FORM_WIDTH
+      } else if (this.getSize) {
+        return this.getSize().w
+      } else {
+        return this.topic.viewProps['dmx.topicmaps.width']
+      }
     },
 
     h () {
-      return this.getSize && this.getSize().h || this.resizeStyle === 'x' ? 'auto' :
-                                                 this.topic.viewProps['dmx.topicmaps.height']
+      if (this.formMode) {
+        return 'auto'
+      } else if (this.getSize) {
+        return this.getSize().h
+      } else if (this.context.config('resizeStyle', this.topic) === 'x') {
+        return 'auto'
+      } else {
+        return this.topic.viewProps['dmx.topicmaps.height']
+      }
+    },
+
+    z () {
+      const z = this.context.config('zIndex', this.topic)
+      const raise = this.context.config('raiseOnSelect', this.topic)
+      if (this.isSelected && (raise || this.formMode)) {
+        // selected items appear frontmost,
+        // but only if configured so, or when in form mode
+        return 3
+      } else if (this.formMode) {
+        // forms appear above normal items, also above arrows (z-index 1)
+        return 2
+      } else {
+        return z
+      }
     },
 
     angle () {
@@ -166,10 +193,6 @@ export default {
       return icon
     },
 
-    setCustomClass (classname) {
-      this.customClass = classname
-    },
-
     addAction (action) {
       this.actions.push(action)
     },
@@ -180,10 +203,6 @@ export default {
 
     setEditEnabled (enabled) {
       this.editEnabled = enabled
-    },
-
-    setResizeStyle (style) {
-      this.resizeStyle = style
     },
 
     setGetSizeHandler (handler) {
@@ -197,6 +216,7 @@ export default {
     'linqa.textblock': require('./lq-textblock').default,
     'linqa.heading': require('./lq-heading').default,
     'linqa.arrow': require('./lq-arrow').default,
+    'linqa.shape': require('./lq-shape').default,
     'linqa.viewport': require('./lq-viewport').default
   }
 }
@@ -205,18 +225,6 @@ export default {
 <style>
 .lq-canvas-item {
   position: absolute;
-}
-
-.lq-canvas-item.lq-arrow {
-  z-index: 1 !important;                    /* Place arrows before other canvas items */
-}
-
-.lq-canvas-item.form {                      /* Place forms before arrows */
-  z-index: 2 !important;
-}
-
-.lq-canvas-item.selected {                  /* Place the selected item (including item toolbar) in front */
-  z-index: 3 !important;
 }
 
 .lq-canvas-item.draggable {

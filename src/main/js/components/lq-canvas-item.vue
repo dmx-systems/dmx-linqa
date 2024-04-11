@@ -53,7 +53,7 @@ export default {
         {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
-      editEnabled: true,        // Edit button visibility (Boolean)
+      editEnabled: true,        // Edit button visibility (Boolean)       // TODO: drop as soon as arrow is editable
       getSize: undefined        // Custom get-size function (Function)
     }
   },
@@ -94,7 +94,7 @@ export default {
         return 'auto'
       } else if (this.getSize) {
         return this.getSize().h
-      } else if (this.context.config('zIndex', this.topic) === 'x') {
+      } else if (this.context.config('resizeStyle', this.topic) === 'x') {
         return 'auto'
       } else {
         return this.topic.viewProps['dmx.topicmaps.height']

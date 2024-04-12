@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style>
-.lq-line svg {
+.lq-line.info svg {
   overflow: visible;
 }
 

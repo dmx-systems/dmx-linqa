@@ -18,7 +18,7 @@ public class Constants {
     public static final String HEADING                  = "linqa.heading";
     public static final String SHAPE                    = "linqa.shape";
     public static final String LINE                     = "linqa.line";
-    public static final String ARROW                    = "linqa.arrow";
+    public static final String ARROW                    = "linqa.arrow";    // Obsolete in favor of LINE
     public static final String COMMENT                  = "linqa.comment";
     public static final String COMMENT_TEXT             = "linqa.comment_text";
     public static final String LANGUAGE                 = "linqa.language";

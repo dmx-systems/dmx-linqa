@@ -376,21 +376,35 @@ const actions = {
   },
 
   /**
-   * @param   topic   a dmx.ViewTopic   // TODO: drop it
-   */
-  createArrow ({dispatch}, topic) {
-    return dmx.rpc.createTopic(topic).then(_topic => {
-      addTopicToTopicmap(topic, _topic, dispatch)
-    })
-  },
-
-  /**
    * @param   topic   a dmx.ViewTopic
    */
   createShape ({dispatch}, topic) {
     return dmx.rpc.createTopic(topic).then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
       removeNewTopic(topic)
+    })
+  },
+
+  /**
+   * TODO: unify with createShape()?
+   *
+   * @param   topic   a dmx.ViewTopic
+   */
+  createLine ({dispatch}, topic) {
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
+      removeNewTopic(topic)
+    })
+  },
+
+  /**
+   * TODO: drop it
+   *
+   * @param   topic   a dmx.ViewTopic
+   */
+  createArrow ({dispatch}, topic) {
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
 
@@ -423,6 +437,19 @@ const actions = {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
       'linqa.color': topic.viewProps['linqa.color'],
       'linqa.shape_type': topic.viewProps['linqa.shape_type']
+    })
+    removeEditActive(topic)
+  },
+
+  /**
+   * Updates a line's view props and closes the form.
+   *
+   * @param   topic   the topic (dmx.ViewTopic)
+   */
+  updateLine (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.color': topic.viewProps['linqa.color'],
+      // 'linqa.shape_type': topic.viewProps['linqa.shape_type']    // TODO
     })
     removeEditActive(topic)
   },

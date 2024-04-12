@@ -5,6 +5,8 @@ export default {
 
   computed: {
 
+    // TODO: add "mode" prop here?
+
     infoMode () {
       return this.mode === 'info'
     },

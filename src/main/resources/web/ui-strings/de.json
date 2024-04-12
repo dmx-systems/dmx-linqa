@@ -3,8 +3,9 @@
   "item.note": "Notiz",
   "item.textblock": "Textblock",
   "item.heading": "Überschrift",
-  "item.arrow": "Pfeil",
   "item.shape": "Form",
+  "item.line": "Linie",
+  "item.arrow": "Pfeil",
 
   "label.welcome": "Online Kollaborationsplattform",
   "label.login": "Login",

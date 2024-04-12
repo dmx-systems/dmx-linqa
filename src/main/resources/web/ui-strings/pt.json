@@ -3,8 +3,9 @@
   "item.note": "Nota",
   "item.textblock": "Bloco de Notas",
   "item.heading": "Título",
-  "item.arrow": "Seta",
   "item.shape": "Forma",
+  "item.line": "Linha",
+  "item.arrow": "Seta",
 
   "label.welcome": "Plataforma de Colaboração",
   "label.login": "Login",

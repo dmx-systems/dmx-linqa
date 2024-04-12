@@ -3,8 +3,9 @@
   "item.note": "Note",
   "item.textblock": "Text block",
   "item.heading": "Heading",
-  "item.arrow": "Arrow",
   "item.shape": "Shape",
+  "item.line": "Line",
+  "item.arrow": "Arrow",
 
   "label.welcome": "Collaboration platform",
   "label.login": "Login",

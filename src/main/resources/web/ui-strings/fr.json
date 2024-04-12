@@ -3,8 +3,9 @@
   "item.note": "Note",
   "item.textblock": "Bloc de texte",
   "item.heading": "Titre",
-  "item.arrow": "Flèche",
   "item.shape": "Forme",
+  "item.line": "Ligne",
+  "item.arrow": "Flèche",
 
   "label.welcome": "Plate-forme de collaboration en ligne",
   "label.login": "Login",

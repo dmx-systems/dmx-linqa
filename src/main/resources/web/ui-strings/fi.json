@@ -3,8 +3,9 @@
   "item.note": "Muistio",
   "item.textblock": "Tekstikenttä",
   "item.heading": "Otsikko",
-  "item.arrow": "Nuoli",
   "item.shape": "Muoto",
+  "item.line": "Linja",
+  "item.arrow": "Nuoli",
 
   "label.welcome": "Yhteistyöalusta",
   "label.login": "Kirjautuminen",

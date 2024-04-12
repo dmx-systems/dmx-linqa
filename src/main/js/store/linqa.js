@@ -376,7 +376,7 @@ const actions = {
   },
 
   /**
-   * @param   topic   a dmx.ViewTopic
+   * @param   topic   a dmx.ViewTopic   // TODO: drop it
    */
   createArrow ({dispatch}, topic) {
     return dmx.rpc.createTopic(topic).then(_topic => {

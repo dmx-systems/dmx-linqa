@@ -8,8 +8,9 @@
         <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
         <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
         <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
         <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
+        <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
+        <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- Toolbar -->
@@ -280,14 +281,16 @@ export default {
       this.$store.dispatch('newTopic', this.newViewTopic('linqa.heading'))
     },
 
-    newArrow () {
-      const arrow = this.newViewTopic('linqa.arrow')
-      arrow.value = 'Arrow ' + newArrowId()     // the Value Integrator needs something to integrate
-      this.$store.dispatch('createArrow', arrow)
-    },
-
     newShape () {
       this.$store.dispatch('newTopic', this.newViewTopic('linqa.shape'))
+    },
+
+    newLine () {
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.line'))
+    },
+
+    newArrow () {
+      this.$store.dispatch('createArrow', this.newViewTopic('linqa.arrow'))
     },
 
     //
@@ -615,10 +618,6 @@ export default {
 
 function snapToGrid(value) {
   return Math.round(value / lq.CANVAS_GRID) * lq.CANVAS_GRID
-}
-
-function newArrowId () {
-  return Math.floor(Number.MAX_SAFE_INTEGER * Math.random())
 }
 
 function newSynId () {

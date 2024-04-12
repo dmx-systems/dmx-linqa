@@ -3,8 +3,9 @@
   "item.note": "Примітка",
   "item.textblock": "Текстовий блок",
   "item.heading": "Заголовок",
-  "item.arrow": "Стрілка.",
   "item.shape": "Форма",
+  "item.line": "Лінія",
+  "item.arrow": "Стрілка.",
 
   "label.welcome": "Платформа для співпраці",
   "label.login": "Логін",

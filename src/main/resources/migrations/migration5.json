@@ -1,0 +1,18 @@
+// Part of Linqa 1.8
+// Runs ALWAYS
+{
+  "topic_types": [
+    // Line
+    {
+      "value":       "Line",
+      "uri":         "linqa.line",
+      "dataTypeUri": "dmx.core.entity",
+      "compDefs": [
+        {
+          "childTypeUri":        "linqa.locked",
+          "childCardinalityUri": "dmx.core.one"
+        }
+      ]
+    }
+  ]
+}

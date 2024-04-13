@@ -218,7 +218,7 @@ const actions = {
     }
   },
 
-  storeArrowHandles (_, topic) {
+  storeLineHandles (_, topic) {
     // Note: the server would store doubles but can't retrieve doubles but integers (ClassCastException)!
     // So we better do the rounding here.
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
@@ -394,17 +394,6 @@ const actions = {
     return dmx.rpc.createTopic(topic).then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
       removeNewTopic(topic)
-    })
-  },
-
-  /**
-   * TODO: drop it
-   *
-   * @param   topic   a dmx.ViewTopic
-   */
-  createArrow ({dispatch}, topic) {
-    return dmx.rpc.createTopic(topic).then(_topic => {
-      addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
 

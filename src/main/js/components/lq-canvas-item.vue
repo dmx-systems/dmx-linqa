@@ -109,7 +109,7 @@ export default {
         // but only if configured so, or when in form mode
         return 3
       } else if (this.formMode) {
-        // forms appear above normal items, also above arrows (z-index 1)
+        // forms appear above normal items, also above lines (z-index 1)
         return 2
       } else {
         return z
@@ -217,7 +217,6 @@ export default {
     'linqa.heading': require('./lq-heading').default,
     'linqa.shape': require('./lq-shape').default,
     'linqa.line': require('./lq-line').default,
-    'linqa.arrow': require('./lq-arrow').default,
     'linqa.viewport': require('./lq-viewport').default
   }
 }

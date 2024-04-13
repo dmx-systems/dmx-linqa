@@ -230,7 +230,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     /**
      * Enriches:
-     * - Documents, Notes, Textblocks, Headings, and Arrows by "Angle"
+     * - Documents, Notes, Textblocks, Headings, Shapes, and Lines by "Angle"
      * - Notes and Textblocks by "Color"
      * - Viewports by "Zoom"
      */
@@ -746,7 +746,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      * Fetches a topic's Linqa specific view properties and stores them in the given ViewProps object.
      * These properties are fetched:
      * - "linqa.color" (optional), used for Notes and Textblocks
-     * - "linqa.angle" (optional), used for Documents, Notes, Textblocks, Headings, and Arrows
+     * - "linqa.angle" (optional), used for Documents, Notes, Textblocks, Headings, Shapes, and Lines
      * - "linqa.shape_type" (optional), used for Shape
      * - "dmx.topicmaps.zoom" (mandatory), used for Viewports
      *

@@ -1,11 +1,11 @@
 <template>
-  <div class="lq-arrow-handles" v-show="visible" :style="viewportStyle">
+  <div class="lq-line-handles" v-show="visible" :style="viewportStyle">
     <div class="handle h1" :style="{top: `${h1.y}px`, left: `${h1.x}px`}"></div>
     <div class="handle h2" :style="{top: `${h2.y}px`, left: `${h2.x}px`}"></div>
-    <vue-moveable target=".lq-arrow-handles .h1" :draggable="true" :origin="false" @dragStart="onDragStart"
+    <vue-moveable target=".lq-line-handles .h1" :draggable="true" :origin="false" @dragStart="onDragStart"
       @drag="onDrag1" @dragEnd="onDragEnd">
     </vue-moveable>
-    <vue-moveable target=".lq-arrow-handles .h2" :draggable="true" :origin="false" @dragStart="onDragStart"
+    <vue-moveable target=".lq-line-handles .h2" :draggable="true" :origin="false" @dragStart="onDragStart"
       @drag="onDrag2" @dragEnd="onDragEnd">
     </vue-moveable>
   </div>
@@ -34,7 +34,7 @@ export default {
   computed: {
 
     visible () {
-      return this.editable && this.topic?.typeUri === 'linqa.arrow'
+      return this.editable && this.topic?.typeUri === 'linqa.line'
     },
 
     topic () {
@@ -77,7 +77,7 @@ export default {
     },
 
     onDragEnd () {
-      this.$store.dispatch('storeArrowHandles', this.topic)
+      this.$store.dispatch('storeLineHandles', this.topic)
     },
 
     dragHandler (nr) {
@@ -111,7 +111,7 @@ export default {
       const sin = Math.sin(alpha)
       const cos = Math.cos(alpha)
       const cx = this.pos.x + this.width / 2
-      const cy = this.pos.y + lq.ARROW_HEIGHT / 2
+      const cy = this.pos.y + lq.LINE_HEIGHT / 2
       const w2 = this.width / 2
       const w2sin = w2 * sin
       const w2cos = w2 * cos
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style>
-.lq-arrow-handles .handle {
+.lq-line-handles .handle {
   position: absolute;
   width: 14px;
   height: 14px;
@@ -139,7 +139,7 @@ export default {
   cursor: move;
 }
 
-.lq-arrow-handles .moveable-control-box {
+.lq-line-handles .moveable-control-box {
   display: none !important;
 }
 </style>

@@ -10,7 +10,6 @@
         <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
         <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
         <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- Toolbar -->
@@ -45,7 +44,7 @@
       toggle-continue-select="shift" hitRate="0" @dragStart="onDragSelectStart" @select="onSelect"
       @selectEnd="onSelectEnd">
     </vue-selecto>
-    <lq-arrow-handles></lq-arrow-handles>
+    <lq-line-handles></lq-line-handles>
   </div>
 </template>
 
@@ -90,16 +89,16 @@ export default {
         zIndex: 0
       },
       CONFIG: {
-        'linqa.arrow': {
-          resizeStyle: 'none',
-          rotateEnabled: false,
-          moveHandler: this.arrowMoveHandler,
-          zIndex: 1                     // place arrows before other canvas items
-        },
         'linqa.shape': {
           resizeStyle: 'xy',
           raiseOnSelect: false,
           zIndex: -1                    // place shapes in the background
+        },
+        'linqa.line': {
+          resizeStyle: 'none',
+          rotateEnabled: false,
+          moveHandler: this.lineMoveHandler,
+          zIndex: 1                     // place lines before other canvas items
         },
         'linqa.viewport': {
           resizeStyle: 'none',
@@ -289,10 +288,6 @@ export default {
       this.$store.dispatch('newTopic', this.newViewTopic('linqa.line'))
     },
 
-    newArrow () {
-      this.$store.dispatch('createArrow', this.newViewTopic('linqa.arrow'))
-    },
-
     //
 
     newDocumentViewTopic () {
@@ -323,7 +318,7 @@ export default {
         'dmx.topicmaps.y': y,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH :
+        'dmx.topicmaps.width': typeUri === 'linqa.line' ? lq.LINE_LENGTH :
                                typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.FORM_WIDTH,
         'dmx.topicmaps.height': typeUri === 'linqa.shape' ? lq.SHAPE_HEIGHT : undefined,
         'linqa.angle': 0
@@ -564,9 +559,9 @@ export default {
       })
     },
 
-    arrowMoveHandler (topic, dx, dy) {
+    lineMoveHandler (topic, dx, dy) {
       this.moveHandler(topic, dx, dy)
-      const vm = document.querySelector('.lq-arrow-handles').__vue__      // update view
+      const vm = document.querySelector('.lq-line-handles').__vue__       // update view
       if (vm.visible) {
         vm.updateHandles()
       }
@@ -611,7 +606,7 @@ export default {
   components: {
     'lq-canvas-item': require('./lq-canvas-item').default,
     'lq-canvas-search': require('./lq-canvas-search').default,
-    'lq-arrow-handles': require('./lq-arrow-handles').default,
+    'lq-line-handles': require('./lq-line-handles').default,
     'vue-selecto': require('vue-selecto').default
   }
 }

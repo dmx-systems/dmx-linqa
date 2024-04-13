@@ -6,8 +6,7 @@
           <polygon points="0 0, 6 2.5, 0 5" fill="#909399" />
         </marker>
       </defs>
-      <line :x1="0" :y1="0" :x2="size.w" :y2="0" stroke="#909399" stroke-width="6"
-        marker-end="url(#arrowhead)" />
+      <line :x1="0" :y1="0" :x2="size.w" :y2="0" stroke="#909399" stroke-width="6" marker-end="url(#arrowhead)" />
     </svg>
     <template v-else>
       <lq-color-selector v-model="selectedColor"></lq-color-selector>

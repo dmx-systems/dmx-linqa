@@ -18,6 +18,7 @@ dmx.init({
     'linqa.textblock',
     'linqa.heading',
     'linqa.shape',
+    'linqa.line',
     'dmx.workspaces.workspace'    // needed by admin interface
   ],
   store,

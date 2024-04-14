@@ -252,6 +252,7 @@ export default {
 
   methods: {
 
+    // TODO: make it mode.js mixin, call it from lq-line-handles.vue as well, make current mode.js mixin form.js mixin
     mode (topic) {
       return this.$store.state.isEditActive.includes(topic.id) ? 'form' : 'info'
     },

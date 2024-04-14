@@ -34,7 +34,11 @@ export default {
   computed: {
 
     visible () {
-      return this.editable && this.topic?.typeUri === 'linqa.line'
+      return this.editable && this.topic?.typeUri === 'linqa.line' && this.mode === 'info'
+    },
+
+    mode () {
+      return this.$store.state.isEditActive.includes(this.topic.id) ? 'form' : 'info'
     },
 
     topic () {

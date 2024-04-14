@@ -32,8 +32,11 @@ export default {
   ],
 
   created () {
-    this.$emit('edit-enabled', false)
     this.$emit('get-size', () => this.size)
+  },
+
+  updated () {
+    this.$store.dispatch('updateControlBox')    // TODO: move to mixin?
   },
 
   props: {

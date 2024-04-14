@@ -54,7 +54,7 @@ const state = {
   isDragging: false,            // true while canvas pan or panel resize is in progress
   transition: false,            // true while a canvas pan/zoom transition is in progress
   newTopics: [],                // topics being created, not yet saved (array of dmx.ViewTopic)
-  isEditActive: [],             // IDs of topics being edited (array)     // TODO: drop this, query model ID instead?
+  isEditActive: [],             // IDs of topics being edited (array)
   fullscreen: false,            // if true the current document is rendered fullscreen
   pageNr: {
     lang1: {},                  // key: document topic ID, value: pageNr (Number)

@@ -2,11 +2,11 @@
   <div :class="['lq-line', mode]">
     <svg xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox" v-if="infoMode">
       <defs>
-        <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
-          <polygon points="0 0, 6 2.5, 0 5" fill="#909399" />
+        <marker :id="markerId" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+          <polygon points="0 0, 6 2.5, 0 5" :fill="color" />
         </marker>
       </defs>
-      <line :x1="0" :y1="0" :x2="size.w" :y2="0" stroke="#909399" stroke-width="6" marker-end="url(#arrowhead)" />
+      <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-end="markerUrl" />
     </svg>
     <template v-else>
       <lq-color-selector v-model="selectedColor"></lq-color-selector>
@@ -51,16 +51,16 @@ export default {
 
   computed: {
 
-    style () {
-      if (this.infoMode) {
-        return {
-          // 'background-color': this.color   // TODO
-        }
-      }
-    },
-
     viewBox () {
       return `0 -${lq.CANVAS_GRID} ${this.size.w} ${this.size.h}`
+    },
+
+    markerId () {
+      return `arrowhead-${this.colorAsId}`
+    },
+
+    markerUrl () {
+      return `url(#${this.markerId})`
     },
 
     size () {

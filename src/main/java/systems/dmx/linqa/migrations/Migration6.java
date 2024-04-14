@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Transforms existing "Arrow" instances.
+ * Transforms existing "Arrow" instances into "Line".
  * Deletes topic type "Arrow".
  * <p>
  * Part of Linqa 1.8

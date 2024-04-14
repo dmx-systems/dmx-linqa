@@ -1,8 +1,7 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @get-size="setGetSizeHandler"
-      @mousedown.native="mousedown">
+      @action="addAction" @actions="setActions" @get-size="setGetSizeHandler" @mousedown.native="mousedown">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -53,7 +52,6 @@ export default {
         {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
-      editEnabled: true,        // Edit button visibility (Boolean)       // TODO: drop as soon as arrow is editable
       getSize: undefined        // Custom get-size function (Function)
     }
   },
@@ -175,10 +173,10 @@ export default {
       }
     },
 
+    // FIXME: editors must be able to *duplicate* locked items
     // TODO: refactor, attach logic to action instead
     isActionAvailable (action) {
-      return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.edit' || this.editEnabled)
-                                                                && (action.key !== 'action.lock' || this.isLinqaAdmin)
+      return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.lock' || this.isLinqaAdmin)
     },
 
     // TODO: refactor, attach logic to action instead
@@ -199,10 +197,6 @@ export default {
 
     setActions (actions) {
       this.actions = actions
-    },
-
-    setEditEnabled (enabled) {
-      this.editEnabled = enabled
     },
 
     setGetSizeHandler (handler) {

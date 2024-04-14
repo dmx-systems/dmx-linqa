@@ -25,29 +25,12 @@ import dmx from 'dmx-api'
 export default {
 
   mixins: [
-    require('./mixins/mode').default,
+    require('./mixins/editable').default,
     require('./mixins/color-selector').default
   ],
 
   created () {
     this.selectedShape = this.shape
-  },
-
-  updated () {
-    this.$store.dispatch('updateControlBox')    // TODO: move to mixin?
-  },
-
-  props: {
-
-    topic: {                          // the Note topic to render (dmx.ViewTopic)
-      type: dmx.ViewTopic,
-      required: true
-    },
-
-    mode: {                           // 'info'/'form'
-      type: String,
-      default: 'info'
-    }
   },
 
   data () {
@@ -68,11 +51,6 @@ export default {
           'background-color': this.color
         }
       }
-    },
-
-    // TODO: factor out as a mixin? Copies in lq-note.vue, lq-document.vue, lq-textblock.vue
-    isNew () {
-      return this.topic.id < 0
     }
   },
 

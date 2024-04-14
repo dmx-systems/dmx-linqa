@@ -19,7 +19,7 @@ export default {
   mixins: [
     require('./mixins/viewport').default,
     require('./mixins/selection').default,
-    require('./mixins/editable').default
+    require('./mixins/roles').default
   ],
 
   data () {
@@ -34,7 +34,7 @@ export default {
   computed: {
 
     visible () {
-      return this.editable && this.topic?.typeUri === 'linqa.line' && this.mode === 'info'
+      return this.isAuthor && this.topic?.typeUri === 'linqa.line' && this.mode === 'info'
     },
 
     mode () {

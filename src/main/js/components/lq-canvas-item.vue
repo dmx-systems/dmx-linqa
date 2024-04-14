@@ -23,7 +23,7 @@ export default {
   mixins: [
     require('./mixins/mode').default,
     require('./mixins/selection').default,
-    require('./mixins/editable').default,
+    require('./mixins/roles').default,
     require('./mixins/zoom').default
   ],
 
@@ -123,7 +123,7 @@ export default {
     },
 
     showLock () {
-      return this.editable && this.locked
+      return this.isAuthor && this.locked
     },
 
     isEditableItem () {

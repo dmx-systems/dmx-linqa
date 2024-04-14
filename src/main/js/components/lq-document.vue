@@ -64,7 +64,7 @@ import lq from '../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/mode').default,
+    require('./mixins/editable').default,
     require('./mixins/doc-util').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
@@ -88,23 +88,8 @@ export default {
     }
   },
 
-  updated () {
-    this.$store.dispatch('updateControlBox')
-  },
-
   props: {
-
-    topic: {                        // the Document topic to render (dmx.ViewTopic)
-      type: dmx.ViewTopic,
-      required: true
-    },
-
     topicBuffer: dmx.ViewTopic,     // the edit buffer (dmx.ViewTopic)    // TODO: unify "topic" and "topicBuffer"?
-
-    mode: {                         // 'info'/'form'
-      type: String,
-      default: 'info'
-    }
   },
 
   data () {
@@ -212,11 +197,6 @@ export default {
 
     isPDF () {
       return this.mediaType === 'application/pdf'
-    },
-
-    // TODO: factor out as a mixin? Copies in lq-note.vue, lq-heading.vue, lq-textblock.vue
-    isNew () {
-      return this.topic.id < 0
     },
 
     isFiltered () {

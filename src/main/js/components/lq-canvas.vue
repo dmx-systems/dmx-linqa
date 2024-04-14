@@ -1,7 +1,7 @@
 <template>
   <div class="lq-canvas" :style="style" ref="canvas" @wheel="wheelZoom">
     <!-- Add menu -->
-    <el-dropdown class="add-menu" v-if="editable" trigger="click" @command="handle">
+    <el-dropdown class="add-menu" v-if="isAuthor" trigger="click" @command="handle">
       <el-button class="add-button" type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
@@ -31,7 +31,7 @@
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
         @mouseenter.native="onEnter" @mouseleave.native="onLeave">
       </vue-moveable>
-      <div class="group-toolbar" v-show="isMultiSelection && groupHover && editable" :style="groupToolbarStyle"
+      <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
         <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
@@ -62,7 +62,7 @@ export default {
   mixins: [
     require('./mixins/viewport').default,
     require('./mixins/selection').default,
-    require('./mixins/editable').default,
+    require('./mixins/roles').default,
     require('./mixins/zoom').default
   ],
 

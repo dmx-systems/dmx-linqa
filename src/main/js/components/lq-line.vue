@@ -27,29 +27,12 @@ import lq from '../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/mode').default,
+    require('./mixins/editable').default,
     require('./mixins/color-selector').default
   ],
 
   created () {
     this.$emit('get-size', () => this.size)
-  },
-
-  updated () {
-    this.$store.dispatch('updateControlBox')    // TODO: move to mixin?
-  },
-
-  props: {
-
-    topic: {                    // the Line topic (dmx.ViewTopic)
-      type: dmx.ViewTopic,
-      required: true
-    },
-
-    mode: {                     // 'info'/'form'
-      type: String,
-      default: 'info'
-    }
   },
 
   computed: {
@@ -71,11 +54,6 @@ export default {
         w: this.topic.viewProps['dmx.topicmaps.width'],
         h: 2 * lq.CANVAS_GRID - 2
       }
-    },
-
-    // TODO: factor out as a mixin? Copies in lq-note.vue, lq-document.vue, lq-textblock.vue
-    isNew () {
-      return this.topic.id < 0
     }
   },
 

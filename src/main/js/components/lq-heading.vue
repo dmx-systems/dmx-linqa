@@ -35,7 +35,7 @@ import lq from '../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/mode').default,
+    require('./mixins/editable').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
     require('./mixins/cancel').default
@@ -47,23 +47,8 @@ export default {
     }
   },
 
-  updated () {
-    this.$store.dispatch('updateControlBox')
-  },
-
   props: {
-
-    topic: {                              // the Heading topic to render (dmx.ViewTopic)
-      type: dmx.ViewTopic,
-      required: true
-    },
-
     topicBuffer: dmx.ViewTopic,           // the edit buffer (dmx.ViewTopic)
-
-    mode: {                               // 'info'/'form'
-      type: String,
-      default: 'info'
-    }
   },
 
   data () {
@@ -104,11 +89,6 @@ export default {
      */
     headingText () {
       return this.highlight(this.topic, this.heading[this.headingLang])
-    },
-
-    // TODO: factor out as a mixin? Copies in lq-note.vue, lq-document.vue, lq-textblock.vue
-    isNew () {
-      return this.topic.id < 0
     },
 
     lang () {

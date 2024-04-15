@@ -58,6 +58,7 @@
   "label.password": "Salasana",
   "label.new_password": "Uusi salasana ${}",
   "label.color": "Väri",
+  "label.arrowheads": "Nuolenkärjet",
   "label.search": "Hae",
   "label.multi_select": "${} valittua",
   "label.of": "-",

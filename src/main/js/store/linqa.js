@@ -438,7 +438,7 @@ const actions = {
   updateLine (_, topic) {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
       'linqa.color': topic.viewProps['linqa.color'],
-      // 'linqa.shape_type': topic.viewProps['linqa.shape_type']    // TODO
+      'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
     })
     removeEditActive(topic)
   },

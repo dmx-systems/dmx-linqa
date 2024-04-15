@@ -58,6 +58,7 @@
   "label.password": "Contraseña",
   "label.new_password": "Nueva contraseña para ${}",
   "label.color": "Color",
+  "label.arrowheads": "Puntas de flecha",
   "label.search": "Buscar",
   "label.multi_select": "${} seleccionado",
   "label.of": "de",

@@ -58,6 +58,7 @@
   "label.password": "Lösenord",
   "label.new_password": "Nytt lösenord för ${}",
   "label.color": "Färg",
+  "label.arrowheads": "Pilspetsar",
   "label.search": "Sök",
   "label.multi_select": "${} utvalda",
   "label.of": "av",

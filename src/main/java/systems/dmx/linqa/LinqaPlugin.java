@@ -764,6 +764,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         if (assoc.hasProperty(SHAPE_TYPE)) {    // "shape_type" is an optional view prop
             viewProps.set(SHAPE_TYPE, assoc.getProperty(SHAPE_TYPE));
         }
+        if (assoc.hasProperty(ARROWHEADS)) {    // "arrowheads" is an optional view prop
+            viewProps.set(ARROWHEADS, assoc.getProperty(ARROWHEADS));
+        }
         if (topicTypeUri.equals(VIEWPORT)) {
             viewProps.set(ZOOM, assoc.getProperty(ZOOM));   // a viewport's "zoom" value is mandatory
         }

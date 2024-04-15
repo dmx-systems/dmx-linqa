@@ -37,9 +37,10 @@ public class Constants {
     public static final String LANG2                    = "linqa.lang2";
 
     // DB Props
-    public static final String LINQA_COLOR = "linqa.color"; // Note, Textblock (String)
+    public static final String LINQA_COLOR = "linqa.color"; // Note, Textblock, Shape, Line (String)
         // Note: COLOR is already used by Webclient module, but as type URI; here we have a prop URI
     public static final String ANGLE       = "linqa.angle"; // Document, Note, Textblock, Heading, Shape, Line (Integer)
     public static final String SHAPE_TYPE  = "linqa.shape_type";    // Shape
+    public static final String ARROWHEADS  = "linqa.arrowheads";    // Line
     public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)
 }

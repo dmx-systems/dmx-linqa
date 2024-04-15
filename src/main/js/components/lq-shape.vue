@@ -35,7 +35,7 @@ export default {
 
   data () {
     return {
-      selectedShape: undefined        // shape selector model, 'rectangle'/'ellipse'
+      selectedShape: undefined        // shape selector model: 'rectangle'/'ellipse'
     }
   },
 
@@ -57,9 +57,9 @@ export default {
   methods: {
 
     save () {
+      this.topic.setViewProp('linqa.shape_type', this.selectedShape)
       this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
       this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
-      this.topic.setViewProp('linqa.shape_type', this.selectedShape)
       //
       this.$store.dispatch(this.isNew ? 'createShape' : 'updateShape', this.topic)
     },

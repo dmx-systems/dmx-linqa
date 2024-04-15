@@ -58,6 +58,7 @@
   "label.password": "Passwort",
   "label.new_password": "Neues Passwort für ${}",
   "label.color": "Farbe",
+  "label.arrowheads": "Pfeilspitzen",
   "label.search": "Suche",
   "label.multi_select": "${} ausgewählt",
   "label.of": "von",

@@ -21,16 +21,22 @@ import lq from '../lq-globals'
 export default {
 
   props: {
+
     value: {                          // initial color
       type: String,
       required: true
+    },
+
+    palette: {                        // 'foreground'/'background' (default)
+      type: String,
+      default: 'background'
     }
   },
 
   data () {
     return {
-      color: this.value,              // selected color
-      colors: lq.ITEM_COLORS          // all colors
+      color: this.value,                        // selected color
+      colors: lq.COLOR_PALETTE[this.palette]    // available colors
     }
   },
 

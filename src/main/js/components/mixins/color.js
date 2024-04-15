@@ -4,7 +4,7 @@ export default {
   computed: {
 
     color () {
-      return this.topic.children['linqa.color']?.value || lq.ITEM_COLORS[1]      // default is gray
+      return this.topic.children['linqa.color']?.value || lq.COLOR_PALETTE.background[1] // default is gray  // TODO: FG
     },
 
     colorAsId () {

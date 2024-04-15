@@ -9,7 +9,7 @@
       <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-end="markerUrl" />
     </svg>
     <template v-else>
-      <lq-color-selector v-model="selectedColor"></lq-color-selector>
+      <lq-color-selector v-model="selectedColor" palette="foreground"></lq-color-selector>
       <el-button class="save-button" type="primary" size="medium" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>

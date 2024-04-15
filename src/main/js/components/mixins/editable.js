@@ -1,10 +1,7 @@
 import dmx from 'dmx-api'
 
 /**
- * Note: the host component is expected to hold
- * - topic        any topic which has an "Original Language" field (dmx.ViewTopic)
- * - topicBuffer  the buffer used for topic editing (dmx.ViewTopic)
- * - biTypeUri    URI of the bilingual child type, e.g. 'linqa.note_text', "linqa.document_name"
+ * This mixin is used by editable canvas items which can be swithed between info/form mode.
  */
 export default {
 
@@ -18,7 +15,7 @@ export default {
 
   props: {
 
-    topic: {                  // the topic to render (dmx.ViewTopic)
+    topic: {                  // the topic to render
       type: dmx.ViewTopic,
       required: true
     },

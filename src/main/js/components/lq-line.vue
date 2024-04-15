@@ -2,8 +2,8 @@
   <div :class="['lq-line', mode]">
     <svg xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox" v-if="infoMode">
       <defs>
-        <marker :id="markerId" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
-          <polygon points="0 0, 6 2.5, 0 5" :fill="color" />
+        <marker :id="markerId" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto">
+          <polygon points="0 0, 5 2, 0 4" :fill="color" />
         </marker>
       </defs>
       <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-end="markerUrl" />

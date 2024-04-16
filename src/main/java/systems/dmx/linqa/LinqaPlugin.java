@@ -241,8 +241,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         // renders Textblocks not only on canvas but also in discussion panel, namely as colored textblock-refs. There
         // we have Topics, not ViewTopics, so there are no view props. The solution is to transport "color" as a
         // synthetic child value (in the topic model) instead.
-        // Despite not strictly needed we do the same for Notes because the frontend handles the color aspect (e.g.
-        // the color selector) of both, Notes and Textblocks, uniformly by a common Vue.js mixin
+        // Despite not strictly needed we do the same for Notes, Shapes, and Lines because the frontend handles the
+        // color aspect (e.g. the color selector) of all these items uniformly by a common mixin
         // (see src/main/js/components/mixins/color.js)
         enrichWithColor(topic, viewProps);
     }

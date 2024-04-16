@@ -79,9 +79,9 @@ export default {
 
     save () {
       this.topic.setViewProp('linqa.arrowheads', this.selectedArrowheads)
-      this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
-      this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
-      //
+      this.topic.setViewProp('linqa.color', this.selectedColor)                     // for storage
+      this.$set(this.topic.children, 'linqa.color', {value: this.selectedColor})    // for rendering
+      // Note: from Linqa 1.7 migrated arrows have no color stored, so $set() is needed
       this.$store.dispatch(this.isNew ? 'createLine' : 'updateLine', this.topic)
     },
 

@@ -3,9 +3,9 @@
     <template v-if="formMode">
       <div class="field">
         <div class="field-label"><lq-string>item.shape</lq-string></div>
-        <el-radio-group v-model="selectedShape">
-          <el-radio label="rectangle">Rectangle</el-radio>
-          <el-radio label="ellipse">Ellipse</el-radio>
+        <el-radio-group class="shape" v-model="selectedShape">
+          <el-radio label="rectangle"><span class="rectangle" :style="radioStyle"></span></el-radio>
+          <el-radio label="ellipse"><span class="ellipse" :style="radioStyle"></span></el-radio>
         </el-radio-group>
       </div>
       <lq-color-selector v-model="selectedColor"></lq-color-selector>
@@ -51,6 +51,12 @@ export default {
           'background-color': this.color
         }
       }
+    },
+
+    radioStyle () {
+      return {
+        'background-color': this.selectedColor
+      }
     }
   },
 
@@ -88,6 +94,23 @@ export default {
 .lq-shape.form {
   background-color: var(--background-color);
   padding: 12px;
+}
+
+.lq-shape.form .el-radio-group.shape .el-radio__label > span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 40px;
+  height: 30px;
+  border: 1px dashed var(--highlight-color);
+}
+
+.lq-shape.form .el-radio-group.shape .el-radio__label > span.rectangle {
+  width: 36px;
+  height: 27px;
+}
+
+.lq-shape.form .el-radio-group.shape .el-radio__label > span.ellipse {
+  border-radius: 50%;
 }
 
 .lq-shape.form .save-button {

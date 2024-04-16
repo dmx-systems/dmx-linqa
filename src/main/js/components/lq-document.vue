@@ -84,7 +84,7 @@ export default {
 
   mounted () {
     if (this.formMode) {
-      this.$refs.docName.focus()    // FIXME
+      this.$refs.docName.focus()    // FIXME: focus does not work in update form
     }
   },
 

@@ -23,7 +23,6 @@
     <!-- Content layer -->
     <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
       <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
-      <lq-canvas-item v-for="topic in newTopics" :topic="topic" mode="form" :key="topic.id"></lq-canvas-item>
       <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
         :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
@@ -215,10 +214,6 @@ export default {
 
     rotateEnabled () {
       return this.selectedTopic ? this.config('rotateEnabled') : false      // false is group default
-    },
-
-    newTopics () {
-      return this.$store.state.newTopics
     },
 
     transition () {

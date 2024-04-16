@@ -22,7 +22,7 @@ export default {
     },
 
     /**
-     * Returns the color code in a form usable for an XML "id" attribute.
+     * Returns the color code in a form usable as a XML "id" attribute.
      */
     colorAsId () {
       return this.color.replace('#', '').replace('(', '-').replace(')', '').replaceAll(' ', '')

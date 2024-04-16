@@ -53,7 +53,6 @@ const state = {
   zoom: 1,                      // canvas zoom (Number)                   // TODO: drop this, calculate instead?
   isDragging: false,            // true while canvas pan or panel resize is in progress
   transition: false,            // true while a canvas pan/zoom transition is in progress
-  newTopics: [],                // topics being created, not yet saved (array of dmx.ViewTopic)
   isEditActive: [],             // IDs of topics being edited (array)
   fullscreen: false,            // if true the current document is rendered fullscreen
   pageNr: {
@@ -313,20 +312,27 @@ const actions = {
     }
   },
 
+  // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types.
+  // Dispatched from lq-canvas.vue
+
   /**
-   * @param   topic   a dmx.ViewTopic
+   * @param   topic   a dmx.ViewTopic with a synthetic (negative) ID.
    */
   newTopic ({dispatch}, topic) {
-    state.newTopics.push(topic)
+    state.topicmap.addTopic(topic)      // update client state
+    state.isEditActive.push(topic.id)
     //
     // workaround to prevent body scrolling when new topic exceeds viewport
-    document.body.classList.add('fixed')
+    // ### TODO: not needed anymore, since body overflow hidden?
+    // document.body.classList.add('fixed')
     Vue.nextTick(() => {
       // a fixed body would not adapt to window resize anymore
-      document.body.classList.remove('fixed')
+      // document.body.classList.remove('fixed')
       dispatch('select', [topic])       // programmatic selection
     })
   },
+
+  // 4 create() actions, dispatched when "OK" is pressed in an create form.
 
   /**
    * @param   type          'note'/'textblock'/'heading'
@@ -350,7 +356,6 @@ const actions = {
     }
     return p.then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
-      removeNewTopic(topic)
     })
   },
 
@@ -371,7 +376,6 @@ const actions = {
     }
     return p.then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
-      removeNewTopic(topic)
     })
   },
 
@@ -381,7 +385,6 @@ const actions = {
   createShape ({dispatch}, topic) {
     return dmx.rpc.createTopic(topic).then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
-      removeNewTopic(topic)
     })
   },
 
@@ -393,11 +396,10 @@ const actions = {
   createLine ({dispatch}, topic) {
     return dmx.rpc.createTopic(topic).then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
-      removeNewTopic(topic)
     })
   },
 
-  // 3 update() methods, called when "OK" is pressed in an update form.
+  // 4 update() actions, dispatched when "OK" is pressed in an update form.
   // Both, client state and server state is updated and the form is closed.
 
   /**
@@ -444,6 +446,20 @@ const actions = {
   },
 
   //
+
+  edit ({dispatch}, topic) {
+    dispatch('select', [topic])             // programmatic selection
+    state.isEditActive.push(topic.id)
+  },
+
+  cancel ({dispatch}, topic) {
+    if (topic.id < 0) {
+      // abort creation
+      state.topicmap.removeTopic(topic.id)  // update client state
+      dispatch('deselect')
+    }
+    removeEditActive(topic)                 // update client state
+  },
 
   /**
    * @param   comment         the comment (String)
@@ -570,11 +586,6 @@ const actions = {
       }
   },
 
-  edit ({dispatch}, topic) {
-    dispatch('select', [topic])     // programmatic selection
-    state.isEditActive.push(topic.id)
-  },
-
   duplicateMulti ({dispatch}, topicIds) {
     // update server state
     http.post(`/linqa/duplicate/${topicIds}`, undefined, {
@@ -587,7 +598,7 @@ const actions = {
         return _viewTopic
       })
       Vue.nextTick(() => {
-        dispatch('select', viewTopics)    // programmatic selection
+        dispatch('select', viewTopics)      // programmatic selection
       })
     })
   },
@@ -606,12 +617,12 @@ const actions = {
   },
 
   delete ({dispatch}, topic) {
-    dispatch('select', [topic])           // programmatic selection
+    dispatch('select', [topic])             // programmatic selection
     lq.confirmDeletion().then(() => {
       dispatch('deselect')
       state.topicmap.removeTopic(topic.id)            // update client state
       dmx.rpc.deleteTopic(topic.id)                   // update server state
-    }).catch(() => {})                    // suppress unhandled rejection on cancel
+    }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
 
   deleteMulti ({dispatch}, topicIds) {
@@ -621,25 +632,14 @@ const actions = {
         state.topicmap.removeTopic(id)
       })
       dmx.rpc.deleteMulti({topicIds, assocIds: []})   // update server state
-    }).catch(() => {})                    // suppress unhandled rejection on cancel
+    }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
 
   deleteComment (_, comment) {
     lq.confirmDeletion('warning.delete_comment').then(() => {
       removeComment(comment)                          // update client state
       dmx.rpc.deleteTopic(comment.id)                 // update server state
-    }).catch(() => {})                    // suppress unhandled rejection on cancel
-  },
-
-  cancel ({dispatch}, topic) {
-    if (topic.id < 0) {
-      // abort creation
-      removeNewTopic(topic)               // update client state
-      dispatch('deselect')
-    } else {
-      // abort update
-      removeEditActive(topic)             // update client state
-    }
+    }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
 
   /**
@@ -878,22 +878,14 @@ function updateUserProfile(userProfile) {
  * to the topicmap. Updates both, client state and server state.
  */
 function addTopicToTopicmap (viewTopic, topic, dispatch) {
+  removeEditActive(viewTopic)
   viewTopic.id       = topic.id
   viewTopic.value    = topic.value
   viewTopic.children = {...viewTopic.children, ...topic.children}   // merge to keep synthetic child values (color)
-  state.topicmap.addTopic(viewTopic)                                                // update client state
   dmx.rpc.addTopicToTopicmap(state.topicmap.id, topic.id, viewTopic.viewProps)      // update server state
   Vue.nextTick(() => {
     dispatch('select', [viewTopic])     // programmatic selection
   })
-}
-
-function removeNewTopic (topic) {
-  const i = state.newTopics.indexOf(topic)
-  if (i === -1) {
-    throw Error('removeNewTopic')
-  }
-  state.newTopics.splice(i, 1)
 }
 
 function removeEditActive (topic) {

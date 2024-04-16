@@ -43,7 +43,7 @@ export default {
 
   mounted () {
     if (this.formMode) {
-      this.$refs.input.focus()            // FIXME
+      this.$refs.input.focus()            // FIXME: focus does not work in update form
     }
   },
 

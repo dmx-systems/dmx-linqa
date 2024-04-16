@@ -11,9 +11,9 @@
     <template v-else>
       <div class="field">
         <div class="field-label"><lq-string>label.arrowheads</lq-string></div>
-        <el-radio-group v-model="selectedArrowheads">
-          <el-radio label="none">None</el-radio>
-          <el-radio label="end">End</el-radio>
+        <el-radio-group class="arrowheads" v-model="selectedArrowheads">
+          <el-radio label="none"><span class="none">&#9135;&#9135;</span></el-radio>
+          <el-radio label="end"><span class="end">&#767;</span></el-radio>
         </el-radio-group>
       </div>
       <lq-color-selector v-model="selectedColor" palette="foreground"></lq-color-selector>
@@ -105,6 +105,23 @@ export default {
 .lq-line.form {
   background-color: var(--background-color);
   padding: 12px;
+}
+
+.lq-line.form .el-radio-group.arrowheads .el-radio__label > span {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  font-size: 48px;
+  height: 13px;
+}
+
+.lq-line.form .el-radio-group.arrowheads .el-radio__label > span.none {
+  top: -23px;
+}
+
+.lq-line.form .el-radio-group.arrowheads .el-radio__label > span.end {
+  transform: rotate(180deg);
+  top: 30px;
 }
 
 .lq-line.form .save-button {

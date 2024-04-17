@@ -1,15 +1,15 @@
 <template>
   <div class="lq-canvas" :style="style" ref="canvas" @wheel="wheelZoom">
     <!-- Add menu -->
-    <el-dropdown class="add-menu" v-if="editable" trigger="click" @command="handle">
+    <el-dropdown class="add-menu" v-if="isAuthor" trigger="click" @command="handle">
       <el-button class="add-button" type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
         <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
         <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
         <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newArrow"><lq-string>item.arrow</lq-string></el-dropdown-item>
         <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
+        <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- Toolbar -->
@@ -23,7 +23,6 @@
     <!-- Content layer -->
     <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
       <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
-      <lq-canvas-item v-for="topic in newTopics" :topic="topic" mode="form" :key="topic.id"></lq-canvas-item>
       <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
         :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
@@ -31,7 +30,7 @@
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
         @mouseenter.native="onEnter" @mouseleave.native="onLeave">
       </vue-moveable>
-      <div class="group-toolbar" v-show="isMultiSelection && groupHover && editable" :style="groupToolbarStyle"
+      <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
         <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
@@ -44,7 +43,7 @@
       toggle-continue-select="shift" hitRate="0" @dragStart="onDragSelectStart" @select="onSelect"
       @selectEnd="onSelectEnd">
     </vue-selecto>
-    <lq-arrow-handles></lq-arrow-handles>
+    <lq-line-handles></lq-line-handles>
   </div>
 </template>
 
@@ -62,7 +61,7 @@ export default {
   mixins: [
     require('./mixins/viewport').default,
     require('./mixins/selection').default,
-    require('./mixins/editable').default,
+    require('./mixins/roles').default,
     require('./mixins/zoom').default
   ],
 
@@ -89,16 +88,16 @@ export default {
         zIndex: 0
       },
       CONFIG: {
-        'linqa.arrow': {
-          resizeStyle: 'none',
-          rotateEnabled: false,
-          moveHandler: this.arrowMoveHandler,
-          zIndex: 1                     // place arrows before other canvas items
-        },
         'linqa.shape': {
           resizeStyle: 'xy',
           raiseOnSelect: false,
           zIndex: -1                    // place shapes in the background
+        },
+        'linqa.line': {
+          resizeStyle: 'none',
+          rotateEnabled: false,
+          moveHandler: this.lineMoveHandler,
+          zIndex: 1                     // place lines before other canvas items
         },
         'linqa.viewport': {
           resizeStyle: 'none',
@@ -217,10 +216,6 @@ export default {
       return this.selectedTopic ? this.config('rotateEnabled') : false      // false is group default
     },
 
-    newTopics () {
-      return this.$store.state.newTopics
-    },
-
     transition () {
       return this.$store.state.transition
     },
@@ -252,6 +247,7 @@ export default {
 
   methods: {
 
+    // TODO: make it mode.js mixin, call it from lq-line-handles.vue as well, make current mode.js mixin form.js mixin
     mode (topic) {
       return this.$store.state.isEditActive.includes(topic.id) ? 'form' : 'info'
     },
@@ -280,14 +276,12 @@ export default {
       this.$store.dispatch('newTopic', this.newViewTopic('linqa.heading'))
     },
 
-    newArrow () {
-      const arrow = this.newViewTopic('linqa.arrow')
-      arrow.value = 'Arrow ' + newArrowId()     // the Value Integrator needs something to integrate
-      this.$store.dispatch('createArrow', arrow)
-    },
-
     newShape () {
       this.$store.dispatch('newTopic', this.newViewTopic('linqa.shape'))
+    },
+
+    newLine () {
+      this.$store.dispatch('newTopic', this.newViewTopic('linqa.line'))
     },
 
     //
@@ -320,7 +314,7 @@ export default {
         'dmx.topicmaps.y': y,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'linqa.arrow' ? lq.ARROW_LENGTH :
+        'dmx.topicmaps.width': typeUri === 'linqa.line' ? lq.LINE_LENGTH :
                                typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.FORM_WIDTH,
         'dmx.topicmaps.height': typeUri === 'linqa.shape' ? lq.SHAPE_HEIGHT : undefined,
         'linqa.angle': 0
@@ -561,9 +555,9 @@ export default {
       })
     },
 
-    arrowMoveHandler (topic, dx, dy) {
+    lineMoveHandler (topic, dx, dy) {
       this.moveHandler(topic, dx, dy)
-      const vm = document.querySelector('.lq-arrow-handles').__vue__      // update view
+      const vm = document.querySelector('.lq-line-handles').__vue__       // update view
       if (vm.visible) {
         vm.updateHandles()
       }
@@ -608,17 +602,13 @@ export default {
   components: {
     'lq-canvas-item': require('./lq-canvas-item').default,
     'lq-canvas-search': require('./lq-canvas-search').default,
-    'lq-arrow-handles': require('./lq-arrow-handles').default,
+    'lq-line-handles': require('./lq-line-handles').default,
     'vue-selecto': require('vue-selecto').default
   }
 }
 
 function snapToGrid(value) {
   return Math.round(value / lq.CANVAS_GRID) * lq.CANVAS_GRID
-}
-
-function newArrowId () {
-  return Math.floor(Number.MAX_SAFE_INTEGER * Math.random())
 }
 
 function newSynId () {

@@ -3,8 +3,8 @@
   "item.note": "Muistio",
   "item.textblock": "Tekstikenttä",
   "item.heading": "Otsikko",
-  "item.arrow": "Nuoli",
   "item.shape": "Muoto",
+  "item.line": "Linja",
 
   "label.welcome": "Yhteistyöalusta",
   "label.login": "Kirjautuminen",
@@ -58,6 +58,7 @@
   "label.password": "Salasana",
   "label.new_password": "Uusi salasana ${}",
   "label.color": "Väri",
+  "label.arrowheads": "Nuolenkärjet",
   "label.search": "Hae",
   "label.multi_select": "${} valittua",
   "label.of": "-",

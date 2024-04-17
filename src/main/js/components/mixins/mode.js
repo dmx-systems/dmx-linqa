@@ -5,6 +5,8 @@ export default {
 
   computed: {
 
+    // TODO: add "mode" prop here? -> No, comments have local "mode" state
+
     infoMode () {
       return this.mode === 'info'
     },

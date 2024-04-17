@@ -255,4 +255,8 @@ input, button {
   width: 384px;         /* fixed toolbar width */
   z-index: 2;           /* stack toolbar above adjacent detail panel fields and el-checkboxes (z-index 1) */
 }
+
+.ql-container .ql-toolbar .ql-color-picker .ql-picker-options {
+  width: 170px;         /* was 152px, we need room for another color option */
+}
 </style>

@@ -3,8 +3,8 @@
   "item.note": "Note",
   "item.textblock": "Bloc de texte",
   "item.heading": "Titre",
-  "item.arrow": "Flèche",
   "item.shape": "Forme",
+  "item.line": "Ligne",
 
   "label.welcome": "Plate-forme de collaboration en ligne",
   "label.login": "Login",
@@ -58,6 +58,7 @@
   "label.password": "Mot de passe",
   "label.new_password": "Nouveau mot de passe pour ${}",
   "label.color": "Couleur",
+  "label.arrowheads": "Pointes de flèche",
   "label.search": "Recherche",
   "label.multi_select": "${} sélectionné",
   "label.of": "de",

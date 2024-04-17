@@ -1,7 +1,7 @@
 # DMX Linqa
 
 Linqa is a platform for bilingual collaboration. Linqa provides shared workspaces for handling and commenting
-on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by heading and arrow elements. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
+on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by headings and graphical elements. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
 
 The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 

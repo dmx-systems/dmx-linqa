@@ -39,29 +39,14 @@ import errorHandler from '../error-handler'
 export default {
 
   mixins: [
-    require('./mixins/mode').default,
+    require('./mixins/editable').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
     require('./mixins/color-selector').default
   ],
 
-  updated () {
-    this.$store.dispatch('updateControlBox')
-  },
-
   props: {
-
-    topic: {                          // the Note topic to render (dmx.ViewTopic)
-      type: dmx.ViewTopic,
-      required: true
-    },
-
     topicBuffer: dmx.ViewTopic,       // the edit buffer (dmx.ViewTopic)
-
-    mode: {                           // 'info'/'form'
-      type: String,
-      default: 'info'
-    }
   },
 
   data () {
@@ -101,11 +86,6 @@ export default {
      */
     noteHtml () {
       return this.highlight(this.topic, this.note[this.noteLang], true)
-    },
-
-    // TODO: factor out as a mixin? Copies in lq-heading.vue, lq-document.vue, lq-textblock.vue
-    isNew () {
-      return this.topic.id < 0
     },
 
     lang () {

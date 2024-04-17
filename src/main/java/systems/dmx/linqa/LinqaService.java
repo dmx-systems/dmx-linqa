@@ -44,11 +44,10 @@ public interface LinqaService {
 
     Topic createHeading(String heading);
 
+    // Note: shapes/lines are created by generic createTopic() calls. No auto-translation is involved.
+
     Topic createComment           (String comment, IdList refTopicIds, IdList fileTopicIds);
     Topic createMonolingualComment(String comment, IdList refTopicIds, IdList fileTopicIds);
-
-    // Note: there is no createArrow() call here. Arrows are created by a generic createTopic() call.
-    // No auto-translation is involved.
 
     /**
      * Needed by migration 2.

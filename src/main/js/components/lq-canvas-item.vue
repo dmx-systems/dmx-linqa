@@ -1,8 +1,7 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @edit-enabled="setEditEnabled" @get-size="setGetSizeHandler"
-      @mousedown.native="mousedown">
+      @action="addAction" @actions="setActions" @get-size="setGetSizeHandler" @mousedown.native="mousedown">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -24,7 +23,7 @@ export default {
   mixins: [
     require('./mixins/mode').default,
     require('./mixins/selection').default,
-    require('./mixins/editable').default,
+    require('./mixins/roles').default,
     require('./mixins/zoom').default
   ],
 
@@ -53,7 +52,6 @@ export default {
         {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ],
-      editEnabled: true,        // Edit button visibility (Boolean)       // TODO: drop as soon as arrow is editable
       getSize: undefined        // Custom get-size function (Function)
     }
   },
@@ -109,7 +107,7 @@ export default {
         // but only if configured so, or when in form mode
         return 3
       } else if (this.formMode) {
-        // forms appear above normal items, also above arrows (z-index 1)
+        // forms appear above normal items, also above lines (z-index 1)
         return 2
       } else {
         return z
@@ -125,7 +123,7 @@ export default {
     },
 
     showLock () {
-      return this.editable && this.locked
+      return this.isAuthor && this.locked
     },
 
     isEditableItem () {
@@ -175,10 +173,10 @@ export default {
       }
     },
 
+    // FIXME: editors must be able to *duplicate* locked items
     // TODO: refactor, attach logic to action instead
     isActionAvailable (action) {
-      return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.edit' || this.editEnabled)
-                                                                && (action.key !== 'action.lock' || this.isLinqaAdmin)
+      return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.lock' || this.isLinqaAdmin)
     },
 
     // TODO: refactor, attach logic to action instead
@@ -201,10 +199,6 @@ export default {
       this.actions = actions
     },
 
-    setEditEnabled (enabled) {
-      this.editEnabled = enabled
-    },
-
     setGetSizeHandler (handler) {
       this.getSize = handler
     }
@@ -215,8 +209,8 @@ export default {
     'linqa.note': require('./lq-note').default,
     'linqa.textblock': require('./lq-textblock').default,
     'linqa.heading': require('./lq-heading').default,
-    'linqa.arrow': require('./lq-arrow').default,
     'linqa.shape': require('./lq-shape').default,
+    'linqa.line': require('./lq-line').default,
     'linqa.viewport': require('./lq-viewport').default
   }
 }

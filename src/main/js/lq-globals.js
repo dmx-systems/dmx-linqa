@@ -14,23 +14,14 @@ console.log('[Linqa] isChrome:', isChrome)
 
 export default {
 
-  ITEM_COLORS: [
-    'white',
-    'rgb(238, 232, 234)',       // lavender
-    'rgb(248, 195, 213)',       // red
-    'rgb(228, 214, 166)',       // brown
-    'rgb(162, 190, 168)',       // green
-    'rgb(145, 187, 205)',       // blue
-    'transparent'
-  ],
-  CANVAS_GRID: 20,              // 20x20 pixel = size of grid.png
-  CANVAS_BORDER: 40,            // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
-                                // Should be a multiple of CANVAS_GRID.
-  FORM_WIDTH: 384,              // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
-  ARROW_LENGTH: 200,            // Should be a multiple of CANVAS_GRID
-  ARROW_HEIGHT: 40,             // Should be a multiple of CANVAS_GRID
-  SHAPE_WIDTH: 360,             // Should be a multiple of CANVAS_GRID
-  SHAPE_HEIGHT: 180,            // Should be a multiple of CANVAS_GRID
+  CANVAS_GRID: 20,        // 20x20 pixel = size of grid.png
+  CANVAS_BORDER: 40,      // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
+                          // Should be a multiple of CANVAS_GRID.
+  FORM_WIDTH: 384,        // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
+  LINE_LENGTH: 200,       // Should be a multiple of CANVAS_GRID
+  LINE_HEIGHT: 40,        // Should be a multiple of CANVAS_GRID
+  SHAPE_WIDTH: 360,       // Should be a multiple of CANVAS_GRID
+  SHAPE_HEIGHT: 180,      // Should be a multiple of CANVAS_GRID
 
   langSuffix,
 
@@ -163,8 +154,8 @@ function canvasFilter (topic) {
          topic.typeUri === 'linqa.note'      ||
          topic.typeUri === 'linqa.textblock' ||
          topic.typeUri === 'linqa.heading'   ||
-         topic.typeUri === 'linqa.arrow'     ||
          topic.typeUri === 'linqa.shape'     ||
+         topic.typeUri === 'linqa.line'      ||
          topic.typeUri === 'linqa.viewport' && (store.state.isLinqaAdmin || store.state.isEditor)
 }
 

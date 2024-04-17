@@ -3,8 +3,8 @@
   "item.note": "Note",
   "item.textblock": "Text block",
   "item.heading": "Heading",
-  "item.arrow": "Arrow",
   "item.shape": "Shape",
+  "item.line": "Line",
 
   "label.welcome": "Collaboration platform",
   "label.login": "Login",
@@ -58,6 +58,7 @@
   "label.password": "Password",
   "label.new_password": "New password for ${}",
   "label.color": "Color",
+  "label.arrowheads": "Arrowheads",
   "label.search": "Search",
   "label.multi_select": "${} selected",
   "label.of": "of",

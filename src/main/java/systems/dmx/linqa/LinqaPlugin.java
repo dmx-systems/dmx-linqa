@@ -230,7 +230,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     /**
      * Enriches:
-     * - Documents, Notes, Textblocks, Headings, and Arrows by "Angle"
+     * - Documents, Notes, Textblocks, Headings, Shapes, and Lines by "Angle"
      * - Notes and Textblocks by "Color"
      * - Viewports by "Zoom"
      */
@@ -241,8 +241,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         // renders Textblocks not only on canvas but also in discussion panel, namely as colored textblock-refs. There
         // we have Topics, not ViewTopics, so there are no view props. The solution is to transport "color" as a
         // synthetic child value (in the topic model) instead.
-        // Despite not strictly needed we do the same for Notes because the frontend handles the color aspect (e.g.
-        // the color selector) of both, Notes and Textblocks, uniformly by a common Vue.js mixin
+        // Despite not strictly needed we do the same for Notes, Shapes, and Lines because the frontend handles the
+        // color aspect (e.g. the color selector) of all these items uniformly by a common mixin
         // (see src/main/js/components/mixins/color.js)
         enrichWithColor(topic, viewProps);
     }
@@ -753,7 +753,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      * Fetches a topic's Linqa specific view properties and stores them in the given ViewProps object.
      * These properties are fetched:
      * - "linqa.color" (optional), used for Notes and Textblocks
-     * - "linqa.angle" (optional), used for Documents, Notes, Textblocks, Headings, and Arrows
+     * - "linqa.angle" (optional), used for Documents, Notes, Textblocks, Headings, Shapes, and Lines
      * - "linqa.shape_type" (optional), used for Shape
      * - "dmx.topicmaps.zoom" (mandatory), used for Viewports
      *
@@ -770,6 +770,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
         if (assoc.hasProperty(SHAPE_TYPE)) {    // "shape_type" is an optional view prop
             viewProps.set(SHAPE_TYPE, assoc.getProperty(SHAPE_TYPE));
+        }
+        if (assoc.hasProperty(ARROWHEADS)) {    // "arrowheads" is an optional view prop
+            viewProps.set(ARROWHEADS, assoc.getProperty(ARROWHEADS));
         }
         if (topicTypeUri.equals(VIEWPORT)) {
             viewProps.set(ZOOM, assoc.getProperty(ZOOM));   // a viewport's "zoom" value is mandatory

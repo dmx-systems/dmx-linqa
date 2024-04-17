@@ -2,10 +2,10 @@
 // Runs ALWAYS
 {
   "topic_types": [
-    // Shape
+    // Line
     {
-      "value":       "Shape",
-      "uri":         "linqa.shape",
+      "value":       "Line",
+      "uri":         "linqa.line",
       "dataTypeUri": "dmx.core.entity",
       "compDefs": [
         {

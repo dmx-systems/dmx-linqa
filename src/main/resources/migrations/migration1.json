@@ -346,18 +346,6 @@
           }
         ]
       },
-      // Arrow
-      {
-        "value":       "Arrow",
-        "uri":         "linqa.arrow",
-        "dataTypeUri": "dmx.core.entity",
-        "compDefs": [
-          {
-            "childTypeUri":        "linqa.locked",
-            "childCardinalityUri": "dmx.core.one"
-          }
-        ]
-      },
       // Viewport
       {
         "value":       "Viewport",

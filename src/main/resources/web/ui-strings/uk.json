@@ -3,8 +3,8 @@
   "item.note": "Примітка",
   "item.textblock": "Текстовий блок",
   "item.heading": "Заголовок",
-  "item.arrow": "Стрілка.",
   "item.shape": "Форма",
+  "item.line": "Лінія",
 
   "label.welcome": "Платформа для співпраці",
   "label.login": "Логін",
@@ -58,6 +58,7 @@
   "label.password": "Пароль",
   "label.new_password": "Новий пароль для ${}",
   "label.color": "Колір",
+  "label.arrowheads": "Наконечники стріл",
   "label.search": "Пошук",
   "label.multi_select": "${} обрані",
   "label.of": "з",

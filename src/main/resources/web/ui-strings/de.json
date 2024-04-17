@@ -3,8 +3,8 @@
   "item.note": "Notiz",
   "item.textblock": "Textblock",
   "item.heading": "Überschrift",
-  "item.arrow": "Pfeil",
   "item.shape": "Form",
+  "item.line": "Linie",
 
   "label.welcome": "Online Kollaborationsplattform",
   "label.login": "Login",
@@ -58,6 +58,7 @@
   "label.password": "Passwort",
   "label.new_password": "Neues Passwort für ${}",
   "label.color": "Farbe",
+  "label.arrowheads": "Pfeilspitzen",
   "label.search": "Suche",
   "label.multi_select": "${} ausgewählt",
   "label.of": "von",

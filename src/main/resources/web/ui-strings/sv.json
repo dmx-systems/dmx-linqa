@@ -3,8 +3,8 @@
   "item.note": "Memo",
   "item.textblock": "Textfält",
   "item.heading": "Rubrik",
-  "item.arrow": "Pil",
   "item.shape": "Form",
+  "item.line": "Linje",
 
   "label.welcome": "Samarbetsplattform",
   "label.login": "Inloggning",
@@ -58,6 +58,7 @@
   "label.password": "Lösenord",
   "label.new_password": "Nytt lösenord för ${}",
   "label.color": "Färg",
+  "label.arrowheads": "Pilspetsar",
   "label.search": "Sök",
   "label.multi_select": "${} utvalda",
   "label.of": "av",

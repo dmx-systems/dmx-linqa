@@ -1,19 +1,22 @@
 <template>
   <div :class="['lq-line', mode]">
-    <svg xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox" v-if="infoMode">
+    <svg :viewBox="viewBox" v-if="infoMode">
       <defs>
-        <marker :id="markerId" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto">
+        <marker :id="markerId" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto-start-reverse">
           <polygon points="0 0, 5 2, 0 4" :fill="color" />
         </marker>
       </defs>
-      <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-end="markerUrl" />
+      <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-start="markerStartUrl"
+        :marker-end="markerEndUrl" />
     </svg>
     <template v-else>
       <div class="field">
         <div class="field-label"><lq-string>label.arrowheads</lq-string></div>
         <el-radio-group class="arrowheads" v-model="selectedArrowheads">
           <el-radio label="none"><span class="none">&#9135;&#9135;</span></el-radio>
+          <el-radio label="start"><span class="start">&#767;</span></el-radio>
           <el-radio label="end"><span class="end">&#767;</span></el-radio>
+          <el-radio label="start-end"><span class="start-end">&#845;</span></el-radio>
         </el-radio-group>
       </div>
       <lq-color-selector v-model="selectedColor" palette="foreground"></lq-color-selector>
@@ -64,7 +67,15 @@ export default {
     },
 
     markerUrl () {
-      return this.arrowheads === 'end' && `url(#${this.markerId})`
+      return `url(#${this.markerId})`
+    },
+
+    markerStartUrl () {
+      return ['start', 'start-end'].includes(this.arrowheads) && this.markerUrl
+    },
+
+    markerEndUrl () {
+      return ['end', 'start-end'].includes(this.arrowheads) && this.markerUrl
     },
 
     size () {
@@ -119,9 +130,18 @@ export default {
   top: -23px;
 }
 
+.lq-line.form .el-radio-group.arrowheads .el-radio__label > span.start {
+  top: -29px;
+}
+
 .lq-line.form .el-radio-group.arrowheads .el-radio__label > span.end {
   transform: rotate(180deg);
   top: 30px;
+}
+
+.lq-line.form .el-radio-group.arrowheads .el-radio__label > span.start-end {
+  top: -41px;
+  left: 34px;
 }
 
 .lq-line.form .save-button {

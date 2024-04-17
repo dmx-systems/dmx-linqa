@@ -504,12 +504,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Consumes("multipart/form-data")
     @Transactional
     @Override
-    public StoredFile storeScaledImage(UploadedFile imageFile) {
+    public StoredFile storeScaledImage(UploadedFile originalImage) {
         try {
-            UploadedFile scaledImage = new ImageScaler().scale(imageFile);
-            return files.storeFile(scaledImage, "/");
+            UploadedFile scaledImage = new ImageScaler().scale(originalImage);
+            UploadedFile image;
+            if (scaledImage != null) {
+                image = scaledImage;
+                files.storeFile(originalImage, "/");    // keep original image
+            } else {
+                image = originalImage;
+            }
+            return files.storeFile(image, "/");
         } catch (Exception e) {
-            throw new RuntimeException("Uploading image \"" + imageFile + "\" failed", e);
+            throw new RuntimeException("Uploading image " + originalImage + " failed", e);
         }
     }
 

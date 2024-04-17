@@ -181,7 +181,7 @@ public class Migration3 extends Migration {
             String repoDir = getRepoDir(topic);
             if (scaledImage != null) {
                 image = scaledImage;
-                files.storeFile(originalImage, repoDir).getRepoPath();
+                files.storeFile(originalImage, repoDir);    // keep original image
             } else {
                 image = originalImage;
             }

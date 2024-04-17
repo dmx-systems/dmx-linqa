@@ -14,28 +14,6 @@ console.log('[Linqa] isChrome:', isChrome)
 
 export default {
 
-  COLOR_PALETTE: {
-    foreground: [
-      '#888888',          // gray
-      '#e60000',          // red
-      '#ff9900',          // orange
-      '#ffff00',          // yellow
-      '#008a00',          // green
-      '#0066cc',          // blue
-      '#9933ff'           // purple
-    ],
-    background: [
-      'white',
-      '#ebebeb',          // gray
-      '#facccc',          // red
-      '#ffebcc',          // orange
-      '#ffffcc',          // yellow
-      '#cce8cc',          // green
-      '#cce0f5',          // blue
-      '#ebd6ff',          // purple
-      'transparent'
-    ]
-  },
   CANVAS_GRID: 20,        // 20x20 pixel = size of grid.png
   CANVAS_BORDER: 40,      // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
                           // Should be a multiple of CANVAS_GRID.

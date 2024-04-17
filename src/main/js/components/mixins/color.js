@@ -1,4 +1,4 @@
-import lq from '../../lq-globals'
+import COLOR_PALETTE from '../../lq-color-palette'
 
 /**
  * The host component is expected to hold
@@ -15,9 +15,9 @@ export default {
         return c
         // TODO: add default color config at canvas-level?
       } else if (this.topic.typeUri === 'linqa.line') {
-        return lq.COLOR_PALETTE.foreground[0]   // default is gray
+        return COLOR_PALETTE.foreground[0]   // default is gray
       } else {
-        return lq.COLOR_PALETTE.background[1]   // default is light gray
+        return COLOR_PALETTE.background[1]   // default is light gray
       }
     },
 

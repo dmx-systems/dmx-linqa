@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import lq from '../lq-globals'
+import COLOR_PALETTE from '../lq-color-palette'
 
 export default {
 
@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       color: this.value,                        // selected color
-      colors: lq.COLOR_PALETTE[this.palette]    // available colors
+      colors: COLOR_PALETTE[this.palette]       // available colors
     }
   },
 

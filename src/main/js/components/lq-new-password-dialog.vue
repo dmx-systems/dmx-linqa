@@ -5,9 +5,11 @@
       <div class="field-label"><lq-string :value="emailAddress">label.new_password</lq-string></div>
       <el-input v-model="password" type="password"></el-input>
     </div>
-    <lq-string class="password-requirements field label" v-if="showRequirements" :html="true">
-      label.password_requirements
-    </lq-string>
+    <transition>
+      <lq-string class="requirements field label" v-if="showRequirements" :html="true">
+        label.password_requirements
+      </lq-string>
+    </transition>
     <el-button class="change-button" type="primary" @click="changePassword">
       <lq-string>action.submit</lq-string>
     </el-button>
@@ -78,14 +80,28 @@ export default {
 </script>
 
 <style>
-.lq-new-password-dialog .password-requirements {
+.lq-new-password-dialog .requirements {
   word-break: normal;     /* el-dialog__body default is "break-all" */
+  overflow: hidden;       /* reveal text while transition */
 }
 
-.lq-new-password-dialog .password-requirements ul {
+.lq-new-password-dialog .requirements ul {
   margin-top: 4px;        /* Browser style is 13px */
   margin-bottom: 0;       /* Browser style is 13px */
   padding-left: 18px;     /* Browser style is 40px */
+}
+
+.lq-new-password-dialog .requirements.v-enter {
+  height: 0;
+  opacity: 0;
+}
+
+.lq-new-password-dialog .requirements.v-enter-active {
+  transition: height .5s, opacity .5s;
+}
+
+.lq-new-password-dialog .requirements.v-enter-to {
+  height: 184px;
 }
 
 .lq-new-password-dialog .change-button {

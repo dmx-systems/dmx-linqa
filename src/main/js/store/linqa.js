@@ -690,8 +690,9 @@ const actions = {
   changePassword (_, {key, password}) {
     return http.get(`/sign-up/password-reset/${key}/${encodeURIComponent(password)}`).then(response => {
       console.log('response', response.data)
-      if (response.data.result !== 'SUCCESS') {
-        throw Error(response.data.result)
+      const result = response.data.result
+      if (result !== 'SUCCESS') {
+        throw Error(result)
       }
       Vue.prototype.$notify({
         type: 'success',
@@ -699,11 +700,15 @@ const actions = {
         message: 'Password changed successfully',   // TODO
         showClose: false
       })
+      return result
     }).catch(error => {
-      Vue.prototype.$alert('An error occurred while changing the password', {
-        type: 'error',
-        showClose: false
-      })
+      if (error.message !== 'PASSWORD_COMPLEXITY_INSUFFICIENT') {
+        Vue.prototype.$alert('An error occurred while changing the password', {
+          type: 'error',
+          showClose: false
+        })
+      }
+      return error.message
     })
   },
 

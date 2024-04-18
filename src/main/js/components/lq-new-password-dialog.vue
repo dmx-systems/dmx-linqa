@@ -57,15 +57,21 @@ export default {
 
   methods: {
 
-    callLoginRoute () {
-      this.$store.dispatch('callLoginRoute')
-    },
-
     changePassword () {
       this.$store.dispatch('changePassword', {
         key: this.key,
         password: this.password
-      }).then(this.callLoginRoute)
+      }).then(result => {
+        if (result === 'PASSWORD_COMPLEXITY_INSUFFICIENT') {
+          this.showRequirements = true
+        } else {
+          this.callLoginRoute()
+        }
+      })
+    },
+
+    callLoginRoute () {
+      this.$store.dispatch('callLoginRoute')
     }
   }
 }

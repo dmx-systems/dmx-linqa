@@ -6,7 +6,7 @@
       <el-input v-model="password" type="password"></el-input>
     </div>
     <lq-string class="password-requirements field label" v-if="showRequirements" :html="true">
-      label.password_requirements.complex
+      label.password_requirements
     </lq-string>
     <el-button class="change-button" type="primary" @click="changePassword">
       <lq-string>action.submit</lq-string>

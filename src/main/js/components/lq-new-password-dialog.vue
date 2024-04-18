@@ -5,6 +5,9 @@
       <div class="field-label"><lq-string :value="emailAddress">label.new_password</lq-string></div>
       <el-input v-model="password" type="password"></el-input>
     </div>
+    <lq-string class="password-requirements field label" v-if="showRequirements" :html="true">
+      label.password_requirements.complex
+    </lq-string>
     <el-button class="change-button" type="primary" @click="changePassword">
       <lq-string>action.submit</lq-string>
     </el-button>
@@ -32,7 +35,8 @@ export default {
   data () {
     return {
       visible: false,
-      password: ''
+      password: '',
+      showRequirements: false
     }
   },
 
@@ -58,13 +62,26 @@ export default {
     },
 
     changePassword () {
-      this.$store.dispatch('changePassword', {key: this.key, password: this.password}).then(this.callLoginRoute)
+      this.$store.dispatch('changePassword', {
+        key: this.key,
+        password: this.password
+      }).then(this.callLoginRoute)
     }
   }
 }
 </script>
 
 <style>
+.lq-new-password-dialog .password-requirements {
+  word-break: normal;     /* el-dialog__body default is "break-all" */
+}
+
+.lq-new-password-dialog .password-requirements ul {
+  margin-top: 4px;        /* Browser style is 13px */
+  margin-bottom: 0;       /* Browser style is 13px */
+  padding-left: 18px;     /* Browser style is 40px */
+}
+
 .lq-new-password-dialog .change-button {
   font-size: 16px;
   margin-top: 26px;

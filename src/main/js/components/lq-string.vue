@@ -20,7 +20,7 @@ export default {
     },
 
     key () {
-      return this.$slots.default[0].text
+      return this.$slots.default[0].text.trim()
     }
   }
 }

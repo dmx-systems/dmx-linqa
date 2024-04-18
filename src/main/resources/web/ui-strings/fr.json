@@ -57,6 +57,8 @@
   "label.default_language": "Langue par défaut",
   "label.password": "Mot de passe",
   "label.new_password": "Nouveau mot de passe pour ${}",
+  "label.password_requirements.simple": "TODO",
+  "label.password_requirements.complex": "For your security please choose a password that meets the following criteria:<ul><li>minimum of 8 characters and maximum of 64 characters</li><li>at least one lower-case letter</li><li>at least one upper-case letter</li><li>at least one digit</li><li>at least one special character</li><li>no whitespace</li><li>no simple sequences (eg. 123456, qwertz, ABCDEF)</li></ul>",
   "label.color": "Couleur",
   "label.arrowheads": "Pointes de flèche",
   "label.search": "Recherche",

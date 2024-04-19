@@ -211,7 +211,6 @@ export default {
 
 .lq-textblock .texts {
   display: flex;
-  align-items: flex-start;
 }
 
 .lq-textblock .texts .text {
@@ -229,6 +228,10 @@ export default {
 
 .lq-textblock.form {
   background-color: var(--background-color);
+}
+
+.lq-textblock.form .texts {
+  align-items: flex-start;
 }
 
 .lq-textblock.form .el-button.translate {

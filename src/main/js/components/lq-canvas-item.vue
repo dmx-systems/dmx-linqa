@@ -219,8 +219,6 @@ export default {
 <style>
 .lq-canvas-item {
   position: absolute;
-  overflow-x: visible;    /* discussion button must be visible */
-  overflow-y: clip;       /* "hidden" would implicitly set overflow-x to "auto" */
 }
 
 .lq-canvas-item.draggable {

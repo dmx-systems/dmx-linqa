@@ -1,11 +1,13 @@
 <template>
   <div :class="['lq-textblock', 'dmx-html-field', {'filter': isFiltered}, mode]" v-loading="saving" :style="style">
     <template v-if="infoMode">
+      <div class="texts">
+        <div class="text" v-html="textblock[lang1st]"></div>
+        <div class="text" v-html="textblock[lang2nd]"></div>
+      </div>
       <div class="discussion-button" :style="style">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
-      <div class="text1" v-html="textblock[lang1st]"></div>
-      <div class="text2" v-html="textblock[lang2nd]"></div>
     </template>
     <template v-else>
       <template v-if="isNew">
@@ -15,14 +17,14 @@
         </div>
       </template>
       <template v-else>
-        <div class="texts">
-          <div class="field">
+        <div class="field texts">
+          <div class="text">
             <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang1}})</div>
             <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
           </div>
           <el-button class="translate" type="text" icon="el-icon-right" :title="translateTooltip" @click="doTranslate">
           </el-button>
-          <div class="field">
+          <div class="text">
             <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang2}})</div>
             <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating">
             </quill>
@@ -207,30 +209,26 @@ export default {
   border-color: var(--primary-color);
 }
 
-.lq-textblock.info {
+.lq-textblock .texts {
   display: flex;
+  align-items: flex-start;
 }
 
-.lq-textblock.info > .text1 {
+.lq-textblock .texts .text {
+  flex-basis: 50%;
+}
+
+.lq-textblock.info .texts .text:nth-child(1) {
   padding-right: 20px;
   border-right: 2px dashed #f6f6f6;
 }
 
-.lq-textblock.info > .text2 {
+.lq-textblock.info .texts .text:nth-child(2) {
   padding-left: 20px;
 }
 
 .lq-textblock.form {
   background-color: var(--background-color);
-}
-
-.lq-textblock.form .texts {
-  display: flex;
-  align-items: flex-start;
-}
-
-.lq-textblock.form .texts .field {
-  flex-basis: 44%;
 }
 
 .lq-textblock.form .el-button.translate {

@@ -197,6 +197,8 @@ export default {
 
 <style>
 .lq-textblock {
+  box-sizing: border-box;
+  height: 100%;
   padding: 6px;
   border: var(--filter-border);
 }

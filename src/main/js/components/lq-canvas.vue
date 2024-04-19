@@ -88,6 +88,12 @@ export default {
         zIndex: 0
       },
       CONFIG: {
+        'linqa.note': {
+          resizeStyle: 'xy',
+        },
+        'linqa.textblock': {
+          resizeStyle: 'xy',
+        },
         'linqa.shape': {
           resizeStyle: 'xy',
           raiseOnSelect: false,

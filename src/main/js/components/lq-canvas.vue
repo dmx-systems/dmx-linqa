@@ -21,22 +21,24 @@
       <lq-canvas-search></lq-canvas-search>
     </div>
     <!-- Content layer -->
-    <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
-      <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
-      <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
-        :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
-        @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
-        @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
-        @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
-        @mouseenter.native="onEnter" @mouseleave.native="onLeave">
-      </vue-moveable>
-      <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
-          @mouseenter="onEnter" @mouseleave="onLeave">
-        <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
-        <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
-          :title="actionLabel(action)" :icon="actionIcon(action)" :style="iconStyle" :key="action.key"
-          @click="action.handler" @mousedown.native.stop>
-        </el-button>
+    <div class="scroll-container">
+      <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
+        <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
+        <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
+          :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
+          @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
+          @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
+          @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
+          @mouseenter.native="onEnter" @mouseleave.native="onLeave">
+        </vue-moveable>
+        <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
+            @mouseenter="onEnter" @mouseleave="onLeave">
+          <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
+          <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
+            :title="actionLabel(action)" :icon="actionIcon(action)" :style="iconStyle" :key="action.key"
+            @click="action.handler" @mousedown.native.stop>
+          </el-button>
+        </div>
       </div>
     </div>
     <vue-selecto ref="selecto" :selectable-targets="['.content-layer .lq-canvas-item']" :selectFromInside="false"
@@ -371,7 +373,7 @@ export default {
     },
 
     wheelZoom (e) {
-      this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - HEADER_HEIGHT)
+      // this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - HEADER_HEIGHT)
     },
 
     setZoom (zoom, cx, cy, transition) {
@@ -628,7 +630,7 @@ function newSynId () {
   flex-grow: 1;
   background-image: url("../../resources-build/grid.png");
   min-width: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .lq-canvas .add-menu {
@@ -657,8 +659,12 @@ function newSynId () {
   margin-left: 15px;
 }
 
+.lq-canvas .scroll-container {
+  overflow: auto;
+  height: 100%;
+}
+
 .lq-canvas .content-layer {
-  width: 10000px;       /* avoid early line wrapping */
 }
 
 .lq-canvas .content-layer.transition {

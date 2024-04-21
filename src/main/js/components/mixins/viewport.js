@@ -4,7 +4,8 @@ export default {
 
     viewportStyle () {
       return {
-        'transform': `translate(${this.pan.x}px, ${this.pan.y}px) scale(${this.zoom})`,
+        // 'transform': `translate(${this.pan.x}px, ${this.pan.y}px) scale(${this.zoom})`,
+        'transform': `scale(${this.zoom})`,
         'transform-origin': 'top left'
       }
     },

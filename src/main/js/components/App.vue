@@ -41,6 +41,7 @@
   --line-height: 1.5;
   --paragraph-spacing: 10px;
   --field-spacing: 16px;                      /* vertical spacing between data fields */
+  --button-spacing: 14px;                     /* horizontal spacing between toolbar buttons */
 
   --header-color: black;
   --background-color: #e6e6e6;                /* used for panels and forms */

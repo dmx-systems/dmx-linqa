@@ -228,12 +228,17 @@ export default {
 .lq-canvas-item .item-toolbar {
   position: absolute;
   visibility: hidden;
+  white-space: nowrap;
   padding-top: 4px;
   padding-bottom: 12px;
 }
 
 .lq-canvas-item:hover .item-toolbar {
   visibility: visible;
+}
+
+.lq-canvas-item .item-toolbar .el-button + .el-button {
+  margin-left: var(--button-spacing);
 }
 
 .lq-canvas-item .lock-icon {

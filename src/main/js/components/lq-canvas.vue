@@ -671,8 +671,8 @@ function newSynId () {
   padding-bottom: 12px;
 }
 
-.lq-canvas .content-layer .group-toolbar > .lq-string {
-  margin-right: 8px;
+.lq-canvas .content-layer .group-toolbar .el-button {
+  margin-left: var(--button-spacing);
 }
 
 .lq-canvas .content-layer .moveable-control-box[data-able-draggable] .moveable-area {

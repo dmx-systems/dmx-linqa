@@ -5,7 +5,7 @@
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
-        <lq-string>label.shared_workspace</lq-string>:
+        <span class="workspace-label"><lq-string>label.shared_workspace</lq-string>:</span>
         <el-dropdown size="medium" trigger="click" @command="setWorkspace">
           <el-button type="text" :title="selectTooltip">
             <span class="name">{{workspaceName}}</span><span class="el-icon-arrow-down el-icon--right"></span>
@@ -111,6 +111,12 @@ export default {
 .lq-header .workspace {
   flex-grow: 1;
   color: white;
+}
+
+@media (max-width: 375px) {
+  .lq-header .workspace .workspace-label {
+    display: none;
+  }
 }
 
 .lq-header .workspace .name {

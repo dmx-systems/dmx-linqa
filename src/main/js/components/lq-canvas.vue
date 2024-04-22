@@ -434,7 +434,8 @@ export default {
 
     onDragSelectStart (e) {
       const target = e.inputEvent.target
-      if (this.$refs.moveable.isMoveableElement(target) || this.targets.some(t => t === target || t.contains(target))) {
+      if (this.targets.some(t => t === target || t.contains(target))) {
+        console.log('onDragSelectStart() -> PROHIBIT DRAG SELECTION')
         e.stop()
       } else {
         if (e.inputEvent.target.classList.contains('lq-canvas')) {
@@ -469,8 +470,16 @@ export default {
     // 11 vue-moveable event handlers
 
     onDragStart (e) {
-      const topic = this.findTopic(e.target)
-      this.dragStartPos = {[topic.id]: topic.pos}
+      const target = e.inputEvent.target
+      const parent = target.closest('button, input, label[role="radio"], .ql-editor')
+      if (parent) {
+        console.log('onDragStart()', parent, e, '-> PROHIBIT DRAG')
+        e.stopDrag()
+      } else {
+        console.log('onDragStart()', target, '-> ALLOW DRAG')
+        const topic = this.findTopic(e.target)
+        this.dragStartPos = {[topic.id]: topic.pos}
+      }
     },
 
     onDrag (e) {

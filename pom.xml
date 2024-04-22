@@ -19,6 +19,10 @@
     </parent>
 
     <properties>
+        <!-- Cascading test flags -->
+        <maven.test.skip>false</maven.test.skip>
+        <skipTests>${maven.test.skip}</skipTests>
+        <skipJavaScriptTests>${skipTests}</skipJavaScriptTests>
     </properties>
 
     <dependencies>
@@ -99,6 +103,18 @@
                         <configuration>
                             <executable>npm</executable>
                             <commandlineArgs>run build</commandlineArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm-run-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipJavaScriptTests}</skip>
+                            <executable>npm</executable>
+                            <commandlineArgs>run test</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>

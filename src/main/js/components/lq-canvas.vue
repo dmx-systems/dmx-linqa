@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-canvas" :style="style" ref="canvas" @wheel="wheelZoom">
+  <div class="lq-canvas" ref="canvas" :style="style" @wheel="wheelZoom">
     <!-- Add menu -->
     <el-dropdown class="add-menu" v-if="isAuthor" trigger="click" @command="handle">
       <el-button class="add-button" type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
@@ -44,6 +44,9 @@
       @selectEnd="onSelectEnd">
     </vue-selecto>
     <lq-line-handles></lq-line-handles>
+    <!-- Canvas panning --->
+    <vue-moveable target=".lq-canvas" :draggable="true" @dragStart="onPanStart" @drag="onPan" @dragEnd="onPanEnd">
+    </vue-moveable>
   </div>
 </template>
 
@@ -63,6 +66,7 @@ export default {
     require('./mixins/selection').default,
     require('./mixins/roles').default,
     require('./mixins/zoom').default
+    // require('./mixins/dragging').default     // TODO: needed?
   ],
 
   provide: {
@@ -434,21 +438,27 @@ export default {
 
     onDragSelectStart (e) {
       const target = e.inputEvent.target
-      if (this.targets.some(t => t === target || t.contains(target))) {
-        console.log('onDragSelectStart() -> PROHIBIT DRAG SELECTION')
+      if (this.targets.some(t => t.contains(target))) {
+        // TODO: needed?
+        console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on selected item)')
         e.stop()
       } else {
-        if (e.inputEvent.target.classList.contains('lq-canvas')) {
+        if (e.inputEvent.target === this.$refs.canvas) {
           if (e.inputEvent.shiftKey) {
-            e.inputEvent.stopPropagation()
+            console.log('onDragSelectStart() -> PREVENT CANVAS PAN')
+            e.inputEvent.stopImmediatePropagation()
           } else {
+            console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
             e.preventDrag()
           }
+        } else {
+          console.log('onDragSelectStart()')
         }
       }
     },
 
     onSelect (e) {
+      // console.log('onSelect()')
       this.$store.dispatch('updateSelection', {
         addTopics: e.added.map(el => el.__vue__.topic),
         removeTopicIds: e.removed.map(el => Number(el.dataset.id))
@@ -459,6 +469,7 @@ export default {
     },
 
     onSelectEnd (e) {
+      // console.log('onSelectEnd()', e.isDragStart)
       if (e.isDragStart) {
         e.inputEvent.preventDefault()
         setTimeout(() => {
@@ -470,23 +481,24 @@ export default {
     // 11 vue-moveable event handlers
 
     onDragStart (e) {
-      const target = e.inputEvent.target
-      const parent = target.closest('button, input, label[role="radio"], .ql-editor')
+      const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
       if (parent) {
-        console.log('onDragStart()', parent, e, '-> PROHIBIT DRAG')
+        // console.log('onDragStart() -> PREVENT ITEM DRAG')
         e.stopDrag()
       } else {
-        console.log('onDragStart()', target, '-> ALLOW DRAG')
+        // console.log('onDragStart() -> START ITEM DRAG')
         const topic = this.findTopic(e.target)
         this.dragStartPos = {[topic.id]: topic.pos}
       }
     },
 
     onDrag (e) {
+      // console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
     },
 
     onDragEnd (e) {
+      // console.log('onDragEnd()')
       this.$store.dispatch('storeTopicPos', this.findTopic(e.target))
     },
 
@@ -495,6 +507,7 @@ export default {
     },
 
     onDragGroupStart (e) {
+      // console.log('onDragGroupStart()')
       // remembers start positions
       const p = {}
       e.targets.forEach(el => {
@@ -505,6 +518,7 @@ export default {
     },
 
     onDragGroup (e) {
+      // console.log('onDragGroup()')
       e.targets.forEach(el => {
         const topic = this.findTopic(el)
         this.config('moveHandler', topic)(topic, e.dist[0], e.dist[1])
@@ -513,6 +527,7 @@ export default {
     },
 
     onDragGroupEnd (e) {
+      // console.log('onDragGroupEnd()')
       const topicCoords = e.targets.map(el => {
         const topic = this.findTopic(el)
         const pos = topic.pos
@@ -548,6 +563,35 @@ export default {
 
     onRotateEnd (e) {
       this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
+    },
+
+    // 3 vue-moveable event handlers (canvas panning)
+
+    onPanStart (e) {
+      // console.log('onPanStart()', e.inputEvent.target === this.$refs.canvas)
+      if (e.inputEvent.target !== this.$refs.canvas) {
+        // console.log('onPanStart() -> PREVENT CANVAS PAN')
+        e.stopDrag()
+      }
+    },
+
+    onPan (e) {
+      // console.log('onPan()', e.isFirstDrag)
+      this.$store.dispatch('setViewport', {
+        pan: {
+          x: this.pan.x + e.delta[0],
+          y: this.pan.y + e.delta[1]
+        }
+      })
+      // FIXME: avoid mouse hover effects while panning over e.g. discussion panel, app header, or an open menu
+      /* if (e.isFirstDrag) {     // TODO: needed?
+        this.dragStart()
+      } */
+    },
+
+    onPanEnd (e) {
+      // console.log('onPanEnd()')
+      // this.dragStop()          // TODO: needed?
     },
 
     //
@@ -667,7 +711,7 @@ function newSynId () {
 }
 
 .lq-canvas .content-layer {
-  width: 10000px;       /* avoid early line wrapping */
+  /* width: 10000px; */       /* avoid early line wrapping TODO: needed? */
 }
 
 .lq-canvas .content-layer.transition {
@@ -691,5 +735,9 @@ function newSynId () {
 .lq-canvas .content-layer.moveable-view-dragging .lq-canvas-item,
 .lq-canvas .content-layer.moveable-view-dragging .moveable-control-box .moveable-area {
   cursor: grabbing;
+}
+
+.lq-canvas > .moveable-control-box {
+  display: none !important;
 }
 </style>

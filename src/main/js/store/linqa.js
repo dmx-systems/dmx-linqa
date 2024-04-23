@@ -244,7 +244,6 @@ const actions = {
    */
   setViewport (_, {pan, zoom, transition = false}) {
     // Note: pan/zoom state is not persisted. We have the Viewport topic instead.
-    // TODO: update topicmap model?
     state.pan = pan
     if (zoom) {
       state.zoom = zoom

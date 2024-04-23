@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @get-size="setGetSizeHandler" @mousedown.native="mousedown">
+      @action="addAction" @actions="setActions" @get-size="setGetSizeHandler">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -162,15 +162,6 @@ export default {
     // Note: can't be named "delete"
     deleteItem () {
       this.$store.dispatch('delete', this.topic)
-    },
-
-    mousedown (e) {
-      const inInput = e.target.tagName === 'INPUT'
-      const inQuill = e.target.closest('.ql-container')
-      // TODO: handle el-upload fields as well
-      if (inInput || inQuill) {
-        e.stopPropagation()     // prevent vue-moveable from initiating a drag
-      }
     },
 
     // FIXME: editors must be able to *duplicate* locked items

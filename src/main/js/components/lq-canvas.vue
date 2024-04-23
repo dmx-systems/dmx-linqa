@@ -44,8 +44,9 @@
       @selectEnd="onSelectEnd">
     </vue-selecto>
     <lq-line-handles></lq-line-handles>
-    <!-- Canvas panning --->
-    <vue-moveable target=".lq-canvas" :draggable="true" @dragStart="onPanStart" @drag="onPan" @dragEnd="onPanEnd">
+    <!-- Canvas panning + pinching -->
+    <vue-moveable target=".lq-canvas" :draggable="true" :pinchable="true" @dragStart="onPanStart" @drag="onPan"
+      @dragEnd="onPanEnd" @pinchStart="onPinchStart" @pinch="onPinch" @pinchEnd="onPinchEnd">
     </vue-moveable>
   </div>
 </template>
@@ -117,7 +118,8 @@ export default {
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
       groupToolbarPos: {x: 0, y: 0},    // object with x/y props
-      groupHover: false                 // true while group is hovered
+      groupHover: false,                // true while group is hovered
+      startZoom: undefined              // used while pinching (number)
     }
   },
 
@@ -375,6 +377,7 @@ export default {
     },
 
     wheelZoom (e) {
+      // console.log('wheelZoom', e)
       this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - HEADER_HEIGHT)
     },
 
@@ -483,10 +486,10 @@ export default {
     onDragStart (e) {
       const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
       if (parent) {
-        // console.log('onDragStart() -> PREVENT ITEM DRAG')
+        console.log('onDragStart() -> PREVENT ITEM DRAG')
         e.stopDrag()
       } else {
-        // console.log('onDragStart() -> START ITEM DRAG')
+        console.log('onDragStart() -> START ITEM DRAG')
         const topic = this.findTopic(e.target)
         this.dragStartPos = {[topic.id]: topic.pos}
       }
@@ -565,12 +568,11 @@ export default {
       this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
     },
 
-    // 3 vue-moveable event handlers (canvas panning)
+    // 6 vue-moveable event handlers (canvas panning + pinching)
 
     onPanStart (e) {
-      // console.log('onPanStart()', e.inputEvent.target === this.$refs.canvas)
       if (e.inputEvent.target !== this.$refs.canvas) {
-        // console.log('onPanStart() -> PREVENT CANVAS PAN')
+        console.log('onPanStart() -> PREVENT CANVAS PAN (clicked not on canvas)')
         e.stopDrag()
       }
     },
@@ -592,6 +594,20 @@ export default {
     onPanEnd (e) {
       // console.log('onPanEnd()')
       // this.dragStop()          // TODO: needed?
+    },
+
+    onPinchStart (e) {
+      console.log('onPinchStart()', e.inputEvent.target === this.$refs.canvas, e)
+      this.startZoom = this.zoom
+    },
+
+    onPinch (e) {
+      console.log('onPinch()', e.inputEvent.scale, e)
+      this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - HEADER_HEIGHT)
+    },
+
+    onPinchEnd (e) {
+      console.log('onPinchEnd()')
     },
 
     //

@@ -616,6 +616,7 @@ const actions = {
     http.put(`/linqa/locked/${locked}/${topicIds}`)
   },
 
+  // dispatched when a canvas-item's "delete" button is pressed
   delete ({dispatch}, topic) {
     dispatch('select', [topic])             // programmatic selection
     lq.confirmDeletion().then(() => {
@@ -625,6 +626,7 @@ const actions = {
     }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
 
+  // dispatched from canvas when a multi-selection is deleted
   deleteMulti ({dispatch}, topicIds) {
     lq.confirmDeletion('warning.delete_multi', topicIds.length).then(() => {
       dispatch('deselect')
@@ -879,15 +881,22 @@ function updateUserProfile(userProfile) {
 }
 
 /**
- * Transfers "id", "value", and "children" from the given topic to the given viewTopic and adds the viewTopic
- * to the topicmap. Updates both, client state and server state.
+ * Transfers "id", "value", and "children" from the given topic to the given viewTopic and sends a
+ * add-topic-to-topicmap request. Called after persisting a *limbo topic*.
  */
 function addTopicToTopicmap (viewTopic, topic, dispatch) {
+  // update client state
   removeEditActive(viewTopic)
+  // Note: we must remove the topic from topicmap before its ID is overridden and re-add it.
+  // Otherwise the canvas DOM would not re-render in case the new topic is deleted afterwards.
+  // The canvas template uses topic.id as the key in a v-for loop.
+  state.topicmap.removeTopic(viewTopic.id)
   viewTopic.id       = topic.id
   viewTopic.value    = topic.value
   viewTopic.children = {...viewTopic.children, ...topic.children}   // merge to keep synthetic child values (color)
-  dmx.rpc.addTopicToTopicmap(state.topicmap.id, topic.id, viewTopic.viewProps)      // update server state
+  state.topicmap.addTopic(viewTopic)
+  // update server state
+  dmx.rpc.addTopicToTopicmap(state.topicmap.id, topic.id, viewTopic.viewProps)
   Vue.nextTick(() => {
     dispatch('select', [viewTopic])     // programmatic selection
   })

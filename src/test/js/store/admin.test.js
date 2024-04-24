@@ -2,11 +2,10 @@
  * @jest-environment jsdom
  */
 import { describe, expect, jest, test } from '@jest/globals'
-import { createLocalVue, mount } from '@vue/test-utils'
 
 import adminStore from 'store/admin'
 
-import fetch from 'lq-globals'
+import lq from 'lq-globals'
 jest.mock('lq-globals', () => jest.fn())
 
 describe('admin store', () => {

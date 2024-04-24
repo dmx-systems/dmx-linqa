@@ -2,11 +2,11 @@ module.exports = {
   modulePaths: ['src/main/js'],
   moduleFileExtensions: ['js', 'vue'],
   moduleNameMapper: {
-      '\\.(css|less|svg)$': '<rootDir>/src/test/js/fileMock.js',
-    },
+      '\\.(css|less|svg)$': '<rootDir>/src/test/js/__mocks__/fileMock.js',
+  },
   transformIgnorePatterns: ['/node_modules/(?!(dmx-api)/)'],
   transform: {
-      '\\.[jt]sx?$': 'babel-jest',
-      '.*\\.(vue)$': 'vue-jest'
-   }
+    '^.+\\.js$': 'babel-jest',
+    '^.+\\.vue$': '@vue/vue2-jest'
+  }
 }

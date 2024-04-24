@@ -496,12 +496,12 @@ export default {
     },
 
     onDrag (e) {
-      // console.log('onDrag()')
+      console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
     },
 
     onDragEnd (e) {
-      // console.log('onDragEnd()')
+      console.log('onDragEnd()')
       this.$store.dispatch('storeTopicPos', this.findTopic(e.target))
     },
 
@@ -572,8 +572,12 @@ export default {
 
     onPanStart (e) {
       if (e.inputEvent.target !== this.$refs.canvas) {
-        console.log('onPanStart() -> PREVENT CANVAS PAN (clicked not on canvas)')
-        e.stopDrag()
+        console.log('onPanStart() -> PREVENT CANVAS PAN (clicked not on canvas)', e.inputEvent.touches?.length)
+        // Note: we only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the
+        // same Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event.
+        // Calling e.stopDrag() on the other hand would stop invocation of *all* the drag events, including "pinch".
+        // stopDrag() is more radical than stop()/stopAble(). Apparently stop() is an alias for stopAble().
+        e.stop()
       }
     },
 
@@ -602,7 +606,7 @@ export default {
     },
 
     onPinch (e) {
-      console.log('onPinch()', e.inputEvent.scale, e)
+      // console.log('onPinch()', e.inputEvent.scale, e)
       this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - HEADER_HEIGHT)
     },
 

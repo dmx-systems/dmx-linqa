@@ -439,23 +439,36 @@ export default {
 
     // "Selecto" event handling
 
+    // Selecto passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
+    // - stop()           -- stops entire "selecto" logic, that is both, drag selection + deselection
+    // - preventDrag()    -- prevents drag selection but still allows deselection
+    // - preventDefault() -- alias of native event's preventDefault()?
     onDragSelectStart (e) {
       const target = e.inputEvent.target
-      if (this.targets.some(t => t.contains(target))) {
-        // TODO: needed?
-        console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on selected item)')
+      if (this.$refs.moveable.isMoveableElement(target) || this.targets.some(t => t.contains(target))) {
+        console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on selected item)',
+          this.$refs.moveable.isMoveableElement(target), this.targets.some(t => t.contains(target)))
+        // Stop "selecto" logic (drag selection + deselection) if we've clicked
+        // 1) a multi-selection in order to drag it (for a multi-selection isMoveableElement() is true), OR
+        // 2) a selected item in order to do a text-selection drag in form mode
         e.stop()
       } else {
         if (e.inputEvent.target === this.$refs.canvas) {
           if (e.inputEvent.shiftKey) {
-            console.log('onDragSelectStart() -> PREVENT CANVAS PAN')
+            console.log('onDragSelectStart() -> STARTING DRAG SELECTION and PREVENT CANVAS PAN')
             e.inputEvent.stopImmediatePropagation()
           } else {
             console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
+            // Prevent drag selection but still allow *deselection* (click on canvas) which is also part
+            // of "selecto" logic. e.stop() on the other hand would stop the entire "selecto" logic.
             e.preventDrag()
           }
         } else {
-          console.log('onDragSelectStart()')
+          console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (not clicked on canvas)')
+          // e.stop()
+          // FIXME: don't start a drag selection when clicking on e.g. the "home" button or the search field.
+          // e.stop() is NOT a proper fix as it prevents canvas-item *selection*. We need to check if actually
+          // clicked on an canvas-item.
         }
       }
     },
@@ -489,7 +502,7 @@ export default {
         console.log('onDragStart() -> PREVENT ITEM DRAG')
         e.stopDrag()
       } else {
-        console.log('onDragStart() -> START ITEM DRAG')
+        console.log('onDragStart() -> STARTING ITEM DRAG')
         const topic = this.findTopic(e.target)
         this.dragStartPos = {[topic.id]: topic.pos}
       }
@@ -572,17 +585,19 @@ export default {
 
     onPanStart (e) {
       if (e.inputEvent.target !== this.$refs.canvas) {
-        console.log('onPanStart() -> PREVENT CANVAS PAN (clicked not on canvas)', e.inputEvent.touches?.length)
+        console.log('onPanStart() -> PREVENT CANVAS PAN (not clicked on canvas)', e.inputEvent.touches?.length)
         // Note: we only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the
         // same Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event.
         // Calling e.stopDrag() on the other hand would stop invocation of *all* the drag events, including "pinch".
         // stopDrag() is more radical than stop()/stopAble(). Apparently stop() is an alias for stopAble().
         e.stop()
+      } else {
+        console.log('onPanStart() -> STARTING CANVAS PAN')
       }
     },
 
     onPan (e) {
-      // console.log('onPan()', e.isFirstDrag)
+      console.log('onPan()', e.isFirstDrag)
       this.$store.dispatch('setViewport', {
         pan: {
           x: this.pan.x + e.delta[0],
@@ -596,7 +611,7 @@ export default {
     },
 
     onPanEnd (e) {
-      // console.log('onPanEnd()')
+      console.log('onPanEnd()')
       // this.dragStop()          // TODO: needed?
     },
 
@@ -606,7 +621,7 @@ export default {
     },
 
     onPinch (e) {
-      // console.log('onPinch()', e.inputEvent.scale, e)
+      console.log('onPinch()' /*, e.inputEvent.scale, e */)
       this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - HEADER_HEIGHT)
     },
 
@@ -759,5 +774,8 @@ function newSynId () {
 
 .lq-canvas > .moveable-control-box {
   display: none !important;
+  /* pointer-events: none; */
+  /* width: 0; */
+  /* height: 0; */
 }
 </style>

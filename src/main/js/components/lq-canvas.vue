@@ -437,9 +437,9 @@ export default {
       this.$store.dispatch('transitionEnd')
     },
 
-    // "Selecto" event handling
+    // 3 vue-selecto event handlers
 
-    // Selecto passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
+    // "Selecto" passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
     // - stop()           -- stops entire "selecto" logic, that is both, drag selection + deselection
     // - preventDrag()    -- prevents drag selection but still allows deselection
     // - preventDefault() -- alias of native event's preventDefault()?
@@ -496,6 +496,10 @@ export default {
 
     // 11 vue-moveable event handlers
 
+    // "Moveable" passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
+    // - stopAble() -- stops the current "able", e.g. you can stop a "draggable" behavior but not a "pinchable" behavior
+    // - stopDrag() -- stops all "able" behaviors. stopDrag() is more radical than stopAble()
+    // - stop()     -- not in API docs, apparently an alias for stopAble()
     onDragStart (e) {
       const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
       if (parent) {
@@ -583,21 +587,29 @@ export default {
 
     // 6 vue-moveable event handlers (canvas panning + pinching)
 
+    // "Moveable" passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
+    // - stopAble() -- stops the current "able", e.g. you can stop a "draggable" behavior but not a "pinchable" behavior
+    // - stopDrag() -- stops all "able" behaviors. stopDrag() is more radical than stopAble()
+    // - stop()     -- not in API docs, apparently an alias for stopAble()
     onPanStart (e) {
       if (e.inputEvent.target !== this.$refs.canvas) {
         console.log('onPanStart() -> PREVENT CANVAS PAN (not clicked on canvas)', e.inputEvent.touches?.length)
-        // Note: we only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the
-        // same Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event.
-        // Calling e.stopDrag() on the other hand would stop invocation of *all* the drag events, including "pinch".
-        // stopDrag() is more radical than stop()/stopAble(). Apparently stop() is an alias for stopAble().
-        e.stop()
+        if (e.inputEvent.touches?.length === 2) {
+          // Only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the same
+          // Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event. Calling
+          // e.stopDrag() on the other hand would stop invocation of *all* the drag events, including "pinch".
+          e.stopAble()
+        } else {
+          // Cancel entire gesture, otherwise the search input field will not receive focus anymore (default prevented)
+          e.stopDrag()
+        }
       } else {
         console.log('onPanStart() -> STARTING CANVAS PAN')
       }
     },
 
     onPan (e) {
-      console.log('onPan()', e.isFirstDrag)
+      // console.log('onPan()', e.isFirstDrag)
       this.$store.dispatch('setViewport', {
         pan: {
           x: this.pan.x + e.delta[0],
@@ -621,7 +633,7 @@ export default {
     },
 
     onPinch (e) {
-      console.log('onPinch()' /*, e.inputEvent.scale, e */)
+      // console.log('onPinch()' /*, e.inputEvent.scale, e */)
       this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - HEADER_HEIGHT)
     },
 

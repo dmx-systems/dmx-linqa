@@ -99,18 +99,20 @@ export default {
 .lq-app-header {
   display: flex;
   align-items: center;
+  overflow: hidden;       /* avoid horizontal body scrolling on mobile */
   padding: 2px 10px;
   background-color: var(--header-color);
 }
 
 .lq-app-header img.logo {
   height: 44px;
-  margin-right: 72px;
 }
 
 .lq-app-header .workspace {
   flex-grow: 1;
+  text-align: center;
   color: white;
+  padding: 0 20px;
 }
 
 @media (max-width: 600px) {
@@ -129,13 +131,13 @@ export default {
 }
 
 .lq-app-header .lq-user-menu {
-  margin-left: 20px;
+  margin-left: 14px;
 }
 
 /* dropdown menus are body mounted */
 body > .el-dropdown-menu.lq-workspace-selector {
-  overflow: auto;
-  max-height: calc(100% - 68px);
+  overflow: auto;                   /* make workspace selector scroll */
+  max-height: calc(100% - 68px);    /* use screen height to show as much workspaces as possible */
   white-space: nowrap;
 }
 </style>

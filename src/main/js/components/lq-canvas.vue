@@ -57,7 +57,7 @@ import lq from '../lq-globals'
 
 const context = {}
 
-let HEADER_HEIGHT
+let APP_HEADER_HEIGHT
 let synId = -1          // generator for temporary synthetic topic IDs, needed for topics not yet saved, counts down
 
 export default {
@@ -79,7 +79,7 @@ export default {
   },
 
   mounted () {
-    HEADER_HEIGHT = document.querySelector('.lq-header').clientHeight
+    APP_HEADER_HEIGHT = document.querySelector('.lq-app-header').clientHeight
   },
 
   data () {
@@ -378,7 +378,7 @@ export default {
 
     wheelZoom (e) {
       // console.log('wheelZoom', e)
-      this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - HEADER_HEIGHT)
+      this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
     },
 
     setZoom (zoom, cx, cy, transition) {
@@ -634,7 +634,7 @@ export default {
 
     onPinch (e) {
       // console.log('onPinch()' /*, e.inputEvent.scale, e */)
-      this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - HEADER_HEIGHT)
+      this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - APP_HEADER_HEIGHT)
     },
 
     onPinchEnd (e) {

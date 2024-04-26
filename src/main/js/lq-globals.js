@@ -14,6 +14,8 @@ console.log('[Linqa] isChrome:', isChrome)
 
 export default {
 
+  SMALL_SCREEN_WIDTH: 600,
+
   CANVAS_GRID: 20,        // 20x20 pixel = size of grid.png
   CANVAS_BORDER: 40,      // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
                           // Should be a multiple of CANVAS_GRID.

@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-header">
+  <div class="lq-app-header">
     <img class="logo" :src="logo">
     <!-- Workspace selector -->
     <div class="workspace">
@@ -96,39 +96,39 @@ export default {
 </script>
 
 <style>
-.lq-header {
+.lq-app-header {
   display: flex;
   align-items: center;
   padding: 2px 10px;
   background-color: var(--header-color);
 }
 
-.lq-header img.logo {
+.lq-app-header img.logo {
   height: 44px;
   margin-right: 72px;
 }
 
-.lq-header .workspace {
+.lq-app-header .workspace {
   flex-grow: 1;
   color: white;
 }
 
-@media (max-width: 375px) {
-  .lq-header .workspace .workspace-label {
+@media (max-width: 600px) {
+  .lq-app-header .workspace .workspace-label {
     display: none;
   }
 }
 
-.lq-header .workspace .name {
+.lq-app-header .workspace .name {
   font-weight: bold;
   font-style: italic;
 }
 
-.lq-header .admin-button {
+.lq-app-header .admin-button {
   margin-right: 20px;
 }
 
-.lq-header .lq-user-menu {
+.lq-app-header .lq-user-menu {
   margin-left: 20px;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div :class="['lq-webclient', {dragging: isDragging}]" @keyup.tab="tab">
-    <lq-header></lq-header>
+    <lq-app-header></lq-app-header>
     <router-view></router-view>
     <iframe class="lq-download-iframe"></iframe>
   </div>
@@ -33,7 +33,7 @@ export default {
   },
 
   components: {
-    'lq-header': require('./lq-header').default
+    'lq-app-header': require('./lq-app-header').default
   }
 }
 </script>

@@ -73,7 +73,7 @@ The logo PNGs should have an height of at least 84px. The width is arbitrary. No
 
 #### Logo style
 
-Linqa's default stlyesheet will resize the logos to a height of 84px (Login and legal pages) resp. 44px (main UI's top header). To change this style or to add further style properties to your logo see *Custom CSS* below.
+Linqa's default stlyesheet will resize the logos to a height of 84px (Login and legal pages) resp. 44px (app header). To change this style or to add further style properties to your logo see *Custom CSS* below.
 
 ### Imprint and privacy policy
 
@@ -112,7 +112,7 @@ Use the browser's inspector tool to investigate the Linqa markup and define your
 Examples:
 
 ```
-.lq-login, .lq-header {
+.lq-login, .lq-app-header {
   background-color: white;      /* make Login page and main UI's header white instead of black */
 }
 

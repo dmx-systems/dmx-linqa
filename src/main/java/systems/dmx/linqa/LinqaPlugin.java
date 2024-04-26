@@ -260,14 +260,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @GET
-    @Path("/available_lang")
-    @Override
-    public List<String> getAvailableLanguages() {
-        // TODO
-        return null;
-    }
-
-    @GET
     @Path("/config/{fileName}/{fileType}")
     @Produces({MediaType.TEXT_HTML, "text/css"})      // TODO: image types
     @Override
@@ -285,7 +277,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).build();
             } else {
-                if (fileName.equals("logo")) {
+                if (fileName.equals("logo") || fileName.equals("logo-small")) {     // TODO
                     return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).build();
                 } else {
                     return Response.status(NO_CONTENT).build();

@@ -12,7 +12,7 @@ export default {
     // zoom compensation
     iconStyle () {
       return {
-        'font-size': `${20 / this.zoom}px`      // icons need to be bigger than text
+        'font-size': `${20 / this.zoom}px`      // icons need to be bigger than text    // TODO 18px, 24px for mobile
       }
     },
 

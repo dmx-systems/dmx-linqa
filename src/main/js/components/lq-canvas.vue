@@ -724,7 +724,7 @@ function newSynId () {
 
 <style>
 .lq-canvas {
-  position: relative;
+  position: relative;   /* the canvas toolbar is aligned to the *right* canvas border */
   flex-grow: 1;
   background-image: url("../../resources-build/grid.png");
   min-width: 0;

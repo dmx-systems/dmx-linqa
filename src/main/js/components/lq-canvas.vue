@@ -547,32 +547,6 @@ export default {
   overflow: hidden;
 }
 
-.lq-canvas .add-menu {
-  position: absolute;   /* don't consume canvas space */
-}
-
-.lq-canvas .add-menu .add-button {
-  position: relative;   /* only positioned elements have a z-index; "absolute" would displace dropdown menu */
-  z-index: 1;           /* place button above canvas items */
-  font-size: 24px;
-  margin: 8px;
-}
-
-.lq-canvas .canvas-toolbar {
-  position: absolute;
-  top: 4px;
-  right: 16px;
-  z-index: 1;           /* place buttons above canvas items */
-}
-
-.lq-canvas .canvas-toolbar .el-button {
-  font-size: 24px;
-}
-
-.lq-canvas .canvas-toolbar .lq-canvas-search {
-  margin-left: 15px;
-}
-
 .lq-canvas .content-layer {
   /* width: 10000px; */       /* avoid early line wrapping TODO: needed? */
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="lq-canvas-toolbar">
     <!-- Add menu -->
-    <el-dropdown class="add-menu" v-if="isAuthor" trigger="click" @command="handle">
-      <el-button class="add-button" type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
+    <el-dropdown v-if="isAuthor" trigger="click" @command="handle">
+      <el-button type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
         <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
@@ -13,15 +13,16 @@
       </el-dropdown-menu>
     </el-dropdown>
     <!-- Toolbar -->
-    <div class="canvas-toolbar">
+    <div class="view-controls">
       <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
       <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" @click="zoomToFit"></el-button>
       <el-button type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="stepZoom(.1)"></el-button>
       <el-button type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="stepZoom(-.1)"></el-button>
       <lq-canvas-search></lq-canvas-search>
-      <el-button type="text" icon="el-icon-chat-round" :title="openDiscussionTooltip" @click="openDiscussion">
-      </el-button>
     </div>
+    <el-button class="discussion-button" type="text" icon="el-icon-chat-round" :title="openDiscussionTooltip"
+      @click="openDiscussion">
+    </el-button>
   </div>
 </template>
 
@@ -200,3 +201,30 @@ function newSynId () {
   return synId--
 }
 </script>
+
+<style>
+.lq-canvas-toolbar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px 8px;
+  z-index: 1;           /* place buttons above canvas items */
+}
+
+.lq-canvas-toolbar .el-button {
+  font-size: 24px;
+}
+
+.lq-canvas-toolbar .view-controls {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 0 15px;
+}
+
+.lq-canvas-toolbar .lq-canvas-search {
+  margin-left: 15px;
+}
+</style>

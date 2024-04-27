@@ -74,12 +74,12 @@ export default {
 
 <style>
 .lq-canvas-search {
-  display: inline-block;
+  display: flex;
+  align-items: center;
 }
 
 .lq-canvas-search .el-input {
   width: 180px;
-  vertical-align: super;
 }
 
 .lq-canvas-search .el-input__inner {
@@ -95,10 +95,8 @@ export default {
 }
 
 .lq-canvas-search .match-info {
-  display: inline-block;
   width: 62px;
   margin-left: 5px;
-  vertical-align: super;
 }
 
 .lq-canvas-search .match-info.no-match {

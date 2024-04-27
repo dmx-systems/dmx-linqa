@@ -9,12 +9,43 @@ export default {
       }
     },
 
+    // zoom compensation
+    buttonStyle () {
+      return {
+        'font-size': `${14 / this.zoom}px`      // "14" matches --primary-font-size (see App.vue)
+      }
+    },
+
+    // zoom compensation
+    iconStyle () {
+      return {
+        'font-size': `${20 / this.zoom}px`      // icons need to be bigger than text    // TODO 18px, 24px for mobile
+      }
+    },
+
     pan () {
       return this.$store.state.pan
     },
 
     zoom () {
       return this.$store.state.zoom
+    }
+  },
+
+  methods: {
+    setZoom (zoom, cx, cy, transition) {
+      zoom = Math.min(Math.max(zoom, .2), 2)
+      const zoomChange = zoom - this.zoom
+      const px = (cx - this.pan.x) / this.zoom * zoomChange
+      const py = (cy - this.pan.y) / this.zoom * zoomChange
+      this.$store.dispatch('setViewport', {
+        pan: {
+          x: this.pan.x - px,
+          y: this.pan.y - py
+        },
+        zoom,
+        transition
+      })
     }
   }
 }

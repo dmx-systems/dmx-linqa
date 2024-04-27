@@ -24,7 +24,7 @@ export default {
     require('./mixins/mode').default,
     require('./mixins/selection').default,
     require('./mixins/roles').default,
-    require('./mixins/zoom').default
+    require('./mixins/viewport').default
   ],
 
   inject: ['context'],

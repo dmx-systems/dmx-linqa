@@ -1,27 +1,6 @@
 <template>
   <div class="lq-canvas" ref="canvas" :style="style" @wheel="wheelZoom">
-    <!-- Add menu -->
-    <el-dropdown class="add-menu" v-if="isAuthor" trigger="click" @command="handle">
-      <el-button class="add-button" type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-    <!-- Toolbar -->
-    <div class="canvas-toolbar">
-      <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
-      <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" @click="zoomToFit"></el-button>
-      <el-button type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="stepZoom(.1)"></el-button>
-      <el-button type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="stepZoom(-.1)"></el-button>
-      <lq-canvas-search></lq-canvas-search>
-      <el-button type="text" icon="el-icon-chat-round" :title="openDiscussionTooltip" @click="openDiscussion">
-      </el-button>
-    </div>
+    <lq-canvas-toolbar></lq-canvas-toolbar>
     <!-- Content layer -->
     <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
       <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
@@ -54,21 +33,19 @@
 </template>
 
 <script>
-import dmx from 'dmx-api'
 import lq from '../lq-globals'
 
 const context = {}
 
 let APP_HEADER_HEIGHT
-let synId = -1          // generator for temporary synthetic topic IDs, needed for topics not yet saved, counts down
 
 export default {
 
   mixins: [
+    require('./mixins/topicmap').default,
     require('./mixins/viewport').default,
     require('./mixins/selection').default,
     require('./mixins/roles').default,
-    require('./mixins/zoom').default
     // require('./mixins/dragging').default     // TODO: needed?
   ],
 
@@ -162,14 +139,6 @@ export default {
       }
     },
 
-    topicmap () {
-      return this.$store.state.topicmap
-    },
-
-    topics () {
-      return this.topicmap?.topics.filter(lq.canvasFilter) || []
-    },
-
     targets () {
       return this.selection.map(topic => document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`))
     },
@@ -236,30 +205,6 @@ export default {
 
     lang () {
       return this.$store.state.lang
-    },
-
-    addTooltip () {
-      return lq.getString('tooltip.add')
-    },
-
-    homeTooltip () {
-      return lq.getString('tooltip.home')
-    },
-
-    fullscreenTooltip () {
-      return lq.getString('tooltip.zoom_to_fit')
-    },
-
-    zoomInTooltip () {
-      return lq.getString('tooltip.zoom_in')
-    },
-
-    zoomOutTooltip () {
-      return lq.getString('tooltip.zoom_out')
-    },
-
-    openDiscussionTooltip () {
-      return lq.getString('tooltip.open_panel')
     }
   },
 
@@ -270,140 +215,9 @@ export default {
       return this.$store.state.isEditActive.includes(topic.id) ? 'form' : 'info'
     },
 
-    handle (command) {
-      this[command]()
-    },
-
-    // 6 methods called by dropdown menu
-
-    newDocument () {
-      // TODO: align it with note/heading/textblock? Possibly current model-driven approach not needed anymore
-      // as meanwhile document(name)s are auto-translated, that is single input field in create-form.
-      this.$store.dispatch('newTopic', this.newDocumentViewTopic())
-    },
-
-    newNote () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.note'))
-    },
-
-    newTextblock () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.textblock'))
-    },
-
-    newHeading () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.heading'))
-    },
-
-    newShape () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.shape'))
-    },
-
-    newLine () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.line'))
-    },
-
-    //
-
-    newDocumentViewTopic () {
-      return new dmx.ViewTopic({
-        ...dmx.typeCache.getTopicType('linqa.document').newFormModel(),
-        id: newSynId(),   // overwrite ID created in previous line
-        viewProps: this.viewProps('linqa.document')
-      })
-    },
-
-    newViewTopic (typeUri) {
-      return new dmx.ViewTopic({
-        id: newSynId(),
-        typeUri,
-        value: '',        // used as intermediate note/textblock/heading model while create
-        viewProps: this.viewProps(typeUri)
-      })
-    },
-
-    /**
-     * Creates default view props for *all* the 6 item types
-     */
-    viewProps (typeUri)  {
-      const x = snapToGrid((lq.CANVAS_BORDER - this.pan.x) / this.zoom)
-      const y = snapToGrid((lq.CANVAS_BORDER - this.pan.y) / this.zoom)
-      return {
-        'dmx.topicmaps.x': x,
-        'dmx.topicmaps.y': y,
-        'dmx.topicmaps.visibility': true,
-        'dmx.topicmaps.pinned': false,
-        'dmx.topicmaps.width': typeUri === 'linqa.line' ? lq.LINE_LENGTH :
-                               typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.FORM_WIDTH,
-        'dmx.topicmaps.height': typeUri === 'linqa.shape' ? lq.SHAPE_HEIGHT : undefined,
-        'linqa.angle': 0
-      }
-    },
-
-    home () {
-      const viewport = lq.getViewport()
-      this.$store.dispatch('setViewport', {
-        pan: viewport.pan,
-        zoom: viewport.zoom,
-        transition: true
-      })
-    },
-
-    zoomToFit () {
-      let xMin = 1000, xMax = -1000
-      let yMin = 1000, yMax = -1000
-      this.topics.forEach(topic => {
-        const x1 = topic.pos.x
-        const y1 = topic.pos.y
-        const item = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
-        const x2 = x1 + item.clientWidth
-        const y2 = y1 + item.clientHeight
-        if (x1 < xMin) xMin = x1
-        if (y1 < yMin) yMin = y1
-        if (x2 > xMax) xMax = x2
-        if (y2 > yMax) yMax = y2
-      })
-      const width = xMax - xMin
-      const height = yMax - yMin
-      const canvas = this.$refs.canvas
-      const widthC = canvas.clientWidth - 2 * lq.CANVAS_BORDER
-      const heightC = canvas.clientHeight - 2 * lq.CANVAS_BORDER
-      const zoomW = widthC / width
-      const zoomH = heightC / height
-      const zoom = Math.min(zoomW, zoomH)
-      const dx = (widthC / zoom - width) / 2
-      const dy = (heightC / zoom - height) / 2
-      const x = (dx - xMin) * zoom + lq.CANVAS_BORDER
-      const y = (dy - yMin) * zoom + lq.CANVAS_BORDER
-      this.$store.dispatch('setViewport', {pan: {x, y}, zoom, transition: true})
-    },
-
-    stepZoom (delta) {
-      const c = this.$refs.canvas
-      this.setZoom(this.zoom + delta, c.clientWidth / 2, c.clientHeight / 2, true)
-    },
-
     wheelZoom (e) {
       // console.log('wheelZoom', e)
       this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
-    },
-
-    setZoom (zoom, cx, cy, transition) {
-      zoom = Math.min(Math.max(zoom, .2), 2)
-      const zoomChange = zoom - this.zoom
-      const px = (cx - this.pan.x) / this.zoom * zoomChange
-      const py = (cy - this.pan.y) / this.zoom * zoomChange
-      this.$store.dispatch('setViewport', {
-        pan: {
-          x: this.pan.x - px,
-          y: this.pan.y - py
-        },
-        zoom,
-        transition
-      })
-    },
-
-    openDiscussion () {
-      this.$store.dispatch('setPanelVisibility', true)
     },
 
     isActionAvailable (action) {
@@ -579,8 +393,8 @@ export default {
 
     onResizeEnd ({target}) {
       const topic = this.findTopic(target)
-      const width = snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
-      const height = this.resizeStyle === 'xy' && snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
+      const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
+      const height = this.resizeStyle === 'xy' && lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
       this.setSize(target, width, height)
       this.$store.dispatch('storeTopicSize', topic)
     },
@@ -666,8 +480,8 @@ export default {
     moveHandler (topic, dx, dy) {
       const p = this.dragStartPos[topic.id]
       topic.setPosition({                                                 // update model
-        x: p.x + snapToGrid(dx),
-        y: p.y + snapToGrid(dy)
+        x: p.x + lq.snapToGrid(dx),
+        y: p.y + lq.snapToGrid(dy)
       })
     },
 
@@ -717,18 +531,10 @@ export default {
 
   components: {
     'lq-canvas-item': require('./lq-canvas-item').default,
-    'lq-canvas-search': require('./lq-canvas-search').default,
+    'lq-canvas-toolbar': require('./lq-canvas-toolbar').default,
     'lq-line-handles': require('./lq-line-handles').default,
     'vue-selecto': require('vue-selecto').default
   }
-}
-
-function snapToGrid(value) {
-  return Math.round(value / lq.CANVAS_GRID) * lq.CANVAS_GRID
-}
-
-function newSynId () {
-  return synId--
 }
 </script>
 

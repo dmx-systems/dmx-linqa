@@ -99,6 +99,7 @@ export default {
 .lq-app-header {
   display: flex;
   align-items: center;
+  flex: none;
   overflow: hidden;       /* avoid horizontal body scrolling on mobile */
   padding: 2px 10px;
   background-color: var(--header-color);

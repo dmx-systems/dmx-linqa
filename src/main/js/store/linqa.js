@@ -20,6 +20,8 @@ const userReady = dmx.rpc.getUsername().then(initUserState)
 const langReady = initLangConfig()
 const width = window.innerWidth
 const isSmallScreen = width <= lq.SMALL_SCREEN_WIDTH
+const panelVisibility = !isSmallScreen
+const panelX = isSmallScreen ? 14 : 0.65 * width
 console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
@@ -68,8 +70,8 @@ const state = {
   },
 
   // Discussion Panel
-  panelVisibility: true,        // discussion panel visibility (Boolean)
-  panelX: 0.65 * width,         // x coordinate in pixel (Number)
+  panelVisibility,              // discussion panel visibility (Boolean)
+  panelX,                       // x coordinate in pixel (Number)
   discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
   discussionLoading: false,     // true while a discussion is loading
   documentFilter: undefined,    // discussion is filtered by this document (a Document topic, plain object)

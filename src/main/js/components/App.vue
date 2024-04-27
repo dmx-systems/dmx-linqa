@@ -64,7 +64,7 @@ html {
 body {
   height: 100%;
   margin: 0;
-  /* overflow: hidden; */   /* avoid vertical body bounce; TODO: still needed? We have fixed resizer height meanwhile */
+  overflow: hidden;     /* never show body scrollbar caused by e.g. discussion panel */
   /* overflow-wrap: break-word; */
   font-family: var(--primary-font-family);
   font-size: var(--primary-font-size);

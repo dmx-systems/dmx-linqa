@@ -1,58 +1,53 @@
 <template>
-  <div :class="['lq-discussion', panelVisibility ? 'open' : 'close']">
-    <el-button v-if="!panelVisibility" class="open-button" type="text" icon="el-icon-d-arrow-left" :title="openTooltip"
-      @click="open">
+  <div :class="['lq-discussion', {'small-screen': isSmallScreen}]" v-show="panelVisibility">
+    <el-button class="close-button" type="text" icon="el-icon-d-arrow-right" :title="closeTooltip" @click="close">
     </el-button>
-    <template v-else>
-      <el-button class="close-button" type="text" icon="el-icon-d-arrow-right" :title="closeTooltip" @click="close">
-      </el-button>
-      <lq-string class="heading">label.discussion</lq-string>
-      <!-- Filter -->
-      <div class="filter-container" v-if="documentFilter || textblockFilter">
-        <div class="filter" v-if="documentFilter" key="document-filter">
-          <lq-string>label.document_filter</lq-string>
-          <el-button class="close-button" type="text" icon="el-icon-close" :title="resetTooltip"
-            @click="resetDocumentFilter">
-          </el-button>
-        </div>
-        <div class="filter" v-if="textblockFilter" key="textblock-filter">
-          <lq-string>label.textblock_filter</lq-string>
-          <el-button class="close-button" type="text" icon="el-icon-close" :title="resetTooltip"
-            @click="resetTextblockFilter">
-          </el-button>
-        </div>
-      </div>
-      <!-- Comments -->
-      <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
-      <div v-else class="comments" v-loading="discussionLoading">
-        <lq-comment v-for="comment in filteredDiscussion" :topic="comment" :key="comment.id" @reply="reply"
-          @comment-ref-click="jumpTo">
-        </lq-comment>
-      </div>
-      <!-- New comment -->
-      <div class="new-comment-container" v-if="isWritable" v-loading="submitting">
-        <div class="new-comment">
-          <lq-comment-ref :comment="refComment" :closable="true" @click="jumpTo" @remove="removeCommentRef">
-          </lq-comment-ref>
-          <lq-document-ref :document="documentFilter" :closable="true"></lq-document-ref>
-          <lq-textblock-ref :topic="textblockFilter" :closable="true"></lq-textblock-ref>
-          <div class="editor-container dmx-html-field">
-            <quill v-model="newComment" :options="quillOptions" ref="newComment" @quill-ready="focus"></quill>
-            <el-button class="attach-button" type="text" icon="el-icon-paperclip" :title="attachTooltip"
-              @click="openUploadDialog">
-            </el-button>
-          </div>
-          <div class="attachments">
-            <lq-attachment v-for="file in attachments" :file="file" :closable="true" :key="file.id"
-              @remove="removeAttachment">
-            </lq-attachment>
-          </div>
-        </div>
-        <el-button class="submit-button" type="text" icon="el-icon-s-promotion" size="medium" :title="submitTooltip"
-          @click="createComment">
+    <lq-string class="heading">label.discussion</lq-string>
+    <!-- Filter -->
+    <div class="filter-container" v-if="documentFilter || textblockFilter">
+      <div class="filter" v-if="documentFilter" key="document-filter">
+        <lq-string>label.document_filter</lq-string>
+        <el-button class="close-button" type="text" icon="el-icon-close" :title="resetTooltip"
+          @click="resetDocumentFilter">
         </el-button>
       </div>
-    </template>
+      <div class="filter" v-if="textblockFilter" key="textblock-filter">
+        <lq-string>label.textblock_filter</lq-string>
+        <el-button class="close-button" type="text" icon="el-icon-close" :title="resetTooltip"
+          @click="resetTextblockFilter">
+        </el-button>
+      </div>
+    </div>
+    <!-- Comments -->
+    <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
+    <div v-else class="comments" v-loading="discussionLoading">
+      <lq-comment v-for="comment in filteredDiscussion" :topic="comment" :key="comment.id" @reply="reply"
+        @comment-ref-click="jumpTo">
+      </lq-comment>
+    </div>
+    <!-- New comment -->
+    <div class="new-comment-container" v-if="isWritable" v-loading="submitting">
+      <div class="new-comment">
+        <lq-comment-ref :comment="refComment" :closable="true" @click="jumpTo" @remove="removeCommentRef">
+        </lq-comment-ref>
+        <lq-document-ref :document="documentFilter" :closable="true"></lq-document-ref>
+        <lq-textblock-ref :topic="textblockFilter" :closable="true"></lq-textblock-ref>
+        <div class="editor-container dmx-html-field">
+          <quill v-model="newComment" :options="quillOptions" ref="newComment" @quill-ready="focus"></quill>
+          <el-button class="attach-button" type="text" icon="el-icon-paperclip" :title="attachTooltip"
+            @click="openUploadDialog">
+          </el-button>
+        </div>
+        <div class="attachments">
+          <lq-attachment v-for="file in attachments" :file="file" :closable="true" :key="file.id"
+            @remove="removeAttachment">
+          </lq-attachment>
+        </div>
+      </div>
+      <el-button class="submit-button" type="text" icon="el-icon-s-promotion" size="medium" :title="submitTooltip"
+        @click="createComment">
+      </el-button>
+    </div>
     <lq-upload-dialog :visible="uploadDialogVisible" @attach="attach" @close="closeUploadDialog"></lq-upload-dialog>
   </div>
 </template>
@@ -82,6 +77,10 @@ export default {
   },
 
   computed: {
+
+    isSmallScreen () {
+      return this.$store.state.isSmallScreen
+    },
 
     isWritable () {
       return this.$store.state.isWritable
@@ -134,10 +133,6 @@ export default {
       return this.attachments.map(file => file.id)
     },
 
-    openTooltip () {
-      return lq.getString('tooltip.open_panel')
-    },
-
     closeTooltip () {
       return lq.getString('tooltip.close_panel')
     },
@@ -168,10 +163,6 @@ export default {
   },
 
   methods: {
-
-    open () {
-      this.$store.dispatch('setPanelVisibility', true)
-    },
 
     close () {
       this.$store.dispatch('setPanelVisibility', false)
@@ -290,26 +281,18 @@ export default {
 
 <style>
 .lq-discussion {
-  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   position: relative;         /* place close-button relative to this element */
   box-sizing: border-box;
   z-index: 1;
-}
-
-.lq-discussion.open {
   padding: 10px 0 10px 10px;
-  flex-grow: 1;
+  background-color: var(--background-color);
 }
 
-.lq-discussion.close {
-  padding: 5px;
-  width: auto !important;
-}
-
-.lq-discussion > .open-button {
-  font-size: 30px;
+.lq-discussion.small-screen {
+  /* flex-basis: 100%; */   /* TODO: needed? */
 }
 
 .lq-discussion > .close-button {
@@ -352,7 +335,6 @@ export default {
 .lq-discussion .comments {
   overflow: auto;
   position: relative;     /* scroll absolute positioned childs along, e.g. the "Translate" button */
-  min-height: 72px;       /* corresponds to effective comment min-height */
 }
 
 .lq-discussion .comments .lq-comment {
@@ -367,6 +349,11 @@ export default {
   display: flex;
   align-items: flex-end;
   margin-top: 20px;
+}
+
+.lq-discussion .new-comment-container .submit-button {
+  font-size: 30px;
+  margin: 0 10px 7px 10px;
 }
 
 .lq-discussion .new-comment {
@@ -408,10 +395,5 @@ export default {
   top: 0;
   right: 0;
   font-size: 20px;
-}
-
-.lq-discussion .new-comment-container .submit-button {
-  font-size: 30px;
-  margin: 0 10px 7px 10px;
 }
 </style>

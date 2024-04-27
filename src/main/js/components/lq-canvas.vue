@@ -19,6 +19,8 @@
       <el-button type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="stepZoom(.1)"></el-button>
       <el-button type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="stepZoom(-.1)"></el-button>
       <lq-canvas-search></lq-canvas-search>
+      <el-button type="text" icon="el-icon-chat-round" :title="openDiscussionTooltip" @click="openDiscussion">
+      </el-button>
     </div>
     <!-- Content layer -->
     <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
@@ -254,6 +256,10 @@ export default {
 
     zoomOutTooltip () {
       return lq.getString('tooltip.zoom_out')
+    },
+
+    openDiscussionTooltip () {
+      return lq.getString('tooltip.open_panel')
     }
   },
 
@@ -394,6 +400,10 @@ export default {
         zoom,
         transition
       })
+    },
+
+    openDiscussion () {
+      this.$store.dispatch('setPanelVisibility', true)
     },
 
     isActionAvailable (action) {

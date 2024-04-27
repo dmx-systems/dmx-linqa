@@ -38,7 +38,7 @@ export default {
 .lq-workspace {
   display: flex;
   flex-grow: 1;
-  position: relative;       /* height of lq-resizer must relate to lq-workspace height, not body height */
+  position: relative;       /* height of child lq-resizer must relate to lq-workspace height, not body height */
   min-height: 0;
   word-break: break-word;   /* TODO: "break-word" is deprecated */
 }

@@ -34,8 +34,8 @@ export default {
   computed: {
 
     visible () {
-      console.log('lq-resizer visible', !this.isSmallScreen, this.panelVisibility)
-      return !this.isSmallScreen && this.panelVisibility
+      console.log('lq-resizer visible', this.isBigScreen, this.panelVisibility)
+      return this.isBigScreen && this.panelVisibility
     },
 
     panelVisibility () {

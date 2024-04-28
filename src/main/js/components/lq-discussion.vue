@@ -1,7 +1,6 @@
 <template>
-  <div :class="['lq-discussion', {'small-screen': isSmallScreen}]" v-show="panelVisibility">
-    <el-button class="close-button" type="text" icon="el-icon-d-arrow-right" :title="closeTooltip" @click="close">
-    </el-button>
+  <div class="lq-discussion" v-show="panelVisibility">
+    <el-button class="close-button" type="text" icon="el-icon-close" :title="closeTooltip" @click="close"></el-button>
     <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
     <div class="filter-container" v-if="documentFilter || textblockFilter">
@@ -59,7 +58,6 @@ import errorHandler from '../error-handler'
 export default {
 
   mixins: [
-    require('./mixins/screen').default,
     require('./mixins/error-handling').default
   ],
 
@@ -286,10 +284,6 @@ export default {
   z-index: 1;
   padding: 10px 0 10px 10px;
   background-color: var(--background-color);
-}
-
-.lq-discussion.small-screen {
-  /* flex-basis: 100%; */   /* TODO: needed? */
 }
 
 .lq-discussion > .close-button {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-canvas-toolbar', {'small-screen': isSmallScreen}]">
+  <div class="lq-canvas-toolbar">
     <el-dropdown v-if="isAuthor" trigger="click" @command="handle">
       <el-button type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
       <el-dropdown-menu slot="dropdown">
@@ -14,16 +14,16 @@
     <div class="view-controls">
       <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
       <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" @click="zoomToFit"></el-button>
-      <el-button v-if="!isSmallScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip"
+      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip"
         @click="stepZoom(.1)">
       </el-button>
-      <el-button v-if="!isSmallScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip"
+      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip"
         @click="stepZoom(-.1)">
       </el-button>
       <lq-canvas-search></lq-canvas-search>
     </div>
-    <el-button class="discussion-button" type="text" icon="el-icon-chat-round" :title="openDiscussionTooltip"
-      @click="openDiscussion">
+    <el-button class="discussion-button" v-if="!panelVisibility" type="text" icon="el-icon-chat-round"
+      :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
   </div>
 </template>
@@ -44,6 +44,14 @@ export default {
   ],
 
   computed: {
+
+    panelVisibility () {
+      return this.$store.state.panelVisibility
+    },
+
+    canvas () {
+      return document.querySelector('.lq-canvas')
+    },
 
     addTooltip () {
       return lq.getString('tooltip.add')
@@ -67,10 +75,6 @@ export default {
 
     openDiscussionTooltip () {
       return lq.getString('tooltip.open_panel')
-    },
-
-    canvas () {
-      return document.querySelector('.lq-canvas')
     }
   },
 
@@ -227,7 +231,15 @@ function newSynId () {
   margin: 0 15px;
 }
 
-.lq-canvas-toolbar .lq-canvas-search {
+.lq-canvas-toolbar .view-controls .lq-canvas-search {
   margin-left: 15px;
+}
+
+.lq-canvas-toolbar .discussion-button {
+  background-color: var(--background-color) !important;
+  border-radius: 0;
+  margin-top: -4px;
+  margin-right: -8px;
+  padding: 4px !important;
 }
 </style>

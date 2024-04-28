@@ -1,6 +1,5 @@
 <template>
-  <div class="lq-canvas-toolbar">
-    <!-- Add menu -->
+  <div :class="['lq-canvas-toolbar', {'small-screen': isSmallScreen}]">
     <el-dropdown v-if="isAuthor" trigger="click" @command="handle">
       <el-button type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
       <el-dropdown-menu slot="dropdown">
@@ -12,12 +11,15 @@
         <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <!-- Toolbar -->
     <div class="view-controls">
       <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
       <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" @click="zoomToFit"></el-button>
-      <el-button type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="stepZoom(.1)"></el-button>
-      <el-button type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="stepZoom(-.1)"></el-button>
+      <el-button v-if="!isSmallScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip"
+        @click="stepZoom(.1)">
+      </el-button>
+      <el-button v-if="!isSmallScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip"
+        @click="stepZoom(-.1)">
+      </el-button>
       <lq-canvas-search></lq-canvas-search>
     </div>
     <el-button class="discussion-button" type="text" icon="el-icon-chat-round" :title="openDiscussionTooltip"
@@ -37,7 +39,8 @@ export default {
   mixins: [
     require('./mixins/topicmap').default,
     require('./mixins/viewport').default,
-    require('./mixins/roles').default
+    require('./mixins/roles').default,
+    require('./mixins/screen').default
   ],
 
   computed: {
@@ -73,7 +76,7 @@ export default {
 
   methods: {
 
-    // Item Creation
+    // "Add" Menu
 
     handle (command) {
       this[command]()
@@ -144,7 +147,7 @@ export default {
       }
     },
 
-    // View Control
+    // View Controls
 
     home () {
       const viewport = lq.getViewport()

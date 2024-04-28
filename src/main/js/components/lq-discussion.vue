@@ -59,6 +59,7 @@ import errorHandler from '../error-handler'
 export default {
 
   mixins: [
+    require('./mixins/screen').default,
     require('./mixins/error-handling').default
   ],
 
@@ -77,10 +78,6 @@ export default {
   },
 
   computed: {
-
-    isSmallScreen () {
-      return this.$store.state.isSmallScreen
-    },
 
     isWritable () {
       return this.$store.state.isWritable

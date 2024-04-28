@@ -1,5 +1,9 @@
 export default {
 
+  mixins: [
+    require('./screen').default
+  ],
+
   computed: {
 
     logo () {
@@ -9,10 +13,6 @@ export default {
         // Note: "lang" parameter is here only for reactivity, backend ignores it and operates on lang cookie instead
         return '/linqa/config/logo/png?multilingual=true&lang=' + this.lang
       }
-    },
-
-    isSmallScreen () {
-      return this.$store.state.isSmallScreen
     },
 
     lang () {

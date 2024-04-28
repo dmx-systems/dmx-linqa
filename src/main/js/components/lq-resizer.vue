@@ -6,7 +6,8 @@
 export default {
 
   mixins: [
-    require('./mixins/dragging').default
+    require('./mixins/dragging').default,
+    require('./mixins/screen').default
   ],
 
   created () {
@@ -35,10 +36,6 @@ export default {
     visible () {
       console.log('lq-resizer visible', !this.isSmallScreen, this.panelVisibility)
       return !this.isSmallScreen && this.panelVisibility
-    },
-
-    isSmallScreen () {
-      return this.$store.state.isSmallScreen
     },
 
     panelVisibility () {

@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-canvas-search">
+  <div :class="['lq-canvas-search', {'small-screen': isSmallScreen}]">
     <el-input v-model="searchTerm" :placeholder="placeholder"></el-input>
     <el-button type="text" icon="el-icon-arrow-left" :disabled="disPrev" @click="prevMatch"></el-button>
     <el-button type="text" icon="el-icon-arrow-right" :disabled="disNext" @click="nextMatch"></el-button>
@@ -11,6 +11,10 @@
 import lq from '../lq-globals'
 
 export default {
+
+  mixins: [
+    require('./mixins/screen').default
+  ],
 
   computed: {
 
@@ -80,6 +84,10 @@ export default {
 
 .lq-canvas-search .el-input {
   width: 180px;
+}
+
+.lq-canvas-search.small-screen .el-input {
+  width: 78px;
 }
 
 .lq-canvas-search .el-input__inner {

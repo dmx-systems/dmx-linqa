@@ -1,11 +1,11 @@
 <template>
-  <div class="lq-app-header">
+  <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
     <img class="logo" :src="logo">
     <!-- Workspace selector -->
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
-        <span class="workspace-label"><lq-string>label.shared_workspace</lq-string>:</span>
+        <span class="selector-label"><lq-string>label.shared_workspace</lq-string>:</span>
         <el-dropdown size="medium" trigger="click" @command="setWorkspace">
           <el-button type="text" :title="selectTooltip">
             <span class="name">{{workspaceName}}</span><span class="el-icon-arrow-down el-icon--right"></span>
@@ -36,7 +36,8 @@ export default {
 
   mixins: [
     require('./mixins/logo').default,
-    require('./mixins/workspace-name').default
+    require('./mixins/workspace-name').default,
+    require('./mixins/screen').default
   ],
 
   computed: {
@@ -116,10 +117,8 @@ export default {
   padding: 0 20px;
 }
 
-@media (max-width: 600px) {
-  .lq-app-header .workspace .workspace-label {
-    display: none;
-  }
+.lq-app-header.small-screen .workspace .selector-label {
+  display: none;
 }
 
 .lq-app-header .workspace .name {

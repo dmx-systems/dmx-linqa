@@ -264,35 +264,38 @@ export default {
     // 3 vue-selecto event handlers
 
     // "Selecto" passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
-    // - stop()           -- stops entire "selecto" logic, that is both, drag selection + deselection
+    // - stop()           -- stops entire "selecto" logic both, drag selection + deselection
     // - preventDrag()    -- prevents drag selection but still allows deselection
     // - preventDefault() -- alias of native event's preventDefault()?
     onDragSelectStart (e) {
-      const target = e.inputEvent.target
-      if (this.$refs.moveable.isMoveableElement(target) || this.targets.some(t => t.contains(target))) {
-        console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on selected item)',
-          this.$refs.moveable.isMoveableElement(target), this.targets.some(t => t.contains(target)))
-        // Stop "selecto" logic (drag selection + deselection) if we've clicked
-        // 1) a multi-selection in order to drag it (for a multi-selection isMoveableElement() is true), OR
-        // 2) a selected item in order to do a text-selection drag in form mode
-        e.stop()
+      if (e.inputEvent.target === this.$refs.canvas) {
+        if (e.inputEvent.shiftKey) {
+          console.log('onDragSelectStart() -> STARTING DRAG SELECTION and PREVENT CANVAS PAN')
+          e.inputEvent.stopImmediatePropagation()
+        } else {
+          console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
+          // Prevent drag selection but still allow *deselection* (click on canvas) which is also part
+          // of "selecto" logic. e.stop() on the other hand would stop the entire "selecto" logic.
+          e.preventDrag()
+        }
       } else {
-        if (e.inputEvent.target === this.$refs.canvas) {
-          if (e.inputEvent.shiftKey) {
-            console.log('onDragSelectStart() -> STARTING DRAG SELECTION and PREVENT CANVAS PAN')
-            e.inputEvent.stopImmediatePropagation()
+        const target = e.inputEvent.target
+        const element = this.$refs.selecto.getSelectableElements().find(e => e.contains(target))
+        if (element) {
+          if (this.$refs.moveable.isMoveableElement(target) || this.targets.includes(element)) {
+            console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on already selected item)',
+              this.$refs.moveable.isMoveableElement(target), this.targets.includes(element),
+              element !== undefined)
+            // Stop "selecto" logic (drag selection + deselection) if we've clicked
+            // 1) a multi-selection in order to drag it (for a multi-selection isMoveableElement() is true), OR
+            // 2) a selected item in order to do a text-selection drag in form mode
+            e.stop()
           } else {
-            console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
-            // Prevent drag selection but still allow *deselection* (click on canvas) which is also part
-            // of "selecto" logic. e.stop() on the other hand would stop the entire "selecto" logic.
-            e.preventDrag()
+            console.log('onDragSelectStart() -> SELECT ITEM', element.dataset.id)
           }
         } else {
-          console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (not clicked on canvas)')
-          // e.stop()
-          // FIXME: don't start a drag selection when clicking on e.g. the "home" button or the search field.
-          // e.stop() is NOT a proper fix as it prevents canvas-item *selection*. We need to check if actually
-          // clicked on an canvas-item.
+          console.log('onDragSelectStart() -> PREVENT ITEM SELECTION (clicked element is not selectable)')
+          e.stop()
         }
       }
     },

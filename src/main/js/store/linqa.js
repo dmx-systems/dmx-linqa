@@ -8,6 +8,7 @@ import errorHandler from '../error-handler'
 import lq from '../lq-globals'
 
 window.addEventListener('focus', updateCookies)
+window.addEventListener('resize', updateSmallScreenState)
 
 Vue.use(Vuex)
 
@@ -18,12 +19,20 @@ const linqaAdminWs = dmx.rpc.getTopicByUri('linqa.admin_ws', true).then(workspac
 const userReady = dmx.rpc.getUsername().then(initUserState)
 const langReady = initLangConfig()
 const width = window.innerWidth
+const isSmallScreen = width <= lq.SMALL_SCREEN_WIDTH
+const panelVisibility = !isSmallScreen
+const panelX = isSmallScreen ? 14 : 0.65 * width
+console.log('[Linqa] isSmallScreen:', isSmallScreen,
+  `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
+)
+
 loadCustomCSS()
 
 const state = {
 
   userReady,                    // a promise, resolved once User state is initialized
   langReady,                    // a promise, resolved once lang1/lang2 state is initialized
+  isSmallScreen,
   users: [],                    // all users in the system (array of plain Username topics, sorted by username=email
                                 // address). "memberships" prop holds respective user's Workspaces (array), initialized
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
@@ -61,8 +70,8 @@ const state = {
   },
 
   // Discussion Panel
-  panelVisibility: true,        // discussion panel visibility (Boolean)
-  panelX: 0.65 * width,         // x coordinate in pixel (Number)
+  panelVisibility,              // discussion panel visibility (Boolean)
+  panelX,                       // x coordinate in pixel (Number)
   discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
   discussionLoading: false,     // true while a discussion is loading
   documentFilter: undefined,    // discussion is filtered by this document (a Document topic, plain object)
@@ -244,7 +253,6 @@ const actions = {
    */
   setViewport (_, {pan, zoom, transition = false}) {
     // Note: pan/zoom state is not persisted. We have the Viewport topic instead.
-    // TODO: update topicmap model?
     state.pan = pan
     if (zoom) {
       state.zoom = zoom
@@ -817,6 +825,11 @@ function loadCustomCSS () {
   link.rel = 'stylesheet'
   link.href = '/linqa/config/custom/css'
   document.head.appendChild(link)
+}
+
+function updateSmallScreenState () {
+  // console.log('[Linqa] new window width:', `${window.innerWidth}px`)
+  state.isSmallScreen = window.innerWidth <= lq.SMALL_SCREEN_WIDTH
 }
 
 /**

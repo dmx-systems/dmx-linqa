@@ -1,11 +1,11 @@
 <template>
-  <div class="lq-header">
+  <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
     <img class="logo" :src="logo">
     <!-- Workspace selector -->
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
-        <lq-string>label.shared_workspace</lq-string>:
+        <span class="selector-label"><lq-string>label.shared_workspace</lq-string>:</span>
         <el-dropdown size="medium" trigger="click" @command="setWorkspace">
           <el-button type="text" :title="selectTooltip">
             <span class="name">{{workspaceName}}</span><span class="el-icon-arrow-down el-icon--right"></span>
@@ -36,7 +36,8 @@ export default {
 
   mixins: [
     require('./mixins/logo').default,
-    require('./mixins/workspace-name').default
+    require('./mixins/workspace-name').default,
+    require('./mixins/screen').default
   ],
 
   computed: {
@@ -96,40 +97,47 @@ export default {
 </script>
 
 <style>
-.lq-header {
+.lq-app-header {
   display: flex;
   align-items: center;
+  flex: none;
+  overflow: hidden;       /* avoid horizontal body scrolling on mobile */
   padding: 2px 10px;
   background-color: var(--header-color);
 }
 
-.lq-header img.logo {
+.lq-app-header img.logo {
   height: 44px;
-  margin-right: 72px;
 }
 
-.lq-header .workspace {
+.lq-app-header .workspace {
   flex-grow: 1;
+  text-align: center;
   color: white;
+  padding: 0 20px;
 }
 
-.lq-header .workspace .name {
+.lq-app-header.small-screen .workspace .selector-label {
+  display: none;
+}
+
+.lq-app-header .workspace .name {
   font-weight: bold;
   font-style: italic;
 }
 
-.lq-header .admin-button {
+.lq-app-header .admin-button {
   margin-right: 20px;
 }
 
-.lq-header .lq-user-menu {
-  margin-left: 20px;
+.lq-app-header .lq-user-menu {
+  margin-left: 14px;
 }
 
 /* dropdown menus are body mounted */
 body > .el-dropdown-menu.lq-workspace-selector {
-  overflow: auto;
-  max-height: calc(100% - 68px);
+  overflow: auto;                   /* make workspace selector scroll */
+  max-height: calc(100% - 68px);    /* use screen height to show as much workspaces as possible */
   white-space: nowrap;
 }
 </style>

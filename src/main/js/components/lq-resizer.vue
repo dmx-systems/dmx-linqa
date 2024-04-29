@@ -1,12 +1,13 @@
 <template>
-  <div class="lq-resizer" :style="{left: left + 'px'}" v-if="visible" @mousedown="onMouseDown"></div>
+  <div class="lq-resizer" v-if="visible" :style="{left: left + 'px'}" @mousedown="onMouseDown"></div>
 </template>
 
 <script>
 export default {
 
   mixins: [
-    require('./mixins/dragging').default
+    require('./mixins/dragging').default,
+    require('./mixins/screen').default
   ],
 
   created () {
@@ -26,12 +27,18 @@ export default {
   },
 
   mounted () {
+    console.log('lq-resizer mounted', this.visible)
     this.resize()
   },
 
   computed: {
 
     visible () {
+      console.log('lq-resizer visible', this.isBigScreen, this.panelVisibility)
+      return this.isBigScreen && this.panelVisibility
+    },
+
+    panelVisibility () {
       return this.$store.state.panelVisibility
     },
 
@@ -69,6 +76,7 @@ export default {
      * Updates view according to model (store.state.panelX)
      */
     resize () {
+      console.log('lq-resizer resize()')
       const container = document.querySelector('.lq-webclient')
       const paneL     = document.querySelector('.left-panel')
       const paneR     = document.querySelector('.right-panel')
@@ -85,7 +93,7 @@ export default {
 .lq-resizer {
   position: absolute;
   width: 16px;
-  height: 100%;
+  height: 100%;         /* we can't flex-grow (like lq-canvas and lq-discussion) because we're absolutely positioned */
   margin-left: -8px;    /* -width / 2 */
   z-index: 2;           /* make it appear before discussion panel */
   cursor: col-resize;

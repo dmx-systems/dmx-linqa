@@ -4,6 +4,16 @@ import Vue from 'vue'
 import dmx from 'dmx-api'
 import store from './store/linqa'
 
+const SMALL_SCREEN_WIDTH = 600
+const CANVAS_GRID = 20        // 20x20 pixel = size of grid.png
+const CANVAS_BORDER = 40      // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
+                              // Should be a multiple of CANVAS_GRID.
+const FORM_WIDTH = 384        // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
+const LINE_LENGTH = 200       // Should be a multiple of CANVAS_GRID
+const LINE_HEIGHT = 40        // Should be a multiple of CANVAS_GRID
+const SHAPE_WIDTH = 360       // Should be a multiple of CANVAS_GRID
+const SHAPE_HEIGHT = 180      // Should be a multiple of CANVAS_GRID
+
 const quillOptions = require('./quill-options').default   // Quill config for canvas
 const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for discussion panel
 quillOptions2.bounds = '.lq-discussion .comments'
@@ -14,14 +24,15 @@ console.log('[Linqa] isChrome:', isChrome)
 
 export default {
 
-  CANVAS_GRID: 20,        // 20x20 pixel = size of grid.png
-  CANVAS_BORDER: 40,      // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
-                          // Should be a multiple of CANVAS_GRID.
-  FORM_WIDTH: 384,        // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
-  LINE_LENGTH: 200,       // Should be a multiple of CANVAS_GRID
-  LINE_HEIGHT: 40,        // Should be a multiple of CANVAS_GRID
-  SHAPE_WIDTH: 360,       // Should be a multiple of CANVAS_GRID
-  SHAPE_HEIGHT: 180,      // Should be a multiple of CANVAS_GRID
+  SMALL_SCREEN_WIDTH,
+  CANVAS_GRID,
+  CANVAS_BORDER,
+
+  FORM_WIDTH,
+  LINE_LENGTH,
+  LINE_HEIGHT,
+  SHAPE_WIDTH,
+  SHAPE_HEIGHT,
 
   langSuffix,
 
@@ -37,6 +48,7 @@ export default {
   workspaceName,
 
   canvasFilter,
+  snapToGrid,
   confirmDeletion,
 
   quillOptions,
@@ -157,6 +169,10 @@ function canvasFilter (topic) {
          topic.typeUri === 'linqa.shape'     ||
          topic.typeUri === 'linqa.line'      ||
          topic.typeUri === 'linqa.viewport' && (store.state.isLinqaAdmin || store.state.isEditor)
+}
+
+function snapToGrid(value) {
+  return Math.round(value / CANVAS_GRID) * CANVAS_GRID
 }
 
 function confirmDeletion (textKey = 'warning.delete', value) {

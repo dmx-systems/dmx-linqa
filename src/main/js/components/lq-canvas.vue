@@ -301,7 +301,7 @@ export default {
     },
 
     onSelect (e) {
-      // console.log('onSelect()')
+      console.log('onSelect()')
       this.$store.dispatch('updateSelection', {
         addTopics: e.added.map(el => el.__vue__.topic),
         removeTopicIds: e.removed.map(el => Number(el.dataset.id))
@@ -312,7 +312,7 @@ export default {
     },
 
     onSelectEnd (e) {
-      // console.log('onSelectEnd()', e.isDragStart)
+      console.log('onSelectEnd()', e.isDragStart)
       if (e.isDragStart) {
         e.inputEvent.preventDefault()
         setTimeout(() => {
@@ -330,17 +330,25 @@ export default {
     onDragStart (e) {
       const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
       if (parent) {
-        console.log('onDragStart() -> PREVENT ITEM DRAG')
+        console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
         e.stopDrag()
       } else {
-        console.log('onDragStart() -> STARTING ITEM DRAG')
+        console.log('onDragStart() -> STARTING ITEM DRAG', e.target.dataset.id)
         const topic = this.findTopic(e.target)
-        this.dragStartPos = {[topic.id]: topic.pos}
+        if (topic) {
+          this.dragStartPos = {[topic.id]: topic.pos}
+        } else {
+          // FIXME: this should never happen. When deselecting an item or selecting a different one a
+          // superfluous start-item-drag is triggered together with intended start-canvas-pan or start-item-drag
+          // (for the previously selected item). This happens only on mobile. Timing is an issue here.
+          console.warn(`onDragStart() -> ABORT ITEM DRAG (item ${e.target.dataset.id} not in selection)`)
+          e.stopDrag()
+        }
       }
     },
 
     onDrag (e) {
-      console.log('onDrag()')
+      // console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
     },
 

@@ -32,7 +32,7 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
 
-let synId = -1          // generator for temporary synthetic topic IDs, needed for topics not yet saved, counts down
+let synId = -1          // generator for transient topic IDs, needed for topics not yet saved, counts down
 
 export default {
 

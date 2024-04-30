@@ -2,7 +2,7 @@
 
 ## users
 if [ -z "$1" ]; then
-    USER_LIST='Testuser Peter Paula Tom Tabea Claude'
+    USER_LIST='Linqa-Admin Linqa-Editor Linqa-User'
 else
     USER_LIST="$1"
 fi

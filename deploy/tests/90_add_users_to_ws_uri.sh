@@ -5,7 +5,7 @@ sleep 5
 
 ## users
 if [ -z "$1" ]; then
-    USER_LIST='Testuser Tom Tabea'
+    USER_LIST='Linqa-Admin'
 else
     USER_LIST="$1"
 fi

@@ -101,7 +101,6 @@ export default {
   display: flex;
   align-items: center;
   flex: none;
-  overflow: hidden;       /* avoid horizontal body scrolling on mobile */
   padding: 2px 10px;
   background-color: var(--header-color);
 }
@@ -112,9 +111,10 @@ export default {
 
 .lq-app-header .workspace {
   flex-grow: 1;
+  overflow: hidden;     /* clip workspace selector in favor of other header buttons */
   text-align: center;
   color: white;
-  padding: 0 20px;
+  margin: 0 20px;       /* a padding would be overflown by content */
 }
 
 .lq-app-header.small-screen .workspace .selector-label {

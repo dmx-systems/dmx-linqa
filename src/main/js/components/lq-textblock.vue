@@ -198,10 +198,13 @@ export default {
 <style>
 .lq-textblock {
   box-sizing: border-box;
-  overflow: hidden;
   height: 100%;
   padding: 6px;
   border: var(--filter-border);
+}
+
+.lq-textblock.info {
+  overflow: hidden;
 }
 
 .lq-textblock.filter {

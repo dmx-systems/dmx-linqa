@@ -184,9 +184,12 @@ export default {
 <style>
 .lq-note {
   box-sizing: border-box;
-  overflow: hidden;
   height: 100%;
   padding: 12px;
+}
+
+.lq-note.info {
+  overflow: hidden;
 }
 
 .lq-note.form {

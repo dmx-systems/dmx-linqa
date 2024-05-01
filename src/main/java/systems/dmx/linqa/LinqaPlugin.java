@@ -261,7 +261,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     @GET
     @Path("/config/{fileName}/{fileType}")
-    @Produces({MediaType.TEXT_HTML, "text/css"})      // TODO: image types
+    @Produces({MediaType.TEXT_HTML, "text/css", "image/png"})
     @Override
     public Response getConfigResource(@PathParam("fileName") String fileName,
                                       @PathParam("fileType") String fileType,
@@ -274,11 +274,12 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             }
             path.append("." + fileType);
             File file = new File(path.toString());
+            String mediaType = mediaType(fileType);
             if (file.exists()) {
-                return Response.ok(new FileInputStream(file)).build();
+                return Response.ok(new FileInputStream(file)).type(mediaType).build();
             } else {
                 if (fileName.equals("logo") || fileName.equals("logo-small")) {     // TODO
-                    return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).build();
+                    return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).type(mediaType).build();
                 } else {
                     return Response.status(NO_CONTENT).build();
                 }
@@ -906,6 +907,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         } catch (Exception e) {
             throw new RuntimeException("Sending welcome mail for \"" + displayName + "\" (" + emailAddress + ") failed",
                 e);
+        }
+    }
+
+    // TODO: move to platform's JavaUtils
+    private String mediaType(String fileType) {
+        switch (fileType) {
+            case "html": return "text/html";
+            case "css": return "text/css";
+            case "png": return "image/png";         // TODO: more image types
+            default: return null;
         }
     }
 

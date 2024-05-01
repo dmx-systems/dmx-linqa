@@ -1,6 +1,6 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
-    <img class="logo" :src="logo">
+    <img class="logo" :src="logo(true)">
     <!-- Workspace selector -->
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>

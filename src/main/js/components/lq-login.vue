@@ -1,7 +1,7 @@
 <template>
   <div class="lq-login">
     <lq-language-switch></lq-language-switch>
-    <img class="logo" :src="logo">
+    <img class="logo" :src="logo()">
     <div class="login-form">
       <div class="welcome">
         <lq-string>label.welcome</lq-string>

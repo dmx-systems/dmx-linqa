@@ -2,7 +2,7 @@
   <div :class="['lq-legal', routeName]">
     <lq-language-switch></lq-language-switch>
     <el-button class="home-button" type="text" @click="home">
-      <img class="logo" :src="logo">
+      <img class="logo" :src="logo()">
     </el-button>
     <lq-string class="heading">{{heading}}</lq-string>
     <div class="scroll-container dmx-html-field">

@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-login">
+  <div :class="['lq-login', {'small-screen': isSmallScreen}]">
     <lq-language-switch></lq-language-switch>
     <img class="logo" :src="logo()">
     <div class="login-form">
@@ -23,8 +23,6 @@
       </div>
       <el-button class="login-button" type="primary" @click="login">Login</el-button>
       <span class="message">{{message}}</span>
-    </div>
-    <div class="gap">
     </div>
     <div class="footer">
       <el-button type="text" @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
@@ -108,6 +106,10 @@ export default {
   padding: 60px 0 18px 160px;
 }
 
+.lq-login.small-screen {
+  padding: 40px 0 18px 50px;
+}
+
 .lq-login .lq-language-switch {
   position: absolute;
   top: 16px;
@@ -119,12 +121,22 @@ export default {
   height: 84px;
 }
 
+.lq-login.small-screen img.logo {
+  height: 64px;
+}
+
 .lq-login .login-form {
   margin-top: 50px;
+  flex-grow: 1;
+}
+
+.lq-login.small-screen .login-form {
+  margin-top: 40px;
 }
 
 .lq-login .login-form .el-input {
-  width: 280px;
+  width: 80vw;
+  max-width: 280px;
 }
 
 .lq-login .welcome {
@@ -138,6 +150,12 @@ export default {
   font-weight: lighter;
   margin-top: 10px;
   margin-bottom: 28px;
+}
+
+.lq-login.small-screen .login {
+  font-size: 32px;
+  margin-top: 6px;
+  margin-bottom: 16px;
 }
 
 .lq-login .password-reset {
@@ -159,10 +177,6 @@ export default {
   font-size: 16px;
   margin-top: 26px;
   margin-bottom: 36px;
-}
-
-.lq-login .gap {
-  flex-grow: 1;
 }
 
 .lq-login .footer .el-button {

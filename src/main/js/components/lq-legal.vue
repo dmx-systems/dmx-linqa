@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-legal', routeName]">
+  <div :class="['lq-legal', routeName, {'small-screen': isSmallScreen}]">
     <lq-language-switch></lq-language-switch>
     <el-button class="home-button" type="text" @click="home">
       <img class="logo" :src="logo()">
@@ -79,12 +79,21 @@ export default {
   padding: 60px 0 0 120px;
 }
 
+.lq-legal.small-screen {
+  padding: 40px 0 0 60px;
+}
+
 .lq-legal .home-button {
+  flex-shrink: 0;     /* Needed for old browsers, at least Safari on iOS 12 */
   align-self: flex-start;
 }
 
 .lq-legal img.logo {
   height: 84px;
+}
+
+.lq-legal.small-screen img.logo {
+  height: 64px;
 }
 
 .lq-legal .lq-language-switch {
@@ -104,6 +113,10 @@ export default {
   flex-grow: 1;
   margin-top: 24px;
   padding-right: 34%;
+}
+
+.lq-legal.small-screen .scroll-container {
+  padding-right: 18px;
 }
 
 .lq-legal .text {

@@ -107,7 +107,7 @@ export default {
 }
 
 .lq-login.small-screen {
-  padding: 40px 0 18px 50px;
+  padding: 40px 0 18px 60px;
 }
 
 .lq-login .lq-language-switch {
@@ -127,7 +127,7 @@ export default {
 
 .lq-login .login-form {
   margin-top: 50px;
-  flex-grow: 1;
+  margin-bottom: auto;
 }
 
 .lq-login.small-screen .login-form {

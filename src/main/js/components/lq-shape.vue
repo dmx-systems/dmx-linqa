@@ -16,6 +16,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
+    <lq-color-menu v-model="selectedColor" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 
@@ -31,6 +32,11 @@ export default {
 
   created () {
     this.selectedShape = this.shape
+    this.$emit('action', {
+      key: 'action.color',
+      icon: 'el-icon-brush',
+      handler: this.openColorMenu
+    })
   },
 
   data () {
@@ -62,6 +68,10 @@ export default {
 
   methods: {
 
+    openColorMenu () {
+      this.$refs.colorMenu.open()
+    },
+
     save () {
       this.topic.setViewProp('linqa.shape_type', this.selectedShape)
       this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
@@ -77,7 +87,8 @@ export default {
   },
 
   components: {
-    'lq-color-selector': require('./lq-color-selector').default
+    'lq-color-selector': require('./lq-color-selector').default,
+    'lq-color-menu': require('./lq-color-menu').default
   }
 }
 </script>

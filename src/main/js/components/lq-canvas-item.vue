@@ -141,6 +141,8 @@ export default {
 
   methods: {
 
+    // 4 action handlers
+
     edit () {
       // "allChildren" is required to keep the file's "Media Type". Note: Media Type is required for file rendering,
       // but it would be omitted/dropped due to "Reduced Details" as it is not an identity attribute. ### FIXDOC
@@ -164,6 +166,8 @@ export default {
       this.$store.dispatch('delete', this.topic)
     },
 
+    //
+
     // FIXME: editors must be able to *duplicate* locked items
     // TODO: refactor, attach logic to action instead
     isActionAvailable (action) {
@@ -183,7 +187,7 @@ export default {
     },
 
     addAction (action) {
-      this.actions.push(action)
+      this.actions.unshift(action)
     },
 
     setActions (actions) {

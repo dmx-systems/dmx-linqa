@@ -455,11 +455,6 @@ const actions = {
 
   //
 
-  edit ({dispatch}, topic) {
-    dispatch('select', [topic])             // programmatic selection
-    state.isEditActive.push(topic.id)
-  },
-
   cancel ({dispatch}, topic) {
     if (topic.id < 0) {
       // abort creation
@@ -594,6 +589,13 @@ const actions = {
       }
   },
 
+  // 4 actions dispatched from canvas-item toolbar
+
+  edit ({dispatch}, topic) {
+    dispatch('select', [topic])             // programmatic selection
+    state.isEditActive.push(topic.id)
+  },
+
   duplicateMulti ({dispatch}, topicIds) {
     // update server state
     http.post(`/linqa/duplicate/${topicIds}`, undefined, {
@@ -633,6 +635,8 @@ const actions = {
       dmx.rpc.deleteTopic(topic.id)                   // update server state
     }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
+
+  //
 
   // dispatched from canvas when a multi-selection is deleted
   deleteMulti ({dispatch}, topicIds) {

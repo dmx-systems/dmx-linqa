@@ -29,7 +29,6 @@ export default {
 
   data () {
     return {
-      color: this.value,                        // selected color
       colors: COLOR_PALETTE[this.palette]       // available colors
     }
   },
@@ -37,7 +36,6 @@ export default {
   methods: {
 
     setColor (color) {
-      this.color = color
       this.$emit('input', color)
     },
 

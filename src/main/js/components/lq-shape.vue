@@ -8,7 +8,6 @@
           <el-radio label="ellipse"><span class="ellipse" :style="radioStyle"></span></el-radio>
         </el-radio-group>
       </div>
-      <lq-color-selector v-model="selectedColor"></lq-color-selector>
       <el-button class="save-button" type="primary" size="medium" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
@@ -16,7 +15,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
-    <lq-color-menu v-model="selectedColor" ref="colorMenu"></lq-color-menu>
+    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 
@@ -27,7 +26,8 @@ export default {
 
   mixins: [
     require('./mixins/editable').default,
-    require('./mixins/color-selector').default
+    require('./mixins/color-model').default,
+    require('./mixins/cancel').default   // TODO: drop it
   ],
 
   created () {
@@ -61,7 +61,7 @@ export default {
 
     radioStyle () {
       return {
-        'background-color': this.selectedColor
+        'background-color': this.color
       }
     }
   },
@@ -69,25 +69,24 @@ export default {
   methods: {
 
     openColorMenu () {
+      this.$store.dispatch('select', [this.topic])      // programmatic selection
       this.$refs.colorMenu.open()
     },
 
+    // TODO: drop it
     save () {
       this.topic.setViewProp('linqa.shape_type', this.selectedShape)
-      this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
-      this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
-      //
       this.$store.dispatch(this.isNew ? 'createShape' : 'updateShape', this.topic)
     },
 
+    // TODO: drop it
     cancelShape () {
       this.selectedShape = this.shape
-      this.cancelColor()     // from color-selector mixin
+      this.cancel()     // from cancel mixin
     }
   },
 
   components: {
-    'lq-color-selector': require('./lq-color-selector').default,
     'lq-color-menu': require('./lq-color-menu').default
   }
 }

@@ -1,4 +1,6 @@
 /**
+ * TODO: drop it. Color is no longer "cancelable".
+ *
  * This mixin is used by canvas items which feature a color selector.
  * It provides:
  * - color          the persisted color (as read from DB)

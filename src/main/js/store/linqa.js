@@ -407,7 +407,7 @@ const actions = {
     })
   },
 
-  // 4 update() actions, dispatched when "OK" is pressed in an update form.
+  // 4 update() actions, dispatched when "OK" is pressed in an update form. ### FIXDOC ### TODO: rename to "save"
   // Both, client state and server state is updated and the form is closed.
 
   /**
@@ -451,6 +451,12 @@ const actions = {
       'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
     })
     removeEditActive(topic)
+  },
+
+  updateColor (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.color': topic.viewProps['linqa.color']
+    })
   },
 
   //

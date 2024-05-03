@@ -27,14 +27,12 @@ export default {
   },
 
   mounted () {
-    console.log('lq-resizer mounted', this.visible)
     this.resize()
   },
 
   computed: {
 
     visible () {
-      console.log('lq-resizer visible', this.isBigScreen, this.panelVisibility)
       return this.isBigScreen && this.panelVisibility
     },
 
@@ -76,7 +74,6 @@ export default {
      * Updates view according to model (store.state.panelX)
      */
     resize () {
-      console.log('lq-resizer resize()')
       const container = document.querySelector('.lq-webclient')
       const paneL     = document.querySelector('.left-panel')
       const paneR     = document.querySelector('.right-panel')

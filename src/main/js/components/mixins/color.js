@@ -1,6 +1,8 @@
 import COLOR_PALETTE from '../../lq-color-palette'
 
 /**
+ * TODO: drop it in favor of color-model.js
+ *
  * The host component is expected to hold
  * - topic      any topic which has a "color" child value
  */

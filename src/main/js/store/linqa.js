@@ -320,7 +320,7 @@ const actions = {
     }
   },
 
-  // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types.
+  // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types. ### FIXDOC
   // Dispatched from lq-canvas.vue
 
   /**
@@ -340,7 +340,17 @@ const actions = {
     })
   },
 
-  // 4 create() actions, dispatched when "OK" is pressed in an create form.
+  /**
+   * @param   topic   a dmx.ViewTopic
+   */
+  createShape ({dispatch}, topic) {
+    state.topicmap.addTopic(topic)      // update client state
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
+    })
+  },
+
+  // 4 create() actions, dispatched when "OK" is pressed in an create form. ### FIXDOC
 
   /**
    * @param   type          'note'/'textblock'/'heading'
@@ -363,6 +373,7 @@ const actions = {
       p = dmx.rpc._http.post(`/linqa/${type}`, topic.value).then(response => response.data)
     }
     return p.then(_topic => {
+      removeEditActive(topic)
       addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
@@ -383,15 +394,7 @@ const actions = {
       p = dmx.rpc._http.post('/linqa/document', docName, {params: {fileId}}).then(response => response.data)
     }
     return p.then(_topic => {
-      addTopicToTopicmap(topic, _topic, dispatch)
-    })
-  },
-
-  /**
-   * @param   topic   a dmx.ViewTopic
-   */
-  createShape ({dispatch}, topic) {
-    return dmx.rpc.createTopic(topic).then(_topic => {
+      removeEditActive(topic)
       addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
@@ -403,6 +406,7 @@ const actions = {
    */
   createLine ({dispatch}, topic) {
     return dmx.rpc.createTopic(topic).then(_topic => {
+      removeEditActive(topic)   // TODO: drop it
       addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
@@ -920,7 +924,6 @@ function updateUserProfile(userProfile) {
  */
 function addTopicToTopicmap (viewTopic, topic, dispatch) {
   // update client state
-  removeEditActive(viewTopic)
   // Note: we must remove the topic from topicmap before its ID is overridden and re-add it.
   // Otherwise the canvas DOM would not re-render in case the new topic is deleted afterwards.
   // The canvas template uses topic.id as the key in a v-for loop.

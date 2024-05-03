@@ -14,8 +14,9 @@ export default {
         // See customizeTopic() in LinqaPlugin.java
         if (c) {
           return c
-          // TODO: add default color config at canvas-level?
-        } else if (this.topic.typeUri === 'linqa.line') {
+        }
+        // TODO: add default color config at canvas-level?
+        if (this.topic.typeUri === 'linqa.line') {
           return COLOR_PALETTE.foreground[0]   // default is gray
         } else {
           return COLOR_PALETTE.background[1]   // default is light gray

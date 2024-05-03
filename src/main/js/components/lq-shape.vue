@@ -16,6 +16,7 @@
       </el-button>
     </template>
     <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
+    <lq-shape-menu v-model="shape" :color="color" ref="shapeMenu"></lq-shape-menu>
   </div>
 </template>
 
@@ -33,6 +34,11 @@ export default {
   created () {
     this.selectedShape = this.shape
     this.$emit('action', {
+      key: 'action.shape',
+      icon: 'el-icon-star-off',
+      handler: this.openShapeMenu
+    })
+    this.$emit('action', {
       key: 'action.color',
       icon: 'el-icon-brush',
       handler: this.openColorMenu
@@ -47,8 +53,14 @@ export default {
 
   computed: {
 
-    shape () {
-      return this.topic.viewProps['linqa.shape_type'] || 'rectangle'
+    shape: {
+      get () {
+        return this.topic.viewProps['linqa.shape_type'] || 'rectangle'
+      },
+      set (shape) {
+        this.topic.setViewProp('linqa.shape_type', shape)       // update client state
+        this.$store.dispatch('updateShapeType', this.topic)     // update server state
+      }
     },
 
     style () {
@@ -73,6 +85,11 @@ export default {
       this.$refs.colorMenu.open()
     },
 
+    openShapeMenu () {
+      this.$store.dispatch('select', [this.topic])      // programmatic selection
+      this.$refs.shapeMenu.open()
+    },
+
     // TODO: drop it
     save () {
       this.topic.setViewProp('linqa.shape_type', this.selectedShape)
@@ -87,7 +104,8 @@ export default {
   },
 
   components: {
-    'lq-color-menu': require('./lq-color-menu').default
+    'lq-color-menu': require('./lq-color-menu').default,
+    'lq-shape-menu': require('./lq-shape-menu').default
   }
 }
 </script>
@@ -100,6 +118,8 @@ export default {
 .lq-shape.info.ellipse {
   border-radius: 50%;
 }
+
+/* TODO: drop form mode style */
 
 .lq-shape.form {
   background-color: var(--background-color);

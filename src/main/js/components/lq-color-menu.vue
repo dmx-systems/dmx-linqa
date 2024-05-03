@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="lq-color-menu" size="medium" trigger="click" @command="setColor">
     <span ref="trigger"></span>
-    <el-dropdown-menu slot="dropdown">
+    <el-dropdown-menu class="lq-color-dropdown" slot="dropdown">
       <el-dropdown-item v-for="color in colors" :command="color" :key="color">
         <div :class="colorBoxClass(color)" :style="{'background-color': color}"></div>
       </el-dropdown-item>
@@ -60,18 +60,21 @@ export default {
 }
 
 /* dropdown menus are body mounted */
-body > .el-dropdown-menu .color-box {
+.lq-color-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
   margin-top: 9px;
+}
+
+.lq-color-dropdown .color-box {
   width: 40px;
   height: 30px;
 }
 
-body > .el-dropdown-menu .color-box.white,
-body > .el-dropdown-menu .color-box.transparent {
+.lq-color-dropdown .color-box.white,
+.lq-color-dropdown .color-box.transparent {
   border: 1px solid var(--border-color-lighter);
 }
 
-body > .el-dropdown-menu .color-box.transparent {
+.lq-color-dropdown .color-box.transparent {
   background-image: url("../../resources-build/grid.png");
   background-position: bottom right;
   background-size: 12px;

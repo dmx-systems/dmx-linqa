@@ -428,7 +428,7 @@ const actions = {
   },
 
   /**
-   * Updates a shape's view props and closes the form.
+   * Updates a shape's view props and closes the form. ### TODO: drop it
    *
    * @param   topic   the topic (dmx.ViewTopic)
    */
@@ -458,6 +458,17 @@ const actions = {
       'linqa.color': topic.viewProps['linqa.color']
     })
   },
+
+  updateShapeType (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.shape_type': topic.viewProps['linqa.shape_type']
+    })
+  },
+
+  // TODO: receive array of propURIs and construct viewProps object
+  /* setTopicViewProps (_, {topicId, viewProps}) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topicId, viewProps)
+  }, */
 
   //
 

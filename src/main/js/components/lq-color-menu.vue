@@ -1,0 +1,82 @@
+<template>
+  <el-dropdown class="lq-color-menu" size="medium" trigger="click" @command="setColor">
+    <span ref="trigger"></span>
+    <el-dropdown-menu class="lq-color-dropdown" slot="dropdown">
+      <el-dropdown-item v-for="color in colors" :command="color" :key="color">
+        <div :class="colorBoxClass(color)" :style="{'background-color': color}"></div>
+      </el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
+</template>
+
+<script>
+import COLOR_PALETTE from '../lq-color-palette'
+
+export default {
+
+  props: {
+
+    value: {                          // initial color
+      type: String,
+      required: true
+    },
+
+    palette: {                        // 'foreground'/'background' (default)
+      type: String,
+      default: 'background'
+    }
+  },
+
+  data () {
+    return {
+      colors: COLOR_PALETTE[this.palette]       // available colors
+    }
+  },
+
+  methods: {
+
+    setColor (color) {
+      this.$emit('input', color)
+    },
+
+    colorBoxClass (color) {
+      const classes = ['color-box']
+      if (color === 'white' || color === 'transparent') {     // 'white' and 'transparent' get extra style
+        classes.push(color)
+      }
+      return classes
+    },
+
+    open () {
+      this.$refs.trigger.click()
+    }
+  }
+}
+</script>
+
+<style>
+.lq-color-menu {
+  height: 50%;
+}
+
+/* dropdown menus are body mounted */
+.lq-color-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
+  margin-top: 9px;
+}
+
+.lq-color-dropdown .color-box {
+  width: 40px;
+  height: 30px;
+}
+
+.lq-color-dropdown .color-box.white,
+.lq-color-dropdown .color-box.transparent {
+  border: 1px solid var(--border-color-lighter);
+}
+
+.lq-color-dropdown .color-box.transparent {
+  background-image: url("../../resources-build/grid.png");
+  background-position: bottom right;
+  background-size: 12px;
+}
+</style>

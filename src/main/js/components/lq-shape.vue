@@ -1,21 +1,7 @@
 <template>
-  <div :class="['lq-shape', shape, mode]" :style="style">
-    <template v-if="formMode">
-      <div class="field">
-        <div class="field-label"><lq-string>item.shape</lq-string></div>
-        <el-radio-group class="shape" v-model="selectedShape">
-          <el-radio label="rectangle"><span class="rectangle" :style="radioStyle"></span></el-radio>
-          <el-radio label="ellipse"><span class="ellipse" :style="radioStyle"></span></el-radio>
-        </el-radio-group>
-      </div>
-      <lq-color-selector v-model="selectedColor"></lq-color-selector>
-      <el-button class="save-button" type="primary" size="medium" @click="save">
-        <lq-string>action.submit</lq-string>
-      </el-button>
-      <el-button size="medium" @click="cancelShape">
-        <lq-string>action.cancel</lq-string>
-      </el-button>
-    </template>
+  <div :class="['lq-shape', shape]" :style="style">
+    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
+    <lq-shape-menu v-model="shape" :color="color" ref="shapeMenu"></lq-shape-menu>
   </div>
 </template>
 
@@ -25,59 +11,65 @@ import dmx from 'dmx-api'
 export default {
 
   mixins: [
-    require('./mixins/editable').default,
-    require('./mixins/color-selector').default
+    require('./mixins/color-model').default
   ],
 
-  created () {
-    this.selectedShape = this.shape
+  props: {
+    topic: {                  // the topic to render
+      type: dmx.ViewTopic,
+      required: true
+    }
   },
 
-  data () {
-    return {
-      selectedShape: undefined        // shape selector model: 'rectangle'/'ellipse'
-    }
+  created () {
+    this.$emit('removeAction', 'action.edit')
+    this.$emit('action', {
+      key: 'action.shape',
+      icon: 'el-icon-star-off',
+      handler: this.openShapeMenu
+    })
+    this.$emit('action', {
+      key: 'action.color',
+      icon: 'el-icon-brush',
+      handler: this.openColorMenu
+    })
   },
 
   computed: {
 
-    shape () {
-      return this.topic.viewProps['linqa.shape_type'] || 'rectangle'
-    },
-
-    style () {
-      if (this.infoMode) {
-        return {
-          'background-color': this.color
-        }
+    shape: {
+      get () {
+        return this.topic.viewProps['linqa.shape_type'] || 'rectangle'
+      },
+      set (shape) {
+        this.topic.setViewProp('linqa.shape_type', shape)       // update client state
+        this.$store.dispatch('updateShapeType', this.topic)     // update server state
       }
     },
 
-    radioStyle () {
+    style () {
       return {
-        'background-color': this.selectedColor
+        'background-color': this.color
       }
     }
   },
 
   methods: {
 
-    save () {
-      this.topic.setViewProp('linqa.shape_type', this.selectedShape)
-      this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
-      this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
-      //
-      this.$store.dispatch(this.isNew ? 'createShape' : 'updateShape', this.topic)
+    openColorMenu () {
+      this.$store.dispatch('select', [this.topic])      // programmatic selection
+      this.$refs.colorMenu.open()
     },
 
-    cancelShape () {
-      this.selectedShape = this.shape
-      this.cancelColor()     // from color-selector mixin
+    openShapeMenu () {
+      this.$store.dispatch('select', [this.topic])      // programmatic selection
+      this.$refs.shapeMenu.open()
     }
   },
 
   components: {
-    'lq-color-selector': require('./lq-color-selector').default
+    'lq-color-menu': require('./lq-color-menu').default,
+    'lq-shape-menu': require('./lq-shape-menu').default
   }
 }
 </script>
@@ -87,33 +79,7 @@ export default {
   height: 100%;
 }
 
-.lq-shape.info.ellipse {
+.lq-shape.ellipse {
   border-radius: 50%;
-}
-
-.lq-shape.form {
-  background-color: var(--background-color);
-  padding: 12px;
-}
-
-.lq-shape.form .el-radio-group.shape .el-radio__label > span {
-  display: inline-block;
-  vertical-align: middle;
-  width: 40px;
-  height: 30px;
-  border: 1px dashed var(--highlight-color);
-}
-
-.lq-shape.form .el-radio-group.shape .el-radio__label > span.rectangle {
-  width: 36px;
-  height: 27px;
-}
-
-.lq-shape.form .el-radio-group.shape .el-radio__label > span.ellipse {
-  border-radius: 50%;
-}
-
-.lq-shape.form .save-button {
-  margin-top: var(--field-spacing);
 }
 </style>

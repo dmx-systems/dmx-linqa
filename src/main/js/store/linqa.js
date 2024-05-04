@@ -320,7 +320,7 @@ const actions = {
     }
   },
 
-  // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types.
+  // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types. ### FIXDOC
   // Dispatched from lq-canvas.vue
 
   /**
@@ -340,7 +340,17 @@ const actions = {
     })
   },
 
-  // 4 create() actions, dispatched when "OK" is pressed in an create form.
+  /**
+   * @param   topic   a dmx.ViewTopic
+   */
+  createShape ({dispatch}, topic) {
+    state.topicmap.addTopic(topic)      // update client state
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
+    })
+  },
+
+  // 4 create() actions, dispatched when "OK" is pressed in an create form. ### FIXDOC
 
   /**
    * @param   type          'note'/'textblock'/'heading'
@@ -363,6 +373,7 @@ const actions = {
       p = dmx.rpc._http.post(`/linqa/${type}`, topic.value).then(response => response.data)
     }
     return p.then(_topic => {
+      removeEditActive(topic)
       addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
@@ -383,15 +394,7 @@ const actions = {
       p = dmx.rpc._http.post('/linqa/document', docName, {params: {fileId}}).then(response => response.data)
     }
     return p.then(_topic => {
-      addTopicToTopicmap(topic, _topic, dispatch)
-    })
-  },
-
-  /**
-   * @param   topic   a dmx.ViewTopic
-   */
-  createShape ({dispatch}, topic) {
-    return dmx.rpc.createTopic(topic).then(_topic => {
+      removeEditActive(topic)
       addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
@@ -403,11 +406,12 @@ const actions = {
    */
   createLine ({dispatch}, topic) {
     return dmx.rpc.createTopic(topic).then(_topic => {
+      removeEditActive(topic)   // TODO: drop it
       addTopicToTopicmap(topic, _topic, dispatch)
     })
   },
 
-  // 4 update() actions, dispatched when "OK" is pressed in an update form.
+  // 4 update() actions, dispatched when "OK" is pressed in an update form. ### FIXDOC ### TODO: rename to "save"
   // Both, client state and server state is updated and the form is closed.
 
   /**
@@ -428,19 +432,6 @@ const actions = {
   },
 
   /**
-   * Updates a shape's view props and closes the form.
-   *
-   * @param   topic   the topic (dmx.ViewTopic)
-   */
-  updateShape (_, topic) {
-    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-      'linqa.color': topic.viewProps['linqa.color'],
-      'linqa.shape_type': topic.viewProps['linqa.shape_type']
-    })
-    removeEditActive(topic)
-  },
-
-  /**
    * Updates a line's view props and closes the form.
    *
    * @param   topic   the topic (dmx.ViewTopic)
@@ -453,12 +444,24 @@ const actions = {
     removeEditActive(topic)
   },
 
-  //
-
-  edit ({dispatch}, topic) {
-    dispatch('select', [topic])             // programmatic selection
-    state.isEditActive.push(topic.id)
+  updateColor (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.color': topic.viewProps['linqa.color']
+    })
   },
+
+  updateShapeType (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.shape_type': topic.viewProps['linqa.shape_type']
+    })
+  },
+
+  // TODO: receive array of propURIs and construct viewProps object
+  /* setTopicViewProps (_, {topicId, viewProps}) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topicId, viewProps)
+  }, */
+
+  //
 
   cancel ({dispatch}, topic) {
     if (topic.id < 0) {
@@ -594,6 +597,13 @@ const actions = {
       }
   },
 
+  // 4 actions dispatched from canvas-item toolbar
+
+  edit ({dispatch}, topic) {
+    dispatch('select', [topic])             // programmatic selection
+    state.isEditActive.push(topic.id)
+  },
+
   duplicateMulti ({dispatch}, topicIds) {
     // update server state
     http.post(`/linqa/duplicate/${topicIds}`, undefined, {
@@ -633,6 +643,8 @@ const actions = {
       dmx.rpc.deleteTopic(topic.id)                   // update server state
     }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
+
+  //
 
   // dispatched from canvas when a multi-selection is deleted
   deleteMulti ({dispatch}, topicIds) {
@@ -899,7 +911,6 @@ function updateUserProfile(userProfile) {
  */
 function addTopicToTopicmap (viewTopic, topic, dispatch) {
   // update client state
-  removeEditActive(viewTopic)
   // Note: we must remove the topic from topicmap before its ID is overridden and re-add it.
   // Otherwise the canvas DOM would not re-render in case the new topic is deleted afterwards.
   // The canvas template uses topic.id as the key in a v-for loop.

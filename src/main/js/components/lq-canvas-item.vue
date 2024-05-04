@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @get-size="setGetSizeHandler">
+      @action="addAction" @actions="setActions" @removeAction="removeAction" @get-size="setGetSizeHandler">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -141,6 +141,8 @@ export default {
 
   methods: {
 
+    // 4 action handlers
+
     edit () {
       // "allChildren" is required to keep the file's "Media Type". Note: Media Type is required for file rendering,
       // but it would be omitted/dropped due to "Reduced Details" as it is not an identity attribute. ### FIXDOC
@@ -164,30 +166,36 @@ export default {
       this.$store.dispatch('delete', this.topic)
     },
 
-    // FIXME: editors must be able to *duplicate* locked items
-    // TODO: refactor, attach logic to action instead
+    //
+
+    // FIXME: editors must be able to *duplicate* locked items?
+    // TODO: refactor, attach logic to action instead?
     isActionAvailable (action) {
       return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.lock' || this.isLinqaAdmin)
     },
 
-    // TODO: refactor, attach logic to action instead
+    // TODO: refactor, attach logic to action instead?
     actionLabel (action) {
       const key = action.key === 'action.lock' && this.locked ? 'action.unlock' : action.key
       return lq.getString(key)
     },
 
-    // TODO: refactor, attach logic to action instead
+    // TODO: refactor, attach logic to action instead?
     actionIcon (action) {
       const icon = action.key === 'action.lock' && this.locked ? 'el-icon-unlock' : action.icon
       return icon
     },
 
     addAction (action) {
-      this.actions.push(action)
+      this.actions.unshift(action)
     },
 
     setActions (actions) {
       this.actions = actions
+    },
+
+    removeAction (actionKey) {
+      this.actions = this.actions.filter(action => action.key !== actionKey)
     },
 
     setGetSizeHandler (handler) {

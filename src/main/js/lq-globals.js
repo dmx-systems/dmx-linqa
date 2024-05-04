@@ -11,8 +11,8 @@ const CANVAS_BORDER = 40      // Affects a) position of new items and document r
 const FORM_WIDTH = 384        // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
 const LINE_LENGTH = 200       // Should be a multiple of CANVAS_GRID
 const LINE_HEIGHT = 40        // Should be a multiple of CANVAS_GRID
-const SHAPE_WIDTH = 360       // Should be a multiple of CANVAS_GRID
-const SHAPE_HEIGHT = 180      // Should be a multiple of CANVAS_GRID
+const SHAPE_WIDTH = 200       // Should be a multiple of CANVAS_GRID
+const SHAPE_HEIGHT = 120      // Should be a multiple of CANVAS_GRID
 
 const quillOptions = require('./quill-options').default   // Quill config for canvas
 const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for discussion panel

@@ -107,7 +107,7 @@ export default {
     },
 
     newShape () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.shape'))
+      this.$store.dispatch('createShape', this.newViewTopic('linqa.shape'))
     },
 
     newLine () {

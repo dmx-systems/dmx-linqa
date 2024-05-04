@@ -16,7 +16,7 @@ export default {
 
   props: {
 
-    value: {                          // initial color
+    value: {                          // initial color  // ### Needed?
       type: String,
       required: true
     },

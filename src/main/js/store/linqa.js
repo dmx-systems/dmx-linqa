@@ -340,10 +340,22 @@ const actions = {
     })
   },
 
+  // TODO: unify these 2
+
   /**
    * @param   topic   a dmx.ViewTopic
    */
   createShape ({dispatch}, topic) {
+    state.topicmap.addTopic(topic)      // update client state
+    return dmx.rpc.createTopic(topic).then(_topic => {
+      addTopicToTopicmap(topic, _topic, dispatch)
+    })
+  },
+
+  /**
+   * @param   topic   a dmx.ViewTopic
+   */
+  createLine ({dispatch}, topic) {
     state.topicmap.addTopic(topic)      // update client state
     return dmx.rpc.createTopic(topic).then(_topic => {
       addTopicToTopicmap(topic, _topic, dispatch)
@@ -399,18 +411,6 @@ const actions = {
     })
   },
 
-  /**
-   * TODO: unify with createShape()?
-   *
-   * @param   topic   a dmx.ViewTopic
-   */
-  createLine ({dispatch}, topic) {
-    return dmx.rpc.createTopic(topic).then(_topic => {
-      removeEditActive(topic)   // TODO: drop it
-      addTopicToTopicmap(topic, _topic, dispatch)
-    })
-  },
-
   // 4 update() actions, dispatched when "OK" is pressed in an update form. ### FIXDOC ### TODO: rename to "save"
   // Both, client state and server state is updated and the form is closed.
 
@@ -422,6 +422,8 @@ const actions = {
   },
 
   /**
+   * TODO: drop it
+   *
    * @param   topic   a dmx.ViewTopic
    */
   updateAndStoreColor ({dispatch}, topic) {
@@ -431,18 +433,7 @@ const actions = {
     })
   },
 
-  /**
-   * Updates a line's view props and closes the form.
-   *
-   * @param   topic   the topic (dmx.ViewTopic)
-   */
-  updateLine (_, topic) {
-    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-      'linqa.color': topic.viewProps['linqa.color'],
-      'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
-    })
-    removeEditActive(topic)
-  },
+  // TODO: unify these 3
 
   updateColor (_, topic) {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
@@ -453,6 +444,12 @@ const actions = {
   updateShapeType (_, topic) {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
       'linqa.shape_type': topic.viewProps['linqa.shape_type']
+    })
+  },
+
+  updateArrowheads (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
     })
   },
 

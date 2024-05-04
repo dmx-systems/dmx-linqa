@@ -111,7 +111,7 @@ export default {
     },
 
     newLine () {
-      this.$store.dispatch('newTopic', this.newViewTopic('linqa.line'))
+      this.$store.dispatch('createLine', this.newViewTopic('linqa.line'))
     },
 
     //

@@ -168,19 +168,19 @@ export default {
 
     //
 
-    // FIXME: editors must be able to *duplicate* locked items
-    // TODO: refactor, attach logic to action instead
+    // FIXME: editors must be able to *duplicate* locked items?
+    // TODO: refactor, attach logic to action instead?
     isActionAvailable (action) {
       return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.lock' || this.isLinqaAdmin)
     },
 
-    // TODO: refactor, attach logic to action instead
+    // TODO: refactor, attach logic to action instead?
     actionLabel (action) {
       const key = action.key === 'action.lock' && this.locked ? 'action.unlock' : action.key
       return lq.getString(key)
     },
 
-    // TODO: refactor, attach logic to action instead
+    // TODO: refactor, attach logic to action instead?
     actionIcon (action) {
       const icon = action.key === 'action.lock' && this.locked ? 'el-icon-unlock' : action.icon
       return icon

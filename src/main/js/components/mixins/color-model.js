@@ -9,9 +9,9 @@ export default {
 
     color: {
       get () {
-        const c = this.topic.children['linqa.color']?.value
         // Note: we read "color" from child value, not view property.
         // See customizeTopic() in LinqaPlugin.java
+        const c = this.topic.children['linqa.color']?.value
         if (c) {
           return c
         }

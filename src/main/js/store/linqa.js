@@ -432,19 +432,6 @@ const actions = {
   },
 
   /**
-   * Updates a shape's view props and closes the form. ### TODO: drop it
-   *
-   * @param   topic   the topic (dmx.ViewTopic)
-   */
-  updateShape (_, topic) {
-    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-      'linqa.color': topic.viewProps['linqa.color'],
-      'linqa.shape_type': topic.viewProps['linqa.shape_type']
-    })
-    removeEditActive(topic)
-  },
-
-  /**
    * Updates a line's view props and closes the form.
    *
    * @param   topic   the topic (dmx.ViewTopic)

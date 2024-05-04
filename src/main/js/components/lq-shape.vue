@@ -22,6 +22,7 @@ export default {
   },
 
   created () {
+    this.$emit('removeAction', 'action.edit')
     this.$emit('action', {
       key: 'action.shape',
       icon: 'el-icon-star-off',

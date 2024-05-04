@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @get-size="setGetSizeHandler">
+      @action="addAction" @actions="setActions" @removeAction="removeAction" @get-size="setGetSizeHandler">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div class="item-toolbar" v-if="infoMode">
@@ -192,6 +192,10 @@ export default {
 
     setActions (actions) {
       this.actions = actions
+    },
+
+    removeAction (actionKey) {
+      this.actions = this.actions.filter(action => action.key !== actionKey)
     },
 
     setGetSizeHandler (handler) {

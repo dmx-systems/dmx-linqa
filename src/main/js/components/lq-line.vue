@@ -9,8 +9,8 @@
       <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-start="markerStartUrl"
         :marker-end="markerEndUrl" />
     </svg>
-    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
-    <lq-arrowheads-menu v-model="arrowheads" ref="arrowheadsMenu"></lq-arrowheads-menu>
+    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu><!--
+    --><lq-arrowheads-menu v-model="arrowheads" ref="arrowheadsMenu"></lq-arrowheads-menu>
   </div>
 </template>
 
@@ -43,7 +43,6 @@ export default {
       icon: 'el-icon-brush',
       handler: this.openColorMenu
     })
-    this.$emit('get-size', () => this.size)
   },
 
   computed: {
@@ -62,6 +61,13 @@ export default {
       return `0 -${lq.CANVAS_GRID} ${this.size.w} ${this.size.h}`
     },
 
+    size () {
+      return {
+        w: this.topic.viewProps['dmx.topicmaps.width'],
+        h: 2 * lq.CANVAS_GRID - 2
+      }
+    },
+
     markerId () {
       return `arrowhead-${this.colorAsId}`
     },
@@ -76,13 +82,6 @@ export default {
 
     markerEndUrl () {
       return ['end', 'start-end'].includes(this.arrowheads) && this.markerUrl
-    },
-
-    size () {
-      return {
-        w: this.topic.viewProps['dmx.topicmaps.width'],
-        h: 2 * lq.CANVAS_GRID - 2
-      }
     }
   },
 

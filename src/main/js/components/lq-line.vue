@@ -35,7 +35,7 @@ export default {
     this.$emit('removeAction', 'action.edit')
     this.$emit('action', {
       key: 'action.arrowheads',
-      icon: 'el-icon-star-off',         // TODO
+      icon: 'el-icon-back',
       handler: this.openArrowheadsMenu
     })
     this.$emit('action', {

@@ -9,7 +9,7 @@
       <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-start="markerStartUrl"
         :marker-end="markerEndUrl" />
     </svg>
-    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu><!--
+    <lq-color-menu v-model="color" palette="foreground" ref="colorMenu"></lq-color-menu><!--
     --><lq-arrowheads-menu v-model="arrowheads" ref="arrowheadsMenu"></lq-arrowheads-menu>
   </div>
 </template>

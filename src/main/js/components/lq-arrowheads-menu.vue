@@ -34,10 +34,6 @@ export default {
 </script>
 
 <style>
-.lq-arrowheads-menu {
-  height: 50%;
-}
-
 /* dropdown menus are body mounted */
 .lq-arrowheads-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
   margin-top: 9px;

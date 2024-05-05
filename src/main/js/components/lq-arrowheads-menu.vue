@@ -42,6 +42,7 @@ export default {
 .lq-arrowheads-dropdown .el-dropdown-menu__item > div {
   position: relative;
   font-size: 48px;
+  pointer-events: none;     /* make the menu-items the hot spots */
 }
 
 .lq-arrowheads-dropdown .none {

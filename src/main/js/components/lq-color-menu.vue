@@ -16,7 +16,7 @@ export default {
 
   props: {
 
-    value: {                          // initial color
+    value: {                          // initial color  // ### Needed?
       type: String,
       required: true
     },
@@ -55,10 +55,6 @@ export default {
 </script>
 
 <style>
-.lq-color-menu {
-  height: 50%;
-}
-
 /* dropdown menus are body mounted */
 .lq-color-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
   margin-top: 9px;

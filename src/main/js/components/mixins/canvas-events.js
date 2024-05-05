@@ -22,10 +22,10 @@ export default {
     onDragSelectStart (e) {
       if (e.inputEvent.target === this.$refs.canvas) {
         if (e.inputEvent.shiftKey) {
-          console.log('onDragSelectStart() -> STARTING DRAG SELECTION and PREVENT CANVAS PAN')
+          // console.log('onDragSelectStart() -> STARTING DRAG SELECTION and PREVENT CANVAS PAN')
           e.inputEvent.stopImmediatePropagation()
         } else {
-          console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
+          // console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
           // Prevent drag selection but still allow *deselection* (click on canvas) which is also part
           // of "selecto" logic. e.stop() on the other hand would stop the entire "selecto" logic.
           e.preventDrag()
@@ -35,25 +35,25 @@ export default {
         const element = this.$refs.selecto.getSelectableElements().find(e => e.contains(target))
         if (element) {
           if (this.$refs.moveable.isMoveableElement(target) || this.targets.includes(element)) {
-            console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on already selected item)',
+            /* console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on already selected item)',
               this.$refs.moveable.isMoveableElement(target), this.targets.includes(element),
-              element !== undefined)
+              element !== undefined) */
             // Stop "selecto" logic (drag selection + deselection) if we've clicked
             // 1) a multi-selection in order to drag it (for a multi-selection isMoveableElement() is true), OR
             // 2) a selected item in order to do a text-selection drag in form mode
             e.stop()
           } else {
-            console.log('onDragSelectStart() -> SELECT ITEM', element.dataset.id)
+            // console.log('onDragSelectStart() -> SELECT ITEM', element.dataset.id)
           }
         } else {
-          console.log('onDragSelectStart() -> PREVENT ITEM SELECTION (clicked element is not selectable)')
+          // console.log('onDragSelectStart() -> PREVENT ITEM SELECTION (clicked element is not selectable)')
           e.stop()
         }
       }
     },
 
     onSelect (e) {
-      console.log('onSelect()')
+      // console.log('onSelect()')
       this.$store.dispatch('updateSelection', {
         addTopics: e.added.map(el => el.__vue__.topic),
         removeTopicIds: e.removed.map(el => Number(el.dataset.id))
@@ -64,7 +64,7 @@ export default {
     },
 
     onSelectEnd (e) {
-      console.log('onSelectEnd()', e.isDragStart)
+      // console.log('onSelectEnd()', e.isDragStart)
       if (e.isDragStart) {
         e.inputEvent.preventDefault()
         setTimeout(() => {
@@ -82,10 +82,10 @@ export default {
     onDragStart (e) {
       const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
       if (parent) {
-        console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
+        // console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
         e.stopDrag()
       } else {
-        console.log('onDragStart() -> STARTING ITEM DRAG', e.target.dataset.id)
+        // console.log('onDragStart() -> STARTING ITEM DRAG', e.target.dataset.id)
         const topic = this.findTopic(e.target)
         if (topic) {
           this.dragStartPos = {[topic.id]: topic.pos}
@@ -93,7 +93,7 @@ export default {
           // FIXME: this should never happen. When deselecting an item or selecting a different one a
           // superfluous start-item-drag is triggered together with intended start-canvas-pan or start-item-drag
           // (for the previously selected item). This happens only on mobile. Timing is an issue here.
-          console.warn(`onDragStart() -> ABORT ITEM DRAG (item ${e.target.dataset.id} not in selection)`)
+          // console.warn(`onDragStart() -> ABORT ITEM DRAG (item ${e.target.dataset.id} not in selection)`)
           e.stopDrag()
         }
       }
@@ -105,7 +105,7 @@ export default {
     },
 
     onDragEnd (e) {
-      console.log('onDragEnd()')
+      // console.log('onDragEnd()')
       this.$store.dispatch('storeTopicPos', this.findTopic(e.target))
     },
 
@@ -180,7 +180,7 @@ export default {
     // - stop()     -- not in API docs, apparently an alias for stopAble()
     onPanStart (e) {
       if (e.inputEvent.target !== this.$refs.canvas) {
-        console.log('onPanStart() -> PREVENT CANVAS PAN (not clicked on canvas)', e.inputEvent.touches?.length)
+        // console.log('onPanStart() -> PREVENT CANVAS PAN (not clicked on canvas)', e.inputEvent.touches?.length)
         if (e.inputEvent.touches?.length === 2) {
           // Only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the same
           // Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event. Calling
@@ -191,7 +191,7 @@ export default {
           e.stopDrag()
         }
       } else {
-        console.log('onPanStart() -> STARTING CANVAS PAN')
+        // console.log('onPanStart() -> STARTING CANVAS PAN')
       }
     },
 
@@ -210,7 +210,7 @@ export default {
     },
 
     onPanEnd (e) {
-      console.log('onPanEnd()')
+      // console.log('onPanEnd()')
       // this.dragStop()          // TODO: needed?
     },
 

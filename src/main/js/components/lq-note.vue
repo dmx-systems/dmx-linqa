@@ -1,33 +1,36 @@
 <template>
-  <div class="lq-note dmx-html-field info" v-if="infoMode" v-html="noteHtml" :style="{'background-color': color}"></div>
-  <div :class="['lq-note', 'dmx-html-field', 'form']" v-else v-loading="saving">
-    <template v-if="isNew">
-      <div class="field">
-        <div class="field-label"><lq-string>label.new_note</lq-string></div>
-        <quill v-model="topic.value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
-      </div>
-    </template>
+  <div :class="['lq-note', 'dmx-html-field', mode]" v-loading="saving" :style="{'background-color': color}">
+    <div v-if="infoMode" v-html="noteHtml">
+      <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
+    </div>
     <template v-else>
-      <div class="field">
-        <div class="field-label"><lq-string>item.note</lq-string> ({{lang1}})</div>
-        <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
-      </div>
-      <div class="translate">
-        <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="doTranslate"></el-button>
-      </div>
-      <div class="field">
-        <div class="field-label"><lq-string>item.note</lq-string> ({{lang2}})</div>
-        <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating"></quill>
-        <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
-      </div>
+      <template v-if="isNew">
+        <div class="field">
+          <div class="field-label"><lq-string>label.new_note</lq-string></div>
+          <quill v-model="topic.value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+        </div>
+      </template>
+      <template v-else>
+        <div class="field">
+          <div class="field-label"><lq-string>item.note</lq-string> ({{lang1}})</div>
+          <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+        </div>
+        <div class="translate">
+          <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="doTranslate"></el-button>
+        </div>
+        <div class="field">
+          <div class="field-label"><lq-string>item.note</lq-string> ({{lang2}})</div>
+          <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating"></quill>
+          <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
+        </div>
+      </template>
+      <el-button class="save-button" type="primary" size="medium" @click="save">
+        <lq-string>action.submit</lq-string>
+      </el-button>
+      <el-button size="medium" @click="cancel">
+        <lq-string>action.cancel</lq-string>
+      </el-button>
     </template>
-    <lq-color-selector v-model="selectedColor"></lq-color-selector>
-    <el-button class="save-button" type="primary" size="medium" @click="save">
-      <lq-string>action.submit</lq-string>
-    </el-button>
-    <el-button size="medium" @click="cancelColor">
-      <lq-string>action.cancel</lq-string>
-    </el-button>
   </div>
 </template>
 
@@ -40,9 +43,10 @@ export default {
 
   mixins: [
     require('./mixins/editable').default,
+    require('./mixins/cancel').default,
     require('./mixins/translation').default,
+    require('./mixins/color-model').default,
     require('./mixins/highlight').default,
-    require('./mixins/color-selector').default
   ],
 
   props: {
@@ -105,15 +109,13 @@ export default {
 
     save () {
       this.saving = true
-      this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
-      this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
       let action, arg, msgBox
       if (this.isNew) {
         action = 'createTopic'
         arg = {type: 'note', topic: this.topic}
         msgBox = 'confirm'
       } else {
-        action = 'updateAndStoreColor'
+        action = 'update'
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
@@ -172,7 +174,7 @@ export default {
   },
 
   components: {
-    'lq-color-selector': require('./lq-color-selector').default,
+    'lq-color-menu': require('./lq-color-menu').default,
     quill: () => ({
       component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
       loading: require('./lq-spinner')

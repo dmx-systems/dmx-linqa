@@ -38,11 +38,6 @@ export default {
       icon: 'el-icon-back',
       handler: this.openArrowheadsMenu
     })
-    this.$emit('action', {
-      key: 'action.color',
-      icon: 'el-icon-s-open',
-      handler: this.openColorMenu
-    })
   },
 
   computed: {
@@ -86,12 +81,6 @@ export default {
   },
 
   methods: {
-
-    openColorMenu () {
-      this.$store.dispatch('select', [this.topic])      // programmatic selection
-      this.$refs.colorMenu.open()
-    },
-
     openArrowheadsMenu () {
       this.$store.dispatch('select', [this.topic])      // programmatic selection
       this.$refs.arrowheadsMenu.open()

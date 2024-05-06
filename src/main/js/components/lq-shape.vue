@@ -11,7 +11,7 @@ import dmx from 'dmx-api'
 export default {
 
   mixins: [
-    require('./mixins/color-model').default
+    require('./mixins/color-menu').default
   ],
 
   props: {
@@ -57,7 +57,6 @@ export default {
   },
 
   components: {
-    'lq-color-menu': require('./lq-color-menu').default,
     'lq-shape-menu': require('./lq-shape-menu').default
   }
 }

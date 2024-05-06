@@ -13,7 +13,7 @@ import lq from '../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/color').default
+    require('./mixins/color-model').default
   ],
 
   props: {

@@ -421,18 +421,6 @@ const actions = {
     return dmx.rpc.updateTopic(topic).then(removeEditActive)
   },
 
-  /**
-   * TODO: drop it
-   *
-   * @param   topic   a dmx.ViewTopic
-   */
-  updateAndStoreColor ({dispatch}, topic) {
-    dispatch('update', topic)
-    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-      'linqa.color': topic.viewProps['linqa.color']
-    })
-  },
-
   // TODO: unify these 3
 
   updateColor (_, topic) {

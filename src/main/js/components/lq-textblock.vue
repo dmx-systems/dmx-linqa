@@ -8,6 +8,7 @@
       <div class="discussion-button" :style="style">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
+      <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
     </template>
     <template v-else>
       <template v-if="isNew">
@@ -34,11 +35,10 @@
           </div>
         </div>
       </template>
-      <lq-color-selector v-model="selectedColor"></lq-color-selector>
       <el-button class="save-button" type="primary" size="medium" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancelColor">
+      <el-button size="medium" @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
@@ -54,9 +54,10 @@ export default {
 
   mixins: [
     require('./mixins/editable').default,
+    require('./mixins/cancel').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
-    require('./mixins/color-selector').default
+    require('./mixins/color-menu').default
   ],
 
   props: {
@@ -83,10 +84,8 @@ export default {
     },
 
     style () {
-      if (this.infoMode) {
-        return {
-          'background-color': this.color
-        }
+      return {
+        'background-color': this.color
       }
     },
 
@@ -119,15 +118,13 @@ export default {
 
     save () {
       this.saving = true
-      this.topic.setViewProp('linqa.color', this.selectedColor)            // for storage
-      this.topic.children['linqa.color'] = {value: this.selectedColor}     // for rendering
       let action, arg, msgBox
       if (this.isNew) {
         action = 'createTopic'
         arg = {type: 'textblock', topic: this.topic}
         msgBox = 'confirm'
       } else {
-        action = 'updateAndStoreColor'
+        action = 'update'
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
@@ -186,7 +183,6 @@ export default {
   },
 
   components: {
-    'lq-color-selector': require('./lq-color-selector').default,
     quill: () => ({
       component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
       loading: require('./lq-spinner')

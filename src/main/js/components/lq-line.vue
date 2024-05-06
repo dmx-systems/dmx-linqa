@@ -21,7 +21,7 @@ import lq from '../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/color-model').default
+    require('./mixins/color-menu').default
   ],
 
   props: {
@@ -88,7 +88,6 @@ export default {
   },
 
   components: {
-    'lq-color-menu': require('./lq-color-menu').default,
     'lq-arrowheads-menu': require('./lq-arrowheads-menu').default
   }
 }

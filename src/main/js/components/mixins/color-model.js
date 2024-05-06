@@ -5,15 +5,6 @@ import COLOR_PALETTE from '../../lq-color-palette'
  * - topic      any topic which has a "color" child value
  */
 export default {
-
-  created () {
-    this.$emit('action', {
-      key: 'action.color',
-      icon: 'el-icon-s-open',
-      handler: this.openColorMenu
-    })
-  },
-
   computed: {
 
     color: {
@@ -45,13 +36,6 @@ export default {
      */
     colorAsId () {
       return this.color.replace('#', '').replace('(', '-').replace(')', '').replace(/ /g, '')
-    }
-  },
-
-  methods: {
-    openColorMenu () {
-      this.$store.dispatch('select', [this.topic])      // programmatic selection
-      this.$refs.colorMenu.open()
     }
   }
 }

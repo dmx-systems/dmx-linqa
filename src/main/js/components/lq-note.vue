@@ -20,7 +20,8 @@
         </div>
         <div class="field">
           <div class="field-label"><lq-string>item.note</lq-string> ({{lang2}})</div>
-          <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating"></quill>
+          <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating">
+          </quill>
           <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
         </div>
       </template>
@@ -45,8 +46,8 @@ export default {
     require('./mixins/editable').default,
     require('./mixins/cancel').default,
     require('./mixins/translation').default,
-    require('./mixins/color-model').default,
     require('./mixins/highlight').default,
+    require('./mixins/color-menu').default
   ],
 
   props: {
@@ -174,7 +175,6 @@ export default {
   },
 
   components: {
-    'lq-color-menu': require('./lq-color-menu').default,
     quill: () => ({
       component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
       loading: require('./lq-spinner')

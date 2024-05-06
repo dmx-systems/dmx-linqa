@@ -30,7 +30,7 @@ export default {
     })
     this.$emit('action', {
       key: 'action.color',
-      icon: 'el-icon-brush',
+      icon: 'el-icon-s-open',
       handler: this.openColorMenu
     })
   },

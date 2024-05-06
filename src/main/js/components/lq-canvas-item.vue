@@ -232,6 +232,11 @@ export default {
   padding-bottom: 12px;
 }
 
+/* hide toolbar while dragging operation */
+.lq-webclient.dragging .lq-canvas-item .item-toolbar {
+  visibility: hidden;
+}
+
 .lq-canvas-item:hover .item-toolbar {
   visibility: visible;
 }

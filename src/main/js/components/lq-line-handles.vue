@@ -18,6 +18,7 @@ export default {
 
   mixins: [
     require('./mixins/viewport').default,
+    require('./mixins/dragging').default,
     require('./mixins/selection').default,
     require('./mixins/roles').default
   ],
@@ -77,17 +78,18 @@ export default {
   methods: {
 
     onDragStart (e) {
+      // console.log('lq-line-handles onDragStart()')
       e.inputEvent.stopPropagation()      // prevent "selecto" from removing the selection
     },
 
     onDragEnd () {
+      // console.log('lq-line-handles onDragEnd()')
       this.$store.dispatch('storeLineHandles', this.topic)
+      this.dragStop()
     },
 
     dragHandler (nr) {
-      return ({
-        target, transform, left, top, right, bottom, beforeDelta, beforeDist, delta, dist, clientX, clientY
-      }) => {
+      return e => {
         // store old model
         const oldPos = {
           x: this[`h${nr}`].x,
@@ -95,8 +97,8 @@ export default {
         }
         const oldWidth = this.newWidth
         // update model
-        this[`h${nr}`].x = Math.round(left / lq.CANVAS_GRID) * lq.CANVAS_GRID
-        this[`h${nr}`].y = Math.round(top / lq.CANVAS_GRID) * lq.CANVAS_GRID
+        this[`h${nr}`].x = Math.round(e.left / lq.CANVAS_GRID) * lq.CANVAS_GRID
+        this[`h${nr}`].y = Math.round(e.top / lq.CANVAS_GRID) * lq.CANVAS_GRID
         this.topic.setViewProp('dmx.topicmaps.width', this.newWidth)
         this.topic.setViewProp('linqa.angle', this.newAngle)
         // position correction
@@ -107,6 +109,10 @@ export default {
         })
         // update view
         this.$store.dispatch('updateControlBox')
+        // console.log('lq-line-handles onDrag()', e.isFirstDrag)
+        if (e.isFirstDrag) {
+          this.dragStart()
+        }
       }
     },
 

@@ -37,8 +37,7 @@ export default {
   mixins: [
     require('./mixins/editable').default,
     require('./mixins/translation').default,
-    require('./mixins/highlight').default,
-    require('./mixins/cancel').default
+    require('./mixins/highlight').default
   ],
 
   mounted () {

@@ -60,7 +60,7 @@ const state = {
   selection: [],                // the selected topics (array of dmx.ViewTopic)
   pan: {x: 0, y: 0},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
   zoom: 1,                      // canvas zoom (Number)                   // TODO: drop this, calculate instead?
-  isDragging: false,            // true while canvas pan or panel resize is in progress
+  isDragging: false,            // true while any dragging is in progress (canvas pan, panel resize, line handle drag)
   transition: false,            // true while a canvas pan/zoom transition is in progress
   isEditActive: [],             // IDs of topics being edited (array)
   fullscreen: false,            // if true the current document is rendered fullscreen

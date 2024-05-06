@@ -1,7 +1,7 @@
 import dmx from 'dmx-api'
 
 /**
- * This mixin is used by editable canvas items which can be swithed between info/form mode.
+ * Used by canvas items which have info/form mode.
  */
 export default {
 
@@ -29,6 +29,12 @@ export default {
   computed: {
     isNew () {
       return this.topic.id < 0
+    }
+  },
+
+  methods: {
+    cancel () {
+      this.$store.dispatch('cancel', this.topic)
     }
   }
 }

@@ -16,7 +16,7 @@
         <div class="field-label"><lq-string>label.document_name</lq-string> <span v-if="!isNew">({{lang1}})</span></div>
         <el-input v-model="docModel.names[lang1st].value" ref="docName"></el-input>
       </div>
-      <template  v-if="!isNew">
+      <template v-if="!isNew">
         <div class="translate">
           <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
         </div>
@@ -65,10 +65,9 @@ export default {
 
   mixins: [
     require('./mixins/editable').default,
-    require('./mixins/doc-util').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
-    require('./mixins/cancel').default
+    require('./mixins/doc-util').default
   ],
 
   created () {

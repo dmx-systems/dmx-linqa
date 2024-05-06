@@ -5,7 +5,7 @@ let APP_HEADER_HEIGHT
 export default {
 
   mixins: [
-    // require('./mixins/dragging').default     // TODO: needed?
+    require('./dragging').default
   ],
 
   mounted () {
@@ -102,11 +102,15 @@ export default {
     onDrag (e) {
       // console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
+      if (e.isFirstDrag) {
+        this.dragStart()
+      }
     },
 
     onDragEnd (e) {
       // console.log('onDragEnd()')
       this.$store.dispatch('storeTopicPos', this.findTopic(e.target))
+      this.dragStop()
     },
 
     onClickGroup (e) {

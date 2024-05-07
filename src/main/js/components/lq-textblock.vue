@@ -8,33 +8,28 @@
       <div class="discussion-button" :style="style">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
-      <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
     </template>
     <template v-else>
-      <template v-if="isNew">
-        <div class="field">
-          <div class="field-label"><lq-string>label.new_textblock</lq-string></div>
-          <quill v-model="topic.value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+      <div class="field" v-if="isNew">
+        <div class="field-label"><lq-string>label.new_textblock</lq-string></div>
+        <quill v-model="topic.value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+      </div>
+      <div class="field texts" v-else>
+        <div class="text">
+          <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang1}})</div>
+          <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
         </div>
-      </template>
-      <template v-else>
-        <div class="field texts">
-          <div class="text">
-            <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang1}})</div>
-            <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
-          </div>
-          <el-button class="translate" type="text" icon="el-icon-right" :title="translateTooltip" @click="doTranslate">
-          </el-button>
-          <div class="text">
-            <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang2}})</div>
-            <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating">
-            </quill>
-            <div :class="['edited-indicator', {edited: editedFlag}]">
-              <lq-string>label.translation_edited</lq-string>
-            </div>
+        <el-button class="translate" type="text" icon="el-icon-right" :title="translateTooltip" @click="doTranslate">
+        </el-button>
+        <div class="text">
+          <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang2}})</div>
+          <quill v-model="model[lang2nd].value" :options="quillOptions" ref="translation" v-loading="translating">
+          </quill>
+          <div :class="['edited-indicator', {edited: editedFlag}]">
+            <lq-string>label.translation_edited</lq-string>
           </div>
         </div>
-      </template>
+      </div>
       <el-button class="save-button" type="primary" size="medium" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
@@ -42,6 +37,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
+    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 

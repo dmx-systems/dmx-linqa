@@ -1,15 +1,11 @@
 <template>
   <div :class="['lq-note', 'dmx-html-field', mode]" v-loading="saving" :style="{'background-color': color}">
-    <div v-if="infoMode" v-html="noteHtml">
-      <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
-    </div>
+    <div v-if="infoMode" v-html="noteHtml"></div>
     <template v-else>
-      <template v-if="isNew">
-        <div class="field">
-          <div class="field-label"><lq-string>label.new_note</lq-string></div>
-          <quill v-model="topic.value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
-        </div>
-      </template>
+      <div class="field" v-if="isNew">
+        <div class="field-label"><lq-string>label.new_note</lq-string></div>
+        <quill v-model="topic.value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
+      </div>
       <template v-else>
         <div class="field">
           <div class="field-label"><lq-string>item.note</lq-string> ({{lang1}})</div>
@@ -32,6 +28,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
+    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 

@@ -4,7 +4,7 @@
       @action="addAction" @actions="setActions" @removeAction="removeAction" @get-size="setGetSizeHandler">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
-    <div class="item-toolbar" v-if="infoMode">
+    <div :class="['item-toolbar', {flipped}]" v-if="infoMode">
       <el-button v-for="action in actions" v-if="isActionAvailable(action)" type="text" :style="buttonStyle"
           :key="action.key" @click="action.handler" @mousedown.native.stop>
         <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
@@ -116,6 +116,11 @@ export default {
 
     angle () {
       return this.topic.viewProps['linqa.angle'] || 0
+    },
+
+    flipped () {
+      const a = Math.abs(this.angle) % 360
+      return a > 90 && a < 270
     },
 
     locked () {
@@ -230,6 +235,12 @@ export default {
   white-space: nowrap;
   padding-top: 4px;
   padding-bottom: 12px;
+}
+
+.lq-canvas-item .item-toolbar.flipped {
+  transform: rotate(180deg);
+  top: -38px;     /* 38px is toolbar height */
+  right: 0;
 }
 
 /* hide toolbar while dragging operation */

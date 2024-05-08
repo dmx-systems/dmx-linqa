@@ -64,6 +64,7 @@
   "label.multi_select": "${} utvalda",
   "label.of": "av",
   "label.warning": "Varning",
+  "label.presentation_mode": "Presentationsläge",
 
   "action.submit": "OK",
   "action.cancel": "Avbryt",

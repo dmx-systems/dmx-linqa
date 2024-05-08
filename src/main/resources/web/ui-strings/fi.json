@@ -64,6 +64,7 @@
   "label.multi_select": "${} valittua",
   "label.of": "-",
   "label.warning": "Varoitus",
+  "label.presentation_mode": "Esittelytila",
 
   "action.submit": "OK",
   "action.cancel": "Peruuta",

@@ -64,6 +64,7 @@
   "label.multi_select": "${} обрані",
   "label.of": "з",
   "label.warning": "Попередження",
+  "label.presentation_mode": "Режим презентації",
 
   "action.submit": "OK",
   "action.cancel": "Відмінити",

@@ -9,7 +9,7 @@
           <b>{{username}}</b>
         </el-dropdown-item>
         <el-dropdown-item command="togglePresentationMode" :icon="icon" divided>
-          Presentation Mode
+          <lq-string>label.presentation_mode</lq-string>
         </el-dropdown-item>
         <el-dropdown-item command="logout" divided>
           Logout

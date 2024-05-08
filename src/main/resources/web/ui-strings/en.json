@@ -64,6 +64,7 @@
   "label.multi_select": "${} selected",
   "label.of": "of",
   "label.warning": "Warning",
+  "label.presentation_mode": "Presentation Mode",
 
   "action.submit": "OK",
   "action.cancel": "Cancel",

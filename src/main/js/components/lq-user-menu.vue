@@ -8,7 +8,7 @@
         <el-dropdown-item command="userProfile">
           <b>{{username}}</b>
         </el-dropdown-item>
-        <el-dropdown-item command="presentationMode" divided>
+        <el-dropdown-item command="togglePresentationMode" :icon="icon" divided>
           Presentation Mode
         </el-dropdown-item>
         <el-dropdown-item command="logout" divided>
@@ -52,6 +52,10 @@ import lq from '../lq-globals'
 
 export default {
 
+  mixins: [
+    require('./mixins/presentation-mode').default
+  ],
+
   data () {
     return {
       expandedItems: ['privacy'],
@@ -64,8 +68,13 @@ export default {
   },
 
   computed: {
+
     username () {
       return this.$store.state.username
+    },
+
+    icon () {
+      return this.presentationMode ? 'el-icon-check' : ''
     }
   },
 
@@ -81,7 +90,7 @@ export default {
       this.showEmailAddress = lq.getShowEmailAddress(this.username)
     },
 
-    presentationMode () {
+    togglePresentationMode () {
       this.$store.dispatch('togglePresentationMode')
     },
 

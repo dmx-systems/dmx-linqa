@@ -4,7 +4,7 @@
       @action="addAction" @actions="setActions" @removeAction="removeAction" @get-size="setGetSizeHandler">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
-    <div :class="['item-toolbar', {flipped}]" v-if="infoMode">
+    <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
       <el-button v-for="action in actions" v-if="isActionAvailable(action)" type="text" :style="buttonStyle"
           :key="action.key" @click="action.handler" @mousedown.native.stop>
         <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
@@ -24,7 +24,8 @@ export default {
     require('./mixins/mode').default,
     require('./mixins/selection').default,
     require('./mixins/roles').default,
-    require('./mixins/viewport').default
+    require('./mixins/viewport').default,
+    require('./mixins/presentation-mode').default
   ],
 
   inject: ['context'],
@@ -116,6 +117,10 @@ export default {
 
     angle () {
       return this.topic.viewProps['linqa.angle'] || 0
+    },
+
+    isToolbarVisibile () {
+      return this.infoMode && !this.presentationMode
     },
 
     flipped () {

@@ -1,6 +1,6 @@
 <template>
   <div class="lq-canvas-toolbar">
-    <el-dropdown v-if="isAuthor" trigger="click" @command="handle">
+    <el-dropdown v-if="isAddButtonVisibile" trigger="click" @command="handle">
       <el-button type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
@@ -40,10 +40,15 @@ export default {
     require('./mixins/topicmap').default,
     require('./mixins/viewport').default,
     require('./mixins/roles').default,
-    require('./mixins/screen').default
+    require('./mixins/screen').default,
+    require('./mixins/presentation-mode').default
   ],
 
   computed: {
+
+    isAddButtonVisibile () {
+      return this.isAuthor && !this.presentationMode
+    },
 
     panelVisibility () {
       return this.$store.state.panelVisibility

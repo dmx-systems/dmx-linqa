@@ -8,6 +8,9 @@
         <el-dropdown-item command="userProfile">
           <b>{{username}}</b>
         </el-dropdown-item>
+        <el-dropdown-item command="presentationMode" divided>
+          Presentation Mode
+        </el-dropdown-item>
         <el-dropdown-item command="logout" divided>
           Logout
         </el-dropdown-item>
@@ -69,18 +72,23 @@ export default {
   methods: {
 
     handle (command) {
-      switch (command) {
-      case 'userProfile':
-        this.visible = true
-        this.displayName = lq.getDisplayName(this.username)
-        this.showEmailAddress = lq.getShowEmailAddress(this.username)
-        break
-      case 'logout':
-        this.$store.dispatch('logout').then(() =>
-          this.$store.dispatch('callRootRoute')
-        )
-        break
-      }
+      this[command]()
+    },
+
+    userProfile () {
+      this.visible = true
+      this.displayName = lq.getDisplayName(this.username)
+      this.showEmailAddress = lq.getShowEmailAddress(this.username)
+    },
+
+    presentationMode () {
+      this.$store.dispatch('togglePresentationMode')
+    },
+
+    logout () {
+      this.$store.dispatch('logout').then(() =>
+        this.$store.dispatch('callRootRoute')
+      )
     },
 
     save () {

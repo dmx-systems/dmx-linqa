@@ -56,7 +56,7 @@ export default {
 
 <style>
 .lq-color-menu {
-  position: absolute !important;    /* don't add content to text flow */
+  position: absolute !important;    /* don't contribute to text flow */
 }
 
 /* dropdown menus are body mounted */

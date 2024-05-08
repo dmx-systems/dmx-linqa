@@ -45,6 +45,7 @@ export default {
     require('./mixins/selection').default,
     require('./mixins/canvas-events').default,
     require('./mixins/roles').default,
+    require('./mixins/presentation-mode').default
   ],
 
   provide: {
@@ -156,23 +157,24 @@ export default {
       return locked
     },
 
-    isSelectionEditable () {
-      return this.isLinqaAdmin || this.isEditor &&
-        this.selection.every(topic => !topic.children['linqa.locked']?.value)
+    isSelectionModifiable () {
+      return !this.presentationMode && (
+        this.isLinqaAdmin || this.isEditor && this.selection.every(topic => !topic.children['linqa.locked']?.value)
+      )
     },
 
     // 3 vue-moveable config flags
 
     draggable () {
-      return this.isSelectionEditable
+      return this.isSelectionModifiable
     },
 
     resizable () {
-      return this.isSelectionEditable && this.resizeStyle !== 'none'
+      return this.isSelectionModifiable && this.resizeStyle !== 'none'
     },
 
     rotatable () {
-      return this.isSelectionEditable && this.rotateEnabled
+      return this.isSelectionModifiable && this.rotateEnabled
     },
 
     //

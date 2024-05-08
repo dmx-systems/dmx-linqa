@@ -53,6 +53,7 @@ const state = {
   workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
   isWritable: false,            // true if the selected workspace is writable by the current user (Boolean)
   isEditor: false,              // true if the current user is an editor of the selected workspace (Boolean)
+  presentationMode: false,      // true if UI is in presentation mode
 
   // Canvas
   topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)
@@ -199,127 +200,6 @@ const actions = {
     document.querySelector('.lq-canvas .selecto-selection')?.__vue__.setSelectedTargets([])
   },
 
-  storeTopicPos (_, topic) {
-    if (topic.id >= 0) {
-      dmx.rpc.setTopicPosition(state.topicmap.id, topic.id, topic.pos)      // update server state
-    }
-  },
-
-  storeTopicCoords (_, topicCoords) {
-    dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
-  },
-
-  storeTopicSize (_, topic) {
-    if (topic.id >= 0) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
-        'dmx.topicmaps.height': topic.viewProps['dmx.topicmaps.height']
-      })
-    }
-  },
-
-  storeTopicAngle (_, topic) {
-    if (topic.id >= 0) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.angle': topic.viewProps['linqa.angle']
-      })
-    }
-  },
-
-  storeLineHandles (_, topic) {
-    // Note: the server would store doubles but can't retrieve doubles but integers (ClassCastException)!
-    // So we better do the rounding here.
-    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-      'dmx.topicmaps.x':     Math.round(topic.viewProps['dmx.topicmaps.x']),
-      'dmx.topicmaps.y':     Math.round(topic.viewProps['dmx.topicmaps.y']),
-      'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
-      'linqa.angle':  topic.viewProps['linqa.angle']
-    })
-  },
-
-  revealTopic ({dispatch}, topic) {
-    dispatch('select', [topic])     // programmatic selection
-    dispatch('setViewport', {
-      pan: {
-        x: -topic.pos.x * state.zoom + lq.CANVAS_BORDER,
-        y: -topic.pos.y * state.zoom + lq.CANVAS_BORDER
-      },
-      transition: true
-    })
-  },
-
-  /**
-   * @param   zoom    optional
-   */
-  setViewport (_, {pan, zoom, transition = false}) {
-    // Note: pan/zoom state is not persisted. We have the Viewport topic instead.
-    state.pan = pan
-    if (zoom) {
-      state.zoom = zoom
-    }
-    state.transition = transition
-  },
-
-  transitionEnd () {
-    state.transition = false
-  },
-
-  setPanelVisibility (_, visibility) {
-    state.panelVisibility = visibility
-  },
-
-  setPanelX (_, x) {
-    state.panelX = x
-  },
-
-  readPanelXFromView () {
-    const panel = document.querySelector('.left-panel')
-    if (panel) {    // only available for workspace view (not e.g. for login page or admin area)
-      state.panelX = panel.clientWidth
-    }
-  },
-
-  dragStart () {
-    state.isDragging = true
-  },
-
-  dragStop () {
-    state.isDragging = false
-  },
-
-  setFullscreen ({dispatch}, fullscreen) {
-    state.fullscreen = fullscreen
-    if (!fullscreen) {
-      Vue.nextTick(() => {
-        document.querySelector('.lq-resizer').__vue__.resize()
-        dispatch('select', [state.selection[0]])      // sync Selecto model/view with app state
-      })
-    }
-  },
-
-  initPageNr (_, topicId) {
-    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
-    if (!pageNr[topicId]) {
-      Vue.set(pageNr, topicId, 1)
-    }
-  },
-
-  prevPage (_, topicId) {
-    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
-    if (pageNr[topicId] > 1) {
-      pageNr[topicId]--
-      return true
-    }
-  },
-
-  nextPage (_, {topicId, numPages}) {
-    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
-    if (pageNr[topicId] < numPages) {
-      pageNr[topicId]++
-      return true
-    }
-  },
-
   // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types. ### FIXDOC
   // Dispatched from lq-canvas.vue
 
@@ -445,6 +325,127 @@ const actions = {
   /* setTopicViewProps (_, {topicId, viewProps}) {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topicId, viewProps)
   }, */
+
+  storeTopicPos (_, topic) {
+    if (topic.id >= 0) {
+      dmx.rpc.setTopicPosition(state.topicmap.id, topic.id, topic.pos)      // update server state
+    }
+  },
+
+  storeTopicCoords (_, topicCoords) {
+    dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
+  },
+
+  storeTopicSize (_, topic) {
+    if (topic.id >= 0) {
+      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
+        'dmx.topicmaps.height': topic.viewProps['dmx.topicmaps.height']
+      })
+    }
+  },
+
+  storeTopicAngle (_, topic) {
+    if (topic.id >= 0) {
+      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        'linqa.angle': topic.viewProps['linqa.angle']
+      })
+    }
+  },
+
+  storeLineHandles (_, topic) {
+    // Note: the server would store doubles but can't retrieve doubles but integers (ClassCastException)!
+    // So we better do the rounding here.
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'dmx.topicmaps.x':     Math.round(topic.viewProps['dmx.topicmaps.x']),
+      'dmx.topicmaps.y':     Math.round(topic.viewProps['dmx.topicmaps.y']),
+      'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
+      'linqa.angle':  topic.viewProps['linqa.angle']
+    })
+  },
+
+  revealTopic ({dispatch}, topic) {
+    dispatch('select', [topic])     // programmatic selection
+    dispatch('setViewport', {
+      pan: {
+        x: -topic.pos.x * state.zoom + lq.CANVAS_BORDER,
+        y: -topic.pos.y * state.zoom + lq.CANVAS_BORDER
+      },
+      transition: true
+    })
+  },
+
+  /**
+   * @param   zoom    optional
+   */
+  setViewport (_, {pan, zoom, transition = false}) {
+    // Note: pan/zoom state is not persisted. We have the Viewport topic instead.
+    state.pan = pan
+    if (zoom) {
+      state.zoom = zoom
+    }
+    state.transition = transition
+  },
+
+  transitionEnd () {
+    state.transition = false
+  },
+
+  setPanelVisibility (_, visibility) {
+    state.panelVisibility = visibility
+  },
+
+  setPanelX (_, x) {
+    state.panelX = x
+  },
+
+  readPanelXFromView () {
+    const panel = document.querySelector('.left-panel')
+    if (panel) {    // only available for workspace view (not e.g. for login page or admin area)
+      state.panelX = panel.clientWidth
+    }
+  },
+
+  dragStart () {
+    state.isDragging = true
+  },
+
+  dragStop () {
+    state.isDragging = false
+  },
+
+  setFullscreen ({dispatch}, fullscreen) {
+    state.fullscreen = fullscreen
+    if (!fullscreen) {
+      Vue.nextTick(() => {
+        document.querySelector('.lq-resizer').__vue__.resize()
+        dispatch('select', [state.selection[0]])      // sync Selecto model/view with app state
+      })
+    }
+  },
+
+  initPageNr (_, topicId) {
+    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
+    if (!pageNr[topicId]) {
+      Vue.set(pageNr, topicId, 1)
+    }
+  },
+
+  prevPage (_, topicId) {
+    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
+    if (pageNr[topicId] > 1) {
+      pageNr[topicId]--
+      return true
+    }
+  },
+
+  nextPage (_, {topicId, numPages}) {
+    const pageNr = state.pageNr[lq.langSuffix(state.lang)]
+    if (pageNr[topicId] < numPages) {
+      pageNr[topicId]++
+      return true
+    }
+  },
 
   //
 
@@ -726,6 +727,10 @@ const actions = {
   translate (_, text) {
     // suppress standard HTTP error handler
     return dmx.rpc._http.post('/linqa/translate', text).then(response => response.data)
+  },
+
+  togglePresentationMode () {
+    state.presentationMode = !state.presentationMode
   },
 
   downloadFile (_, repoPath) {

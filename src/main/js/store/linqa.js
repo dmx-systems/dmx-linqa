@@ -20,6 +20,7 @@ const userReady = dmx.rpc.getUsername().then(initUserState)
 const langReady = initLangConfig()
 const width = window.innerWidth
 const isSmallScreen = width <= lq.SMALL_SCREEN_WIDTH
+const presentationMode = isSmallScreen
 const panelVisibility = !isSmallScreen
 const panelX = isSmallScreen ? 14 : 0.65 * width
 console.log('[Linqa] isSmallScreen:', isSmallScreen,
@@ -32,7 +33,8 @@ const state = {
 
   userReady,                    // a promise, resolved once User state is initialized
   langReady,                    // a promise, resolved once lang1/lang2 state is initialized
-  isSmallScreen,
+  isSmallScreen,                // true for mobile UI layout, false for desktop UI layout (Boolean)
+  presentationMode,             // true if UI is in presentation mode, for mobile on by default (Boolean)
   users: [],                    // all users in the system (array of plain Username topics, sorted by username=email
                                 // address). "memberships" prop holds respective user's Workspaces (array), initialized
                                 // on-demand on a per-user basis, unsorted; a sorted per-user Workspaces array is
@@ -53,7 +55,6 @@ const state = {
   workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
   isWritable: false,            // true if the selected workspace is writable by the current user (Boolean)
   isEditor: false,              // true if the current user is an editor of the selected workspace (Boolean)
-  presentationMode: false,      // true if UI is in presentation mode
 
   // Canvas
   topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)

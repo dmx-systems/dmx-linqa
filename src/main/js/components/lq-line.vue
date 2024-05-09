@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-line']">
+  <div :class="['lq-line', lineStyle]">
     <svg :viewBox="viewBox">
       <defs>
         <marker :id="markerId" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto-start-reverse">
@@ -9,8 +9,8 @@
       <line :x1="0" :y1="0" :x2="size.w" :y2="0" :stroke="color" stroke-width="6" :marker-start="markerStartUrl"
         :marker-end="markerEndUrl" />
     </svg>
-    <lq-color-menu v-model="color" palette="foreground" ref="colorMenu"></lq-color-menu><!--
-    --><lq-arrowheads-menu v-model="arrowheads" ref="arrowheadsMenu"></lq-arrowheads-menu>
+    <lq-line-menu @arrowheads="setArrowheads" @line-style="setLineStyle" ref="lineMenu"></lq-line-menu><!--
+    --><lq-color-menu v-model="color" palette="foreground" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 
@@ -34,9 +34,9 @@ export default {
   created () {
     this.$emit('removeAction', 'action.edit')
     this.$emit('action', {
-      key: 'action.arrowheads',
+      key: 'action.line-settings',
       icon: 'el-icon-setting',
-      handler: this.openArrowheadsMenu
+      handler: this.openLineMenu
     })
   },
 
@@ -49,6 +49,16 @@ export default {
       set (arrowheads) {
         this.topic.setViewProp('linqa.arrowheads', arrowheads)      // update client state
         this.$store.dispatch('updateArrowheads', this.topic)        // update server state
+      }
+    },
+
+    lineStyle: {
+      get () {
+        return this.topic.viewProps['linqa.line_style'] || 'none'
+      },
+      set (lineStyle) {
+        this.topic.setViewProp('linqa.line_style', lineStyle)       // update client state
+        this.$store.dispatch('updateLineStyle', this.topic)         // update server state
       }
     },
 
@@ -81,14 +91,23 @@ export default {
   },
 
   methods: {
-    openArrowheadsMenu () {
+
+    openLineMenu () {
       this.$store.dispatch('select', [this.topic])      // programmatic selection
-      this.$refs.arrowheadsMenu.open()
+      this.$refs.lineMenu.open()
+    },
+
+    setArrowheads (arrowheads) {
+      this.arrowheads = arrowheads
+    },
+
+    setLineStyle (lineStyle) {
+      this.lineStyle = lineStyle
     }
   },
 
   components: {
-    'lq-arrowheads-menu': require('./lq-arrowheads-menu').default
+    'lq-line-menu': require('./lq-line-menu').default
   }
 }
 </script>
@@ -96,5 +115,13 @@ export default {
 <style>
 .lq-line svg {
   overflow: visible;
+}
+
+.lq-line.dotted {
+  stroke-dasharray: 6;
+}
+
+.lq-line.dashed {
+  stroke-dasharray: 14 12;
 }
 </style>

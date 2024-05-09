@@ -42,5 +42,6 @@ public class Constants {
     public static final String ANGLE       = "linqa.angle"; // Document, Note, Textblock, Heading, Shape, Line (Integer)
     public static final String SHAPE_TYPE  = "linqa.shape_type";    // Shape
     public static final String ARROWHEADS  = "linqa.arrowheads";    // Line
+    public static final String LINE_STYLE  = "linqa.line_style";    // Line
     public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)
 }

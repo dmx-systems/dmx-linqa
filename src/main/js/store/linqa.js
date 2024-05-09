@@ -302,7 +302,7 @@ const actions = {
     return dmx.rpc.updateTopic(topic).then(removeEditActive)
   },
 
-  // TODO: unify these 3
+  // TODO: unify these 4
 
   updateColor (_, topic) {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
@@ -319,6 +319,12 @@ const actions = {
   updateArrowheads (_, topic) {
     dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
       'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
+    })
+  },
+
+  updateLineStyle (_, topic) {
+    dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      'linqa.line_style': topic.viewProps['linqa.line_style']
     })
   },
 

@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-shape', shape]" :style="style">
-    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
     <lq-shape-menu v-model="shape" :color="color" ref="shapeMenu"></lq-shape-menu>
+    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 

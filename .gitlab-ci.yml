@@ -13,7 +13,7 @@ maven-build:
     - docker
   script:
     - export MAVEN_OPTS='-Xmx128m'
-    - mvn clean install -DskipTests=true -Pgitlab-maven-deployment
+    - mvn clean install -DskipTests=true
   artifacts:
     paths:
       - target

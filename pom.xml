@@ -19,7 +19,10 @@
     </parent>
 
     <properties>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <!-- Cascading test flags -->
+        <maven.test.skip>false</maven.test.skip>
+        <skipTests>${maven.test.skip}</skipTests>
+        <skipJavaScriptTests>${skipTests}</skipJavaScriptTests>
     </properties>
 
     <dependencies>
@@ -82,13 +85,25 @@
                 <executions>
                     <execution>
                         <id>npm-install</id>
-                        <phase>prepare-package</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <executable>npm</executable>
                             <commandlineArgs>install</commandlineArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm-run-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipJavaScriptTests}</skip>
+                            <executable>npm</executable>
+                            <commandlineArgs>run test</commandlineArgs>
                         </configuration>
                     </execution>
                     <execution>
@@ -123,35 +138,11 @@
         </profile>
         <profile>
             <id>coverage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <formats>
-                                        <format>HTML</format>
-                                        <format>XML</format>
-                                    </formats>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <properties>
+                <sonar.sources>src/main/java,src/main/js,src/main/resources</sonar.sources>
+                <sonar.tests>src/test/java,src/test/js</sonar.tests>
+                <sonar.javascript.lcov.reportPaths>coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+            </properties>
         </profile>
     </profiles>
 </project>

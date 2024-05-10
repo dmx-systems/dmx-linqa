@@ -1,5 +1,6 @@
 *.bak
 
+coverage/
 target/
 node_modules/
 

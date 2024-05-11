@@ -28,7 +28,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
-    <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
+    <lq-color-menu v-model="color" :showTransparent="true" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
 

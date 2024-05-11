@@ -16,20 +16,26 @@ export default {
 
   props: {
 
-    value: {                          // initial color  // ### Needed?
+    value: {                  // not used at the moment (for v-model)
       type: String,
       required: true
     },
 
-    palette: {                        // 'foreground'/'background' (default)
+    palette: {                // 'foreground'/'background' (default)
       type: String,
       default: 'background'
+    },
+
+    showTransparent: {        // whether the menu shows a "transparent" item, applies only to 'background' palette
+      type: Boolean,
+      default: false
     }
   },
 
   data () {
     return {
-      colors: COLOR_PALETTE[this.palette]       // available colors
+      // colors shown in the menu
+      colors: COLOR_PALETTE[this.palette].filter(color => color !== 'transparent' || this.showTransparent)
     }
   },
 
@@ -59,7 +65,7 @@ export default {
   position: absolute !important;    /* don't contribute to text flow */
 }
 
-/* dropdown menus are body mounted */
+/* the actual dropdown menus are body mounted */
 .lq-color-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
   margin-top: 9px;
 }

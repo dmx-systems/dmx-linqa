@@ -134,7 +134,7 @@ export default {
   margin-left: 14px;
 }
 
-/* dropdown menus are body mounted */
+/* the actual dropdown menus are body mounted */
 body > .el-dropdown-menu.lq-workspace-selector {
   overflow: auto;                   /* make workspace selector scroll */
   max-height: calc(100% - 68px);    /* use screen height to show as much workspaces as possible */

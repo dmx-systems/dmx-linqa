@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style>
-/* dropdown menus are body mounted */
+/* the actual dropdown menus are body mounted */
 .lq-shape-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
   margin-top: 9px;
 }

@@ -22,8 +22,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.js'
 
 export default {
 
+  mixins: [
+    require('./mixins/screen').default
+  ],
+
   created () {
-    // console.log('lq-pdf-viewer', this.src)
     this.fetchPDF().then(this.renderPage)
   },
 
@@ -126,7 +129,8 @@ export default {
       this.pdf.getPage(this.pageNr).then(page => {
         let viewport = page.getViewport({scale: 1})
         if (this.fullscreen) {
-          viewport = page.getViewport({scale: this.panelX / viewport.width})
+          const width = this.isSmallScreen ? this.$el.clientWidth : this.panelX
+          viewport = page.getViewport({scale: width / viewport.width})
         }
         canvas.width = viewport.width
         canvas.height = viewport.height
@@ -163,6 +167,7 @@ export default {
 
 <style>
 .lq-pdf-viewer {
+  flex-grow: 1;     /* occupy its space if discussion panel is closed */
   position: relative;
 }
 

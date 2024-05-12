@@ -8,7 +8,7 @@ import messageHandler from './message-handler'
 import './element-ui'
 import './country-flag-polyfill'
 
-console.log('[Linqa] 2024/05/11-3')
+console.log('[Linqa] 2024/05/12')
 
 // 1) Init dmx library
 dmx.init({

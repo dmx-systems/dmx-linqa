@@ -425,8 +425,8 @@ const actions = {
     state.fullscreen = fullscreen
     if (!fullscreen) {
       Vue.nextTick(() => {
-        document.querySelector('.lq-resizer').__vue__.resize()
-        dispatch('select', [state.selection[0]])      // sync Selecto model/view with app state
+        document.querySelector('.lq-resizer')?.__vue__.resize()   // Note: resizer does not exist for mobile layout
+        dispatch('select', [state.selection[0]])                  // sync Selecto model/view with app state
       })
     }
   },

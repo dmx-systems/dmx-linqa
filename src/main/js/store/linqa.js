@@ -22,7 +22,7 @@ const width = window.innerWidth
 const isSmallScreen = width <= lq.SMALL_SCREEN_WIDTH
 const presentationMode = isSmallScreen
 const panelVisibility = !isSmallScreen
-const panelPos = isSmallScreen ? 14 : 0.75 * width
+const panelPos = isSmallScreen ? 14 : Number(dmx.utils.getCookie('linqa_panel_pos')) || 0.75 * width
 console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
@@ -404,6 +404,7 @@ const actions = {
 
   setPanelPos (_, x) {
     state.panelPos = x
+    dmx.utils.setCookie('linqa_panel_pos', Math.round(x))
   },
 
   readPanelPosFromView ({dispatch}) {

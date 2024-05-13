@@ -128,6 +128,18 @@ input, button {
   background-color: rgba(255, 255, 255, .7) !important;       /* Element UI default alpha is 0.9 */
 }
 
+.el-message-box {
+  max-width: 96vw;        /* restrict width on mobile, Element UI default width is 420px */
+}
+
+.el-message-box .el-message-box__title {
+  line-height: 1.4;       /* Element UI default is 1 */
+}
+
+.el-message-box .el-message-box__message p {
+  line-height: 1.4;       /* Element UI default is 24px */
+}
+
 .el-notification__content {
   text-align: unset !important;
 }

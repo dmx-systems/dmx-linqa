@@ -837,7 +837,7 @@ function loadCustomCSS () {
 }
 
 function updateSmallScreenState () {
-  console.log('[Linqa] new window width:', `${window.innerWidth}px`)
+  // console.log('[Linqa] new window width:', `${window.innerWidth}px`)
   state.isSmallScreen = window.innerWidth <= lq.SMALL_SCREEN_WIDTH
 }
 

@@ -21,7 +21,7 @@ export default {
     //
     window.addEventListener('resize', e => {
       if (this.visible) {
-        this.$store.dispatch('readPanelXFromView')      // read state from view
+        this.$store.dispatch('readPanelPosFromView')      // read state from view
       }
     })
   },
@@ -41,7 +41,7 @@ export default {
     },
 
     left () {
-      return this.$store.state.panelX
+      return this.$store.state.panelPos
     }
   },
 
@@ -54,7 +54,7 @@ export default {
       this.dragStart()
 
       const onMouseMove = ({pageX}) => {
-        this.$store.dispatch('setPanelX', left + pageX - initialPageX)
+        this.$store.dispatch('setPanelPos', left + pageX - initialPageX)
         this.resize()
       }
 
@@ -71,7 +71,7 @@ export default {
     // Public API
 
     /**
-     * Updates view according to model (store.state.panelX)
+     * Updates view according to model (store.state.panelPos)
      */
     resize () {
       const container = document.querySelector('.lq-webclient')

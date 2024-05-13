@@ -77,8 +77,8 @@ export default {
       return this.$store.state.zoom
     },
 
-    panelX () {
-      return this.$store.state.panelX
+    panelPos () {
+      return this.$store.state.panelPos
     },
 
     fullscreen () {
@@ -129,7 +129,7 @@ export default {
       this.pdf.getPage(this.pageNr).then(page => {
         let viewport = page.getViewport({scale: 1})
         if (this.fullscreen) {
-          const width = this.isSmallScreen ? this.$el.clientWidth : this.panelX
+          const width = this.isSmallScreen ? this.$el.clientWidth : this.panelPos
           viewport = page.getViewport({scale: width / viewport.width})
         }
         canvas.width = viewport.width

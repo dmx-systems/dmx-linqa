@@ -22,7 +22,7 @@ const width = window.innerWidth
 const isSmallScreen = width <= lq.SMALL_SCREEN_WIDTH
 const presentationMode = isSmallScreen
 const panelVisibility = !isSmallScreen
-const panelX = isSmallScreen ? 14 : 0.65 * width
+const panelPos = isSmallScreen ? 14 : 0.75 * width
 console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
@@ -73,7 +73,7 @@ const state = {
 
   // Discussion Panel
   panelVisibility,              // discussion panel visibility (Boolean)
-  panelX,                       // x coordinate in pixel (Number)
+  panelPos,                     // x coordinate of the discussion panel, regardless if open/closed, in pixel (Number)
   discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
   discussionLoading: false,     // true while a discussion is loading
   documentFilter: undefined,    // discussion is filtered by this document (a Document topic, plain object)
@@ -402,14 +402,14 @@ const actions = {
     state.panelVisibility = visibility
   },
 
-  setPanelX (_, x) {
-    state.panelX = x
+  setPanelPos (_, x) {
+    state.panelPos = x
   },
 
-  readPanelXFromView () {
+  readPanelPosFromView ({dispatch}) {
     const panel = document.querySelector('.left-panel')
-    if (panel) {    // only available for workspace view (not e.g. for login page or admin area)
-      state.panelX = panel.clientWidth
+    if (panel) {      // panel not available e.g. on login page or in admin area
+      dispatch('setPanelPos', panel.clientWidth)
     }
   },
 

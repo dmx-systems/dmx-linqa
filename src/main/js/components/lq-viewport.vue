@@ -11,19 +11,12 @@ export default {
 
   created () {
     this.$emit('actions', [{key: 'action.set_zoom', handler: this.setZoom}])
-    this.$emit('get-size', () => this.size)
   },
 
   props: {
     topic: {                  // the Viewport topic (dmx.ViewTopic)
       type: dmx.ViewTopic,
       required: true
-    }
-  },
-
-  data () {
-    return {
-      size: {w: 50, h: 50}
     }
   },
 
@@ -55,6 +48,7 @@ export default {
 .lq-viewport {
   border-top: 3px solid black;
   border-left: 3px solid black;
+  width: 50px;
   height: 50px;
 }
 

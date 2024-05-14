@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-canvas-item', {draggable}]" :data-id="topic.id" :style="style">
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
-      @action="addAction" @actions="setActions" @removeAction="removeAction" @get-size="setGetSizeHandler">
+      @action="addAction" @actions="setActions" @removeAction="removeAction">
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
@@ -52,8 +52,7 @@ export default {
         {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
         {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
-      ],
-      getSize: undefined        // Custom get-size function (Function)
+      ]
     }
   },
 
@@ -81,8 +80,6 @@ export default {
     w () {
       if (this.formMode) {
         return lq.FORM_WIDTH
-      } else if (this.getSize) {
-        return this.getSize().w
       } else {
         return this.topic.viewProps['dmx.topicmaps.width']
       }
@@ -91,8 +88,6 @@ export default {
     h () {
       if (this.formMode) {
         return 'auto'
-      } else if (this.getSize) {
-        return this.getSize().h
       } else {
         // For newly created items "height" viewprop is undefined, no "height" style attribute is generated then.
         // CSS initial "height" value is "auto". After item resize "auto" might explicitly be stored as viewprop value.
@@ -206,10 +201,6 @@ export default {
 
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
-    },
-
-    setGetSizeHandler (handler) {
-      this.getSize = handler
     }
   },
 

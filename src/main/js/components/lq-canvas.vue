@@ -60,6 +60,7 @@ export default {
     return {
       DEFAULT: {
         resizeStyle: 'x',               // 'x'/'xy'/'none' (String)
+        autoHeight: true,
         rotateEnabled: true,
         moveHandler: this.moveHandler,
         multiEnabled: true,             // topic can be target of a multi-command (lock/unlock/duplicate/delete)
@@ -75,6 +76,7 @@ export default {
         },
         'linqa.shape': {
           resizeStyle: 'xy',
+          autoHeight: false,
           raiseOnSelect: false,
           zIndex: -1                    // place shapes in the background
         },

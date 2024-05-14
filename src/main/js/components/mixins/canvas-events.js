@@ -153,8 +153,7 @@ export default {
 
     onResize (e) {
       // console.log('onResize', e.direction)
-      const height = e.direction[1] === 0 ? 'auto' : e.height                             // detect "east"-handler
-      this.setSize(e.target, e.width, height)
+      this.setSize(e.target, e.width, this.autoHeight(e, e.height))
     },
 
     onResizeEnd (e) {
@@ -165,7 +164,7 @@ export default {
         // no longer over the component when width is changed programmatically?).
         const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
         const height = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
-        this.setSize(e.target, width, e.lastEvent.direction[1] === 0 ? 'auto' : height)   // detect "east"-handler
+        this.setSize(e.target, width, this.autoHeight(e.lastEvent, height))
         this.$store.dispatch('storeTopicSize', topic)
       }
     },
@@ -241,6 +240,10 @@ export default {
     wheelZoom (e) {
       // console.log('wheelZoom', e)
       this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
+    },
+
+    autoHeight (e, height) {
+      return e.direction[1] === 0 && this.config('autoHeight') ? 'auto' : height    // detect "east"-handler
     },
 
     transitionend () {

@@ -152,18 +152,22 @@ export default {
     },
 
     onResize (e) {
-      // Note: snap-to-grid while resize is in progress did not work as expected (the mouse is no longer over the
-      // component when width is changed programmatically?). Workaround is to snap only on resize-end.
-      const height = this.resizeStyle === 'xy' && e.height
+      // console.log('onResize', e.direction)
+      const height = e.direction[1] === 0 ? 'auto' : e.height                             // detect "east"-handler
       this.setSize(e.target, e.width, height)
     },
 
-    onResizeEnd ({target}) {
-      const topic = this.findTopic(target)
-      const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
-      const height = this.resizeStyle === 'xy' && lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
-      this.setSize(target, width, height)
-      this.$store.dispatch('storeTopicSize', topic)
+    onResizeEnd (e) {
+      // console.log('onResizeEnd', e.isDrag, e.lastEvent?.direction, e.lastEvent?.dist)
+      if (e.isDrag) {     // mouse actually moved between mousedown and mouseup, only then "lastEvent" is available
+        const topic = this.findTopic(e.target)
+        // We only snap-to-grid on resize-end. While resize is in progress it does not work properly (the mouse is
+        // no longer over the component when width is changed programmatically?).
+        const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
+        const height = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
+        this.setSize(e.target, width, e.lastEvent.direction[1] === 0 ? 'auto' : height)   // detect "east"-handler
+        this.$store.dispatch('storeTopicSize', topic)
+      }
     },
 
     onRotate ({target, rotate}) {

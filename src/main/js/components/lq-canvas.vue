@@ -182,7 +182,7 @@ export default {
     renderDirections () {
       return {
         'x': ['e'],
-        'xy': ['s', 'se', 'e'],    // ['n', 'nw', 'ne', 's', 'se', 'sw', 'e', 'w']    // TODO
+        'xy': ['s', 'se', 'e'],
         'none': false
       }[this.resizeStyle]
     },
@@ -268,16 +268,20 @@ export default {
 
     //
 
+    /**
+     * @param   width     in pixel (Number)
+     * @param   height    in pixel (Number), or 'auto' (String)
+     */
     setSize (target, width, height) {
-      // Note: for width measurement "moveable" relies on an up-to-date *view*.
-      // In contrast updating the *model* (view props) updates the view asynchronously.
+      // Note: for measurement "moveable" relies on immediately updated *view*.
+      // The view updated by Vue.js (as based on *model*) is only up-to-date at next tick.
       const topic = this.findTopic(target)
-      topic.setViewProp('dmx.topicmaps.width', width)         // update model
-      target.style.width = `${width}px`                       // update view
-      if (height) {
-        topic.setViewProp('dmx.topicmaps.height', height)     // update model
-        target.style.height = `${height}px`                   // update view
-      }
+      // update model
+      topic.setViewProp('dmx.topicmaps.width', width)
+      topic.setViewProp('dmx.topicmaps.height', height)
+      // update view
+      target.style.width = `${width}px`
+      target.style.height = `${height}${height !== 'auto' ? 'px' : ''}`
     },
 
     positionGroupToolbar () {

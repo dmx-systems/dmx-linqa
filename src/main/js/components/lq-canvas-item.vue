@@ -93,9 +93,9 @@ export default {
         return 'auto'
       } else if (this.getSize) {
         return this.getSize().h
-      } else if (this.context.config('resizeStyle', this.topic) === 'x') {
-        return 'auto'
       } else {
+        // For newly created items "height" viewprop is undefined, no "height" style attribute is generated then.
+        // CSS initial "height" value is "auto". After item resize "auto" might explicitly be stored as viewprop value.
         return this.topic.viewProps['dmx.topicmaps.height']
       }
     },

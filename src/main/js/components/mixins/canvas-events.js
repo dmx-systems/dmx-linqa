@@ -152,18 +152,21 @@ export default {
     },
 
     onResize (e) {
-      // Note: snap-to-grid while resize is in progress did not work as expected (the mouse is no longer over the
-      // component when width is changed programmatically?). Workaround is to snap only on resize-end.
-      const height = this.resizeStyle === 'xy' && e.height
-      this.setSize(e.target, e.width, height)
+      // console.log('onResize', e.direction)
+      this.setSize(e.target, e.width, this.autoHeight(e, e.height))
     },
 
-    onResizeEnd ({target}) {
-      const topic = this.findTopic(target)
-      const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
-      const height = this.resizeStyle === 'xy' && lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
-      this.setSize(target, width, height)
-      this.$store.dispatch('storeTopicSize', topic)
+    onResizeEnd (e) {
+      // console.log('onResizeEnd', e.isDrag, e.lastEvent?.direction, e.lastEvent?.dist)
+      if (e.isDrag) {     // mouse actually moved between mousedown and mouseup, only then "lastEvent" is available
+        const topic = this.findTopic(e.target)
+        // We only snap-to-grid on resize-end. While resize is in progress it does not work properly (the mouse is
+        // no longer over the component when width is changed programmatically?).
+        const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
+        const height = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
+        this.setSize(e.target, width, this.autoHeight(e.lastEvent, height))
+        this.$store.dispatch('storeTopicSize', topic)
+      }
     },
 
     onRotate ({target, rotate}) {
@@ -237,6 +240,10 @@ export default {
     wheelZoom (e) {
       // console.log('wheelZoom', e)
       this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
+    },
+
+    autoHeight (e, height) {
+      return e.direction[1] === 0 && this.config('autoHeight') ? 'auto' : height    // detect "east"-handler
     },
 
     transitionend () {

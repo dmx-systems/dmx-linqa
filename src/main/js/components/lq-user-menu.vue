@@ -8,7 +8,7 @@
         <el-dropdown-item command="userProfile">
           <b>{{username}}</b>
         </el-dropdown-item>
-        <el-dropdown-item v-if="isAuthor" command="togglePresentationMode" :icon="icon" divided>
+        <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" :icon="icon" divided>
           <lq-string>label.presentation_mode</lq-string>
         </el-dropdown-item>
         <el-dropdown-item command="logout" divided>

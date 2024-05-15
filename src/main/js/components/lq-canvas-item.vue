@@ -128,7 +128,7 @@ export default {
     },
 
     showLock () {
-      return this.isAuthor && this.locked
+      return this.isAuthor && !this.presentationMode && this.locked
     },
 
     isEditableItem () {

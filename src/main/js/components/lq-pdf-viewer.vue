@@ -130,7 +130,7 @@ export default {
         let viewport = page.getViewport({scale: 1})
         if (this.fullscreen) {
           const width = this.isSmallScreen ? this.$el.clientWidth : this.panelPos
-          viewport = page.getViewport({scale: width / viewport.width})
+          viewport = page.getViewport({scale: 3 * width / viewport.width})
         }
         canvas.width = viewport.width
         canvas.height = viewport.height

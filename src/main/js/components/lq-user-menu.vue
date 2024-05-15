@@ -75,7 +75,7 @@ export default {
     },
 
     icon () {
-      return this.presentationMode && 'el-icon-check'
+      return this.presentationMode ? 'el-icon-check' : ''     // el-dropdown-item strictly expects string
     }
   },
 

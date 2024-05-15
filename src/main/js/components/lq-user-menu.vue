@@ -8,7 +8,7 @@
         <el-dropdown-item command="userProfile">
           <b>{{username}}</b>
         </el-dropdown-item>
-        <el-dropdown-item command="togglePresentationMode" :icon="icon" divided>
+        <el-dropdown-item v-if="isAuthor" command="togglePresentationMode" :icon="icon" divided>
           <lq-string>label.presentation_mode</lq-string>
         </el-dropdown-item>
         <el-dropdown-item command="logout" divided>
@@ -53,7 +53,8 @@ import lq from '../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/presentation-mode').default
+    require('./mixins/presentation-mode').default,
+    require('./mixins/roles').default
   ],
 
   data () {
@@ -74,7 +75,7 @@ export default {
     },
 
     icon () {
-      return this.presentationMode ? 'el-icon-check' : ''
+      return this.presentationMode && 'el-icon-check'
     }
   },
 

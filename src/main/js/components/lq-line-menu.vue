@@ -48,6 +48,14 @@ export default {
   line-height: unset !important;
 }
 
+.lq-line-dropdown .el-dropdown-menu__item:hover .lq-svg-arrow line {
+  stroke: var(--highlight-color-2);
+}
+
+.lq-line-dropdown .el-dropdown-menu__item:hover .lq-svg-arrow polygon  {
+  fill: var(--highlight-color-2);
+}
+
 .lq-line-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
   margin-top: 9px;
 }

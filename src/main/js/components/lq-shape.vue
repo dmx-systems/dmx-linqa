@@ -1,6 +1,6 @@
 <template>
   <div :class="['lq-shape', shape]" :style="style">
-    <lq-shape-menu v-model="shape" :color="color" ref="shapeMenu"></lq-shape-menu>
+    <lq-shape-menu v-model="shape" :topic="topic" ref="shapeMenu"></lq-shape-menu>
     <lq-color-menu v-model="color" ref="colorMenu"></lq-color-menu>
   </div>
 </template>
@@ -43,9 +43,7 @@ export default {
     },
 
     style () {
-      return {
-        'background-color': this.color
-      }
+      return ['rectangle-outline', 'ellipse-outline'].includes(this.shape) ? this.borderColor : this.backgroundColor
     }
   },
 
@@ -67,7 +65,14 @@ export default {
   height: 100%;
 }
 
-.lq-shape.ellipse {
+.lq-shape.ellipse,
+.lq-shape.ellipse-outline {
   border-radius: 50%;
+}
+
+.lq-shape.rectangle-outline,
+.lq-shape.ellipse-outline {
+  box-sizing: border-box;
+  border: 6px solid;
 }
 </style>

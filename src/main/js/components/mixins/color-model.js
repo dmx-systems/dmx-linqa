@@ -17,9 +17,9 @@ export default {
         }
         // TODO: add default color config at canvas-level?
         if (this.topic.typeUri === 'linqa.line') {
-          return COLOR_PALETTE.foreground[0]   // default is gray
+          return COLOR_PALETTE.foreground[0]    // default is gray
         } else {
-          return COLOR_PALETTE.background[1]   // default is light gray
+          return COLOR_PALETTE.background[1]    // default is light gray
         }
       },
       set (color) {
@@ -28,6 +28,18 @@ export default {
         this.$set(this.topic.children, 'linqa.color', {value: color})   // for rendering
         // update server state
         this.$store.dispatch('updateColor', this.topic)
+      }
+    },
+
+    backgroundColor () {
+      return {
+        'background-color': this.color
+      }
+    },
+
+    borderColor () {
+      return {
+        'border-color': this.color
       }
     },
 

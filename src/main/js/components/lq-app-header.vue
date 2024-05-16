@@ -12,10 +12,10 @@
           </el-button>
           <el-dropdown-menu class="lq-workspace-selector" slot="dropdown">
             <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
-              {{getWorkspaceName(workspace)}}
+              <div>{{getWorkspaceName(workspace)}}</div>
             </el-dropdown-item>
             <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
-              {{getWorkspaceName(linqaAdminWs)}}
+              <div>{{getWorkspaceName(linqaAdminWs)}}</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -144,7 +144,8 @@ export default {
   line-height: unset;
 }
 
-.el-dropdown-menu.lq-workspace-selector .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 12px;
+.el-dropdown-menu.lq-workspace-selector .el-dropdown-menu__item > div {
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 </style>

@@ -21,11 +21,12 @@
         </el-dropdown>
       </template>
     </div>
-    <!-- Admin button -->
     <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="text" :title="adminTooltip" @click="admin">
     </el-button>
+    <el-button class="help-button fa fa-question-circle" type="text" @click="openHelp"></el-button>
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>
+    <lq-help-dialog :visible="helpVisible" @close="closeHelp"></lq-help-dialog>
   </div>
 </template>
 
@@ -39,6 +40,12 @@ export default {
     require('./mixins/workspace-name').default,
     require('./mixins/screen').default
   ],
+
+  data () {
+    return {
+      helpVisible: false
+    }
+  },
 
   computed: {
 
@@ -87,11 +94,20 @@ export default {
 
     admin () {
       this.$store.dispatch('callAdminRoute')
+    },
+
+    openHelp () {
+      this.helpVisible = true
+    },
+
+    closeHelp () {
+      this.helpVisible = false
     }
   },
 
   components: {
-    'lq-user-menu': require('./lq-user-menu').default
+    'lq-user-menu': require('./lq-user-menu').default,
+    'lq-help-dialog': require('./lq-help-dialog').default
   }
 }
 </script>
@@ -126,12 +142,14 @@ export default {
   font-style: italic;
 }
 
-.lq-app-header .admin-button {
+.lq-app-header .admin-button,
+.lq-app-header .help-button {
+  margin-left: 0 !important;        /* Element UI sets 10px for consecutive buttons */
   margin-right: 20px;
 }
 
 .lq-app-header .lq-user-menu {
-  margin-left: 14px;
+  margin-left: 12px;
 }
 
 /* the actual dropdown menus are body mounted */

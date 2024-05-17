@@ -1,6 +1,8 @@
 <template>
   <el-dialog custom-class="lq-help-dialog" :visible="visible" width="350px" @open="open" @close="close">
-    <div v-html="text"></div>
+    <transition>
+      <div class="text" v-html="text" :key="i"></div>
+    </transition>
     <div slot="footer">
       <el-button round size="mini" icon="el-icon-arrow-left" @click="prev"></el-button>
       <el-button round size="mini" icon="el-icon-arrow-right" @click="next"></el-button>
@@ -62,5 +64,29 @@ export default {
 
 <style>
 .lq-help-dialog {
+  overflow: hidden;
+}
+
+.lq-help-dialog .text {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.lq-help-dialog .text.v-enter {
+  left: 100%
+}
+
+.lq-help-dialog .text.v-enter-to,
+.lq-help-dialog .text.v-leave {
+  left: 20px;
+}
+
+.lq-help-dialog .text.v-enter-active,
+.lq-help-dialog .text.v-leave-active {
+  transition: left .5s;
+}
+
+.lq-help-dialog .text.v-leave-to {
+  left: -100%;
 }
 </style>

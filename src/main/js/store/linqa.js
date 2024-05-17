@@ -753,6 +753,10 @@ const actions = {
   getConfigResource (_, {fileName, fileType, multilingual}) {
     return http.get(`/linqa/config/${fileName}/${fileType}`, {params: {multilingual}})
       .then(response => response.data)
+  },
+
+  getHelpTexts () {
+    return http.get('/linqa/help').then(response => response.data)
   }
 }
 

@@ -244,7 +244,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         // synthetic child value (in the topic model) instead.
         // Despite not strictly needed we do the same for Notes, Shapes, and Lines because the frontend handles the
         // color aspect (e.g. the color selector) of all these items uniformly by a common mixin
-        // (see src/main/js/components/mixins/color.js)
+        // (see src/main/js/components/mixins/color-model.js)
         enrichWithColor(topic, viewProps);
     }
 

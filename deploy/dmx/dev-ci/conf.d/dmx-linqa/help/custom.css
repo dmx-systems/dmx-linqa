@@ -1,15 +1,17 @@
-.lq-help-dialog {
-  h2 {
-    margin-top: 0;
-  }
+.lq-help-dialog h2 {
+  margin-top: 0;
 }
 
-.lq-help-dialog .page-1 {
-  img {
-    float: right;
-    margin-left: 20px;
-  }
+.lq-help-dialog img#screen {
+  float: right;
+  margin-left: 20px;
 }
 
-.lq-help-dialog .page-2 {
+.lq-help-dialog img#help-button {
+  float: left;
+  margin-right: 20px;
+}
+
+.lq-help-dialog img#canvas-buttons {
+  margin: 20px 0;
 }

@@ -1,4 +1,7 @@
 .lq-help-dialog {
+  h2 {
+    margin-top: 0;
+  }
 }
 
 .lq-help-dialog .page-1 {

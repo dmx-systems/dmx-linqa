@@ -263,11 +263,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @GET
     @Path("/help")
     @Override
-    public List<String> getHelpTexts() {
+    public List<String> getHelpPages() {
         List<String> texts = new ArrayList();
         int i = 1;
         File file;
-        while ((file = getConfigResourceFile("help-" + i++, "html", false)).exists()) {    // TODO: multilingual
+        while ((file = getConfigResourceFile("help/page-" + i++, "html", false)).exists()) {    // TODO: multilingual
             texts.add(JavaUtils.readTextFile(file));
         }
         return texts;

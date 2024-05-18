@@ -27,7 +27,8 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
 
-loadCustomCSS()
+loadCustomCSS('custom/css')
+loadCustomCSS('help%2fcustom/css')
 
 const state = {
 
@@ -755,7 +756,7 @@ const actions = {
       .then(response => response.data)
   },
 
-  getHelpTexts () {
+  getHelpPages () {
     return http.get('/linqa/help').then(response => response.data)
   }
 }
@@ -834,10 +835,10 @@ function initLangConfig () {
   })
 }
 
-function loadCustomCSS () {
+function loadCustomCSS (css) {
   const link = document.createElement('link')
   link.rel = 'stylesheet'
-  link.href = '/linqa/config/custom/css'
+  link.href = '/linqa/config/' + css
   document.head.appendChild(link)
 }
 

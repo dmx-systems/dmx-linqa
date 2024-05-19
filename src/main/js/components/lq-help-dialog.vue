@@ -18,16 +18,11 @@ export default {
   data () {
     return {
       pages: [],              // array of String
-      i: 0,                   // index of current page
       transition: undefined   // transition name: 'slide-left' or 'slide-right'
     }
   },
 
   computed: {
-
-    page () {
-      return this.pages[this.i]
-    },
 
     num () {
       return this.pages.length

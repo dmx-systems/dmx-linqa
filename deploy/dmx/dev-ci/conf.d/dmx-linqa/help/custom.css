@@ -2,12 +2,12 @@
   margin-top: 0;
 }
 
-.lq-help-dialog img#screen {
+.lq-help-dialog .float-right {
   float: right;
   margin-left: 20px;
 }
 
-.lq-help-dialog img#help-button {
+.lq-help-dialog .float-left {
   float: left;
   margin-right: 20px;
 }

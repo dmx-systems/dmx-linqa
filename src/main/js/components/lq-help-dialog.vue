@@ -1,6 +1,6 @@
 <template>
   <el-dialog custom-class="lq-help-dialog" :visible="visible" width="820px" @open="open" @close="close">
-    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="400px">
+    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="440px" :initial-index="0">
       <el-carousel-item v-for="(page, i) in pages" :key="i">
         <div :class="['page', `page-${i + 1}`, 'dmx-html-field']" v-html="page"></div>
       </el-carousel-item>

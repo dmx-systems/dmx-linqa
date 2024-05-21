@@ -1,8 +1,8 @@
 <template>
   <el-dialog custom-class="lq-help-dialog" :visible="visible" width="820px" @open="open" @close="close">
-    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="440px" :initial-index="0">
+    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="480px" :initial-index="0">
       <el-carousel-item v-for="(page, i) in pages" :key="i">
-        <div :class="['page', `page-${i + 1}`, 'dmx-html-field']" v-html="page"></div>
+        <div :class="['page', 'dmx-html-field']" v-html="page"></div>
       </el-carousel-item>
     </el-carousel>
   </el-dialog>
@@ -17,22 +17,15 @@ export default {
 
   data () {
     return {
-      pages: [],              // array of String
-      transition: undefined   // transition name: 'slide-left' or 'slide-right'
-    }
-  },
-
-  computed: {
-
-    num () {
-      return this.pages.length
+      pages: []       // array of String
     }
   },
 
   methods: {
 
     open () {
-      if (!this.num) {
+      console.log('open')
+      if (!this.pages.length) {
         this.$store.dispatch('getHelpPages').then(pages => {
           this.pages = pages
         })

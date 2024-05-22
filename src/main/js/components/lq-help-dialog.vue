@@ -55,6 +55,18 @@ export default {
   word-break: unset;    /* Element UI default is "break-all" */
 }
 
-.lq-help-dialog .page {
+.lq-help-dialog .el-carousel__arrow {
+  transition: unset;
+  top: unset;
+  left: unset;
+  bottom: -45px;
+}
+
+.lq-help-dialog .el-carousel__arrow--left {
+  right: 45px;
+}
+
+.lq-help-dialog .el-carousel__arrow--right {
+  right: 0;
 }
 </style>

@@ -28,7 +28,7 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
 )
 
 loadCustomCSS('custom/css')
-loadCustomCSS('help%2fcustom/css')
+loadCustomCSS('help%2fhelp/css')
 
 const state = {
 

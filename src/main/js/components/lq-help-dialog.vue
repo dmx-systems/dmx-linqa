@@ -1,8 +1,10 @@
 <template>
-  <el-dialog custom-class="lq-help-dialog" :visible="visible" width="820px" @open="open" @close="close">
-    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="480px" :initial-index="0">
+  <el-dialog :custom-class="`lq-help-dialog page-${index + 1}`" :visible="visible" width="820px" @open="open"
+      @close="close">
+    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="480px" :initial-index="0"
+        @change="change">
       <el-carousel-item v-for="(page, i) in pages" :key="i">
-        <div :class="['page', 'dmx-html-field']" v-html="page"></div>
+        <div class="page dmx-html-field" v-html="page"></div>
       </el-carousel-item>
     </el-carousel>
   </el-dialog>
@@ -17,7 +19,8 @@ export default {
 
   data () {
     return {
-      pages: []       // array of String
+      pages: [],          // array of HTML (String)
+      index: 0            // index of current page (Number)
     }
   },
 
@@ -34,6 +37,10 @@ export default {
 
     close () {
       this.$emit('close')
+    },
+
+    change (index) {
+      this.index = index
     }
   }
 }

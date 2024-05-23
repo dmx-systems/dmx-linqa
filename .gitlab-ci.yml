@@ -12,9 +12,9 @@ maven-build:
   tags:
     - docker
   variables:
-    #DOCKER_AUTH: "$( echo -n "${CI_REGISTRY_USER}:${CI_JOB_TOKEN}" | base64 )"
-    #DOCKER_AUTH_CONFIG: "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"${DOCKER_AUTH}\"}}}"
-    DOCKER_AUTH_CONFIG:
+    DOCKER_AUTH: "$(echo -n "${CI_REGISTRY_USER}:${CI_JOB_TOKEN}" | base64)"
+    DOCKER_AUTH_CONFIG: "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"${DOCKER_AUTH}\"}}}"
+    #DOCKER_AUTH_CONFIG:
   # before_script:
     # - echo "DOCKER_AUTH_CONFIG=${DOCKER_AUTH_CONFIG}"
     # - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
@@ -37,8 +37,8 @@ sonarqube-check:
   dependencies:
     - maven-build
   variables:
-    DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
-    DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
+    #DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
+    #DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   cache:

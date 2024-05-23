@@ -12,7 +12,7 @@ maven-build:
   tags:
     - docker
   variables:
-    DOCKER_AUTH: "$(echo -n "${CI_REGISTRY_USER}:${CI_JOB_TOKEN}" | base64)"
+    DOCKER_AUTH: `echo -n "${CI_REGISTRY_USER}:${CI_JOB_TOKEN}" | base64`
     DOCKER_AUTH_CONFIG: "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"${DOCKER_AUTH}\"}}}"
     #DOCKER_AUTH_CONFIG:
   # before_script:

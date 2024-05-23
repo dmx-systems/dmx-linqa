@@ -7,12 +7,16 @@ stages:
 
 # 1) Build every commit on every branch and add the COMMIT SHORT SHA as suffix
 maven-build:
+  variables:
+    DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
+    DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
   image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
   stage: build
   tags:
     - docker
   before_script:
-    - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
+    - echo "DOCKER_AUTH_CONFIG: ${DOCKER_AUTH_CONFIG}"
+    # - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     # - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
     - export MAVEN_OPTS='-Xmx128m'

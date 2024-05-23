@@ -13,6 +13,13 @@
 <script>
 export default {
 
+  created () {
+    // Note: if opened programmatically (onboarding) no "open" event is fired
+    if (this.visible) {
+      this.fetchPages()
+    }
+  },
+
   props: {
     visible: Boolean
   },

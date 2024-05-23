@@ -32,6 +32,7 @@
 
 <script>
 import lq from '../lq-globals'
+import dmx from 'dmx-api'
 
 export default {
 
@@ -42,8 +43,12 @@ export default {
   ],
 
   data () {
+    const onboarded = dmx.utils.getCookie('linqa_onboarded')
+    if (!onboarded) {
+      dmx.utils.setCookie('linqa_onboarded', true)
+    }
     return {
-      helpVisible: false
+      helpVisible: !onboarded
     }
   },
 

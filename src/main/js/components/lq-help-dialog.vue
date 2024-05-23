@@ -1,8 +1,7 @@
 <template>
   <el-dialog :custom-class="`lq-help-dialog page-${index + 1}`" :visible="visible" width="820px" @open="fetchPages"
       @close="close">
-    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="492px" :initial-index="0"
-        @change="change">
+    <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="492px" @change="change">
       <el-carousel-item v-for="(page, i) in pages" :label="i + 1" :key="i">
         <div class="page dmx-html-field" v-html="page"></div>
       </el-carousel-item>
@@ -34,7 +33,6 @@ export default {
   methods: {
 
     fetchPages () {
-      console.log('fetchPages', !this.pages.length)
       if (!this.pages.length) {
         this.$store.dispatch('getHelpPages').then(pages => {
           this.pages = pages

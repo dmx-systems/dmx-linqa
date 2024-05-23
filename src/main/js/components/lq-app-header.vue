@@ -23,7 +23,7 @@
     </div>
     <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="text" :title="adminTooltip" @click="admin">
     </el-button>
-    <el-button class="help-button fa fa-question-circle" type="text" @click="openHelp"></el-button>
+    <el-button class="help-button fa fa-question-circle" v-if="isBigScreen" type="text" @click="openHelp"></el-button>
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>
     <lq-help-dialog :visible="helpVisible" @close="closeHelp"></lq-help-dialog>

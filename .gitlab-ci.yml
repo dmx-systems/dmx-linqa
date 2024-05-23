@@ -11,6 +11,8 @@ maven-build:
   stage: build
   tags:
     - docker
+  before_script:
+    - docker logout container-registry.dmx.systems/dmx-intern/docker-images
   script:
     - export MAVEN_OPTS='-Xmx128m'
     - mvn clean install -DskipTests=true

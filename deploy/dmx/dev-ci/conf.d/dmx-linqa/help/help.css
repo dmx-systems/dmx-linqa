@@ -3,6 +3,10 @@
   margin-top: 0;
 }
 
+.lq-help-dialog.page-7 {
+  background-color: #f7fcff;
+}
+
 .lq-help-dialog .float-right {
   float: right;
   margin-left: 20px;
@@ -13,18 +17,22 @@
   margin-right: 20px;
 }
 
-.big {
-  font-size: 18px;
+.lq-help-dialog .margin-top {
+  margin-top: 7px;
 }
 
-.large {
-  font-size: 48px;
+.lq-help-dialog .margin-bottom {
+  margin-bottom: 7px;
 }
 
 .lq-help-dialog .hint {
   background-color: var(--primary-color);
 }
 
-.lq-help-dialog.page-7 {
-  background-color: #f7fcff;
+.lq-help-dialog .big {
+  font-size: 18px;
+}
+
+.lq-help-dialog .large {
+  font-size: 48px;
 }

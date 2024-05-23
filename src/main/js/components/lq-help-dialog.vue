@@ -19,7 +19,7 @@ export default {
 
   data () {
     return {
-      pages: [],          // array of Object with 'label' and 'html' props
+      pages: [],          // array of HTML (String)
       index: 0            // index of current page (Number)
     }
   },

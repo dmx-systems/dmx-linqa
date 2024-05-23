@@ -11,7 +11,8 @@ maven-build:
   stage: build
   tags:
     - docker
-  #variables:
+  variables:
+    DOCKER_AUTH_CONFIG:
     #DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
     #DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
   script:

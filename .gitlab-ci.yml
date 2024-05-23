@@ -11,16 +11,10 @@ maven-build:
   stage: build
   tags:
     - docker
-  variables:
-    DOCKER_AUTH: `echo -n "${CI_REGISTRY_USER}:${CI_JOB_TOKEN}" | base64`
-    DOCKER_AUTH_CONFIG: "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"${DOCKER_AUTH}\"}}}"
-    #DOCKER_AUTH_CONFIG:
-  # before_script:
-    # - echo "DOCKER_AUTH_CONFIG=${DOCKER_AUTH_CONFIG}"
-    # - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
-    # - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  #variables:
+    #DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
+    #DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
   script:
-    - echo "DOCKER_AUTH_CONFIG=${DOCKER_AUTH_CONFIG}"
     - export MAVEN_OPTS='-Xmx128m'
     - mvn clean install -DskipTests=true
   artifacts:
@@ -81,9 +75,9 @@ deploy-to-gitlab-maven:
   stage: deploy
   tags:
     - docker
-  variables:
-    DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
-    DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
+  #variables:
+  #  DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
+  #  DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
   script:
     - 'mvn -Pgitlab-maven-deployment deploy -s /usr/local/lib/ci_settings.xml'
   rules:

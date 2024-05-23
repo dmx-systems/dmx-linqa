@@ -27,7 +27,8 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
 
-loadCustomCSS()
+loadCustomCSS('custom/css')
+loadCustomCSS('help%2fhelp/css')
 
 const state = {
 
@@ -753,6 +754,10 @@ const actions = {
   getConfigResource (_, {fileName, fileType, multilingual}) {
     return http.get(`/linqa/config/${fileName}/${fileType}`, {params: {multilingual}})
       .then(response => response.data)
+  },
+
+  getHelpPages () {
+    return http.get('/linqa/help').then(response => response.data)
   }
 }
 
@@ -830,10 +835,10 @@ function initLangConfig () {
   })
 }
 
-function loadCustomCSS () {
+function loadCustomCSS (css) {
   const link = document.createElement('link')
   link.rel = 'stylesheet'
-  link.href = '/linqa/config/custom/css'
+  link.href = '/linqa/config/' + css
   document.head.appendChild(link)
 }
 

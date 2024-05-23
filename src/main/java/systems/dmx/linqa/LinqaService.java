@@ -17,6 +17,8 @@ public interface LinqaService {
 
     List<String> getLanguageConfig();
 
+    List<String> getHelpPages();
+
     Response getConfigResource(String fileName, String fileType, boolean multilingual);
 
     /**

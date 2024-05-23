@@ -33,6 +33,7 @@ import systems.dmx.core.service.event.PreSendTopic;
 import systems.dmx.core.storage.spi.DMXTransaction;
 import systems.dmx.core.util.DMXUtils;
 import systems.dmx.core.util.IdList;
+import systems.dmx.core.util.JavaUtils;
 import systems.dmx.deepl.DeepLService;
 import systems.dmx.deepl.Translation;
 import systems.dmx.facets.FacetsService;
@@ -243,7 +244,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         // synthetic child value (in the topic model) instead.
         // Despite not strictly needed we do the same for Notes, Shapes, and Lines because the frontend handles the
         // color aspect (e.g. the color selector) of all these items uniformly by a common mixin
-        // (see src/main/js/components/mixins/color.js)
+        // (see src/main/js/components/mixins/color-model.js)
         enrichWithColor(topic, viewProps);
     }
 
@@ -260,6 +261,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @GET
+    @Path("/help")
+    @Override
+    public List<String> getHelpPages() {
+        List<String> texts = new ArrayList();
+        int i = 1;
+        File file;
+        while ((file = getConfigResourceFile("help/page-" + i++, "html", false)).exists()) {    // TODO: multilingual
+            texts.add(JavaUtils.readTextFile(file));
+        }
+        return texts;
+    }
+
+    @GET
     @Path("/config/{fileName}/{fileType}")
     @Produces({MediaType.TEXT_HTML, "text/css", "image/png"})
     @Override
@@ -267,14 +281,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                                       @PathParam("fileType") String fileType,
                                       @QueryParam("multilingual") boolean multilingual) {
         try {
-            StringBuilder path = new StringBuilder(DMXUtils.getConfigDir() + "dmx-linqa/" + fileName);
-            if (multilingual) {
-                String lang = Cookies.get().get("linqa_lang");
-                path.append("." + lang);
-            }
-            path.append("." + fileType);
-            File file = new File(path.toString());
             String mediaType = mediaType(fileType);
+            File file = getConfigResourceFile(fileName, fileType, multilingual);
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(mediaType).build();
             } else {
@@ -911,6 +919,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             throw new RuntimeException("Sending welcome mail for \"" + displayName + "\" (" + emailAddress + ") failed",
                 e);
         }
+    }
+
+    private File getConfigResourceFile(String fileName, String fileType, boolean multilingual) {
+        StringBuilder path = new StringBuilder(DMXUtils.getConfigDir() + "dmx-linqa/" + fileName);
+        if (multilingual) {
+            String lang = Cookies.get().get("linqa_lang");
+            path.append("." + lang);
+        }
+        path.append("." + fileType);
+        return new File(path.toString());
     }
 
     // TODO: move to platform's JavaUtils

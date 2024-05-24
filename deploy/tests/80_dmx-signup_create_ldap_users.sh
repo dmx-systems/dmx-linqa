@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 1
+
 ## users
 if [ -z "$1" ]; then
     USER_LIST='Linqa-Admin Linqa-Editor Linqa-User'

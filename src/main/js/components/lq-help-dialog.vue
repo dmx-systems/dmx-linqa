@@ -1,6 +1,5 @@
 <template>
-  <el-dialog :custom-class="`lq-help-dialog page-${index + 1}`" :visible="visible" width="820px" @open="fetchPages"
-      @close="close">
+  <el-dialog :custom-class="customClass" :visible="visible" width="820px" @open="fetchPages" @close="close">
     <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="492px" @change="change">
       <el-carousel-item v-for="(page, i) in pages" :label="i + 1" :key="i">
         <div class="page dmx-html-field" v-html="page"></div>
@@ -20,13 +19,20 @@ export default {
   },
 
   props: {
-    visible: Boolean
+    visible: Boolean,
+    firstLogin: Boolean
   },
 
   data () {
     return {
       pages: [],          // array of HTML (String)
       index: 0            // index of current page (Number)
+    }
+  },
+
+  computed: {
+    customClass () {
+      return `lq-help-dialog page-${this.index + 1} ${this.firstLogin ? 'first-login' : ''}`
     }
   },
 

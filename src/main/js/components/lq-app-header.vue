@@ -26,7 +26,7 @@
     <el-button class="help-button fa fa-question-circle" v-if="isBigScreen" type="text" @click="openHelp"></el-button>
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>
-    <lq-help-dialog :visible="helpVisible" @close="closeHelp"></lq-help-dialog>
+    <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
   </div>
 </template>
 
@@ -48,7 +48,8 @@ export default {
       dmx.utils.setCookie('linqa_onboarded', true)
     }
     return {
-      helpVisible: !onboarded
+      helpVisible: !onboarded,
+      firstLogin: !onboarded
     }
   },
 

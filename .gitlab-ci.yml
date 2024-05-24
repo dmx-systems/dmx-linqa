@@ -5,16 +5,16 @@ stages:
   - install
   - present
 
+# A temporary fix for accessing the local docker repo is to unset $DOCKER_AUTH_CONFIG
+variables:
+  DOCKER_AUTH_CONFIG:
+
 # 1) Build every commit on every branch and add the COMMIT SHORT SHA as suffix
 maven-build:
   image: container-registry.dmx.systems/dmx-intern/docker-images/maven-npm-nodejs
   stage: build
   tags:
     - docker
-  variables:
-    DOCKER_AUTH_CONFIG:
-    #DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
-    #DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
   script:
     - export MAVEN_OPTS='-Xmx128m'
     - mvn clean install -DskipTests=true
@@ -32,9 +32,6 @@ sonarqube-check:
   dependencies:
     - maven-build
   variables:
-    DOCKER_AUTH_CONFIG:
-    #DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
-    #DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
@@ -77,10 +74,6 @@ deploy-to-gitlab-maven:
   stage: deploy
   tags:
     - docker
-  variables:
-    DOCKER_AUTH_CONFIG:
-  #  DOCKER_AUTH: 'echo -n "$CI_REGISTRY_USER:$CI_JOB_TOKEN" | base64'
-  #  DOCKER_AUTH_CONFIG: 'echo {\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(eval $DOCKER_AUTH)\"}}}'
   script:
     - 'mvn -Pgitlab-maven-deployment deploy -s /usr/local/lib/ci_settings.xml'
   rules:

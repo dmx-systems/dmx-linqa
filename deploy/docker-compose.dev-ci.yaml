@@ -6,7 +6,6 @@ volumes:
 
 
 services:
-
   dmx:
     container_name: "${CI_PROJECT_NAME}-${TIER}-dmx-container"
     restart: unless-stopped

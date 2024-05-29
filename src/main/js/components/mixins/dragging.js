@@ -2,8 +2,8 @@ export default {
 
   methods: {
 
-    dragStart () {
-      this.$store.dispatch('dragStart')
+    dragStart (dragMode) {
+      this.$store.dispatch('dragStart', dragMode)
     },
 
     dragStop () {

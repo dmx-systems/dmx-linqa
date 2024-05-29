@@ -111,7 +111,7 @@ export default {
         this.$store.dispatch('updateControlBox')
         // console.log('lq-line-handles onDrag()', e.isFirstDrag)
         if (e.isFirstDrag) {
-          this.dragStart()
+          this.dragStart('drag-line-handle')
         }
       }
     },

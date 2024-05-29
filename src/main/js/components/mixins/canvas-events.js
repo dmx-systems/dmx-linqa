@@ -103,7 +103,7 @@ export default {
       // console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
       if (e.isFirstDrag) {
-        this.dragStart()
+        this.dragStart('drag-item')
       }
     },
 
@@ -253,7 +253,6 @@ export default {
         // console.log('track', dx, dy, i)
         if (!i) {
           i = setInterval(pan, 50)
-          this.dragStart()
         }
       }
 
@@ -276,6 +275,7 @@ export default {
 
       addEventListener('mousemove', track)
       addEventListener('mouseup', trackStop)
+      this.dragStart('track-pan')
     },
 
     autoHeight (e, height) {

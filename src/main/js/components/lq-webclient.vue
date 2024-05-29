@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-webclient', {dragging: isDragging}]" @keyup.tab="tab">
+  <div :class="['lq-webclient', {dragging: dragMode}, dragMode]" @keyup.tab="tab">
     <lq-app-header></lq-app-header>
     <router-view></router-view>
     <iframe class="lq-download-iframe"></iframe>
@@ -10,8 +10,8 @@
 export default {
 
   computed: {
-    isDragging () {
-      return this.$store.state.isDragging
+    dragMode () {
+      return this.$store.state.dragMode
     }
   },
 
@@ -46,7 +46,11 @@ export default {
 }
 
 .lq-webclient.dragging {
-  user-select: none;      /* prevent text selection while e.g. split-resizer is dragged */
+  user-select: none;    /* prevent text selection while e.g. split-panel resizer is dragged */
+}
+
+.lq-webclient.dragging.track-pan {
+  cursor: move;         /* "all-scroll" would be perfect, Firefox (Mac) shows "grab" then, Chrome/Safari show "move" */
 }
 
 .lq-webclient .lq-download-iframe {

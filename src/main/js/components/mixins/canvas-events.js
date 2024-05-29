@@ -103,7 +103,7 @@ export default {
       // console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
       if (e.isFirstDrag) {
-        this.dragStart()
+        this.dragStart('drag-item')
       }
     },
 
@@ -240,6 +240,42 @@ export default {
     wheelZoom (e) {
       // console.log('wheelZoom', e)
       this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
+    },
+
+    trackStart ({pageX: initialPageX, pageY: initialPageY}) {
+      // console.log('trackStart', initialPageX, initialPageY)
+      const {addEventListener, removeEventListener} = this.$refs.canvas
+      let dx, dy, i
+
+      const track = ({pageX, pageY}) => {
+        dx = pageX - initialPageX
+        dy = pageY - initialPageY
+        // console.log('track', dx, dy, i)
+        if (!i) {
+          i = setInterval(pan, 50)
+        }
+      }
+
+      const pan = () => {
+        this.$store.dispatch('setViewport', {
+          pan: {
+            x: this.pan.x + 0.4 * dx,
+            y: this.pan.y + 0.4 * dy
+          }
+        })
+      }
+
+      const trackStop = () => {
+        // console.log('trackStop')
+        removeEventListener('mousemove', track)
+        removeEventListener('mouseup',   trackStop)
+        clearInterval(i)
+        this.dragStop()
+      }
+
+      addEventListener('mousemove', track)
+      addEventListener('mouseup', trackStop)
+      this.dragStart('track-pan')
     },
 
     autoHeight (e, height) {

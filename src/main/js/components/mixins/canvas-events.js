@@ -242,6 +242,42 @@ export default {
       this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
     },
 
+    trackStart ({pageX: initialPageX, pageY: initialPageY}) {
+      // console.log('trackStart', initialPageX, initialPageY)
+      const {addEventListener, removeEventListener} = this.$refs.canvas
+      let dx, dy, i
+
+      const track = ({pageX, pageY}) => {
+        dx = pageX - initialPageX
+        dy = pageY - initialPageY
+        // console.log('track', dx, dy, i)
+        if (!i) {
+          i = setInterval(pan, 50)
+          this.dragStart()
+        }
+      }
+
+      const pan = () => {
+        this.$store.dispatch('setViewport', {
+          pan: {
+            x: this.pan.x + 0.4 * dx,
+            y: this.pan.y + 0.4 * dy
+          }
+        })
+      }
+
+      const trackStop = () => {
+        // console.log('trackStop')
+        removeEventListener('mousemove', track)
+        removeEventListener('mouseup',   trackStop)
+        clearInterval(i)
+        this.dragStop()
+      }
+
+      addEventListener('mousemove', track)
+      addEventListener('mouseup', trackStop)
+    },
+
     autoHeight (e, height) {
       return e.direction[1] === 0 && this.config('autoHeight') ? 'auto' : height    // detect "east"-handler
     },

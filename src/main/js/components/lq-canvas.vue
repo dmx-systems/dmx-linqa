@@ -1,5 +1,6 @@
 <template>
-  <div class="lq-canvas" ref="canvas" :style="style" @wheel="wheelZoom">
+  <div class="lq-canvas" ref="canvas" :style="style" @wheel="wheelZoom" @mousedown.right="trackStart"
+      @contextmenu.prevent>
     <lq-canvas-toolbar></lq-canvas-toolbar>
     <!-- Content layer -->
     <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">

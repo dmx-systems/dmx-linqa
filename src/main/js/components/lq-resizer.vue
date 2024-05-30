@@ -51,7 +51,7 @@ export default {
       const left = this.left
       const {addEventListener, removeEventListener} = window
 
-      this.dragStart()
+      this.dragStart('drag-resizer')
 
       const onMouseMove = ({pageX}) => {
         this.$store.dispatch('setPanelPos', left + pageX - initialPageX)

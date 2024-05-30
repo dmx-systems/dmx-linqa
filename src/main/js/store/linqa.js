@@ -818,6 +818,7 @@ function initUserState (username) {
     state.isLinqaAdmin = false
     state.workspaces = []
     state.workspace = undefined
+    state.presentationMode = false
     store.dispatch('deselect')
   }
 }

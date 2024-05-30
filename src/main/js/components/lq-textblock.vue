@@ -219,7 +219,7 @@ export default {
 }
 
 .lq-textblock.form {
-  background-color: var(--background-color) !important;     /* important overides inline style */
+  background-color: var(--background-color) !important;     /* "important" overides inline style */
 }
 
 .lq-textblock.form .texts {

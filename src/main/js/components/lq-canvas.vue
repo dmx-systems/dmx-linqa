@@ -21,9 +21,8 @@
         </el-button>
       </div>
     </div>
-    <vue-selecto ref="selecto" :selectable-targets="['.content-layer .lq-canvas-item']" :selectFromInside="false"
-      toggle-continue-select="shift" hitRate="0" @dragStart="onDragSelectStart" @select="onSelect"
-      @selectEnd="onSelectEnd">
+    <vue-selecto ref="selecto" :selectable-targets="['.lq-canvas-item']" :selectFromInside="false" hitRate="0"
+      toggle-continue-select="shift" @dragStart="onDragSelectStart" @select="onSelect" @selectEnd="onSelectEnd">
     </vue-selecto>
     <lq-line-handles></lq-line-handles>
     <!-- Canvas panning + pinching -->

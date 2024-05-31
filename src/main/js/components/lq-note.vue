@@ -191,7 +191,7 @@ export default {
 }
 
 .lq-note.form {
-  background-color: var(--background-color) !important;     /* "important" overides inline style */
+  background-color: var(--background-color) !important;     /* "important" overrides inline style */
 }
 
 .lq-note.form .translate {

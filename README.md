@@ -173,6 +173,44 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 **1.8** -- unreleased
 
+* Features:
+    * UI adapted for mobile devices
+    * New canvas objects:
+        * Rectangles, ellipses, outlines
+        * Lines (solid, dotted, dashed)
+        * Arrows  (double headed)
+    * New command for canvas objects: Duplicate, Multi-duplicate
+    * Presentation mode: temporarily hide all editing functions
+    * Menus for canvas object direct manipulation (color, line type, arrow type, ...)
+    * Alternative "Track Point"-like canvas panning mechanism
+    * Online help
+        * New Help-button in app header
+        * Opens automatically on 1st login
+* Improvements:
+    * Performance improvements (loading workspaces)
+        * Quill editor: handle images as separate resources (instead of embedding as data-URL)
+        * Scale down uploaded images
+    * Discussion panel size:
+        * Initial size is smaller
+        * Manual size set by user is persistent
+    * Read-only users can pan canvas everywhere
+    * Show canvas object commands as icons (instead labels)
+        * Commands to not line wrap
+    * Multi-lock/unlock for canvas objects
+    * Manual vertical resize for notes and textblocks
+        * Auto-height is still supported
+    * Textblocks: make both texts equal width
+    * 3 revised color palettes: foreground, background, text marker
+    * Configurability:
+        * Help resources (HTML, CSS, images)
+        * Mail texts as config resources
+        * Subject of digest emails is configurable
+    * Check password complexity, display password requirements
+* Continuous integration:
+    * Automatic tests for both Java and Javascript
+    * Measure test coverage
+* Compatible with DMX 5.3.5-SNAPSHOT and Sign-Up 3.2-SNAPSHOT
+
 **1.7.1** -- Feb 23, 2024
 
 * Fixes:

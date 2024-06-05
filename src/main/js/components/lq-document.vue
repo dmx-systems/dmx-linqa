@@ -76,7 +76,7 @@ export default {
       key: 'action.download',
       icon: 'el-icon-download',
       handler: this.download,
-      enabledForReadOnly: true
+      enabledForUser: true
     })
     this.initText()
   },

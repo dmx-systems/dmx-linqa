@@ -190,7 +190,7 @@ export default {
       const target = e.inputEvent.target
       if (target !== this.$refs.canvas) {
         if (e.inputEvent.touches?.length === 2) {
-          LOG && console.log('onPanStart() -> PREVENT CANVAS PAN (2 finger gesture)')
+          LOG && console.log('onPanStart() -> PREVENT CANVAS PAN (2 finger gesture)', target)
           // Only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the same
           // Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event. Calling
           // e.stopDrag() on the other hand would stop invocation of *all* the drag events, including "pinch".
@@ -236,7 +236,7 @@ export default {
     },
 
     onPinch (e) {
-      LOG && console.log('onPinch()' /*, e.inputEvent.scale, e */)
+      // LOG && console.log('onPinch()' /*, e.inputEvent.scale, e */)
       this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - APP_HEADER_HEIGHT)
     },
 

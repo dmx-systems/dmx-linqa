@@ -465,7 +465,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         return topicIds.stream().map(topicId -> {
             // 1) duplicate topic
             Topic topic = dmx.getTopic(topicId).loadChildTopics();
-            Topic dupTopic = dmx.createTopic(topic.getModel());
+            TopicModel model = topic.getModel();
+            model.getChildTopics().remove(LOCKED);      // don't duplicate Locked-state
+            Topic dupTopic = dmx.createTopic(model);
             // 2) duplicate view props
             Assoc assoc = tms.getTopicMapcontext(topicmapId, topicId);
             ViewProps viewProps = tms.getTopicViewProps(topicmapId, topicId);

@@ -63,7 +63,7 @@ const state = {
   selection: [],                // the selected topics (array of dmx.ViewTopic)
   pan: {x: 0, y: 0},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
   zoom: 1,                      // canvas zoom (Number)                   // TODO: drop this, calculate instead?
-  isDragging: false,            // true while any dragging is in progress (canvas pan, panel resize, line handle drag)
+  dragMode: '',                 // non-empty while dragging is in progress (canvas pan, panel resize, line handle drag)
   transition: false,            // true while a canvas pan/zoom transition is in progress
   isEditActive: [],             // IDs of topics being edited (array)
   fullscreen: false,            // if true the current document is rendered fullscreen
@@ -415,12 +415,12 @@ const actions = {
     }
   },
 
-  dragStart () {
-    state.isDragging = true
+  dragStart (_, dragMode) {
+    state.dragMode = dragMode
   },
 
   dragStop () {
-    state.isDragging = false
+    state.dragMode = ''
   },
 
   setFullscreen ({dispatch}, fullscreen) {
@@ -818,6 +818,7 @@ function initUserState (username) {
     state.isLinqaAdmin = false
     state.workspaces = []
     state.workspace = undefined
+    state.presentationMode = false
     store.dispatch('deselect')
   }
 }

@@ -71,6 +71,7 @@ export default {
   top: unset;
   left: unset;
   bottom: -45px;
+  color: unset;
 }
 
 .lq-help-dialog .el-carousel__arrow--left {

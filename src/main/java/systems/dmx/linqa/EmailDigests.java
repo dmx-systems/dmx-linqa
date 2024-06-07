@@ -32,6 +32,7 @@ class EmailDigests {
     // ------------------------------------------------------------------------------------------------------- Constants
 
     static final String DIGEST_EMAIL_SUBJECT = System.getProperty("dmx.linqa.digest_email_subject", "Linqa Platform");
+    static final int DIGEST_EMAIL_HOUR = Integer.getInteger("dmx.linqa.digest_email_hour", 6);      // default is 6am
 
     static final long MILLISECS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -64,14 +65,15 @@ class EmailDigests {
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
-    // Digests are emailed every morning at 6am.
+    // Digests are emailed every morning at 6am (by default, is configurable).
     // Note: if the Linqa plugin is deployed after 6am, the first digests are sent right away.
     void startTimedTask() {
         Calendar cal = new GregorianCalendar();
-        cal.set(Calendar.HOUR_OF_DAY, 6);    // 6am
+        cal.set(Calendar.HOUR_OF_DAY, DIGEST_EMAIL_HOUR);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
-        logger.info("### Sheduling email-digests task for daily execution at 6am, first execution: " + cal.getTime());
+        logger.info(String.format("### Sheduling email-digests task for daily execution at %d:00, first execution: %s",
+            DIGEST_EMAIL_HOUR, cal.getTime()));
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

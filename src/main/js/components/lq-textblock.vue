@@ -1,11 +1,12 @@
 <template>
-  <div :class="['lq-textblock', 'dmx-html-field', {'filter': isFiltered}, mode]" v-loading="saving" :style="style">
+  <div :class="['lq-textblock', 'dmx-html-field', {'filter': isFiltered}, mode]" v-loading="saving"
+      :style="backgroundColor">
     <template v-if="infoMode">
       <div class="texts">
         <div class="text" v-html="textblock[lang1st]"></div>
         <div class="text" v-html="textblock[lang2nd]"></div>
       </div>
-      <div class="discussion-button" :style="style">
+      <div class="discussion-button" :style="backgroundColor">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
@@ -75,12 +76,6 @@ export default {
       return {
         lang1: this.highlight(this.topic, this.html('lang1'), true),
         lang2: this.highlight(this.topic, this.html('lang2'), true)
-      }
-    },
-
-    style () {
-      return {
-        'background-color': this.color
       }
     },
 
@@ -224,7 +219,7 @@ export default {
 }
 
 .lq-textblock.form {
-  background-color: var(--background-color);
+  background-color: var(--background-color) !important;     /* "important" overrides inline style */
 }
 
 .lq-textblock.form .texts {

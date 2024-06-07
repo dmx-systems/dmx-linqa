@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-note', 'dmx-html-field', mode]" v-loading="saving" :style="{'background-color': color}">
+  <div :class="['lq-note', 'dmx-html-field', mode]" v-loading="saving" :style="backgroundColor">
     <div v-if="infoMode" v-html="noteHtml"></div>
     <template v-else>
       <div class="field" v-if="isNew">
@@ -191,7 +191,7 @@ export default {
 }
 
 .lq-note.form {
-  background-color: var(--background-color);
+  background-color: var(--background-color) !important;     /* "important" overrides inline style */
 }
 
 .lq-note.form .translate {

@@ -49,8 +49,8 @@ export default {
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       actions: [                // Actions appearing in the item toolbar
         {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
-        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate},
-        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock},
+        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate,  enabledForEditor: true},
+        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock, enabledForAdmin: true},
         {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
       ]
     }
@@ -173,10 +173,9 @@ export default {
 
     //
 
-    // FIXME: editors must be able to *duplicate* locked items?
-    // TODO: refactor, attach logic to action instead?
     isActionAvailable (action) {
-      return (this.isEditableItem || action.enabledForReadOnly) && (action.key !== 'action.lock' || this.isLinqaAdmin)
+      return (this.isEditableItem || action.enabledForUser || action.enabledForEditor && this.isEditor) &&
+             (!action.enabledForAdmin || this.isLinqaAdmin)
     },
 
     // TODO: refactor, attach logic to action instead?

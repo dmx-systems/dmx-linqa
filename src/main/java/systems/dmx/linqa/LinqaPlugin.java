@@ -267,34 +267,33 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         List<String> texts = new ArrayList();
         int i = 1;
         File file;
-        while ((file = getConfigResourceFile("help/page-" + i++, "html", false)).exists()) {    // TODO: multilingual
+        while ((file = getConfigResourceFile(String.format("help/page-%d.html", i++), true)).exists()) {
             texts.add(JavaUtils.readTextFile(file));
         }
         return texts;
     }
 
     @GET
-    @Path("/config/{fileName}/{fileType}")
+    @Path("/config/{path:.+}")
     @Produces({MediaType.TEXT_HTML, "text/css", "image/png"})
     @Override
-    public Response getConfigResource(@PathParam("fileName") String fileName,
-                                      @PathParam("fileType") String fileType,
+    public Response getConfigResource(@PathParam("path") String path,
                                       @QueryParam("multilingual") boolean multilingual) {
         try {
-            String mediaType = mediaType(fileType);
-            File file = getConfigResourceFile(fileName, fileType, multilingual);
+            File file = getConfigResourceFile(path, multilingual);
+            String contentType = JavaUtils.getFileType(path);
             if (file.exists()) {
-                return Response.ok(new FileInputStream(file)).type(mediaType).build();
+                return Response.ok(new FileInputStream(file)).type(contentType).build();
             } else {
-                if (fileName.equals("logo") || fileName.equals("logo-small")) {     // TODO
-                    return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).type(mediaType).build();
+                if (path.equals("logo.png") || path.equals("logo-small.png")) {     // TODO
+                    return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).type(contentType).build();
                 } else {
                     return Response.status(NO_CONTENT).build();
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException("Retrieving config resource \"" + fileName + "\" failed (fileType=\"" +
-                fileType + "\", multilingual=" + multilingual + ")", e);
+            throw new RuntimeException("Retrieving config resource \"" + path + "\" failed (multilingual=" +
+                multilingual + ")", e);
         }
     }
 
@@ -923,17 +922,22 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private File getConfigResourceFile(String fileName, String fileType, boolean multilingual) {
-        StringBuilder path = new StringBuilder(DMXUtils.getConfigDir() + "dmx-linqa/" + fileName);
+    private File getConfigResourceFile(String path, boolean multilingual) {
         if (multilingual) {
+            int i = path.indexOf('/');      // insertion point for language code, either first directory, or file
+            if (i == -1) {
+                i = path.lastIndexOf('.');
+                if (i == -1) {
+                    throw new RuntimeException("No file extension recognized in \"" + path + "\"");
+                }
+            }
             String lang = Cookies.get().get("linqa_lang");
-            path.append("." + lang);
+            path = path.substring(0, i) + "." + lang + path.substring(i);
         }
-        path.append("." + fileType);
-        return new File(path.toString());
+        return new File(DMXUtils.getConfigDir() + "dmx-linqa/" + path);
     }
 
-    // TODO: move to platform's JavaUtils
+    // TODO: drop it, use JavaUtils' getFileType() instead
     private String mediaType(String fileType) {
         switch (fileType) {
             case "html": return "text/html";

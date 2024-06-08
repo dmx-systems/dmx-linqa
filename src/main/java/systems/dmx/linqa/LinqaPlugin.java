@@ -62,6 +62,7 @@ import static javax.ws.rs.core.Response.Status.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -89,6 +90,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     private static final String CONFIG_LANG2 = System.getProperty("dmx.linqa.lang2"); // LANG2 is in use (Constans.java)
 
     private static final String HOST_URL = System.getProperty("dmx.host.url", "");
+
+    private static final String DEFAULT_HELP_LANG = "en";
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -264,12 +267,55 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Path("/help")
     @Override
     public List<String> getHelpPages() {
-        List<String> texts = new ArrayList();
-        int i = 1;
-        File file;
-        while ((file = getConfigResourceFile(String.format("help/page-%d.html", i++), true)).exists()) {
-            texts.add(JavaUtils.readTextFile(file));
+        // 1) identify help resource (source: external or bundled, language: UI or default)
+        boolean external = false;   // external resource (file) OR bundled resource
+        String lang = Cookies.get().get("linqa_lang");  // effective help language (can differ from UI language)
+        String helpPath = multilingualResourcePath("help/", lang);
+        String defaultHelpPath = multilingualResourcePath("help/", DEFAULT_HELP_LANG);
+        File file = getExternalResourceFile(helpPath);
+        if (file.exists()) {
+            external = true;
+        } else {
+            file = getExternalResourceFile(defaultHelpPath);
+            if (file.exists()) {
+                external = true;
+                lang = DEFAULT_HELP_LANG;
+            } else {
+                URL resource = bundle.getResource(helpPath);
+                if (resource == null) {
+                    resource = bundle.getResource(defaultHelpPath);
+                    if (resource != null) {
+                        lang = DEFAULT_HELP_LANG;
+                    } else {
+                        throw new RuntimeException("No help reources found");
+                    }
+                }
+            }
         }
+        logger.info("Loading help resources, external=" + external + ", lang=" + lang);
+        // 2) read help resource (pages)
+        List<String> texts = new ArrayList();
+        int pageNr = 1;
+        boolean exists = true;
+        String resourcePath = multilingualResourcePath("help/page-%d.html", lang);
+        do {
+            String path = String.format(resourcePath, pageNr++);
+            if (external) {
+                file = getExternalResourceFile(path);
+                if (file.exists()) {
+                    texts.add(JavaUtils.readTextFile(file));
+                } else {
+                    exists = false;
+                }
+            } else {
+                URL resource = bundle.getResource(path);
+                if (resource != null) {
+                    texts.add(JavaUtils.readTextURL(resource));
+                } else {
+                    exists = false;
+                }
+            }
+        } while (exists);
         return texts;
     }
 
@@ -280,7 +326,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public Response getConfigResource(@PathParam("path") String path,
                                       @QueryParam("multilingual") boolean multilingual) {
         try {
-            File file = getConfigResourceFile(path, multilingual);
+            if (multilingual) {
+                path = multilingualResourcePath(path, Cookies.get().get("linqa_lang"));
+            }
+            File file = getExternalResourceFile(path);
             String contentType = JavaUtils.getFileType(path);
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(contentType).build();
@@ -922,19 +971,24 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private File getConfigResourceFile(String path, boolean multilingual) {
-        if (multilingual) {
-            int i = path.indexOf('/');      // insertion point for language code, either first directory, or file
-            if (i == -1) {
-                i = path.lastIndexOf('.');
-                if (i == -1) {
-                    throw new RuntimeException("No file extension recognized in \"" + path + "\"");
-                }
-            }
-            String lang = Cookies.get().get("linqa_lang");
-            path = path.substring(0, i) + "." + lang + path.substring(i);
-        }
+    // Resources
+
+    private File getExternalResourceFile(String path) {
         return new File(DMXUtils.getConfigDir() + "dmx-linqa/" + path);
+    }
+
+    /**
+     * @param   lang        the language code inserted in the given path
+     */
+    private String multilingualResourcePath(String path, String lang) {
+        int i = path.indexOf('/');      // insertion point for language code, either first directory, or file
+        if (i == -1) {
+            i = path.lastIndexOf('.');
+            if (i == -1) {
+                throw new RuntimeException("No file extension recognized in \"" + path + "\"");
+            }
+        }
+        return path.substring(0, i) + "." + lang + path.substring(i);
     }
 
     // TODO: drop it, use JavaUtils' getFileType() instead

@@ -1,7 +1,7 @@
 <template>
   <el-dialog :custom-class="customClass" :visible="visible" width="820px" @open="fetchPages" @close="close">
     <el-carousel :autoplay="false" indicator-position="outside" trigger="click" height="492px" @change="change">
-      <el-carousel-item v-for="(page, i) in pages" :label="i + 1" :key="i">
+      <el-carousel-item v-for="(page, i) in pages[langSuffix]" :label="i + 1" :key="i">
         <div class="page dmx-html-field" v-html="page"></div>
       </el-carousel-item>
     </el-carousel>
@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import lq from '../lq-globals'
+
 export default {
 
   created () {
@@ -25,23 +27,35 @@ export default {
 
   data () {
     return {
-      pages: [],          // array of HTML (String)
+      pages: {
+        lang1: [],        // array of HTML (String)
+        lang2: []         // array of HTML (String)
+      },
       index: 0            // index of current page (Number)
     }
   },
 
   computed: {
+
     customClass () {
       return `lq-help-dialog page-${this.index + 1} ${this.firstLogin ? 'first-login' : ''}`
+    },
+
+    langSuffix () {
+      return lq.langSuffix(this.lang)
+    },
+
+    lang () {
+      return this.$store.state.lang
     }
   },
 
   methods: {
 
     fetchPages () {
-      if (!this.pages.length) {
+      if (!this.pages[this.langSuffix].length) {
         this.$store.dispatch('getHelpPages').then(pages => {
-          this.pages = pages
+          this.pages[this.langSuffix] = pages
         })
       }
     },

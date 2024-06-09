@@ -27,8 +27,8 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
 
-loadCustomCSS('custom/css')
-loadCustomCSS('help%2fhelp/css')
+loadCustomCSS('custom.css')
+loadCustomCSS('help/help.css')
 
 const state = {
 
@@ -751,8 +751,8 @@ const actions = {
     return http.get(filerepoUrl(repoPath)).then(response => response.data)
   },
 
-  getConfigResource (_, {fileName, fileType, multilingual}) {
-    return http.get(`/linqa/config/${fileName}/${fileType}`, {params: {multilingual}})
+  getConfigResource (_, {path, multilingual}) {
+    return http.get(`/linqa/config/${path}`, {params: {multilingual}})
       .then(response => response.data)
   },
 

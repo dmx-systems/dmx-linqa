@@ -326,10 +326,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public Response getConfigResource(@PathParam("path") String path,
                                       @QueryParam("multilingual") boolean multilingual) {
         try {
-            if (multilingual) {
-                path = multilingualResourcePath(path, Cookies.get().get("linqa_lang"));
-            }
-            File file = getExternalResourceFile(path);
+            File file = getExternalResourceFile(multilingual ?
+                multilingualResourcePath(path, Cookies.get().get("linqa_lang")) :   // TODO: use CookieParam instead?
+                path
+            );
             String contentType = JavaUtils.getFileType(path);
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(contentType).build();
@@ -989,16 +989,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             }
         }
         return path.substring(0, i) + "." + lang + path.substring(i);
-    }
-
-    // TODO: drop it, use JavaUtils' getFileType() instead
-    private String mediaType(String fileType) {
-        switch (fileType) {
-            case "html": return "text/html";
-            case "css": return "text/css";
-            case "png": return "image/png";         // TODO: more image types
-            default: return null;
-        }
     }
 
     // -------------------------------------------------------------------------------------------------- Nested Classes

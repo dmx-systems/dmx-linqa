@@ -165,6 +165,14 @@ const actions = {
     })
   },
 
+  fetchWorkspaceMemberships (_, workspace) {
+    if (!workspace.memberships) {
+      return dmx.rpc.getMemberships(workspace.id).then(users => {
+        Vue.set(workspace, 'memberships', users.sort(lq.topicSort))       // ad-hoc property is not reactive by default
+      })
+    }
+  },
+
   /**
    * Updates the application's selection state according to an *interactive* selection.
    */
@@ -230,7 +238,7 @@ const actions = {
   createShape ({dispatch}, topic) {
     state.topicmap.addTopic(topic)      // update client state
     return dmx.rpc.createTopic(topic).then(_topic => {
-      addTopicToTopicmap(topic, _topic, dispatch)
+      addTopicToTopicmap(topic, _topic)
     })
   },
 
@@ -240,7 +248,7 @@ const actions = {
   createLine ({dispatch}, topic) {
     state.topicmap.addTopic(topic)      // update client state
     return dmx.rpc.createTopic(topic).then(_topic => {
-      addTopicToTopicmap(topic, _topic, dispatch)
+      addTopicToTopicmap(topic, _topic)
     })
   },
 
@@ -268,7 +276,7 @@ const actions = {
     }
     return p.then(_topic => {
       removeEditActive(topic)
-      addTopicToTopicmap(topic, _topic, dispatch)
+      addTopicToTopicmap(topic, _topic)
     })
   },
 
@@ -289,7 +297,7 @@ const actions = {
     }
     return p.then(_topic => {
       removeEditActive(topic)
-      addTopicToTopicmap(topic, _topic, dispatch)
+      addTopicToTopicmap(topic, _topic)
     })
   },
 
@@ -873,6 +881,7 @@ function updateWorkspaceState () {
   if (state.workspace.id !== state.linqaAdminWs.id) {
     state.isEditor = findWorkspace(state.workspace.id).assoc.children['linqa.editor']?.value
   }
+  store.dispatch('fetchWorkspaceMemberships', state.workspace)
 }
 
 function findWorkspace (id) {
@@ -913,7 +922,7 @@ function updateUserProfile(userProfile) {
  * Transfers "id", "value", and "children" from the given topic to the given viewTopic and sends a
  * add-topic-to-topicmap request. Called after persisting a *limbo topic*.
  */
-function addTopicToTopicmap (viewTopic, topic, dispatch) {
+function addTopicToTopicmap (viewTopic, topic) {
   // update client state
   // Note: we must remove the topic from topicmap before its ID is overridden and re-add it.
   // Otherwise the canvas DOM would not re-render in case the new topic is deleted afterwards.
@@ -926,7 +935,7 @@ function addTopicToTopicmap (viewTopic, topic, dispatch) {
   // update server state
   dmx.rpc.addTopicToTopicmap(state.topicmap.id, topic.id, viewTopic.viewProps)
   Vue.nextTick(() => {
-    dispatch('select', [viewTopic])     // programmatic selection
+    store.dispatch('select', [viewTopic])     // programmatic selection
   })
 }
 

@@ -1,15 +1,7 @@
 import 'quill-mention'
 import 'quill-mention/dist/quill.mention.css'
+import store from './store/linqa'
 import COLOR_PALETTE from './lq-color-palette'
-
-const atValues = [
-  {id: 1, value: "Fredrik Sundqvist"},
-  {id: 2, value: "Patrik Sjölin"}
-];
-const hashValues = [
-  {id: 3, value: "Fredrik Sundqvist 2"},
-  {id: 4, value: "Patrik Sjölin 2"}
-];
 
 export default {
   theme: 'bubble',
@@ -26,22 +18,15 @@ export default {
       }
     },
     mention: {
-      allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-      mentionDenotationChars: ["@", "#"],
       source: function(searchTerm, renderList, mentionChar) {
-        let values;
-        if (mentionChar === "@") {
-          values = atValues;
-        } else {
-          values = hashValues;
-        }
+        const users = store.state.workspace.memberships;
         if (searchTerm.length === 0) {
-          renderList(values, searchTerm);
+          renderList(users, searchTerm);
         } else {
           const matches = [];
-          for (let i = 0; i < values.length; i++) {
-            if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) {
-              matches.push(values[i]);
+          for (let i = 0; i < users.length; i++) {
+            if (~users[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) {
+              matches.push(users[i]);
             }
           }
           renderList(matches, searchTerm);

@@ -18,27 +18,14 @@ export default {
       }
     },
     mention: {
-      source: function(searchTerm, renderList, mentionChar) {
-        const users = store.state.workspace.memberships;
-        if (searchTerm.length === 0) {
-          renderList(users, searchTerm);
-        } else {
-          const matches = [];
-          for (let i = 0; i < users.length; i++) {
-            if (~users[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) {
-              matches.push(users[i]);
-            }
-          }
-          renderList(matches, searchTerm);
-        }
-      }
+      source: usernameSource
     }
   }
 }
 
 // Image upload
 
-function selectLocalImage() {
+function selectLocalImage () {
   const input = document.createElement('input')
   input.setAttribute('type', 'file')
   input.click()
@@ -53,7 +40,7 @@ function selectLocalImage() {
   }
 }
 
-function saveToServer(file, editor) {
+function saveToServer (file, editor) {
   const fd = new FormData()
   const xhr = new XMLHttpRequest()
   fd.append('image', file)
@@ -70,7 +57,24 @@ function saveToServer(file, editor) {
   xhr.send(fd)
 }
 
-function insertToEditor(url, editor) {
+function insertToEditor (url, editor) {
   const range = editor.getSelection()
   editor.insertEmbed(range.index, 'image', url)
+}
+
+// Mentions
+
+function usernameSource (searchTerm, renderList, mentionChar) {
+  const users = store.state.workspace.memberships     // TODO: show Display Names
+  if (searchTerm.length === 0) {
+    renderList(users, searchTerm)
+  } else {
+    const matches = []
+    for (let i = 0; i < users.length; i++) {
+      if (~users[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) {
+        matches.push(users[i])
+      }
+    }
+    renderList(matches, searchTerm)
+  }
 }

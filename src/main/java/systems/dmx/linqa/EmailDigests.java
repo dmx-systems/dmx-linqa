@@ -12,6 +12,11 @@ import systems.dmx.sendmail.SendmailService;
 import systems.dmx.timestamps.TimestampsService;
 import systems.dmx.workspaces.WorkspacesService;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -92,27 +97,9 @@ class EmailDigests {
                 .filter(this::isComment)
                 .collect(Collectors.groupingBy(this::workspace))
                 .forEach((workspaceId, comments) -> {
-                    String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
-                    String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-                    StringBuilder message = new StringBuilder();
-                    logger.info("### Sending email digest for workspace \"" + workspace + "\" (" + comments.size() +
-                        " comments)");
-                    comments.forEach(comment -> {
-                        timestamps.enrichWithTimestamps(comment);
-                        acs.enrichWithUserInfo(comment);
+                    acs.getMemberships(workspaceId).forEach(username -> {
+                        sendDigestToUser(username, comments, workspaceId);
                     });
-                    comments.sort((c1, c2) -> {
-                        long d = c1.getModel().getChildTopics().getLong(MODIFIED)      // synthetic, so operate on model
-                               - c2.getModel().getChildTopics().getLong(MODIFIED);     // synthetic, so operate on model
-                        return d < 0 ? -1 : d == 0 ? 0 : 1;
-                    });
-                    comments.forEach(comment -> {
-                        message.append(emailMessage(comment));
-                    });
-                    forEachLinqaAdmin(username -> {
-                        sendmail.doEmailRecipient(subject, null, message.toString(), username);
-                    });
-                    digestCount++;
                 });
             if (digestCount == 0) {
                 logger.info("### Sending email digests SKIPPED -- no new/changed comment in last 24 hours");
@@ -120,6 +107,54 @@ class EmailDigests {
         } catch (Exception e) {
             throw new RuntimeException("Sending email digests failed", e);
         }
+    }
+
+    private void sendDigestToUser(Topic username, List<Topic> comments, long workspaceId) {
+        String _username = username.getSimpleValue().toString();
+        String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
+        logger.info("###### Sending email digest to user \"" + _username + "\" of workspace \"" + workspace + "\" (" +
+            comments.size() + " comments)");
+        String message = comments.stream()
+            .filter(comment -> commentFilter(comment, username))
+            .map(comment -> {
+                timestamps.enrichWithTimestamps(comment);
+                acs.enrichWithUserInfo(comment);
+                return comment;
+            })
+            .sorted((c1, c2) -> {
+                long d = c1.getModel().getChildTopics().getLong(MODIFIED)      // synthetic, so operate on model
+                       - c2.getModel().getChildTopics().getLong(MODIFIED);     // synthetic, so operate on model
+                return d < 0 ? -1 : d == 0 ? 0 : 1;
+            })
+            .reduce(
+                new StringBuilder(),
+                (builder, comment) -> builder.append(emailMessage(comment)),
+                (builder1, builder2) -> builder1.append(builder2)
+            )
+            .toString();
+        if (!message.isEmpty()) {
+            String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
+            sendmail.doEmailRecipient(subject, null, message, _username);
+            digestCount++;
+        } else {
+            logger.info("--> Nothing to send for user \"" + _username + "\"");
+        }
+    }
+
+    private boolean commentFilter(Topic comment, Topic username) {
+        String html = comment.getSimpleValue().toString();
+        Document doc = Jsoup.parseBodyFragment(html);
+        Elements mentions = doc.select("span.mention");
+        logger.info("### comment " + comment.getId());
+        for (Element mention : mentions) {
+            long usernameId = Long.parseLong(mention.dataset().get("id"));
+            logger.info("   --> mention username " + usernameId + ", match=" +
+                (usernameId == username.getId()));
+            if (usernameId == username.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isComment(Topic topic) {
@@ -139,14 +174,15 @@ class EmailDigests {
             commentLang1 + "\n>>>\n" + commentLang2 + "\n\n------------------------------------------------<br>\n";
     }
 
+    /* drop it
     private void forEachLinqaAdmin(Consumer<String> consumer) {
         getLinqaAdmins().stream().forEach(username -> {
             consumer.accept(username.getSimpleValue().toString());
         });
-    }
+    } */
 
-    // TODO: copied from LinqaPlugin.java
+    /* TODO: copied from LinqaPlugin.java - drop it
     private List<RelatedTopic> getLinqaAdmins() {
         return acs.getMemberships(linqaAdminWs.getId());
-    }
+    } */
 }

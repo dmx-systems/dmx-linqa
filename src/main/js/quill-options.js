@@ -1,6 +1,7 @@
 import 'quill-mention'
 import 'quill-mention/dist/quill.mention.css'
 import store from './store/linqa'
+import lq from './lq-globals'
 import COLOR_PALETTE from './lq-color-palette'
 
 export default {
@@ -65,7 +66,10 @@ function insertToEditor (url, editor) {
 // Mentions
 
 function usernameSource (searchTerm, renderList, mentionChar) {
-  const users = store.state.workspace.memberships     // TODO: show Display Names
+  const users = store.state.workspace.memberships.map(username => ({
+    id: username.id,
+    value: lq.getDisplayName(username.value)
+  }))
   if (searchTerm.length === 0) {
     renderList(users, searchTerm)
   } else {

@@ -44,4 +44,6 @@ public class Constants {
     public static final String ARROWHEADS  = "linqa.arrowheads";    // Line
     public static final String LINE_STYLE  = "linqa.line_style";    // Line
     public static final String USER_ACTIVE = "linqa.user_active";   // Username (Boolean)
+    public static final String NOTIFICATION_LEVEL = "linqa.notification_level";
+                                                                    // Username (String): "all", "mentioned", "none"
 }

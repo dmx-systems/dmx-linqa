@@ -70,7 +70,7 @@ public interface LinqaService {
     /**
      * Updates the profile of the current user.
      */
-    void updateUserProfile(String displayName, boolean showEmailAddress);
+    void updateUserProfile(String displayName, boolean showEmailAddress, String notificationLevel);
 
     StoredFile storeScaledImage(UploadedFile imageFile);
 

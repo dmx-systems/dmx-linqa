@@ -148,8 +148,7 @@ class EmailDigests {
         logger.info("### comment " + comment.getId());
         for (Element mention : mentions) {
             long usernameId = Long.parseLong(mention.dataset().get("id"));
-            logger.info("   --> mention username " + usernameId + ", match=" +
-                (usernameId == username.getId()));
+            logger.info("   --> mention username " + usernameId + ", match=" + (usernameId == username.getId()));
             if (usernameId == username.getId()) {
                 return true;
             }

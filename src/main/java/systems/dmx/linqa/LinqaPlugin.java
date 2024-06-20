@@ -200,7 +200,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 topics.set(DISPLAY_NAME, displayName);
             }
             topics.set(SHOW_EMAIL_ADDRESS, getShowEmailAddress(username));
-            enrichWithUserActive(topic);
+            enrichWithUsernameProps(topic);
         }
         // Note: in a Related Username Topic w/ a Membership *both* are enriched
         if (topic instanceof RelatedTopic) {
@@ -544,10 +544,12 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Transactional
     @Override
     public void updateUserProfile(@QueryParam("displayName") String displayName,
-                                  @QueryParam("showEmailAddress") boolean showEmailAddress) {
+                                  @QueryParam("showEmailAddress") boolean showEmailAddress,
+                                  @QueryParam("notificationLevel") String notificationLevel) {
         String username = acs.getUsername();
         signup.updateDisplayName(username, displayName);
         updateShowEmailAddressFacet(username, showEmailAddress);
+        acs.getUsernameTopic(username).setProperty(NOTIFICATION_LEVEL, notificationLevel, false);   // addToIndex=false
     }
 
     @POST
@@ -856,7 +858,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private void enrichWithUserActive(Topic username) {
+    private void enrichWithUsernameProps(Topic username) {
+        if (username.hasProperty(NOTIFICATION_LEVEL)) {             // "Notification Level" is an optional DB prop
+            username.getChildTopics().getModel().set(NOTIFICATION_LEVEL, username.getProperty(NOTIFICATION_LEVEL));
+        }
         if (username.hasProperty(USER_ACTIVE)) {                    // "User Active" is an optional DB prop
             username.getChildTopics().getModel().set(USER_ACTIVE, username.getProperty(USER_ACTIVE));
         }

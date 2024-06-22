@@ -119,9 +119,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // Hooks
 
     @Override
-    public void init() {
+    public void preInstall() {
+        // initialize these before init() so migrations can operate on them
         zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
         linqaAdminWs = dmx.getTopicByUri(LINQA_ADMIN_WS_URI);
+    }
+
+    @Override
+    public void init() {
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());
@@ -546,11 +551,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public void updateUserProfile(@QueryParam("displayName") String displayName,
                                   @QueryParam("showEmailAddress") boolean showEmailAddress,
-                                  @QueryParam("notificationLevel") String notificationLevel) {
+                                  @QueryParam("notificationLevel") NotificationLevel notificationLevel) {
         String username = acs.getUsername();
         signup.updateDisplayName(username, displayName);
         updateShowEmailAddressFacet(username, showEmailAddress);
-        acs.getUsernameTopic(username).setProperty(NOTIFICATION_LEVEL, notificationLevel, false);   // addToIndex=false
+        NotificationLevel.set(acs.getUsernameTopic(username), notificationLevel);
     }
 
     @POST
@@ -860,7 +865,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     private void enrichWithUsernameProps(Topic username) {
-        // Note: if no level stored in DB NotificationLevel.getAsString() returns the default value
+        // Note: if no notification level stored in DB NotificationLevel.getAsString() returns the default value
         username.getChildTopics().getModel().set(NOTIFICATION_LEVEL, NotificationLevel.getAsString(username));
         if (username.hasProperty(USER_ACTIVE)) {                    // "User Active" is an optional DB prop
             username.getChildTopics().getModel().set(USER_ACTIVE, username.getProperty(USER_ACTIVE));

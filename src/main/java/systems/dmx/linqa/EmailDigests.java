@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 
 
-class EmailDigests {
+public class EmailDigests {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
@@ -186,35 +186,39 @@ class EmailDigests {
             commentLang1 + "\n>>>\n" + commentLang2 + "\n\n------------------------------------------------<br>\n";
     }
 
-    /* drop it
-    private void forEachLinqaAdmin(Consumer<String> consumer) {
-        getLinqaAdmins().stream().forEach(username -> {
-            consumer.accept(username.getSimpleValue().toString());
-        });
-    } */
-
-    /* TODO: copied from LinqaPlugin.java - drop it
-    private List<RelatedTopic> getLinqaAdmins() {
-        return acs.getMemberships(linqaAdminWs.getId());
-    } */
-
     // -------------------------------------------------------------------------------------------------- Nested Classes
 
-    enum NotificationLevel {
+    public enum NotificationLevel {
 
         ALL,
         MENTIONED,      // the default
         NONE;
 
-        static NotificationLevel get(Topic username) {
+        public static NotificationLevel get(Topic username) {
             // "Notification Level" is an optional DB prop
             return username.hasProperty(NOTIFICATION_LEVEL) ?
-                valueOf(((String) username.getProperty(NOTIFICATION_LEVEL)).toUpperCase()) :
+                fromString((String) username.getProperty(NOTIFICATION_LEVEL)) :
                 MENTIONED;
         }
 
-        static String getAsString(Topic username) {
-            return get(username).name().toLowerCase();
+        public static String getAsString(Topic username) {
+            return get(username).toString();
+        }
+
+        public static void set(Topic username, NotificationLevel notificationLevel) {
+            username.setProperty(NOTIFICATION_LEVEL, notificationLevel.toString(), false);      // addToIndex=false
+        }
+
+        public static NotificationLevel fromString(String notificationLevel) {
+            return valueOf(notificationLevel.toUpperCase());
+        }
+
+        /**
+         * Returns the external representation as stored in DB.
+         */
+        @Override
+        public String toString() {
+            return name().toLowerCase();
         }
     }
 }

@@ -1,3 +1,7 @@
+import 'quill-mention'
+import 'quill-mention/dist/quill.mention.css'
+import store from './store/linqa'
+import lq from './lq-globals'
 import COLOR_PALETTE from './lq-color-palette'
 
 export default {
@@ -13,11 +17,16 @@ export default {
       handlers: {
         image: selectLocalImage
       }
+    },
+    mention: {
+      source: usernameSource
     }
   }
 }
 
-function selectLocalImage() {
+// Image upload
+
+function selectLocalImage () {
   const input = document.createElement('input')
   input.setAttribute('type', 'file')
   input.click()
@@ -32,7 +41,7 @@ function selectLocalImage() {
   }
 }
 
-function saveToServer(file, editor) {
+function saveToServer (file, editor) {
   const fd = new FormData()
   const xhr = new XMLHttpRequest()
   fd.append('image', file)
@@ -49,7 +58,21 @@ function saveToServer(file, editor) {
   xhr.send(fd)
 }
 
-function insertToEditor(url, editor) {
+function insertToEditor (url, editor) {
   const range = editor.getSelection()
   editor.insertEmbed(range.index, 'image', url)
+}
+
+// Mentions
+
+function usernameSource (searchTerm, renderList, mentionChar) {
+  const items = store.state.workspace.memberships.map(username => ({
+    id: username.id,
+    value: lq.getDisplayName(username.value)
+  }))
+  items.unshift({id: -1, value: 'all'})
+  renderList(
+    items.filter(user => !searchTerm.length || user.value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0),
+    searchTerm
+  )
 }

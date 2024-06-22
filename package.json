@@ -19,6 +19,7 @@
     "dmx-api": "3.0.1",
     "element-ui": "2.13.2",
     "pdfjs-dist": "2.12.313",
+    "quill-mention": "4.1.0",
     "vue": "2.6.11",
     "vue-element-dialog-draggable": "1.0.3",
     "vue-moveable": "2.0.0-beta.55",

@@ -12,6 +12,11 @@ import systems.dmx.sendmail.SendmailService;
 import systems.dmx.timestamps.TimestampsService;
 import systems.dmx.workspaces.WorkspacesService;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,7 +32,7 @@ import java.util.stream.Collectors;
 
 
 
-class EmailDigests {
+public class EmailDigests {
 
     // ------------------------------------------------------------------------------------------------------- Constants
 
@@ -92,33 +97,75 @@ class EmailDigests {
                 .filter(this::isComment)
                 .collect(Collectors.groupingBy(this::workspace))
                 .forEach((workspaceId, comments) -> {
-                    String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
-                    String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-                    StringBuilder message = new StringBuilder();
-                    logger.info("### Sending email digest for workspace \"" + workspace + "\" (" + comments.size() +
-                        " comments)");
-                    comments.forEach(comment -> {
-                        timestamps.enrichWithTimestamps(comment);
-                        acs.enrichWithUserInfo(comment);
+                    acs.getMemberships(workspaceId).forEach(username -> {
+                        sendDigestToUser(username, comments, workspaceId);
                     });
-                    comments.sort((c1, c2) -> {
-                        long d = c1.getModel().getChildTopics().getLong(MODIFIED)      // synthetic, so operate on model
-                               - c2.getModel().getChildTopics().getLong(MODIFIED);     // synthetic, so operate on model
-                        return d < 0 ? -1 : d == 0 ? 0 : 1;
-                    });
-                    comments.forEach(comment -> {
-                        message.append(emailMessage(comment));
-                    });
-                    forEachLinqaAdmin(username -> {
-                        sendmail.doEmailRecipient(subject, null, message.toString(), username);
-                    });
-                    digestCount++;
                 });
             if (digestCount == 0) {
                 logger.info("### Sending email digests SKIPPED -- no new/changed comment in last 24 hours");
             }
         } catch (Exception e) {
             throw new RuntimeException("Sending email digests failed", e);
+        }
+    }
+
+    private void sendDigestToUser(Topic username, List<Topic> comments, long workspaceId) {
+        String _username = username.getSimpleValue().toString();
+        NotificationLevel notificationLevel = NotificationLevel.get(username);
+        String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
+        logger.info(String.format("###### Sending email digest to user \"%s\" of workspace \"%s\" (filtering %d " +
+            "comments)", _username, workspace, comments.size()));
+        String message = comments.stream()
+            .filter(comment -> commentFilter(comment, username, notificationLevel))
+            .map(comment -> {
+                timestamps.enrichWithTimestamps(comment);
+                acs.enrichWithUserInfo(comment);
+                return comment;
+            })
+            .sorted((c1, c2) -> {
+                long d = c1.getModel().getChildTopics().getLong(MODIFIED)      // synthetic, so operate on model
+                       - c2.getModel().getChildTopics().getLong(MODIFIED);     // synthetic, so operate on model
+                return d < 0 ? -1 : d == 0 ? 0 : 1;
+            })
+            .reduce(
+                new StringBuilder(),
+                (builder, comment) -> builder.append(emailMessage(comment)),
+                (builder1, builder2) -> builder1.append(builder2)
+            )
+            .toString();
+        if (!message.isEmpty()) {
+            String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
+            sendmail.doEmailRecipient(subject, null, message, _username);
+            digestCount++;
+        } else {
+            logger.info("--> Nothing to send for user \"" + _username + "\"");
+        }
+    }
+
+    private boolean commentFilter(Topic comment, Topic username, NotificationLevel notificationLevel) {
+        logger.info("### comment " + comment.getId());
+        switch (notificationLevel) {
+        case ALL:
+            logger.info("   ALL --> true");
+            return true;
+        case NONE:
+            logger.info("   NONE --> false");
+            return false;
+        case MENTIONED:
+            String html = comment.getSimpleValue().toString();
+            Document doc = Jsoup.parseBodyFragment(html);
+            Elements mentions = doc.select("span.mention");
+            for (Element mention : mentions) {
+                long id = Long.parseLong(mention.dataset().get("id"));
+                boolean match = id == username.getId() || id == -1;      // -1 is "all"
+                logger.info("   --> mention username " + id + ", match=" + match);
+                if (match) {
+                    return true;
+                }
+            }
+            return false;
+        default:
+            throw new RuntimeException("Unexpected notification level: " + notificationLevel);
         }
     }
 
@@ -139,14 +186,39 @@ class EmailDigests {
             commentLang1 + "\n>>>\n" + commentLang2 + "\n\n------------------------------------------------<br>\n";
     }
 
-    private void forEachLinqaAdmin(Consumer<String> consumer) {
-        getLinqaAdmins().stream().forEach(username -> {
-            consumer.accept(username.getSimpleValue().toString());
-        });
-    }
+    // -------------------------------------------------------------------------------------------------- Nested Classes
 
-    // TODO: copied from LinqaPlugin.java
-    private List<RelatedTopic> getLinqaAdmins() {
-        return acs.getMemberships(linqaAdminWs.getId());
+    public enum NotificationLevel {
+
+        ALL,
+        MENTIONED,      // the default
+        NONE;
+
+        public static NotificationLevel get(Topic username) {
+            // "Notification Level" is an optional DB prop
+            return username.hasProperty(NOTIFICATION_LEVEL) ?
+                fromString((String) username.getProperty(NOTIFICATION_LEVEL)) :
+                MENTIONED;
+        }
+
+        public static String getAsString(Topic username) {
+            return get(username).toString();
+        }
+
+        public static void set(Topic username, NotificationLevel notificationLevel) {
+            username.setProperty(NOTIFICATION_LEVEL, notificationLevel.toString(), false);      // addToIndex=false
+        }
+
+        public static NotificationLevel fromString(String notificationLevel) {
+            return valueOf(notificationLevel.toUpperCase());
+        }
+
+        /**
+         * Returns the external representation as stored in DB.
+         */
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
     }
 }

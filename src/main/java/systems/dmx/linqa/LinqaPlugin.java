@@ -40,6 +40,7 @@ import systems.dmx.facets.FacetsService;
 import systems.dmx.files.FilesService;
 import systems.dmx.files.StoredFile;
 import systems.dmx.files.UploadedFile;
+import systems.dmx.linqa.EmailDigests.NotificationLevel;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
@@ -118,9 +119,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // Hooks
 
     @Override
-    public void init() {
+    public void preInstall() {
+        // initialize these before init() so migrations can operate on them
         zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
         linqaAdminWs = dmx.getTopicByUri(LINQA_ADMIN_WS_URI);
+    }
+
+    @Override
+    public void init() {
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());
@@ -200,7 +206,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 topics.set(DISPLAY_NAME, displayName);
             }
             topics.set(SHOW_EMAIL_ADDRESS, getShowEmailAddress(username));
-            enrichWithUserActive(topic);
+            enrichWithUsernameProps(topic);
         }
         // Note: in a Related Username Topic w/ a Membership *both* are enriched
         if (topic instanceof RelatedTopic) {
@@ -544,10 +550,12 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Transactional
     @Override
     public void updateUserProfile(@QueryParam("displayName") String displayName,
-                                  @QueryParam("showEmailAddress") boolean showEmailAddress) {
+                                  @QueryParam("showEmailAddress") boolean showEmailAddress,
+                                  @QueryParam("notificationLevel") NotificationLevel notificationLevel) {
         String username = acs.getUsername();
         signup.updateDisplayName(username, displayName);
         updateShowEmailAddressFacet(username, showEmailAddress);
+        NotificationLevel.set(acs.getUsernameTopic(username), notificationLevel);
     }
 
     @POST
@@ -856,7 +864,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private void enrichWithUserActive(Topic username) {
+    private void enrichWithUsernameProps(Topic username) {
+        // Note: if no notification level stored in DB NotificationLevel.getAsString() returns the default value
+        username.getChildTopics().getModel().set(NOTIFICATION_LEVEL, NotificationLevel.getAsString(username));
         if (username.hasProperty(USER_ACTIVE)) {                    // "User Active" is an optional DB prop
             username.getChildTopics().getModel().set(USER_ACTIVE, username.getProperty(USER_ACTIVE));
         }

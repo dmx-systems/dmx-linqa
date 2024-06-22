@@ -68,7 +68,7 @@ const actions = {
   setExpandedWorkspaceIds ({dispatch}, workspaceIds) {
     state.expandedWorkspaceIds = workspaceIds
     workspaceIds.forEach(id => {
-      dispatch('fetchWorkspaceMemberships', id)
+      dispatch('fetchWorkspaceMemberships', findWorkspace(id), {root: true})
     })
   },
 
@@ -100,15 +100,6 @@ const actions = {
       return http.get('/linqa/admin/workspaces').then(response => {
         state.workspaces = dmx.utils.instantiateMany(response.data, dmx.Topic)
         state.workspaces.push(rootState.linqaAdminWs)
-      })
-    }
-  },
-
-  fetchWorkspaceMemberships (_, workspaceId) {
-    const workspace = findWorkspace(workspaceId)
-    if (!workspace.memberships) {
-      return dmx.rpc.getMemberships(workspaceId).then(users => {
-        Vue.set(workspace, 'memberships', users.sort(lq.topicSort))       // ad-hoc property is not reactive by default
       })
     }
   },
@@ -279,7 +270,7 @@ function replaceWorkspace (workspace, rootState, dispatch) {
     throw Error('replaceWorkspace')
   }
   Vue.set(state.workspaces, i, workspace)
-  dispatch('fetchWorkspaceMemberships', workspace.id)
+  dispatch('fetchWorkspaceMemberships', workspace, {root: true})
   // root state
   i = rootState.workspaces.findIndex(ws => ws.id === workspace.id)
   if (i >= 0) {
@@ -290,7 +281,8 @@ function replaceWorkspace (workspace, rootState, dispatch) {
 
 function updateUser(username, displayName) {
   const children = lq.getUser(username).children
-  if (!children['dmx.signup.display_name']) {   // TODO: refactor
+  // Note: for display_name server sends no default value, children might not be there
+  if (!children['dmx.signup.display_name']) {
     Vue.set(children, 'dmx.signup.display_name', {})
   }
   children['dmx.signup.display_name'].value = displayName

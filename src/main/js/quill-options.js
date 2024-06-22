@@ -66,19 +66,13 @@ function insertToEditor (url, editor) {
 // Mentions
 
 function usernameSource (searchTerm, renderList, mentionChar) {
-  const users = store.state.workspace.memberships.map(username => ({
+  const items = store.state.workspace.memberships.map(username => ({
     id: username.id,
     value: lq.getDisplayName(username.value)
   }))
-  if (searchTerm.length === 0) {
-    renderList(users, searchTerm)
-  } else {
-    const matches = []
-    for (let i = 0; i < users.length; i++) {
-      if (~users[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) {
-        matches.push(users[i])
-      }
-    }
-    renderList(matches, searchTerm)
-  }
+  items.unshift({id: -1, value: 'all'})
+  renderList(
+    items.filter(user => !searchTerm.length || user.value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0),
+    searchTerm
+  )
 }

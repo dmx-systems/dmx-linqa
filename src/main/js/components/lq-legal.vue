@@ -56,7 +56,7 @@ export default {
 
     fetchLegalText () {
       this.$store.dispatch('getConfigResource', {
-        fileName: this.routeName, fileType: 'html', multilingual: true
+        path: this.routeName + '.html', multilingual: true
       }).then(html => {
         this.html = html
       })

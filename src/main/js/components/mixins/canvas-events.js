@@ -1,5 +1,6 @@
 import lq from '../../lq-globals'
 
+const TRACK_PAN_SPEED = 0.2
 const LOG = false
 let APP_HEADER_HEIGHT
 
@@ -268,8 +269,8 @@ export default {
       const pan = () => {
         this.$store.dispatch('setViewport', {
           pan: {
-            x: this.pan.x + 0.4 * dx,
-            y: this.pan.y + 0.4 * dy
+            x: this.pan.x + TRACK_PAN_SPEED * dx,
+            y: this.pan.y + TRACK_PAN_SPEED * dy
           }
         })
       }

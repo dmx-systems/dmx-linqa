@@ -70,7 +70,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -145,7 +145,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void postCreateAssoc(Assoc assoc) {
-        processLinqaAdminMembership(assoc, username -> {
+        processLinqaAdminMembership(assoc, (usernameTopic, username) -> {
             // 1) Create "System" membership
             logger.info("### Inviting user \"" + username + "\" to \"System\" workspace");
             acs.createMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
@@ -153,6 +153,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             List<RelatedTopic> workspaces = getAllLinqaWorkspaces();
             logger.info("### Inviting user \"" + username + "\" to " + workspaces.size() + " Linqa workspaces");
             acs.bulkUpdateMemberships(username, new IdList(workspaces), null);
+            // 3) Set notification level to "ALL"
+            NotificationLevel.set(usernameTopic, NotificationLevel.ALL);        // TODO: update client-state
         });
     }
 
@@ -161,7 +163,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void preDeleteAssoc(Assoc assoc) {
-        processLinqaAdminMembership(assoc, username -> {
+        processLinqaAdminMembership(assoc, (usernameTopic, username) -> {
             // Delete "System" membership
             logger.info("### Removing \"System\" membership from user \"" + username + "\"");
             Assoc systemMembership = acs.getMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
@@ -872,12 +874,13 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private void processLinqaAdminMembership(Assoc assoc, Consumer<String> consumer) {
+    private void processLinqaAdminMembership(Assoc assoc, BiConsumer<Topic, String> consumer) {
         if (assoc.getTypeUri().equals(MEMBERSHIP)) {
             Topic workspace = assoc.getDMXObjectByType(WORKSPACE);
             if (workspace.getUri().equals(LINQA_ADMIN_WS_URI)) {
-                String username = assoc.getDMXObjectByType(USERNAME).getSimpleValue().toString();
-                consumer.accept(username);
+                Topic usernameTopic = assoc.getDMXObjectByType(USERNAME);
+                String username = usernameTopic.getSimpleValue().toString();
+                consumer.accept(usernameTopic, username);
             }
         }
     }

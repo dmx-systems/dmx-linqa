@@ -40,6 +40,7 @@ import systems.dmx.facets.FacetsService;
 import systems.dmx.files.FilesService;
 import systems.dmx.files.StoredFile;
 import systems.dmx.files.UploadedFile;
+import systems.dmx.linqa.EmailDigests.NotificationLevel;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
@@ -859,9 +860,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     private void enrichWithUsernameProps(Topic username) {
-        if (username.hasProperty(NOTIFICATION_LEVEL)) {             // "Notification Level" is an optional DB prop
-            username.getChildTopics().getModel().set(NOTIFICATION_LEVEL, username.getProperty(NOTIFICATION_LEVEL));
-        }
+        // Note: if no level stored in DB NotificationLevel.getAsString() returns the default value
+        username.getChildTopics().getModel().set(NOTIFICATION_LEVEL, NotificationLevel.getAsString(username));
         if (username.hasProperty(USER_ACTIVE)) {                    // "User Active" is an optional DB prop
             username.getChildTopics().getModel().set(USER_ACTIVE, username.getProperty(USER_ACTIVE));
         }

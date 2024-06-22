@@ -111,11 +111,12 @@ class EmailDigests {
 
     private void sendDigestToUser(Topic username, List<Topic> comments, long workspaceId) {
         String _username = username.getSimpleValue().toString();
+        NotificationLevel notificationLevel = NotificationLevel.get(username);
         String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
-        logger.info("###### Sending email digest to user \"" + _username + "\" of workspace \"" + workspace + "\" (" +
-            comments.size() + " comments)");
+        logger.info(String.format("###### Sending email digest to user \"%s\" of workspace \"%s\" (filtering %d " +
+            "comments)", _username, workspace, comments.size()));
         String message = comments.stream()
-            .filter(comment -> commentFilter(comment, username))
+            .filter(comment -> commentFilter(comment, username, notificationLevel))
             .map(comment -> {
                 timestamps.enrichWithTimestamps(comment);
                 acs.enrichWithUserInfo(comment);
@@ -141,19 +142,30 @@ class EmailDigests {
         }
     }
 
-    private boolean commentFilter(Topic comment, Topic username) {
-        String html = comment.getSimpleValue().toString();
-        Document doc = Jsoup.parseBodyFragment(html);
-        Elements mentions = doc.select("span.mention");
+    private boolean commentFilter(Topic comment, Topic username, NotificationLevel notificationLevel) {
         logger.info("### comment " + comment.getId());
-        for (Element mention : mentions) {
-            long usernameId = Long.parseLong(mention.dataset().get("id"));
-            logger.info("   --> mention username " + usernameId + ", match=" + (usernameId == username.getId()));
-            if (usernameId == username.getId()) {
-                return true;
+        switch (notificationLevel) {
+        case ALL:
+            logger.info("   ALL --> true");
+            return true;
+        case NONE:
+            logger.info("   NONE --> false");
+            return false;
+        case MENTIONED:
+            String html = comment.getSimpleValue().toString();
+            Document doc = Jsoup.parseBodyFragment(html);
+            Elements mentions = doc.select("span.mention");
+            for (Element mention : mentions) {
+                long usernameId = Long.parseLong(mention.dataset().get("id"));
+                logger.info("   --> mention username " + usernameId + ", match=" + (usernameId == username.getId()));
+                if (usernameId == username.getId()) {
+                    return true;
+                }
             }
+            return false;
+        default:
+            throw new RuntimeException("Unexpected notification level: " + notificationLevel);
         }
-        return false;
     }
 
     private boolean isComment(Topic topic) {
@@ -184,4 +196,24 @@ class EmailDigests {
     private List<RelatedTopic> getLinqaAdmins() {
         return acs.getMemberships(linqaAdminWs.getId());
     } */
+
+    // -------------------------------------------------------------------------------------------------- Nested Classes
+
+    enum NotificationLevel {
+
+        ALL,
+        MENTIONED,      // the default
+        NONE;
+
+        static NotificationLevel get(Topic username) {
+            // "Notification Level" is an optional DB prop
+            return username.hasProperty(NOTIFICATION_LEVEL) ?
+                valueOf(((String) username.getProperty(NOTIFICATION_LEVEL)).toUpperCase()) :
+                MENTIONED;
+        }
+
+        static String getAsString(Topic username) {
+            return get(username).name().toLowerCase();
+        }
+    }
 }

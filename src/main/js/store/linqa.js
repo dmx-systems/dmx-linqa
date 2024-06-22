@@ -911,12 +911,9 @@ function fetchTopicmap () {
 // TODO: display name logic copied from admin.js updateUser()
 function updateUserProfile(userProfile) {
   const children = lq.getUser(state.username).children
-  // Note: show_email_address gets default value at server-side, in contrast display_name and notification_level do not
-  if (!children['dmx.signup.display_name']) {     // TODO: refactor
+  // Note: for show_email_address and notification_level server sends a default value, for display_name it does not
+  if (!children['dmx.signup.display_name']) {
     Vue.set(children, 'dmx.signup.display_name', {})
-  }
-  if (!children['linqa.notification_level']) {    // TODO: refactor
-    Vue.set(children, 'linqa.notification_level', {})
   }
   children['dmx.signup.display_name'].value = userProfile.displayName
   children['linqa.show_email_address'].value = userProfile.showEmailAddress

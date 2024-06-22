@@ -281,7 +281,8 @@ function replaceWorkspace (workspace, rootState, dispatch) {
 
 function updateUser(username, displayName) {
   const children = lq.getUser(username).children
-  if (!children['dmx.signup.display_name']) {   // TODO: refactor
+  // Note: for display_name server sends no default value, children might not be there
+  if (!children['dmx.signup.display_name']) {
     Vue.set(children, 'dmx.signup.display_name', {})
   }
   children['dmx.signup.display_name'].value = displayName

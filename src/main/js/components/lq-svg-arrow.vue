@@ -26,7 +26,7 @@ export default {
     return {
       width: 50,          /* is lq-line-menu item width */
       height: 30,         /* is lq-line-menu item height */
-      color: '#606266',   /* is .el-dropdown-menu__item color */
+      color: '#606266',   /* is .el-dropdown-menu__item color (--menu-item-color) */
       arrowheadId: undefined,
       markerUrl: undefined
     }

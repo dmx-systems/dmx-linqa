@@ -5,8 +5,11 @@
         <span class="el-icon-arrow-down el-icon--right"></span>
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="openUserProfile">
+        <el-dropdown-item disabled>
           <b>{{username}}</b>
+        </el-dropdown-item>
+        <el-dropdown-item command="openUserProfile">
+          <lq-string>label.user_profile</lq-string>
         </el-dropdown-item>
         <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" :icon="icon" divided>
           <lq-string>label.presentation_mode</lq-string>

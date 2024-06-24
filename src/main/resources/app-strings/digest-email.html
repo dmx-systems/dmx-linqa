@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: 14px;
+        background-color: #e6e6e6;
+      }
+      .mention {
+        background-color: #ecf5ff;
+        color: #409eff;
+      }
+      .lq-comment {
+        background-color: white;
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 10px;
+      }
+      .lq-comment .heading {
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .lq-comment .heading .creator {
+        font-weight: bold;
+      }
+      .lq-comment .heading .date {
+        color: #808080;
+        margin-left: 12px;
+      }
+      .lq-comment .columns {
+        width: 100%;
+      }
+      .lq-comment .columns tr {
+        vertical-align: top;
+      }
+      .lq-comment .columns tr > td {
+        width: 50%;
+      }
+      .lq-comment .columns tr > td.text1 {
+        border-right: 1px dashed #aaa;
+        padding-right: 15px;
+      }
+      .lq-comment .columns tr > td.text2 {
+        padding-left: 15px;
+      }
+      .dmx-html-field {
+        line-height: 1.5;
+      }
+      .dmx-html-field p {
+        margin: 0;
+      }
+      .dmx-html-field p + p,
+      .dmx-html-field p + table {
+        margin-top: 10px;
+      }
+      .dmx-html-field img {
+        max-width: 100%;
+      }
+      .dmx-html-field a {
+        color: #409eff;
+      }
+      .dmx-html-field a:hover {
+        color: #66b1ff;
+      }
+      .dmx-html-field ol > li,
+      .dmx-html-field ul > li {
+        list-style-type: none;
+      }
+      .dmx-html-field ul > li::before {
+        content: '\2022';
+      }
+      .dmx-html-field li::before {
+        display: inline-block;
+        white-space: nowrap;
+        width: 1.2em;
+        margin-left: -1.5em;
+        margin-right: 0.3em;
+        text-align: right;
+      }
+      .dmx-html-field li.ql-indent-1 { padding-left:  3em; }
+      .dmx-html-field li.ql-indent-2 { padding-left:  6em; }
+      .dmx-html-field li.ql-indent-3 { padding-left:  9em; }
+      .dmx-html-field li.ql-indent-4 { padding-left: 12em; }
+      .dmx-html-field li.ql-indent-5 { padding-left: 15em; }
+      .dmx-html-field li.ql-indent-6 { padding-left: 18em; }
+      .dmx-html-field ol li             { counter-increment: list-0; counter-reset: list-1; }
+      .dmx-html-field ol li.ql-indent-1 { counter-increment: list-1; counter-reset: list-2; }
+      .dmx-html-field ol li.ql-indent-2 { counter-increment: list-2; counter-reset: list-3; }
+      .dmx-html-field ol li.ql-indent-3 { counter-increment: list-3; counter-reset: list-4; }
+      .dmx-html-field ol li.ql-indent-4 { counter-increment: list-4; counter-reset: list-5; }
+      .dmx-html-field ol li.ql-indent-5 { counter-increment: list-5; counter-reset: list-6; }
+      .dmx-html-field ol li:before             { content: counter(list-0, decimal)     '.'; }
+      .dmx-html-field ol li.ql-indent-1:before { content: counter(list-1, lower-alpha) '.'; }
+      .dmx-html-field ol li.ql-indent-2:before { content: counter(list-2, lower-roman) '.'; }
+      .dmx-html-field ol li.ql-indent-3:before { content: counter(list-3, decimal)     '.'; }
+      .dmx-html-field ol li.ql-indent-4:before { content: counter(list-4, lower-alpha) '.'; }
+      .dmx-html-field ol li.ql-indent-5:before { content: counter(list-5, lower-roman) '.'; }
+    </style>
+  </head>
+  <body>
+%s
+  </body>
+</html>

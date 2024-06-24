@@ -8,6 +8,7 @@ import systems.dmx.accesscontrol.AccessControlService;
 import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
 import systems.dmx.core.service.CoreService;
+import systems.dmx.core.util.JavaUtils;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.timestamps.TimestampsService;
 import systems.dmx.workspaces.WorkspacesService;
@@ -16,6 +17,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import org.osgi.framework.Bundle;
 
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
@@ -51,7 +54,9 @@ public class EmailDigests {
     private TimestampsService timestamps;
     private SendmailService sendmail;
 
-    private Topic linqaAdminWs;
+    private String emailTemplate;
+    private String commentTemplate;
+
     private int digestCount;        // manipulated from lambda, so we make it a field (instead a local variable)
 
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -59,13 +64,16 @@ public class EmailDigests {
     // ---------------------------------------------------------------------------------------------------- Constructors
 
     EmailDigests(CoreService dmx, AccessControlService acs, WorkspacesService ws, TimestampsService timestamps,
-                 SendmailService sendmail, Topic linqaAdminWs) {
+                 SendmailService sendmail, Bundle bundle) {
         this.dmx = dmx;
         this.acs = acs;
         this.ws = ws;
         this.timestamps = timestamps;
         this.sendmail = sendmail;
-        this.linqaAdminWs = linqaAdminWs;
+        if (bundle != null) {       // Note: not available when running in test environment
+            this.emailTemplate = JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-email.html"));
+            this.commentTemplate = JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html"));
+        }
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
@@ -115,7 +123,7 @@ public class EmailDigests {
         String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
         logger.info(String.format("###### Sending email digest to user \"%s\" of workspace \"%s\" (filtering %d " +
             "comments)", _username, workspace, comments.size()));
-        String message = comments.stream()
+        String commentsHtml = comments.stream()
             .filter(comment -> commentFilter(comment, username, notificationLevel))
             .map(comment -> {
                 timestamps.enrichWithTimestamps(comment);
@@ -133,9 +141,10 @@ public class EmailDigests {
                 (builder1, builder2) -> builder1.append(builder2)
             )
             .toString();
-        if (!message.isEmpty()) {
+        if (!commentsHtml.isEmpty()) {
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-            sendmail.doEmailRecipient(subject, null, message, _username);
+            String messageHtml = String.format(emailTemplate, commentsHtml);
+            sendmail.doEmailRecipient(subject, null, messageHtml, _username);
             digestCount++;
         } else {
             logger.info("--> Nothing to send for user \"" + _username + "\"");
@@ -182,8 +191,7 @@ public class EmailDigests {
         String commentLang2 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG2, "");
         String creator = comment.getModel().getChildTopics().getString(CREATOR);     // synthetic, so operate on model
         long modified  = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
-        return "<br>\nAuthor: " + creator + "<br>\nDate: " + new Date(modified) + "<br><br>\n\n" +
-            commentLang1 + "\n>>>\n" + commentLang2 + "\n\n------------------------------------------------<br>\n";
+        return String.format(commentTemplate, creator, new Date(modified), commentLang1, commentLang2);
     }
 
     // -------------------------------------------------------------------------------------------------- Nested Classes

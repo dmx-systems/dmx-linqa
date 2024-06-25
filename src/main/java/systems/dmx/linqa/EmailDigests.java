@@ -10,6 +10,7 @@ import systems.dmx.core.Topic;
 import systems.dmx.core.service.CoreService;
 import systems.dmx.core.util.JavaUtils;
 import systems.dmx.sendmail.SendmailService;
+import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
 import systems.dmx.workspaces.WorkspacesService;
 
@@ -53,6 +54,7 @@ public class EmailDigests {
     private WorkspacesService ws;
     private TimestampsService timestamps;
     private SendmailService sendmail;
+    private SignupService signup;
 
     private String emailTemplate;
     private String commentTemplate;
@@ -64,12 +66,13 @@ public class EmailDigests {
     // ---------------------------------------------------------------------------------------------------- Constructors
 
     EmailDigests(CoreService dmx, AccessControlService acs, WorkspacesService ws, TimestampsService timestamps,
-                 SendmailService sendmail, Bundle bundle) {
+                 SendmailService sendmail, SignupService signup, Bundle bundle) {
         this.dmx = dmx;
         this.acs = acs;
         this.ws = ws;
         this.timestamps = timestamps;
         this.sendmail = sendmail;
+        this.signup = signup;
         if (bundle != null) {       // Note: not available when running in test environment
             this.emailTemplate = JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-email.html"));
             this.commentTemplate = JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html"));
@@ -187,11 +190,12 @@ public class EmailDigests {
     }
 
     private String emailMessage(Topic comment) {
-        String commentLang1 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG1);
-        String commentLang2 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG2, "");
-        String creator = comment.getModel().getChildTopics().getString(CREATOR);     // synthetic, so operate on model
-        long modified  = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
-        return String.format(commentTemplate, creator, new Date(modified), commentLang1, commentLang2);
+        String comment1 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG1);
+        String comment2 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG2, "");
+        String username = comment.getModel().getChildTopics().getString(CREATOR);   // synthetic, so operate on model
+        long modified = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
+        String displayName = signup.getDisplayName(username);
+        return String.format(commentTemplate, displayName, new Date(modified), comment1, comment2);
     }
 
     // -------------------------------------------------------------------------------------------------- Nested Classes

@@ -130,7 +130,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());
-        new EmailDigests(dmx, acs, ws, timestamps, sendmail, bundle).startTimedTask();
+        new EmailDigests(dmx, acs, ws, timestamps, sendmail, signup, bundle).startTimedTask();
     }
 
     @Override

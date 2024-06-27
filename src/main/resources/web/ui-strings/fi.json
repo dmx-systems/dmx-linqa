@@ -17,7 +17,7 @@
   "label.privacy": "Yksityisyys",
   "label.notifications": "Ilmoitukset",
   "label.notifications.all": "Kaikki",
-  "label.notifications.all.info": "Saat ilmoituksia kaikista keskusteluista/keskusteluista",
+  "label.notifications.all.info": "Saat ilmoituksia kaikista työtiloissasi tapahtuvista keskusteluista/keskusteluista",
   "label.notifications.mentioned": "Maininnasta",
   "label.notifications.mentioned.info": "Saat ilmoituksia vain niistä kommenteista, joissa sinut on @mainittu",
   "label.notifications.none": "Ei mitään",

@@ -17,7 +17,7 @@
   "label.privacy": "Privacy",
   "label.notifications": "Notifications",
   "label.notifications.all": "All",
-  "label.notifications.all.info": "You will receive notifications for any chat/discussion activity",
+  "label.notifications.all.info": "You will receive notifications about any chat/discussion activity in your workspaces",
   "label.notifications.mentioned": "On mention",
   "label.notifications.mentioned.info": "You will receive notifications only for comments in which you were @mentioned",
   "label.notifications.none": "None",

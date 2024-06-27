@@ -17,7 +17,7 @@
   "label.privacy": "Конфіденційність",
   "label.notifications": "Сповіщення",
   "label.notifications.all": "Всі",
-  "label.notifications.all.info": "Ви будете отримувати сповіщення про будь-яку активність в чаті/обговоренні",
+  "label.notifications.all.info": "Ви отримуватимете сповіщення про будь-яку активність у чаті/обговоренні у ваших робочих просторах",
   "label.notifications.mentioned": "При згадці",
   "label.notifications.mentioned.info": "Ви будете отримувати сповіщення лише про коментарі, в яких ви були @згадані",
   "label.notifications.none": "Ні",

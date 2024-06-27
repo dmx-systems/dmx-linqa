@@ -5,10 +5,8 @@ import static systems.dmx.timestamps.Constants.*;
 import static systems.dmx.linqa.Constants.*;
 
 import systems.dmx.accesscontrol.AccessControlService;
-import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
 import systems.dmx.core.service.CoreService;
-import systems.dmx.core.util.JavaUtils;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
@@ -19,8 +17,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import org.osgi.framework.Bundle;
-
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,8 +25,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Consumer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -55,7 +49,6 @@ public class EmailDigests {
     private TimestampsService timestamps;
     private SendmailService sendmail;
     private SignupService signup;
-
     private String emailTemplate;
     private String commentTemplate;
 
@@ -66,17 +59,15 @@ public class EmailDigests {
     // ---------------------------------------------------------------------------------------------------- Constructors
 
     EmailDigests(CoreService dmx, AccessControlService acs, WorkspacesService ws, TimestampsService timestamps,
-                 SendmailService sendmail, SignupService signup, Bundle bundle) {
+                 SendmailService sendmail, SignupService signup, String emailTemplate, String commentTemplate) {
         this.dmx = dmx;
         this.acs = acs;
         this.ws = ws;
         this.timestamps = timestamps;
         this.sendmail = sendmail;
         this.signup = signup;
-        if (bundle != null) {       // Note: not available when running in test environment
-            this.emailTemplate = JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-email.html"));
-            this.commentTemplate = JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html"));
-        }
+        this.emailTemplate = emailTemplate;
+        this.commentTemplate = commentTemplate;
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods

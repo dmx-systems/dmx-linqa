@@ -17,6 +17,9 @@ import systems.dmx.topicmaps.TopicmapsService;
 import systems.dmx.workspaces.WorkspacesService;
 
 import java.lang.reflect.Field;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+import org.osgi.framework.Bundle;
 
 class LinqaPluginTest {
 
@@ -40,6 +45,7 @@ class LinqaPluginTest {
     private final FilesService files = mock();
     private final SignupService signup = mock();
     private final SendmailService sendmail = mock();
+    private final Bundle bundle = mock();
     private final LinqaPlugin subject = new LinqaPlugin();
 
     private void set(Object o, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
@@ -60,7 +66,9 @@ class LinqaPluginTest {
     void beforeEach() throws Exception {
         // Silence logger during test
         Logger.getLogger(LinqaPlugin.class.getName()).setLevel(Level.OFF);
-
+        URL url = mock();
+        when(url.openStream()).thenReturn(stringAsInputStream("Hi!"));
+        when(bundle.getResource(any())).thenReturn(url);
         // Manually injects mocks
         set(subject, "dmx", dmx);
         set(subject, "mf", mf);
@@ -72,6 +80,11 @@ class LinqaPluginTest {
         set(subject, "files", files);
         set(subject, "signup", signup);
         set(subject, "sendmail", sendmail);
+        set(subject, "bundle", bundle);
+    }
+
+    private InputStream stringAsInputStream(String str) {
+        return new ByteArrayInputStream(str.getBytes());
     }
 
     @Test

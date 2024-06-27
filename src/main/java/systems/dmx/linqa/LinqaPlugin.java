@@ -19,8 +19,6 @@ import systems.dmx.core.model.TopicModel;
 import systems.dmx.core.model.topicmaps.ViewProps;
 import systems.dmx.core.model.topicmaps.ViewTopic;
 import systems.dmx.core.osgi.PluginActivator;
-import systems.dmx.core.service.ChangeReport;
-import systems.dmx.core.service.ChangeReport.Change;
 import systems.dmx.core.service.Cookies;
 import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.Transactional;
@@ -130,7 +128,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());
-        new EmailDigests(dmx, acs, ws, timestamps, sendmail, signup, bundle).startTimedTask();
+        new EmailDigests(
+            dmx, acs, ws, timestamps, sendmail, signup,
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-email.html")),
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html"))
+        ).startTimedTask();
     }
 
     @Override

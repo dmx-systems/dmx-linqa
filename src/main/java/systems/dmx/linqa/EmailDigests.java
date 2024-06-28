@@ -51,6 +51,9 @@ public class EmailDigests {
     private SignupService signup;
     private String emailTemplate;
     private String commentTemplate;
+    private StringProvider sp;
+    private String lang1;
+    private String lang2;
 
     private int digestCount;        // manipulated from lambda, so we make it a field (instead a local variable)
 
@@ -59,7 +62,8 @@ public class EmailDigests {
     // ---------------------------------------------------------------------------------------------------- Constructors
 
     EmailDigests(CoreService dmx, AccessControlService acs, WorkspacesService ws, TimestampsService timestamps,
-                 SendmailService sendmail, SignupService signup, String emailTemplate, String commentTemplate) {
+                 SendmailService sendmail, SignupService signup, String emailTemplate, String commentTemplate,
+                 StringProvider sp, String lang1, String lang2) {
         this.dmx = dmx;
         this.acs = acs;
         this.ws = ws;
@@ -68,6 +72,9 @@ public class EmailDigests {
         this.signup = signup;
         this.emailTemplate = emailTemplate;
         this.commentTemplate = commentTemplate;
+        this.sp = sp;
+        this.lang1 = lang1;
+        this.lang2 = lang2;
     }
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
@@ -115,8 +122,8 @@ public class EmailDigests {
         String _username = username.getSimpleValue().toString();
         NotificationLevel notificationLevel = NotificationLevel.get(username);
         String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
-        logger.info(String.format("###### Sending email digest to user \"%s\" of workspace \"%s\" (filtering %d " +
-            "comments)", _username, workspace, comments.size()));
+        logger.info(String.format("###### Sending email digest to user \"%s\" (%d) of workspace \"%s\" (filtering %d " +
+            "comments)", _username, username.getId(), workspace, comments.size()));
         String commentsHtml = comments.stream()
             .filter(comment -> commentFilter(comment, username, notificationLevel))
             .map(comment -> {
@@ -131,13 +138,13 @@ public class EmailDigests {
             })
             .reduce(
                 new StringBuilder(),
-                (builder, comment) -> builder.append(emailMessage(comment)),
+                (builder, comment) -> builder.append(commentHtml(comment)),
                 (builder1, builder2) -> builder1.append(builder2)
             )
             .toString();
         if (!commentsHtml.isEmpty()) {
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-            String messageHtml = String.format(emailTemplate, commentsHtml);
+            String messageHtml = String.format(emailTemplate, "", "", commentsHtml, "", "");    // TODO
             sendmail.doEmailRecipient(subject, null, messageHtml, _username);
             digestCount++;
         } else {
@@ -180,13 +187,13 @@ public class EmailDigests {
         return ws.getAssignedWorkspace(comment.getId()).getId();
     }
 
-    private String emailMessage(Topic comment) {
+    private String commentHtml(Topic comment) {
         String comment1 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG1);
         String comment2 = comment.getChildTopics().getString(COMMENT_TEXT + "#" + LANG2, "");
         String username = comment.getModel().getChildTopics().getString(CREATOR);   // synthetic, so operate on model
         long modified = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
-        String displayName = signup.getDisplayName(username);
-        return String.format(commentTemplate, displayName, new Date(modified), comment1, comment2);
+        String author = signup.getDisplayName(username);
+        return String.format(commentTemplate, author, new Date(modified), comment1, comment2);
     }
 
     // -------------------------------------------------------------------------------------------------- Nested Classes

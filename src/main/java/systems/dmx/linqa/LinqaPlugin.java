@@ -131,7 +131,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         new EmailDigests(
             dmx, acs, ws, timestamps, sendmail, signup,
             JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-email.html")),
-            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html"))
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html")),
+            sp, CONFIG_LANG1, CONFIG_LANG2
         ).startTimedTask();
     }
 

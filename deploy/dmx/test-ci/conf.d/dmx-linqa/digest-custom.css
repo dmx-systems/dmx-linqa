@@ -1,0 +1,18 @@
+body {
+  background-color: black;
+}
+.header {
+  color: white;
+}
+.header .workspace {
+  color: #ffd100;
+}
+.footer {
+  color: #909090;
+}
+.footer a {
+  color: #409eff;
+}
+.footer a:hover {
+  color: #66b1ff;
+}

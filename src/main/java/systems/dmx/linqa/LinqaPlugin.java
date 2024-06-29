@@ -130,8 +130,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         me = new Messenger(dmx.getWebSocketService());
         new EmailDigests(
             dmx, acs, ws, timestamps, sendmail, signup,
-            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-email.html")),
-            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-comment.html")),
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-template.html")),
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/comment-template.html")),
             sp, CONFIG_LANG1, CONFIG_LANG2
         ).startTimedTask();
     }

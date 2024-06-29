@@ -7,6 +7,8 @@ import static systems.dmx.linqa.Constants.*;
 import systems.dmx.accesscontrol.AccessControlService;
 import systems.dmx.core.Topic;
 import systems.dmx.core.service.CoreService;
+import systems.dmx.core.util.DMXUtils;
+import systems.dmx.core.util.JavaUtils;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
@@ -17,6 +19,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -127,12 +130,15 @@ public class EmailDigests {
         if (!commentsHtml.isEmpty()) {
             String displayName = signup.getDisplayName(_username);
             NotificationLevel notificationLevel = NotificationLevel.get(username);
+            File file = getExternalResourceFile("digest-custom.css");
+            String customCSS = file.exists() ? JavaUtils.readTextFile(file) : "";
             String header1 = sp.getString(lang1, "digest_mail.header", displayName, workspace);
             String header2 = sp.getString(lang2, "digest_mail.header", displayName, workspace);
             String footer1 = sp.getString(lang1, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
             String footer2 = sp.getString(lang2, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-            String digestHtml = String.format(emailTemplate, header1, header2, commentsHtml, footer1, footer2);
+            String digestHtml = String.format(emailTemplate, customCSS, header1, header2, commentsHtml, footer1,
+                footer2);
             sendmail.doEmailRecipient(subject, null, digestHtml, _username);
             digestCount++;
         } else {
@@ -204,6 +210,11 @@ public class EmailDigests {
         long modified = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
         String author = signup.getDisplayName(username);
         return String.format(commentTemplate, author, new Date(modified), comment1, comment2);
+    }
+
+    // TODO: copied from LinqaPlugin.java
+    private File getExternalResourceFile(String path) {
+        return new File(DMXUtils.getConfigDir() + "dmx-linqa/" + path);
     }
 
     // -------------------------------------------------------------------------------------------------- Nested Classes

@@ -120,11 +120,29 @@ public class EmailDigests {
 
     private void sendDigestToUser(Topic username, List<Topic> comments, long workspaceId) {
         String _username = username.getSimpleValue().toString();
-        NotificationLevel notificationLevel = NotificationLevel.get(username);
         String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
         logger.info(String.format("###### Sending email digest to user \"%s\" (%d) of workspace \"%s\" (filtering %d " +
             "comments)", _username, username.getId(), workspace, comments.size()));
-        String commentsHtml = comments.stream()
+        String commentsHtml = commentsHtml(comments, username);
+        if (!commentsHtml.isEmpty()) {
+            String displayName = signup.getDisplayName(_username);
+            NotificationLevel notificationLevel = NotificationLevel.get(username);
+            String header1 = sp.getString(lang1, "digest_mail.header", displayName, workspace);
+            String header2 = sp.getString(lang2, "digest_mail.header", displayName, workspace);
+            String footer1 = sp.getString(lang1, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
+            String footer2 = sp.getString(lang2, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
+            String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
+            String digestHtml = String.format(emailTemplate, header1, header2, commentsHtml, footer1, footer2);
+            sendmail.doEmailRecipient(subject, null, digestHtml, _username);
+            digestCount++;
+        } else {
+            logger.info("--> Nothing to send for user \"" + _username + "\"");
+        }
+    }
+
+    private String commentsHtml(List<Topic> comments, Topic username) {
+        NotificationLevel notificationLevel = NotificationLevel.get(username);
+        return comments.stream()
             .filter(comment -> commentFilter(comment, username, notificationLevel))
             .map(comment -> {
                 timestamps.enrichWithTimestamps(comment);
@@ -142,14 +160,6 @@ public class EmailDigests {
                 (builder1, builder2) -> builder1.append(builder2)
             )
             .toString();
-        if (!commentsHtml.isEmpty()) {
-            String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-            String messageHtml = String.format(emailTemplate, "", "", commentsHtml, "", "");    // TODO
-            sendmail.doEmailRecipient(subject, null, messageHtml, _username);
-            digestCount++;
-        } else {
-            logger.info("--> Nothing to send for user \"" + _username + "\"");
-        }
     }
 
     private boolean commentFilter(Topic comment, Topic username, NotificationLevel notificationLevel) {

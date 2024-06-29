@@ -39,6 +39,7 @@ public class EmailDigests {
 
     static final String DIGEST_EMAIL_SUBJECT = System.getProperty("dmx.linqa.digest_email_subject", "Linqa Platform");
     static final int DIGEST_EMAIL_HOUR = Integer.getInteger("dmx.linqa.digest_email_hour", 6);      // default is 6am
+    static final String HOST_URL = System.getProperty("dmx.host.url", "");
 
     static final long MILLISECS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -121,6 +122,12 @@ public class EmailDigests {
         }
     }
 
+    /**
+     * Filters the given comments for the given user (based on her notification-level preference) and sends a digest
+     * email to the user. If however the filter-result is empty no email is sent.
+     *
+     * @param   workspaceId     the workspaces the comments are originating from.
+     */
     private void sendDigestToUser(Topic username, List<Topic> comments, long workspaceId) {
         String _username = username.getSimpleValue().toString();
         String workspace = dmx.getTopic(workspaceId).getSimpleValue().toString();
@@ -137,8 +144,8 @@ public class EmailDigests {
             String footer1 = sp.getString(lang1, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
             String footer2 = sp.getString(lang2, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-            String digestHtml = String.format(emailTemplate, customCSS, header1, header2, commentsHtml, footer1,
-                footer2);
+            String digestHtml = String.format(emailTemplate, HOST_URL, customCSS, header1, header2, commentsHtml,
+                footer1, footer2);
             sendmail.doEmailRecipient(subject, null, digestHtml, _username);
             digestCount++;
         } else {

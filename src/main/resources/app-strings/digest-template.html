@@ -10,6 +10,12 @@
         background-color: #e6e6e6;
         margin: 30px 20px 20px;
       }
+      a {
+        color: #409eff;
+      }
+      a:hover {
+        color: #66b1ff;
+      }
       .columns {
         width: 100%%;
       }
@@ -25,7 +31,21 @@
       .columns tr > td:nth-child(2) {
         padding-left: 15px;
       }
-      .header .workspace {
+      .header .logo {
+        height: 72px;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+      .header .logo.left {
+        background-image: url(/linqa/config/logo.png?multilingual=true&lang=%s);
+      }
+      .header .logo.right {
+        background-image: url(/linqa/config/logo.png?multilingual=true&lang=%s);
+      }
+      .header .content > td {
+        padding-top: 40px;
+      }
+      .header .content .workspace {
         font-weight: bold;
       }
       .footer {
@@ -71,12 +91,6 @@
       .dmx-html-field img {
         max-width: 100%%;
       }
-      .dmx-html-field a {
-        color: #409eff;
-      }
-      .dmx-html-field a:hover {
-        color: #66b1ff;
-      }
       .dmx-html-field ol > li,
       .dmx-html-field ul > li {
         list-style-type: none;
@@ -116,6 +130,10 @@
   <body>
     <table class="header columns">
       <tr>
+        <td class="logo left"></td>
+        <td class="logo right"></td>
+      </tr>
+      <tr class="content">
         <td>
 %s
         </td>

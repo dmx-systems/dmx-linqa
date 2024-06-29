@@ -759,8 +759,8 @@ const actions = {
     return http.get(filerepoUrl(repoPath)).then(response => response.data)
   },
 
-  getConfigResource (_, {path, multilingual}) {
-    return http.get(`/linqa/config/${path}`, {params: {multilingual}})
+  getConfigResource (_, {path, multilingual, lang}) {
+    return http.get(`/linqa/config/${path}`, {params: {multilingual, lang}})
       .then(response => response.data)
   },
 

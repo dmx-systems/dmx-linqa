@@ -20,7 +20,7 @@ public interface LinqaService {
 
     List<String> getHelpPages();
 
-    Response getConfigResource(String path, boolean multilingual);
+    Response getConfigResource(String path, boolean multilingual, String lang);
 
     /**
      * Returns the Linqa shared workspaces of the current user (according to request authorization).

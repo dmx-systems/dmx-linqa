@@ -144,8 +144,8 @@ public class EmailDigests {
             String footer1 = sp.getString(lang1, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
             String footer2 = sp.getString(lang2, "digest_mail.footer", "", notificationLevel, "");     // TODO: links
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspace);
-            String digestHtml = String.format(emailTemplate, HOST_URL, customCSS, header1, header2, commentsHtml,
-                footer1, footer2);
+            String digestHtml = String.format(emailTemplate, HOST_URL, lang1, lang2, customCSS, header1, header2,
+                commentsHtml, footer1, footer2);
             sendmail.doEmailRecipient(subject, null, digestHtml, _username);
             digestCount++;
         } else {

@@ -335,12 +335,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Produces({MediaType.TEXT_HTML, "text/css", "image/png"})
     @Override
     public Response getConfigResource(@PathParam("path") String path,
-                                      @QueryParam("multilingual") boolean multilingual) {
+                                      @QueryParam("multilingual") boolean multilingual,
+                                      @QueryParam("lang") String lang) {
         try {
-            File file = getExternalResourceFile(multilingual ?
-                multilingualResourcePath(path, Cookies.get().get("linqa_lang")) :   // TODO: use CookieParam instead?
-                path
-            );
+            File file = getExternalResourceFile(multilingual ? multilingualResourcePath(path, lang) : path);
             String contentType = JavaUtils.getFileType(path);
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(contentType).build();

@@ -19,8 +19,6 @@ import systems.dmx.core.model.TopicModel;
 import systems.dmx.core.model.topicmaps.ViewProps;
 import systems.dmx.core.model.topicmaps.ViewTopic;
 import systems.dmx.core.osgi.PluginActivator;
-import systems.dmx.core.service.ChangeReport;
-import systems.dmx.core.service.ChangeReport.Change;
 import systems.dmx.core.service.Cookies;
 import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.Transactional;
@@ -40,6 +38,7 @@ import systems.dmx.facets.FacetsService;
 import systems.dmx.files.FilesService;
 import systems.dmx.files.StoredFile;
 import systems.dmx.files.UploadedFile;
+import systems.dmx.linqa.EmailDigests.NotificationLevel;
 import systems.dmx.sendmail.SendmailService;
 import systems.dmx.signup.SignupService;
 import systems.dmx.timestamps.TimestampsService;
@@ -69,7 +68,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -118,13 +117,23 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // Hooks
 
     @Override
-    public void init() {
+    public void preInstall() {
+        // initialize these before init() so migrations can operate on them
         zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
         linqaAdminWs = dmx.getTopicByUri(LINQA_ADMIN_WS_URI);
+    }
+
+    @Override
+    public void init() {
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());
-        new EmailDigests(dmx, acs, ws, timestamps, sendmail, linqaAdminWs).startTimedTask();
+        new EmailDigests(
+            dmx, acs, ws, timestamps, sendmail, signup,
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/digest-template.html")),
+            JavaUtils.readTextURL(bundle.getResource("/app-strings/comment-template.html")),
+            sp, CONFIG_LANG1, CONFIG_LANG2
+        ).startTimedTask();
     }
 
     @Override
@@ -139,7 +148,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void postCreateAssoc(Assoc assoc) {
-        processLinqaAdminMembership(assoc, username -> {
+        processLinqaAdminMembership(assoc, (usernameTopic, username) -> {
             // 1) Create "System" membership
             logger.info("### Inviting user \"" + username + "\" to \"System\" workspace");
             acs.createMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
@@ -147,6 +156,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             List<RelatedTopic> workspaces = getAllLinqaWorkspaces();
             logger.info("### Inviting user \"" + username + "\" to " + workspaces.size() + " Linqa workspaces");
             acs.bulkUpdateMemberships(username, new IdList(workspaces), null);
+            // 3) Set notification level to "ALL"
+            NotificationLevel.set(usernameTopic, NotificationLevel.ALL);        // TODO: update client-state
         });
     }
 
@@ -155,7 +166,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      */
     @Override
     public void preDeleteAssoc(Assoc assoc) {
-        processLinqaAdminMembership(assoc, username -> {
+        processLinqaAdminMembership(assoc, (usernameTopic, username) -> {
             // Delete "System" membership
             logger.info("### Removing \"System\" membership from user \"" + username + "\"");
             Assoc systemMembership = acs.getMembership(username, dmx.getPrivilegedAccess().getSystemWorkspaceId());
@@ -200,7 +211,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 topics.set(DISPLAY_NAME, displayName);
             }
             topics.set(SHOW_EMAIL_ADDRESS, getShowEmailAddress(username));
-            enrichWithUserActive(topic);
+            enrichWithUsernameProps(topic);
         }
         // Note: in a Related Username Topic w/ a Membership *both* are enriched
         if (topic instanceof RelatedTopic) {
@@ -324,12 +335,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Produces({MediaType.TEXT_HTML, "text/css", "image/png"})
     @Override
     public Response getConfigResource(@PathParam("path") String path,
-                                      @QueryParam("multilingual") boolean multilingual) {
+                                      @QueryParam("multilingual") boolean multilingual,
+                                      @QueryParam("lang") String lang) {
         try {
-            File file = getExternalResourceFile(multilingual ?
-                multilingualResourcePath(path, Cookies.get().get("linqa_lang")) :   // TODO: use CookieParam instead?
-                path
-            );
+            File file = getExternalResourceFile(multilingual ? multilingualResourcePath(path, lang) : path);
             String contentType = JavaUtils.getFileType(path);
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(contentType).build();
@@ -544,10 +553,12 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Transactional
     @Override
     public void updateUserProfile(@QueryParam("displayName") String displayName,
-                                  @QueryParam("showEmailAddress") boolean showEmailAddress) {
+                                  @QueryParam("showEmailAddress") boolean showEmailAddress,
+                                  @QueryParam("notificationLevel") NotificationLevel notificationLevel) {
         String username = acs.getUsername();
         signup.updateDisplayName(username, displayName);
         updateShowEmailAddressFacet(username, showEmailAddress);
+        NotificationLevel.set(acs.getUsernameTopic(username), notificationLevel);
     }
 
     @POST
@@ -856,18 +867,21 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-    private void enrichWithUserActive(Topic username) {
+    private void enrichWithUsernameProps(Topic username) {
+        // Note: if no notification level stored in DB NotificationLevel.getAsString() returns the default value
+        username.getChildTopics().getModel().set(NOTIFICATION_LEVEL, NotificationLevel.getAsString(username));
         if (username.hasProperty(USER_ACTIVE)) {                    // "User Active" is an optional DB prop
             username.getChildTopics().getModel().set(USER_ACTIVE, username.getProperty(USER_ACTIVE));
         }
     }
 
-    private void processLinqaAdminMembership(Assoc assoc, Consumer<String> consumer) {
+    private void processLinqaAdminMembership(Assoc assoc, BiConsumer<Topic, String> consumer) {
         if (assoc.getTypeUri().equals(MEMBERSHIP)) {
             Topic workspace = assoc.getDMXObjectByType(WORKSPACE);
             if (workspace.getUri().equals(LINQA_ADMIN_WS_URI)) {
-                String username = assoc.getDMXObjectByType(USERNAME).getSimpleValue().toString();
-                consumer.accept(username);
+                Topic usernameTopic = assoc.getDMXObjectByType(USERNAME);
+                String username = usernameTopic.getSimpleValue().toString();
+                consumer.accept(usernameTopic, username);
             }
         }
     }

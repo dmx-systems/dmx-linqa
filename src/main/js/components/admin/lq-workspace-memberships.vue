@@ -70,7 +70,7 @@ export default {
     initModel () {
       Promise.all([
         this.$store.dispatch('fetchAllUsers'),
-        this.$store.dispatch('admin/fetchWorkspaceMemberships', this.selectedWorkspace.id)
+        this.$store.dispatch('fetchWorkspaceMemberships', this.selectedWorkspace)
       ]).then(() => {
         this.model1 = this.users.map(user => this.isMember(user))
         this.model2 = this.users.map(user => this.isEditor(user))

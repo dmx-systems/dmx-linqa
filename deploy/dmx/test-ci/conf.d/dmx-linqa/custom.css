@@ -1,0 +1,73 @@
+.lq-login img.logo,           /* Login page's ZW logo */
+.lq-legal .home-button {      /* Legal page's ZW logo */
+  margin-left: -81px;         /* outdent ZW logo */
+}
+
+.lq-login.small-screen img.logo,
+.lq-legal.small-screen .home-button {
+  margin-left: -61px;
+}
+
+.lq-login, .lq-legal {
+  background-image: url("/linqa/config/zw-snake.png");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+}
+
+.lq-login.small-screen {
+  background-size: 600px;
+}
+
+.lq-legal.small-screen {
+  background-image: unset;
+}
+
+.lq-legal.imprint h4 {
+  margin-bottom: 0;
+}
+
+.lq-legal.privacy_policy h2 {
+  font-size: 20px;
+  line-height: normal;
+  margin-top: 32px;
+  margin-bottom: 14px;
+}
+
+.lq-legal.privacy_policy ol {
+  list-style-type: lower-alpha;
+}
+
+.lq-legal.privacy_policy p,
+.lq-legal.privacy_policy ul > li {
+  font-family: serif;
+  text-align: justify;
+}
+
+.lq-legal.privacy_policy table {
+  border-collapse: collapse;
+  margin-bottom: 2em;
+}
+
+.lq-legal.privacy_policy table td {
+  border: 1px solid #bfbfbf;
+  padding: 10px;
+}
+
+.lq-legal.privacy_policy table td p {
+  text-align: initial;
+}
+
+.lq-legal.privacy_policy ul > li {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.lq-legal.privacy_policy ol > li {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.lq-legal.privacy_policy ol > li > div {
+  font-weight: bold;
+  margin-bottom: 4px;
+}

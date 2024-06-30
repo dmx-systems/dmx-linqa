@@ -53,6 +53,7 @@
   --color-danger: #f56c6c;                    /* matches Element UI --color-danger */
   --border-color: #dcdfe6;                    /* matches Element UI --border-color-base */
   --border-color-lighter: #ebeef5;            /* matches Element UI --border-color-lighter */
+  --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item color */
   --filter-border: 6px solid transparent;
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
 }
@@ -271,5 +272,23 @@ input, button {
 
 .ql-container .ql-toolbar .ql-color-picker .ql-picker-options {
   width: 170px;         /* was 152px, we need room for another color option */
+}
+
+/* Quill-Mention Overrides */
+
+.ql-mention-list-item {
+  font-size: var(--primary-font-size) !important;         /* quill-mention sets 16px */
+  color: var(--menu-item-color);      /* quill-mention does not set any color, so it's black */
+  line-height: 30px !important;       /* 30px matches .el-dropdown-menu__item medium size, quill-mention sets 44px */
+}
+
+.ql-mention-list-item.selected {
+  background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
+  color: var(--highlight-color-2);    /* quill-mention does not set any color, so it's black */
+}
+
+.mention {
+  background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
+  color: var(--highlight-color);      /* quill-mention does not set any color, so it's black */
 }
 </style>

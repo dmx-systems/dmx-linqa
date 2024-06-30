@@ -7,6 +7,7 @@ import systems.dmx.core.util.IdList;
 import systems.dmx.deepl.Translation;
 import systems.dmx.files.StoredFile;
 import systems.dmx.files.UploadedFile;
+import systems.dmx.linqa.EmailDigests.NotificationLevel;
 
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -19,7 +20,7 @@ public interface LinqaService {
 
     List<String> getHelpPages();
 
-    Response getConfigResource(String path, boolean multilingual);
+    Response getConfigResource(String path, boolean multilingual, String lang);
 
     /**
      * Returns the Linqa shared workspaces of the current user (according to request authorization).
@@ -70,7 +71,7 @@ public interface LinqaService {
     /**
      * Updates the profile of the current user.
      */
-    void updateUserProfile(String displayName, boolean showEmailAddress);
+    void updateUserProfile(String displayName, boolean showEmailAddress, NotificationLevel notificationLevel);
 
     StoredFile storeScaledImage(UploadedFile imageFile);
 

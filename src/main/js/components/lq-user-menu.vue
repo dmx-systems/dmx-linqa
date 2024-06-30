@@ -5,8 +5,11 @@
         <span class="el-icon-arrow-down el-icon--right"></span>
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="userProfile">
+        <el-dropdown-item disabled>
           <b>{{username}}</b>
+        </el-dropdown-item>
+        <el-dropdown-item command="openUserProfile">
+          <lq-string>label.user_profile</lq-string>
         </el-dropdown-item>
         <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" :icon="icon" divided>
           <lq-string>label.presentation_mode</lq-string>
@@ -31,7 +34,29 @@
             <lq-string>label.show_email_address</lq-string>
           </el-checkbox>
           <div class="field">
-            <el-button type="primary" @click="save">
+            <el-button type="primary" @click="saveUserProfile">
+              <lq-string>action.submit</lq-string>
+            </el-button>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="notifications">
+          <lq-string slot="title">label.notifications</lq-string>
+          <el-radio-group class="notification-level field" v-model="notificationLevel">
+            <el-radio label="all">
+              <lq-string>label.notifications.all</lq-string>
+              <lq-string class="label">label.notifications.all.info</lq-string>
+            </el-radio>
+            <el-radio label="mentioned">
+              <lq-string>label.notifications.mentioned</lq-string>
+              <lq-string class="label">label.notifications.mentioned.info</lq-string>
+            </el-radio>
+            <el-radio label="none">
+              <lq-string>label.notifications.none</lq-string>
+              <lq-string class="label">label.notifications.none.info</lq-string>
+            </el-radio>
+          </el-radio-group>
+          <div class="field">
+            <el-button type="primary" @click="saveUserProfile">
               <lq-string>action.submit</lq-string>
             </el-button>
           </div>
@@ -64,7 +89,8 @@ export default {
       visible: false,
       loading: false,
       displayName: '',
-      showEmailAddress: false
+      showEmailAddress: false,
+      notificationLevel: ''
     }
   },
 
@@ -85,10 +111,28 @@ export default {
       this[command]()
     },
 
-    userProfile () {
+    openUserProfile () {
       this.visible = true
       this.displayName = lq.getDisplayName(this.username)
       this.showEmailAddress = lq.getShowEmailAddress(this.username)
+      this.notificationLevel = lq.getUser(this.username).children['linqa.notification_level']?.value || 'mentioned'
+    },
+
+    saveUserProfile () {
+      this.loading = true
+      this.$store.dispatch('updateUserProfile', {
+        displayName: this.displayName,
+        showEmailAddress: this.showEmailAddress,
+        notificationLevel: this.notificationLevel
+      }).catch(error => {
+        return this.$alert(error.message, {
+          type: 'error',
+          showClose: false
+        })
+      }).finally(() => {
+        this.loading = false
+        this.visible = false
+      })
     },
 
     togglePresentationMode () {
@@ -101,22 +145,6 @@ export default {
       )
     },
 
-    save () {
-      this.loading = true
-      this.$store.dispatch('updateUserProfile', {
-        displayName: this.displayName,
-        showEmailAddress: this.showEmailAddress
-      }).catch(error => {
-        return this.$alert(error.message, {
-          type: 'error',
-          showClose: false
-        })
-      }).finally(() => {
-        this.loading = false
-        this.visible = false
-      })
-    },
-
     changePassword () {
       this.loading = true
       this.$store.dispatch('resetPassword', this.username).finally(() => {
@@ -127,3 +155,16 @@ export default {
   }
 }
 </script>
+
+<style>
+.lq-user-menu .el-dialog .el-radio + .el-radio {
+  margin-top: 15px;
+}
+
+.lq-user-menu .el-dialog .el-radio .label {
+  display: block;
+  margin-left: 24px;
+  white-space: normal;    /* el-radio sets nowrap */
+  word-break: normal;     /* el-dialog__body sets break-all */
+}
+</style>

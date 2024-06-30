@@ -1,0 +1,12 @@
+body {
+  background-color: black;
+}
+.header {
+  color: white;
+}
+.header .workspace {
+  color: #ffd100;
+}
+.footer {
+  color: #909090;
+}

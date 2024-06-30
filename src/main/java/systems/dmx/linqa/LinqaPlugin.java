@@ -117,14 +117,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // Hooks
 
     @Override
-    public void preInstall() {
-        // initialize these before init() so migrations can operate on them
+    public void init() {
         zwPluginTopic = dmx.getTopicByUri(LINQA_PLUGIN_URI);
         linqaAdminWs = dmx.getTopicByUri(LINQA_ADMIN_WS_URI);
-    }
-
-    @Override
-    public void init() {
         tms.registerTopicmapCustomizer(this);
         signup.setEmailTextProducer(new LinqaEmailTextProducer(sp));
         me = new Messenger(dmx.getWebSocketService());

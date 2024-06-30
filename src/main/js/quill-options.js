@@ -1,3 +1,4 @@
+import Quill from "quill"
 import 'quill-mention'
 import 'quill-mention/dist/quill.mention.css'
 import store from './store/linqa'
@@ -19,7 +20,8 @@ export default {
       }
     },
     mention: {
-      source: usernameSource
+      source: userSource,
+      blotName: 'notranslate-mention'
     }
   }
 }
@@ -65,7 +67,7 @@ function insertToEditor (url, editor) {
 
 // Mentions
 
-function usernameSource (searchTerm, renderList, mentionChar) {
+function userSource (searchTerm, renderList, mentionChar) {
   const items = store.state.workspace.memberships.map(username => ({
     id: username.id,
     value: lq.getDisplayName(username.value)
@@ -76,3 +78,18 @@ function usernameSource (searchTerm, renderList, mentionChar) {
     searchTerm
   )
 }
+
+const MentionBlot = Quill.import("blots/mention")
+
+class NoTranslateMentionBlot extends MentionBlot {
+
+  static blotName = 'notranslate-mention'
+
+  static create (data) {
+    const element = MentionBlot.create(data)
+    element.setAttribute('translate', 'no')
+    return element
+  }
+}
+
+Quill.register(NoTranslateMentionBlot)

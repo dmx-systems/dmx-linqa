@@ -276,6 +276,10 @@ input, button {
 
 /* Quill-Mention Overrides */
 
+.ql-mention-list-container {
+  max-height: calc(100vh - 48px);
+}
+
 .ql-mention-list-item {
   font-size: var(--primary-font-size) !important;         /* quill-mention sets 16px */
   color: var(--menu-item-color);      /* quill-mention does not set any color, so it's black */

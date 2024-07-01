@@ -138,12 +138,13 @@ public class EmailDigests {
             String displayName = signup.getDisplayName(_username);
             NotificationLevel notificationLevel = NotificationLevel.get(username);
             String workspaceUrl = "/#/workspace/" + workspaceId;
+            String userProfileUrl = "/#/login?profile=notifications";
             File file = getExternalResourceFile("digest-custom.css");
             String customCSS = file.exists() ? JavaUtils.readTextFile(file) : "";
             String header1 = sp.getString(lang1, "digest_mail.header", displayName, workspaceName);
             String header2 = sp.getString(lang2, "digest_mail.header", displayName, workspaceName);
-            String footer1 = sp.getString(lang1, "digest_mail.footer", workspaceUrl, notificationLevel, ""); // TODO: ..
-            String footer2 = sp.getString(lang2, "digest_mail.footer", workspaceUrl, notificationLevel, ""); // ... URL
+            String footer1 = sp.getString(lang1, "digest_mail.footer", workspaceUrl, notificationLevel, userProfileUrl);
+            String footer2 = sp.getString(lang2, "digest_mail.footer", workspaceUrl, notificationLevel, userProfileUrl);
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspaceName);
             String digestHtml = String.format(emailTemplate, HOST_URL, lang1, lang2, customCSS, header1, header2,
                 commentsHtml, footer1, footer2);

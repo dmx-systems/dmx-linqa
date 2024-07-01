@@ -96,7 +96,7 @@ router.beforeEach((to, from, next) => {
       }
       if (init) {
         store.dispatch('getInitialWorkspaceId').then(workspaceId => {
-          next({name: 'workspace', params: {workspaceId}})
+          next({name: 'workspace', params: {workspaceId}, query: to.query})
         })
       }
     } else {
@@ -135,7 +135,8 @@ const actions = {
     const id = workspaceId || store.state.workspace.id
     router.push({
       name: 'workspace',
-      params: {workspaceId: id}
+      params: {workspaceId: id},
+      query: router.currentRoute.query
     })
   },
 

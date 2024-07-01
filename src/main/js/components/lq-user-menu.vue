@@ -19,11 +19,11 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <el-dialog :visible.sync="visible" width="400px" v-loading="loading">
+    <el-dialog :visible.sync="profileVisibility" width="400px" v-loading="loading">
       <div slot="title">
         <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
       </div>
-      <el-collapse v-model="expandedItems" accordion>
+      <el-collapse v-model="profilePane" accordion>
         <el-collapse-item name="privacy">
           <lq-string slot="title">label.privacy</lq-string>
           <div class="field">
@@ -82,11 +82,16 @@ export default {
     require('./mixins/roles').default
   ],
 
+  created () {
+    // init local state for user profile dialog
+    this.displayName = lq.getDisplayName(this.username)
+    this.showEmailAddress = lq.getShowEmailAddress(this.username)
+    this.notificationLevel = lq.getUser(this.username).children['linqa.notification_level']?.value || 'mentioned'
+  },
+
   data () {
     return {
-      expandedItems: ['privacy'],
-      // User Profile dialog
-      visible: false,
+      // user profile dialog
       loading: false,
       displayName: '',
       showEmailAddress: false,
@@ -98,6 +103,29 @@ export default {
 
     username () {
       return this.$store.state.username
+    },
+
+    profileVisibility: {
+      get () {
+        return this.$store.state.profileVisibility
+      },
+      set (profileVisibility) {
+        if (!profileVisibility) {
+          this.$store.dispatch('setRouteQuery')   // remove query params
+        } else {
+          // never happens, visibility=true is only done in global state, not on local computed state
+          throw Error('setting user profile visibility to ' + profileVisibility)
+        }
+      }
+    },
+
+    profilePane: {
+      get () {
+        return this.$store.state.profilePane
+      },
+      set (profilePane) {
+        this.$store.dispatch('setRouteQuery', {profile: profilePane})
+      }
     },
 
     icon () {
@@ -112,10 +140,7 @@ export default {
     },
 
     openUserProfile () {
-      this.visible = true
-      this.displayName = lq.getDisplayName(this.username)
-      this.showEmailAddress = lq.getShowEmailAddress(this.username)
-      this.notificationLevel = lq.getUser(this.username).children['linqa.notification_level']?.value || 'mentioned'
+      this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
     },
 
     saveUserProfile () {
@@ -131,7 +156,7 @@ export default {
         })
       }).finally(() => {
         this.loading = false
-        this.visible = false
+        this.profileVisibility = false
       })
     },
 
@@ -149,7 +174,7 @@ export default {
       this.loading = true
       this.$store.dispatch('resetPassword', this.username).finally(() => {
         this.loading = false
-        this.visible = false
+        this.profileVisibility = false
       })
     }
   }

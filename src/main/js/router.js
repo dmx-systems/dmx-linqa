@@ -165,6 +165,15 @@ const actions = {
   },
 
   /**
+   * Adds/removes query params to the current route.
+   *
+   * @param   query   object with query params or undefined
+   */
+  setRouteQuery (_, query) {
+    router.push({query})
+  },
+
+  /**
    * Precondition: User state is up-to-date.
    */
   getInitialWorkspaceId () {
@@ -204,8 +213,15 @@ store.registerModule('routerModule', {
 store.watch(
   state => state.routerModule.router.currentRoute,
   (to, from) => {
-    if (to.name === 'workspace') {
+    // console.log(to, from)
+    if (to.name === 'workspace' && to.path !== from.path) {
       store.dispatch('setWorkspace', id(to.params.workspaceId))
+    }
+    const profilePane = to.query.profile
+    if (profilePane !== undefined) {      // Note: empty string represents open dialog with all panes closed
+      store.dispatch('openUserProfile', profilePane)
+    } else if (from.query.profile !== undefined) {
+      store.dispatch('closeUserProfile')
     }
   }
 )

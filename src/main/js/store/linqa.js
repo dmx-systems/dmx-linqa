@@ -46,6 +46,8 @@ const state = {
   lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   uiStrings: {},                // 2 keys: lang1/lang2 (ISO 639-1 language code), value: object
   loginMessage: '',             // the status message shown next to Login button
+  profileVisibility: false,     // user profile dialog visibility
+  profilePane: 'privacy',       // active pane in user profile dialog ('privacy', 'notifications', 'password', '')
 
   // User
   username: '',                 // username of current user (String), empty/undefined if not logged in
@@ -678,6 +680,15 @@ const actions = {
     setTimeout(() => {
       document.querySelector('.lq-canvas .content-layer .moveable-control-box').__vue__.updateTarget()
     })
+  },
+
+  openUserProfile (_, profilePane) {
+    state.profileVisibility = true
+    state.profilePane = profilePane
+  },
+
+  closeUserProfile () {
+    state.profileVisibility = false
   },
 
   updateUserProfile ({rootState}, userProfile) {

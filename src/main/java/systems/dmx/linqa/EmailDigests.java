@@ -146,7 +146,7 @@ public class EmailDigests {
             String footer1 = sp.getString(lang1, "digest_mail.footer", workspaceUrl, notificationLevel, userProfileUrl);
             String footer2 = sp.getString(lang2, "digest_mail.footer", workspaceUrl, notificationLevel, userProfileUrl);
             String subject = String.format("[%s] %s", DIGEST_EMAIL_SUBJECT, workspaceName);
-            String digestHtml = String.format(emailTemplate, HOST_URL, lang1, lang2, customCSS, header1, header2,
+            String digestHtml = String.format(emailTemplate, HOST_URL, customCSS, lang1, lang2, header1, header2,
                 commentsHtml, footer1, footer2);
             sendmail.doEmailRecipient(subject, null, digestHtml, _username);
             digestCount++;

@@ -86,7 +86,7 @@ class NoTranslateMentionBlot extends MentionBlot {
   static blotName = 'notranslate-mention'
 
   static create (data) {
-    const element = MentionBlot.create(data)
+    const element = super.create(data)
     element.setAttribute('translate', 'no')
     return element
   }

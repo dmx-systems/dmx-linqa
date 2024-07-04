@@ -60,7 +60,7 @@
         color: #808080;
         margin-left: 12px;
       }
-      .lq-comment .columns tr > td:nth-child(1) {
+      .lq-comment .content > td:nth-child(1) {
         border-right: 1px dashed #aaa;
       }
       .dmx-html-field {
@@ -114,19 +114,23 @@
   </head>
   <body>
     <table class="header columns" width="100%%">
+      <colgroup>
+        <col style="width: 50%%;">
+        <col style="width: 50%%;">
+      </colgroup>
       <tr>
-        <td width="50%%">
+        <td>
           <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
         </td>
-        <td width="50%%">
+        <td>
           <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
         </td>
       </tr>
       <tr class="content">
-        <td width="50%%">
+        <td>
 %s
         </td>
-        <td width="50%%">
+        <td>
 %s
         </td>
       </tr>
@@ -135,11 +139,15 @@
 %s
     </div>
     <table class="footer columns" width="100%%">
+      <colgroup>
+        <col style="width: 50%%;">
+        <col style="width: 50%%;">
+      </colgroup>
       <tr>
-        <td width="50%%">
+        <td>
 %s
         </td>
-        <td width="50%%">
+        <td>
 %s
         </td>
       </tr>

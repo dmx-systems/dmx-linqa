@@ -1,16 +1,20 @@
-      <div class="lq-comment" style="background-color: white;">
-        <div class="heading">
-          <span class="author">%s</span>
-          <span class="date">%s</span>
-        </div>
-        <table class="columns" width="100%%">
-          <tr>
-            <td class="dmx-html-field" width="50%%">
+      <table class="lq-comment columns" width="100%%" style="background-color: white;">
+        <colgroup>
+          <col style="width: 50%%;">
+          <col style="width: 50%%;">
+        </colgroup>
+        <tr class="heading">
+          <td colspan="2">
+            <span class="author">%s</span>
+            <span class="date">%s</span>
+          </td>
+        </tr>
+        <tr class="content">
+          <td class="dmx-html-field">
 %s
-            </td>
-            <td class="dmx-html-field" width="50%%">
+          </td>
+          <td class="dmx-html-field">
 %s
-            </td>
-          </tr>
-        </table>
-      </div>
+          </td>
+        </tr>
+      </table>

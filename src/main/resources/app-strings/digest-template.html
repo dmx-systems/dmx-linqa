@@ -16,9 +16,6 @@
       a:hover {
         color: #66b1ff;
       }
-      .columns tr {
-        vertical-align: top;
-      }
       .columns tr > td:nth-child(1) {
         padding-right: 15px;
       }
@@ -27,9 +24,6 @@
       }
       .header .logo {
         height: 72px;
-      }
-      .header .content > td {
-        padding-top: 40px;
       }
       .header .content .workspace {
         font-weight: bold;
@@ -45,7 +39,6 @@
         color: #409eff;
       }
       .lq-comment {
-        margin-top: 20px;
         padding: 12px;
         border-radius: 10px;
       }
@@ -115,10 +108,10 @@
   <body>
     <table class="header columns" width="100%%">
       <colgroup>
-        <col style="width: 50%%;">
-        <col style="width: 50%%;">
+        <col width="50%%">
+        <col width="50%%">
       </colgroup>
-      <tr>
+      <tr style="vertical-align: top;">
         <td>
           <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
         </td>
@@ -126,11 +119,11 @@
           <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
         </td>
       </tr>
-      <tr class="content">
-        <td>
+      <tr class="content" style="vertical-align: top;">
+        <td style="padding-top: 40px;">
 %s
         </td>
-        <td>
+        <td style="padding-top: 40px;">
 %s
         </td>
       </tr>
@@ -140,10 +133,10 @@
     </div>
     <table class="footer columns" width="100%%">
       <colgroup>
-        <col style="width: 50%%;">
-        <col style="width: 50%%;">
+        <col width="50%%">
+        <col width="50%%">
       </colgroup>
-      <tr>
+      <tr style="vertical-align: top;">
         <td>
 %s
         </td>

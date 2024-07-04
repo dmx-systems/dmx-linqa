@@ -38,7 +38,7 @@ public class EmailDigests {
     // ------------------------------------------------------------------------------------------------------- Constants
 
     static final String DIGEST_EMAIL_SUBJECT = System.getProperty("dmx.linqa.digest_email_subject", "Linqa Platform");
-    static final int DIGEST_EMAIL_HOUR = Integer.getInteger("dmx.linqa.digest_email_hour", 2);      // default is 6am
+    static final int DIGEST_EMAIL_HOUR = Integer.getInteger("dmx.linqa.digest_email_hour", 6);      // default is 6am
     static final String HOST_URL = System.getProperty("dmx.host.url", "");
 
     static final long MILLISECS_PER_DAY = 1000 * 60 * 60 * 24;

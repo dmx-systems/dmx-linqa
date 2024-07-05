@@ -7,8 +7,7 @@
       body {
         font-family: sans-serif;
         font-size: 14px;
-        background-color: #e6e6e6;
-        margin: 30px 20px 20px;
+        margin: 0;
       }
       a {
         color: #409eff;
@@ -16,17 +15,17 @@
       a:hover {
         color: #66b1ff;
       }
+      .digest {
+        background-color: #e6e6e6;
+      }
       .header .logo {
         height: 72px;
       }
-      .header .content .workspace {
+      .intro .workspace {
         font-weight: bold;
       }
       .footer {
         color: #808080;
-      }
-      .comments {
-        margin-bottom: 25px;
       }
       .mention {
         background-color: #ecf5ff;
@@ -46,9 +45,6 @@
       .lq-comment .heading .date {
         color: #808080;
         margin-left: 12px;
-      }
-      .lq-comment .content > td:nth-child(1) {
-        border-right: 1px dashed #aaa;
       }
       .dmx-html-field {
         line-height: 1.5;
@@ -100,8 +96,8 @@
     </style>
   </head>
   <body>
-    <table class="header" width="100%%">
-      <tr style="vertical-align: top;">
+    <table class="digest" width="100%%">
+      <tr class="header" style="vertical-align: top;">
         <td style="width: 50%%; padding-right: 15px;">
           <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
         </td>
@@ -109,7 +105,7 @@
           <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
         </td>
       </tr>
-      <tr class="content" style="vertical-align: top;">
+      <tr class="intro" style="vertical-align: top;">
         <td style="width: 50%%; padding-right: 15px; padding-top: 40px;">
 %s
         </td>
@@ -117,12 +113,8 @@
 %s
         </td>
       </tr>
-    </table>
-    <div class="comments">
 %s
-    </div>
-    <table class="footer" width="100%%">
-      <tr style="vertical-align: top;">
+      <tr class="footer" style="vertical-align: top;">
         <td style="width: 50%%; padding-right: 15px;">
 %s
         </td>

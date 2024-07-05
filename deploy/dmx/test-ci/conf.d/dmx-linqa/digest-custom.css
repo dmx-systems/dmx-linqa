@@ -1,11 +1,10 @@
-.header, .comments, .footer,    /* for AOL Webmail */
-body {
+.digest {
   background-color: black;
 }
-.header {
+.intro {
   color: white;
 }
-.header .workspace {
+.intro .workspace {
   color: #ffd100;
 }
 .footer {

@@ -9,17 +9,11 @@
         font-size: 14px;
         margin: 0;
       }
-      a {
-        color: #409eff;
-      }
-      a:hover {
-        color: #66b1ff;
-      }
       .digest {
         background-color: #e6e6e6;
       }
-      .header .logo {
-        height: 72px;
+      .intro td {
+        padding-top: 40px;
       }
       .intro .workspace {
         font-weight: bold;
@@ -32,12 +26,11 @@
         color: #409eff;
       }
       .lq-comment {
-        padding: 12px;
+        background-color: white;
         border-radius: 10px;
       }
       .lq-comment .heading {
         font-size: 13px;
-        margin-bottom: 10px;
       }
       .lq-comment .heading .author {
         font-weight: bold;
@@ -45,6 +38,12 @@
       .lq-comment .heading .date {
         color: #808080;
         margin-left: 12px;
+      }
+      a {
+        color: #409eff;
+      }
+      a:hover {
+        color: #66b1ff;
       }
       .dmx-html-field {
         line-height: 1.5;
@@ -96,29 +95,29 @@
     </style>
   </head>
   <body>
-    <table class="digest" width="100%%">
+    <table class="digest" width="100%%" cellpadding="12">
       <tr class="header" style="vertical-align: top;">
-        <td style="width: 50%%; padding-right: 15px;">
-          <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
+        <td style="width: 50%%;">
+          <img src="/linqa/config/logo.png?multilingual=true&lang=%s" height="72">
         </td>
-        <td style="width: 50%%; padding-left: 15px;">
-          <img class="logo" src="/linqa/config/logo.png?multilingual=true&lang=%s">
+        <td style="width: 50%%;">
+          <img src="/linqa/config/logo.png?multilingual=true&lang=%s" height="72">
         </td>
       </tr>
       <tr class="intro" style="vertical-align: top;">
-        <td style="width: 50%%; padding-right: 15px; padding-top: 40px;">
+        <td>
 %s
         </td>
-        <td style="width: 50%%; padding-left: 15px; padding-top: 40px;">
+        <td>
 %s
         </td>
       </tr>
 %s
       <tr class="footer" style="vertical-align: top;">
-        <td style="width: 50%%; padding-right: 15px;">
+        <td>
 %s
         </td>
-        <td style="width: 50%%; padding-left: 15px;">
+        <td>
 %s
         </td>
       </tr>

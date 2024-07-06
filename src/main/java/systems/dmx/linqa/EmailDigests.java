@@ -20,7 +20,12 @@ import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 // import java.text.DateFormat;
 // import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -219,7 +224,8 @@ public class EmailDigests {
         String username = comment.getModel().getChildTopics().getString(CREATOR);   // synthetic, so operate on model
         long modified = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
         String author = signup.getDisplayName(username);
-        return String.format(commentTemplate, author, new Date(modified), imgWidth(comment1), imgWidth(comment2));
+        return String.format(commentTemplate, author, new Date(modified), transformImageTags(comment1),
+                                                                          transformImageTags(comment2));
     }
 
     /**
@@ -227,15 +233,30 @@ public class EmailDigests {
      *
      * @return  the transformed HTML.
      */
-    private String imgWidth(String commentHtml) {
-        Document doc = Jsoup.parseBodyFragment(commentHtml);
-        OutputSettings settings = doc.outputSettings();
-        settings.prettyPrint(false);    // default is true, adds line breaks
-        Elements images = doc.select("img");
-        for (Element image : images) {
-            image.attr("width", "300");
+    private String transformImageTags(String commentHtml) {
+        try {
+            Document doc = Jsoup.parseBodyFragment(commentHtml);
+            OutputSettings settings = doc.outputSettings();
+            settings.prettyPrint(false);    // default is true, adds line breaks
+            Elements images = doc.select("img");
+            for (Element image : images) {
+                URL url = new URL(HOST_URL + image.attr("src"));      // FIXME: absolute URLs?
+                if (getImageWidth(url) > 300) {
+                    image.attr("width", "300");
+                }
+            }
+            return doc.body().html();       // parseBodyFragment() creates an empty document, with head and body
+        } catch (Exception e) {
+            throw new RuntimeException("Transforming <img> tags failed, commentHtml=" + commentHtml);
         }
-        return doc.body().html();       // parseBodyFragment() creates an empty document, with head and body
+    }
+
+    private int getImageWidth(URL url) throws IOException {
+        BufferedImage image = ImageIO.read(url.openStream());    // throws IOException
+        if (image == null) {
+            throw new RuntimeException("Can't read/decode image from \"" + url + "\"");
+        }
+        return image.getWidth();
     }
 
     // TODO: copied from LinqaPlugin.java

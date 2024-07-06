@@ -16,6 +16,7 @@ import systems.dmx.workspaces.WorkspacesService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -218,7 +219,23 @@ public class EmailDigests {
         String username = comment.getModel().getChildTopics().getString(CREATOR);   // synthetic, so operate on model
         long modified = comment.getModel().getChildTopics().getLong(MODIFIED);      // synthetic, so operate on model
         String author = signup.getDisplayName(username);
-        return String.format(commentTemplate, author, new Date(modified), comment1, comment2);
+        return String.format(commentTemplate, author, new Date(modified), imgWidth(comment1), imgWidth(comment2));
+    }
+
+    /**
+     * Transforms all <img> elements contained in the given HTML by adding width="300" attribute.
+     *
+     * @return  the transformed HTML.
+     */
+    private String imgWidth(String commentHtml) {
+        Document doc = Jsoup.parseBodyFragment(commentHtml);
+        OutputSettings settings = doc.outputSettings();
+        settings.prettyPrint(false);    // default is true, adds line breaks
+        Elements images = doc.select("img");
+        for (Element image : images) {
+            image.attr("width", "300");
+        }
+        return doc.body().html();       // parseBodyFragment() creates an empty document, with head and body
     }
 
     // TODO: copied from LinqaPlugin.java

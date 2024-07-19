@@ -336,6 +336,7 @@ export default {
 
 .lq-canvas .content-layer .group-toolbar {
   position: absolute;
+  white-space: nowrap;
   padding-top: 4px;
   padding-bottom: 12px;
 }

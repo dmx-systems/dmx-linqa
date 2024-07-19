@@ -232,7 +232,7 @@ export default {
     },
 
     onPinchStart (e) {
-      LOG && console.log('onPinchStart()', e.inputEvent.target === this.$refs.canvas)
+      LOG && console.log('onPinchStart()', e.inputEvent.target === this.$refs.canvas, e.targets)
       this.startZoom = this.zoom
     },
 

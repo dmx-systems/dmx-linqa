@@ -338,8 +338,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(contentType).build();
             } else {
+                String internalResourceFile = null;
                 if (path.equals("logo.png") || path.equals("logo-small.png")) {     // TODO
-                    return Response.ok(bundle.getResource("/linqa-logo.png").openStream()).type(contentType).build();
+                    internalResourceFile = "linqa-logo.png";
+                } else if (path.startsWith("help/")) {
+                    internalResourceFile = path;
+                }
+                if (internalResourceFile != null) {
+                    return Response.ok(bundle.getResource(internalResourceFile).openStream()).type(contentType).build();
                 } else {
                     return Response.status(NO_CONTENT).build();
                 }

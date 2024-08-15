@@ -23,6 +23,10 @@ Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dm
 
 Issue tracker: https://git.dmx.systems/dmx-plugins/dmx-linqa/-/issues
 
+## Installation
+
+TBD
+
 ## Configuration
 
 For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. To do so add entries to DMX's `conf/config.properties` file. After editing the config file restarting the DMX platform is required.
@@ -31,8 +35,9 @@ For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. 
 | --------           | -------- | -----------                                               |
 | dmx.linqa.lang1    | yes      | ISO 639-1 language code, see table above. |
 | dmx.linqa.lang2    | yes      | ISO 639-1 language code, see table above. |
-| dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
+| dmx.linqa.digest_email_subject | no | The string appearing in the subject of the digest emails sent by Linqa.<br>Default is `Linqa Platform`. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
+| dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
 
 All following configuration possibilities (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
 
@@ -93,6 +98,19 @@ privacy_policy.es.html
 These files are supposed to contain HTML *fragments*, that is one or more `<p>`, `<h2>`, `<ul>`, ... elements. *No* `<html>` or `<body>` element.
 
 It is sufficient to provide the language files as configured for `lang1` and `lang2` respectively.
+
+### Email texts
+
+TBD
+
+#### Welcome email
+#### New password email
+#### Digest email
+##### Digest email style
+
+### Help texts
+
+TBD
 
 ### Custom CSS
 

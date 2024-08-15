@@ -5,7 +5,7 @@ on various kinds of content objects (documents, notes, textblocks). Content obje
 
 The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
 
-The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 8 languages are supported:
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 9 languages are supported:
 
 | Code | Language               |
 | ---- | ---------------------- |
@@ -14,11 +14,12 @@ The pair of languages Linqa uses for automatic translation and for the UI is con
 | `es` | Spanish                |
 | `fi` | Finnish                |
 | `fr` | French                 |
+| `pl` | Polish                 |
 | `pt` | Portuguese (Brazilian) |
 | `sv` | Swedish                |
 | `uk` | Ukrainian              |
 
-Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license. Linqa is the generalized version and subsequent derivate of [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk).
+Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license. Linqa is the generalized version and subsequent derivate of the [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk) customer project.
 
 Issue tracker: https://git.dmx.systems/dmx-plugins/dmx-linqa/-/issues
 
@@ -60,11 +61,7 @@ For each language you need to create a separate PNG file with name `logo` and pu
 logo.de.png
 logo.en.png
 logo.es.png
-logo.fi.png
-logo.fr.png
-logo.pt.png
-logo.sv.png
-logo.uk.png
+...
 ```
 
 It is sufficient to provide the logo files for the languages configured for `lang1` and `lang2` respectively. If the logo file for the current UI language is missing Linqa will show its default logo. Note: if you want the *same* custom logo appear regardless of selected UI language you still need provide separate files then (just copies).
@@ -86,19 +83,11 @@ To do so create a `dmx-linqa/` directory within your DMX `conf/` directory with 
 imprint.de.html
 imprint.en.html
 imprint.es.html
-imprint.fi.html
-imprint.fr.html
-imprint.pt.html
-imprint.sv.html
-imprint.uk.html
+...
 privacy_policy.de.html
 privacy_policy.en.html
 privacy_policy.es.html
-privacy_policy.fi.html
-privacy_policy.fr.html
-privacy_policy.pt.html
-privacy_policy.sv.html
-privacy_policy.uk.html
+...
 ```
 
 These files are supposed to contain HTML *fragments*, that is one or more `<p>`, `<h2>`, `<ul>`, ... elements. *No* `<html>` or `<body>` element.
@@ -162,11 +151,7 @@ In case you want display a language specific image you'd have to 1) supply one f
 conf/dmx-linqa/zw-snake.de.png
 conf/dmx-linqa/zw-snake.en.png
 conf/dmx-linqa/zw-snake.es.png
-conf/dmx-linqa/zw-snake.fi.png
-conf/dmx-linqa/zw-snake.fr.png
-conf/dmx-linqa/zw-snake.pt.png
-conf/dmx-linqa/zw-snake.sv.png
-conf/dmx-linqa/zw-snake.uk.png
+...
 ```
 
 While the custom logo is limited to `PNG` files, for the custom resources you can use arbitrary file types.
@@ -211,7 +196,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 * Continuous integration:
     * Automatic tests for both Java and Javascript
     * Measure test coverage
-* Compatible with DMX 5.3.5-SNAPSHOT and Sign-Up 3.2-SNAPSHOT
+* Compatible with DMX 5.3.5-SNAPSHOT and DMX Sign-Up 3.2-SNAPSHOT
 
 **1.7.1** -- Feb 23, 2024
 

@@ -22,6 +22,8 @@
   "label.notifications.mentioned.info": "You will receive notifications only for comments in which you were @mentioned",
   "label.notifications.none": "None",
   "label.notifications.none.info": "You will not get any notifications via email",
+  "label.about": "About Linqa",
+  "label.help": "Help",
   "label.imprint": "Imprint",
   "label.privacy_policy": "Privacy policy",
   "label.shared_workspace": "Shared workspace",

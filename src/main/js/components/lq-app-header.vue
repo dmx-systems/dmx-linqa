@@ -21,9 +21,19 @@
         </el-dropdown>
       </template>
     </div>
+    <el-dropdown class="info-menu" v-if="isBigScreen" size="medium" trigger="click" @command="openInfo">
+      <el-button class="fa fa-info-circle" type="text">
+        <span class="el-icon-arrow-down el-icon--right"></span>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="openAbout"><lq-string>label.about</lq-string></el-dropdown-item>
+        <el-dropdown-item command="openHelp"><lq-string>label.help</lq-string></el-dropdown-item>
+        <el-dropdown-item command="openImprint" divided><lq-string>label.imprint</lq-string></el-dropdown-item>
+        <el-dropdown-item command="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
     <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="text" :title="adminTooltip" @click="admin">
     </el-button>
-    <el-button class="help-button fa fa-question-circle" v-if="isBigScreen" type="text" @click="openHelp"></el-button>
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
@@ -102,12 +112,28 @@ export default {
       this.$store.dispatch('callAdminRoute')
     },
 
+    openInfo (info) {
+      this[info]()
+    },
+
+    openAbout () {
+      console.log('openAbout')            // TODO
+    },
+
     openHelp () {
       this.helpVisible = true
     },
 
     closeHelp () {
       this.helpVisible = false
+    },
+
+    openImprint () {
+      console.log('openImprint')          // TODO
+    },
+
+    openPrivacyPolicy () {
+      console.log('openPrivacyPolicy')    // TODO
     }
   },
 
@@ -148,14 +174,13 @@ export default {
   font-style: italic;
 }
 
-.lq-app-header .admin-button,
-.lq-app-header .help-button {
-  margin-left: 0 !important;        /* Element UI sets 10px for consecutive buttons */
+.lq-app-header .admin-button {
   margin-right: 20px;
 }
 
-.lq-app-header .lq-user-menu {
-  margin-left: 12px;
+.lq-app-header .info-menu,
+.lq-app-header .lq-language-switch {
+  margin-right: 12px;
 }
 
 /* the actual dropdown menus are body mounted */

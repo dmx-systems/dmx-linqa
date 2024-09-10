@@ -160,9 +160,8 @@ export default {
     },
 
     isSelectionModifiable () {
-      return !this.presentationMode && (
-        this.isLinqaAdmin || this.isEditor && this.selection.every(topic => !topic.children['linqa.locked']?.value)
-      )
+      return !this.presentationMode && this.isAuthor &&
+        this.selection.every(topic => !topic.children['linqa.locked']?.value)
     },
 
     // 3 vue-moveable config flags

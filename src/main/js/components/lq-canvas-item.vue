@@ -136,7 +136,7 @@ export default {
     },
 
     draggable () {
-      return this.isEditableItem
+      return this.isAuthor && !this.locked
     },
 
     topicmap () {

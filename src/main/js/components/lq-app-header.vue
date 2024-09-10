@@ -116,10 +116,6 @@ export default {
       this[info]()
     },
 
-    openAbout () {
-      console.log('openAbout')            // TODO
-    },
-
     openHelp () {
       this.helpVisible = true
     },
@@ -128,12 +124,16 @@ export default {
       this.helpVisible = false
     },
 
+    openAbout () {
+      this.$store.dispatch('callRoute', 'about')
+    },
+
     openImprint () {
-      console.log('openImprint')          // TODO
+      this.$store.dispatch('callRoute', 'imprint')
     },
 
     openPrivacyPolicy () {
-      console.log('openPrivacyPolicy')    // TODO
+      this.$store.dispatch('callRoute', 'privacy_policy')
     }
   },
 

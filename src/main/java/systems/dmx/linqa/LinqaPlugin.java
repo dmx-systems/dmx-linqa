@@ -338,21 +338,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             if (file.exists()) {
                 return Response.ok(new FileInputStream(file)).type(contentType).build();
             } else {
-                String internalResourceFile = null;
-                if (path.equals("logo.png") || path.equals("logo-small.png")) {     // TODO
-                    internalResourceFile = "linqa-logo.png";
-                } else if (path.startsWith("help/")) {
-                    internalResourceFile = path;
-                }
-                if (internalResourceFile != null) {
-                    return Response.ok(bundle.getResource(internalResourceFile).openStream()).type(contentType).build();
+                String internalResourcePath = getInternalResourcePath(path, lang);
+                if (internalResourcePath != null) {
+                    return Response.ok(bundle.getResource(internalResourcePath).openStream()).type(contentType).build();
                 } else {
                     return Response.status(NO_CONTENT).build();
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException("Retrieving config resource \"" + path + "\" failed (multilingual=" +
-                multilingual + ")", e);
+                multilingual + ", lang=" + lang + ")", e);
         }
     }
 
@@ -990,6 +985,18 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private File getExternalResourceFile(String path) {
         return new File(DMXUtils.getConfigDir() + "dmx-linqa/" + path);
+    }
+
+    private String getInternalResourcePath(String path, String lang) {
+        String internalPath = null;
+        if (path.equals("logo.png") || path.equals("logo-small.png")) {     // TODO
+            internalPath = "linqa-logo.png";
+        } else if (path.equals("about.html")) {
+            internalPath = multilingualResourcePath(path, lang);
+        } else if (path.startsWith("help/")) {
+            internalPath = path;
+        }
+        return internalPath;
     }
 
     /**

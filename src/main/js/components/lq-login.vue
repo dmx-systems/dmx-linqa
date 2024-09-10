@@ -25,6 +25,7 @@
       <span class="message">{{message}}</span>
     </div>
     <div class="footer">
+      <el-button type="text" @click="openAbout"><lq-string>label.about</lq-string></el-button>
       <el-button type="text" @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
       <el-button type="text" @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
     </div>
@@ -85,12 +86,16 @@ export default {
 
     // Legal
 
+    openAbout () {
+      this.$store.dispatch('callRoute', 'about')
+    },
+
     openImprint () {
-      this.$store.dispatch('callImprintRoute')
+      this.$store.dispatch('callRoute', 'imprint')
     },
 
     openPrivacyPolicy () {
-      this.$store.dispatch('callPrivacyPolicyRoute')
+      this.$store.dispatch('callRoute', 'privacy_policy')
     }
   }
 }

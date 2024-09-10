@@ -56,6 +56,11 @@ const router = new VueRouter({
       ]
     },
     {
+      path: '/about',
+      name: 'about',
+      component: Legal
+    },
+    {
       path: '/imprint',
       name: 'imprint',
       component: Legal
@@ -74,7 +79,7 @@ router.beforeEach((to, from, next) => {
       initLang(to)
       initialNavigation = false
     }
-    if (['passwordReset', 'newPassword', 'imprint', 'privacy_policy'].includes(to.name)) {
+    if (['passwordReset', 'newPassword', 'about', 'imprint', 'privacy_policy'].includes(to.name)) {
       next()
     } else if (store.state.username) {
       let init = true
@@ -153,16 +158,12 @@ const actions = {
     router.push({name: 'passwordReset'})
   },
 
-  callImprintRoute () {
-    router.push({name: 'imprint'})
-  },
-
-  callPrivacyPolicyRoute () {
-    router.push({name: 'privacy_policy'})
-  },
-
   callAdminRoute () {
     router.push({name: 'admin'})
+  },
+
+  callRoute (_, name) {
+    router.push({name})
   },
 
   /**

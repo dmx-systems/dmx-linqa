@@ -1,5 +1,14 @@
 import lq from '../../lq-globals'
 
+const ext = {
+  'application/msword': 'doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+  'application/vnd.ms-excel': 'xls',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+  'application/vnd.ms-powerpoint': 'ppt',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx'
+}
+
 /**
  * Note: the host component is expected to hold "topic": a Document topic.
  */
@@ -27,8 +36,20 @@ export default {
       }
     },
 
+    mediaType () {
+      return this.file?.children['dmx.files.media_type']?.value
+    },
+
     fileUrl () {
       return '/filerepo/' + encodeURIComponent(this.path)
+    },
+
+    iconUrl () {
+      return `/systems.dmx.linqa/file-icons/${ext[this.mediaType]}.svg`
+    },
+
+    fileName () {
+      return this.file.children['dmx.files.file_name'].value
     },
 
     path () {

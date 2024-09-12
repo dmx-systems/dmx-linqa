@@ -10,6 +10,10 @@
       <audio v-if="isAudio" :src="fileUrl" controls></audio>
       <video v-if="isVideo" :src="fileUrl" controls @loadeddata="update"></video>
       <lq-pdf-viewer v-if="isPDF" :topic="topic" :src="fileUrl" @loading="loading" @complete="complete"></lq-pdf-viewer>
+      <div v-if="isOfficeDocument">
+        <img class="office-icon" :src="iconUrl">
+        <div>{{fileName}}</div>
+      </div>
     </template>
     <template v-else>
       <div class="field">
@@ -170,10 +174,6 @@ export default {
       }
     },
 
-    mediaType () {
-      return this.file?.children['dmx.files.media_type']?.value
-    },
-
     uploadUrl () {
       return '/upload/' + encodeURIComponent('/')
     },
@@ -196,6 +196,17 @@ export default {
 
     isPDF () {
       return this.mediaType === 'application/pdf'
+    },
+
+    isOfficeDocument () {
+      return [
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+      ].includes(this.mediaType)
     },
 
     isFiltered () {
@@ -356,6 +367,10 @@ export default {
 
 .lq-document > img {
   width: 100%;
+}
+
+.lq-document img.office-icon {
+  height: 64px;
 }
 
 .lq-document .translate {

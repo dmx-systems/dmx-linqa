@@ -1,12 +1,15 @@
 import lq from '../../lq-globals'
 
-const ext = {
-  'application/msword': 'doc',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
-  'application/vnd.ms-excel': 'xls',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
-  'application/vnd.ms-powerpoint': 'ppt',
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx'
+const icons = {
+  'application/msword': 'doc.svg',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx.svg',
+  'application/vnd.ms-excel': 'xls.svg',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx.svg',
+  'application/vnd.ms-powerpoint': 'ppt.svg',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx.svg',
+  'application/vnd.oasis.opendocument.text': 'odt.png',
+  'application/vnd.oasis.opendocument.spreadsheet': 'ods.png',
+  'application/vnd.oasis.opendocument.presentation': 'odp.png'
 }
 
 /**
@@ -45,7 +48,7 @@ export default {
     },
 
     iconUrl () {
-      return `/systems.dmx.linqa/file-icons/${ext[this.mediaType]}.svg`
+      return '/systems.dmx.linqa/file-icons/' + icons[this.mediaType]
     },
 
     fileName () {

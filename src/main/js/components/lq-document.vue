@@ -4,7 +4,7 @@
       <div class="discussion-button">
         <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
-      <div class="doc-name" v-html="docName"></div>
+      <div v-if="docName" class="doc-name" v-html="docName"></div>
       <pre v-if="isText">{{text}}</pre>
       <img v-if="isImage" :src="fileUrl" @loadstart="loading" @load="complete">
       <audio v-if="isAudio" :src="fileUrl" controls></audio>
@@ -12,7 +12,7 @@
       <lq-pdf-viewer v-if="isPDF" :topic="topic" :src="fileUrl" @loading="loading" @complete="complete"></lq-pdf-viewer>
       <div v-if="isOfficeDocument">
         <img class="office-icon" :src="iconUrl">
-        <div>{{fileName}}</div>
+        <div class="label">{{fileName}}</div>
       </div>
     </template>
     <template v-else>
@@ -205,7 +205,10 @@ export default {
         'application/vnd.ms-excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.oasis.opendocument.text',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.presentation'
       ].includes(this.mediaType)
     },
 
@@ -370,7 +373,7 @@ export default {
 }
 
 .lq-document img.office-icon {
-  height: 64px;
+  height: 48px;
 }
 
 .lq-document .translate {

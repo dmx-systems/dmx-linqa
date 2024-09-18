@@ -1,6 +1,8 @@
 import Quill from "quill"
 import 'quill-mention'
 import 'quill-mention/dist/quill.mention.css'
+import 'quill-emoji'
+import 'quill-emoji/dist/quill-emoji.css'
 import store from './store/linqa'
 import lq from './lq-globals'
 import COLOR_PALETTE from './lq-color-palette'
@@ -22,7 +24,11 @@ export default {
     mention: {
       source: userSource,
       blotName: 'notranslate-mention'
-    }
+    },
+    //'emoji-toolbar': true,      // having emoji button in toolbar does not work well with bubble theme
+    'emoji-textarea': true,       // adds an emoji button to the Quill textarea instead
+    'emoji-shortname': true       // Note: invoking emoji-menu by colon-key is broken, it does not appear:
+                                  // https://github.com/contentco/quill-emoji/issues/88
   }
 }
 

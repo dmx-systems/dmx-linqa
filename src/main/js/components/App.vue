@@ -56,6 +56,13 @@
   --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item color */
   --filter-border: 6px solid transparent;
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
+
+  /* quill-emoji */
+  --white: #FFF;
+  --blue: #0366d6;
+  --cyan: #2D9EE0;
+  --light-blue: #84a8cc;
+  --light-gray: #ddd;
 }
 
 html {

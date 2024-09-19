@@ -6,6 +6,7 @@ const Module = Quill.import('core/module');
 
 class ShortNameEmoji extends Module {
   constructor(quill, options) {
+    console.log('ShortNameEmoji', options)
     super(quill, options);
 
     this.emojiList  = options.emojiList;
@@ -36,13 +37,12 @@ class ShortNameEmoji extends Module {
     }
 
     quill.keyboard.addBinding({
-      // TODO: Once Quill supports using event.key change this to ":"
-      key: 186,  // ":" instead of 190 in Safari. Since it's the same key it doesn't matter if we register both.
+      key: 186, // Colon (Chrome/Safari/German Keyboard)
       shiftKey: true,
     }, this.triggerPicker.bind(this));
 
     quill.keyboard.addBinding({
-      key: 59,  // gecko based browsers (firefox) use 59 as the keycode for semicolon, which makes a colon character when combined with shift
+      key: 190, // Colon (Chrome/Safari/US keyboard + Firefox)
       shiftKey: true,
     }, this.triggerPicker.bind(this));
 
@@ -52,13 +52,14 @@ class ShortNameEmoji extends Module {
     }, this.handleArrow.bind(this));
 
     quill.keyboard.addBinding({
-      key: 40,  // ArrowRight
+      key: 40,  // ArrowDown
       collapsed: true
     }, this.handleArrow.bind(this));
     // TODO: Add keybindings for Enter (13) and Tab (9) directly on the quill editor
   }
 
   triggerPicker(range, context) {
+    console.log('triggerPicker', range, context)
     if (this.open) return true;
     if (range.length > 0) {
       this.quill.deleteText(range.index, range.length, Quill.sources.USER);
@@ -99,11 +100,11 @@ class ShortNameEmoji extends Module {
     if (this.atIndex >= sel) { // Deleted the at character
       return this.close(null);
     }
-    //Using: fuse.js
+    // Using: fuse.js
     this.query = this.quill.getText(this.atIndex + 1, sel - this.atIndex - 1);
 
     try {
-      if(event && this.isWhiteSpace(this.query)){
+      if (event && this.isWhiteSpace(this.query)) {
         this.close(null);
         return;
       }
@@ -146,7 +147,7 @@ class ShortNameEmoji extends Module {
           return;
         }
       }
-    } catch(e) { console.warn(e); }
+    } catch (e) { console.warn(e); }
 
     while (this.container.firstChild){
       this.container.removeChild(this.container.firstChild);

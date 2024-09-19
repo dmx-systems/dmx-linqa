@@ -9,14 +9,13 @@ class TextAreaEmoji extends Module {
 
     constructor(quill, options){
         super(quill, options);
-
         this.quill = quill;
-        this.container  = document.createElement('div');
+        this.container = document.createElement('div');
         this.container.classList.add('textarea-emoji-control');
-        this.container.style.position   = "absolute";
+        this.container.style.position = "absolute";
         this.container.innerHTML = options.buttonIcon;
         this.quill.container.appendChild(this.container);
-        this.container.addEventListener('click', this.checkEmojiBoxExist.bind(this),false);
+        this.container.addEventListener('click', this.checkEmojiBoxExist.bind(this), false);
     }
 
     checkEmojiBoxExist(){
@@ -31,7 +30,6 @@ class TextAreaEmoji extends Module {
             let tabToolbar = document.createElement('div');
             tabToolbar.id="tab-toolbar";
             ele_emoji_area.appendChild(tabToolbar);
-
             var emojiType = [
                 {'type':'p','name':'people','content':'<div class="i-people"></div>'},
                 {'type':'n','name':'nature','content':'<div class="i-nature"></div>'},
@@ -42,10 +40,8 @@ class TextAreaEmoji extends Module {
                 {'type':'o','name':'objects','content':'<div class="i-objects"></div>'},
                 {'type':'f','name':'flags','content':'<div class="i-flags"></div>'}
             ];
-
             let tabElementHolder = document.createElement('ul');
             tabToolbar.appendChild(tabElementHolder);
-
             if (document.getElementById('emoji-close-div') === null) {
                 let closeDiv = document.createElement('div');
                 closeDiv.id = 'emoji-close-div';
@@ -62,37 +58,33 @@ class TextAreaEmoji extends Module {
             emojiType.map(function(emojiType) {
                 let tabElement = document.createElement('li');
                 tabElement.classList.add('emoji-tab');
-                tabElement.classList.add('filter-'+emojiType.name);
+                tabElement.classList.add('filter-' + emojiType.name);
                 let tabValue = emojiType.content;
                 tabElement.innerHTML = tabValue;
                 tabElement.dataset.filter = emojiType.type;
                 tabElementHolder.appendChild(tabElement);
-                let emojiFilter = document.querySelector('.filter-'+emojiType.name);
-                emojiFilter.addEventListener('click',function(){
+                let emojiFilter = document.querySelector('.filter-' + emojiType.name);
+                emojiFilter.addEventListener('click', function() {
                     const emojiContainer = document.getElementById("textarea-emoji");
                     const tab = emojiContainer && emojiContainer.querySelector('.active');
-
                     if (tab) {
                         tab.classList.remove('active');
                     }
-
                     emojiFilter.classList.toggle('active');
-
                     while (panel.firstChild) {
                         panel.removeChild(panel.firstChild);
                     }
-
                     let type = emojiFilter.dataset.filter;
-                    fn_emojiElementsToPanel(type,panel,innerQuill);
+                    fn_emojiElementsToPanel(type, panel, innerQuill);
                 })
             });
 
             let windowHeight = window.innerHeight;
             let editorPos = this.quill.container.getBoundingClientRect().top;
-            if (editorPos > windowHeight/2) {
-                ele_emoji_area.style.top   = '-250px';
+            if (editorPos > windowHeight / 2) {
+                ele_emoji_area.style.top = '-250px';
             }
-            fn_emojiPanelInit(panel,this.quill);
+            fn_emojiPanelInit(panel, this.quill);
         }
     }
 }

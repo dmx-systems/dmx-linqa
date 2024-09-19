@@ -6,6 +6,7 @@ const Delta = Quill.import('delta');
 const Module = Quill.import('core/module');
 
 class TextAreaEmoji extends Module {
+
     constructor(quill, options){
         super(quill, options);
 
@@ -118,17 +119,17 @@ function fn_emojiPanelInit(panel,quill){
 
 function fn_emojiElementsToPanel(type,panel,quill){
     let fuseOptions = {
-                    shouldSort: true,
-                    matchAllTokens: true,
-                    threshold: 0.3,
-                    location: 0,
-                    distance: 100,
-                    maxPatternLength: 32,
-                    minMatchCharLength: 3,
-                    keys: [
-                        "category"
-                    ]
-                };
+        shouldSort: true,
+        matchAllTokens: true,
+        threshold: 0.3,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 3,
+        keys: [
+            "category"
+        ]
+    };
     let fuse = new Fuse(emojiList, fuseOptions);
     let result = fuse.search(type);
     result.sort(function (a, b) {
@@ -146,7 +147,7 @@ function fn_emojiElementsToPanel(type,panel,quill){
         span.classList.add('bem-' + emoji.name);
         span.classList.add('ap');
         span.classList.add('ap-'+emoji.name);
-        let output = ''+emoji.code_decimal+'';
+        let output = '' + emoji.code_decimal + '';
         span.innerHTML = output + ' ';
         panel.appendChild(span);
 

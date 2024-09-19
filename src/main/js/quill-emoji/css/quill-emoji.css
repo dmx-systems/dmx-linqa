@@ -1,21 +1,21 @@
 .emoji_completions {
     list-style: none;
     margin: 0;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
     padding: 6px;
     background: var(--white);
     border-radius: 3px;
-    box-shadow: 0 5px 10px rgba(0,0,0,.12);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
+}
 
-    li {    /* FIXME: convert to CSS */
-        margin: 2px 0;
-        padding: 0;
-        display: inline-block;
-        &:not(:last-of-type) {
-            margin-right: 3px;
-        }
-    }
+.emoji_completions > li {
+    margin: 2px 0;
+    padding: 0;
+    display: inline-block;
+}
 
+.emoji_completions > li:not(:last-of-type) {
+    margin-right: 3px;
 }
 
 .emoji_completions > li > button {
@@ -30,21 +30,11 @@
     border-radius: 3px;
 }
 
-.emoji_completions > li > button:hover {
-    background: var(--highlight-color);
-    color: var(--white);
-}
-
-.emoji_completions > li > button:focus {
-    background: var(--highlight-color);
-    outline: none;
-    color: var(--white);
-}
-
+.emoji_completions > li > button:hover,
+.emoji_completions > li > button:focus,
 .emoji_completions > li > button.emoji-active {
     background: var(--highlight-color);
-    outline: none;
-    color: #fff;
+    color: var(--white);
 }
 
 .emoji_completions > li > button > .matched {
@@ -55,22 +45,6 @@
     vertical-align: middle;
 }
 
-.ico {
-    margin-right: 5px;
-    font-size: 18px;
-    line-height: 0;
-    vertical-align: middle;
-}
-
-#emoji-palette {
-    position: absolute;
-    max-width: 250px;
-    z-index: 999;
-    box-shadow: 0 5px 10px rgba(0,0,0,.12);
-    border-radius: 3px;
-    border: 1px solid rgba(0,0,0,.15);
-}
-
 .bem {
     font-size: 24px;
     width: 34px;
@@ -78,13 +52,6 @@
     text-align: center;
     cursor: pointer;
     margin:2px;
-
-}
-
-#tab-filters {
-    width: 210px;
-    margin: 0px auto;
-    margin-top: 20px;
 }
 
 .emoji-tab {
@@ -122,7 +89,7 @@
 
 }
 
-#emoji-close-div{
+#emoji-close-div {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -130,11 +97,11 @@
     left: 0;
 }
 
-.textarea-emoji-control{
+.textarea-emoji-control {
   width: 25px;
   height: 25px;
-  right:4px;
-  top:10px;
+  right: 4px;
+  top: 10px;
 }
 
 #textarea-emoji {

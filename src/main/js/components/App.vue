@@ -58,7 +58,7 @@
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
 
   /* quill-emoji, TODO: drop */
-  --white: #FFF;
+  --white: #fff;
   --blue: #0366d6;
   --light-blue: #84a8cc;
   --light-gray: #ddd;
@@ -124,6 +124,7 @@ body.fixed {
 
 input, button {
   font-family: unset;     /* Firefox (Mac) default is "-apple-system", Chrome (Mac) default is "Arial" */
+  font-size: unset;       /* Safari (Mac) default is 11px, Firefox (Mac) also reduces size */
 }
 
 /* Element UI Overrides */

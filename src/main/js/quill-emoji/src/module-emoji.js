@@ -5,6 +5,7 @@ import emojiList from './emoji-list.js';
 const Module = Quill.import('core/module');
 
 class ShortNameEmoji extends Module {
+
   constructor(quill, options) {
     console.log('ShortNameEmoji', options)
     super(quill, options);

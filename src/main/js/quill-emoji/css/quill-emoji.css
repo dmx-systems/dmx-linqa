@@ -1,21 +1,15 @@
 .ql-container .emoji_completions {
     list-style: none;
     margin: 0;
-    border: 1px solid rgba(0, 0, 0, .15);
-    padding: 6px;
+    padding: 2px;
     background: var(--white);
+    border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 3px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
 }
 
 .ql-container .emoji_completions > li {
-    margin: 2px 0;
-    padding: 0;
-    display: inline-block;
-}
-
-.ql-container .emoji_completions > li:not(:last-of-type) {
-    margin-right: 3px;
+    margin: 2px;
 }
 
 .ql-container .emoji_completions > li > button {
@@ -25,8 +19,8 @@
     display: block;
     width: 100%;
     text-align: left;
-    border: none;
     background: #efefef;
+    border: none;
     border-radius: 3px;
 }
 
@@ -50,16 +44,15 @@
   right:0px;
   max-width: 250px;
   z-index: 999;
-  border: 1px solid #66afe9;
-  box-shadow: 0 5px 10px rgba(0,0,0,.12);
+  border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 3px;
-  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
 }
 
 .ql-container #emoji-picker #tab-toolbar {
     background-color: #f7f7f7;
     padding: 4px 4px 0;
-    border-bottom: 1px solid rgba(0,0,0,.15);
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
 }
 
 .ql-container #emoji-picker #tab-toolbar ul {

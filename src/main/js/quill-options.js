@@ -24,7 +24,7 @@ export default {
       source: userSource,
       blotName: 'notranslate-mention'
     },
-    'emoji-picker': true,       // adds an button to the Quill textarea to open an emoji picker
+    'emoji-picker': true,       // adds a button to the Quill textarea to open an emoji picker
     'emoji-completion': true    // Note: detection of colon-key might be errornous for international keyboard layouts:
                                 // https://github.com/contentco/quill-emoji/issues/88
   }

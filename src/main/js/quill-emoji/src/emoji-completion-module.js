@@ -4,10 +4,10 @@ import emojiList from './emoji-list.js';
 
 const Module = Quill.import('core/module');
 
-class EmojiCompletion extends Module {
+class EmojiCompletionModule extends Module {
 
   constructor(quill, options) {
-    console.log('EmojiCompletion', options)
+    console.log('EmojiCompletionModule', options)
     super(quill, options);
 
     this.emojiList  = options.emojiList;
@@ -19,8 +19,8 @@ class EmojiCompletion extends Module {
     this.container  = document.createElement('ul');
     this.container.classList.add('emoji_completions');
     this.quill.container.appendChild(this.container);
-    this.container.style.position   = "absolute";
-    this.container.style.display    = "none";
+    this.container.style.position   = 'absolute';
+    this.container.style.display    = 'none';
 
     this.onSelectionChange  = this.maybeUnfocus.bind(this);
     this.onTextChange       = this.update.bind(this);
@@ -66,7 +66,7 @@ class EmojiCompletion extends Module {
       this.quill.deleteText(range.index, range.length, Quill.sources.USER);
     }
 
-    this.quill.insertText(range.index, ":", "emoji-completion", Quill.sources.USER);
+    this.quill.insertText(range.index, ':', 'emoji-completion', Quill.sources.USER);
     const atSignBounds = this.quill.getBounds(range.index);
     this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
 
@@ -74,12 +74,12 @@ class EmojiCompletion extends Module {
 
     let paletteMaxPos = atSignBounds.left + 250;
     if (paletteMaxPos > this.quill.container.offsetWidth) {
-      this.container.style.left = (atSignBounds.left - 250)+ "px";
+      this.container.style.left = (atSignBounds.left - 250) + 'px';
     } else{
-      this.container.style.left = atSignBounds.left + "px";
+      this.container.style.left = atSignBounds.left + 'px';
     }
 
-    this.container.style.top = atSignBounds.top + atSignBounds.height + "px";
+    this.container.style.top = atSignBounds.top + atSignBounds.height + 'px';
     this.open = true;
 
     this.quill.on('text-change', this.onTextChange);
@@ -119,7 +119,7 @@ class EmojiCompletion extends Module {
     });
 
     if (this.query.length < this.options.fuse.minMatchCharLength || emojis.length === 0){
-      this.container.style.display = "none";
+      this.container.style.display = 'none';
       return;
     }
     if (emojis.length > 15) { //return only 15
@@ -129,16 +129,16 @@ class EmojiCompletion extends Module {
   }
 
   maybeUnfocus() {
-    if (this.container.querySelector("*:focus")) return;
+    if (this.container.querySelector('*:focus')) return;
     this.close(null);
   }
 
   renderCompletions(emojis) {
     try {
       if (event) {
-        if (event.key === "Enter" || event.keyCode === 13) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
           this.close(emojis[0], 1);
-          this.container.style.display = "none";
+          this.container.style.display = 'none';
           return;
         }
         else if (event.key === 'Tab' || event.keyCode === 9) {
@@ -157,7 +157,7 @@ class EmojiCompletion extends Module {
     this.buttons = buttons;
 
     const handler = (i, emoji) => event => {
-      if (event.key === "ArrowRight" || event.keyCode === 39) {
+      if (event.key === 'ArrowRight' || event.keyCode === 39) {
         event.preventDefault();
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
       }
@@ -169,21 +169,21 @@ class EmojiCompletion extends Module {
         }
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
       }
-      else if (event.key === "ArrowLeft" || event.keyCode === 37) {
+      else if (event.key === 'ArrowLeft' || event.keyCode === 37) {
         event.preventDefault();
         buttons[Math.max(0, i - 1)].focus();
       }
-      else if (event.key === "ArrowDown" || event.keyCode === 40) {
+      else if (event.key === 'ArrowDown' || event.keyCode === 40) {
         event.preventDefault();
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
       }
-      else if (event.key === "ArrowUp" || event.keyCode === 38) {
+      else if (event.key === 'ArrowUp' || event.keyCode === 38) {
         event.preventDefault();
         buttons[Math.max(0, i - 1)].focus();
       }
-      else if (event.key === "Enter" || event.keyCode === 13
-               || event.key === " " || event.keyCode === 32
-               || event.key === "Tab" || event.keyCode === 9) {
+      else if (event.key === 'Enter' || event.keyCode === 13
+               || event.key === ' ' || event.keyCode === 32
+               || event.key === 'Tab' || event.keyCode === 9) {
         event.preventDefault();
         this.quill.enable();
         this.close(emoji);
@@ -194,26 +194,26 @@ class EmojiCompletion extends Module {
       const li = makeElement(
         'li', {},
         makeElement(
-          'button', {type: "button"},
-          makeElement("span", {className: "button-emoji ap ap-" + emoji.name, innerHTML: emoji.code_decimal }),
-          //makeElement('span', {className: "matched"}, this.query),
-          //makeElement('span', {className: "unmatched"}, emoji.shortname.slice(this.query.length+1))
-          makeElement('span', {className: "unmatched"}, emoji.shortname)
+          'button', {type: 'button'},
+          makeElement('span', {className: 'button-emoji ap ap-' + emoji.name, innerHTML: emoji.code_decimal }),
+          //makeElement('span', {className: 'matched'}, this.query),
+          //makeElement('span', {className: 'unmatched'}, emoji.shortname.slice(this.query.length+1))
+          makeElement('span', {className: 'unmatched'}, emoji.shortname)
         )
       );
       this.container.appendChild(li);
       buttons[i] = li.firstChild;
       // Events will be GC-ed with button on each re-render:
       buttons[i].addEventListener('keydown', handler(i, emoji));
-      buttons[i].addEventListener("mousedown", () => this.close(emoji));
-      buttons[i].addEventListener("focus", () => this.focusedButton = i);
-      buttons[i].addEventListener("unfocus", () => this.focusedButton = null);
+      buttons[i].addEventListener('mousedown', () => this.close(emoji));
+      buttons[i].addEventListener('focus', () => this.focusedButton = i);
+      buttons[i].addEventListener('unfocus', () => this.focusedButton = null);
     });
 
-    this.container.style.display = "block";
+    this.container.style.display = 'block';
     //emoji palette on top
     if (this.quill.container.classList.contains('top-emoji')) {
-      let x = this.container.querySelectorAll("li");
+      let x = this.container.querySelectorAll('li');
       let i;
       for (i = 0; i < x.length; i++) {
         x[i].style.display = 'block';
@@ -222,7 +222,7 @@ class EmojiCompletion extends Module {
       let windowHeight = window.innerHeight;
       let editorPos = this.quill.container.getBoundingClientRect().top;
       if (editorPos > windowHeight/2 && this.container.offsetHeight > 0) {
-        this.container.style.top = '-' + this.container.offsetHeight + "px";
+        this.container.style.top = '-' + this.container.offsetHeight + 'px';
       }
     }
 
@@ -231,7 +231,7 @@ class EmojiCompletion extends Module {
 
   close(value, trailingDelete = 0) {
     this.quill.enable();
-    this.container.style.display = "none";
+    this.container.style.display = 'none';
     while (this.container.firstChild) this.container.removeChild(this.container.firstChild);
     this.quill.off('selection-change', this.onSelectionChange);
     this.quill.off('text-change', this.onTextChange);
@@ -246,7 +246,7 @@ class EmojiCompletion extends Module {
   }
 }
 
-EmojiCompletion.DEFAULTS = {
+EmojiCompletionModule.DEFAULTS = {
   emojiList: emojiList,
   fuse: {
     shouldSort: true,
@@ -256,7 +256,7 @@ EmojiCompletion.DEFAULTS = {
     maxPatternLength: 32,
     minMatchCharLength: 1,
     keys: [
-      "shortname"
+      'shortname'
     ]
   }
 };
@@ -265,11 +265,11 @@ function makeElement(tag, attrs, ...children) {
   const elem = document.createElement(tag);
   Object.keys(attrs).forEach(key => elem[key] = attrs[key]);
   children.forEach(child => {
-    if (typeof child === "string")
+    if (typeof child === 'string')
       child = document.createTextNode(child);
     elem.appendChild(child);
   });
   return elem;
 }
 
-export default EmojiCompletion;
+export default EmojiCompletionModule;

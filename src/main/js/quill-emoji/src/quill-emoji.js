@@ -1,13 +1,13 @@
 import Quill from 'quill';
 import EmojiBlot from './emoji-blot';
-import EmojiCompletion from './emoji-completion-module';
-import EmojiPicker from './emoji-picker-module';
+import EmojiCompletionModule from './emoji-completion-module';
+import EmojiPickerModule from './emoji-picker-module';
 import '../css/quill-emoji.css';
 
 Quill.register({
     'formats/emoji': EmojiBlot,
-    'modules/emoji-completion': EmojiCompletion,
-    'modules/emoji-picker': EmojiPicker
+    'modules/emoji-completion': EmojiCompletionModule,
+    'modules/emoji-picker': EmojiPickerModule
 }, true);
 
-export default { EmojiBlot, EmojiCompletion, EmojiPicker };
+export default { EmojiBlot, EmojiCompletionModule, EmojiPickerModule };

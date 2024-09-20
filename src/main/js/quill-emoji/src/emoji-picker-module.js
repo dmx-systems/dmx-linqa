@@ -1,12 +1,13 @@
 import Quill from 'quill';
 import Fuse from 'fuse.js';
 import emojiList from './emoji-list.js';
+import utils from './emoji-utils.js';
 
 const Delta = Quill.import('delta');
 const Module = Quill.import('core/module');
 
 /**
- * Adds a button (CSS class 'emoji-picker-button') to the Quill textarea to open an emoji picker.
+ * Adds a button (CSS class 'emoji-picker-button') to the Quill container to open an emoji picker.
  */
 class EmojiPickerModule extends Module {
 
@@ -141,10 +142,7 @@ function addEmojisToPanel(type, panel, quill) {
         const customButton = document.querySelector('.bem-' + emoji.name);
         if (customButton) {
             customButton.addEventListener('click', function() {
-                // quill.insertText(range.index, customButton.innerHTML);
-                // quill.setSelection(range.index + customButton.innerHTML.length, 0);
-                // range.index = range.index + customButton.innerHTML.length;
-                quill.insertEmbed(range.index, 'emoji', emoji, Quill.sources.USER);
+                quill.insertText(range.index, utils.emojiToString(emoji), Quill.sources.USER);
                 setTimeout(() => quill.setSelection(range.index + 1), 0);
                 closeEmojiPicker();
             });

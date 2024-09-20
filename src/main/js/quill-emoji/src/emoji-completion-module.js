@@ -4,10 +4,10 @@ import emojiList from './emoji-list.js';
 
 const Module = Quill.import('core/module');
 
-class ShortNameEmoji extends Module {
+class EmojiCompletion extends Module {
 
   constructor(quill, options) {
-    console.log('ShortNameEmoji', options)
+    console.log('EmojiCompletion', options)
     super(quill, options);
 
     this.emojiList  = options.emojiList;
@@ -66,7 +66,7 @@ class ShortNameEmoji extends Module {
       this.quill.deleteText(range.index, range.length, Quill.sources.USER);
     }
 
-    this.quill.insertText(range.index, ":", "emoji-shortname", Quill.sources.USER);
+    this.quill.insertText(range.index, ":", "emoji-completion", Quill.sources.USER);
     const atSignBounds = this.quill.getBounds(range.index);
     this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
 
@@ -246,7 +246,7 @@ class ShortNameEmoji extends Module {
   }
 }
 
-ShortNameEmoji.DEFAULTS = {
+EmojiCompletion.DEFAULTS = {
   emojiList: emojiList,
   fuse: {
     shouldSort: true,
@@ -272,4 +272,4 @@ function makeElement(tag, attrs, ...children) {
   return elem;
 }
 
-export default ShortNameEmoji;
+export default EmojiCompletion;

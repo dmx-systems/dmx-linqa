@@ -1,13 +1,13 @@
 import Quill from 'quill';
-import EmojiBlot from './format-emoji-blot';
-import ShortNameEmoji from './module-emoji';
-import TextAreaEmoji from './module-textarea-emoji';
+import EmojiBlot from './emoji-blot';
+import EmojiCompletion from './emoji-completion-module';
+import EmojiPicker from './emoji-picker-module';
 import '../css/quill-emoji.css';
 
 Quill.register({
     'formats/emoji': EmojiBlot,
-    'modules/emoji-shortname': ShortNameEmoji,
-    'modules/emoji-textarea': TextAreaEmoji
+    'modules/emoji-completion': EmojiCompletion,
+    'modules/emoji-picker': EmojiPicker
 }, true);
 
-export default { EmojiBlot, ShortNameEmoji, TextAreaEmoji };
+export default { EmojiBlot, EmojiCompletion, EmojiPicker };

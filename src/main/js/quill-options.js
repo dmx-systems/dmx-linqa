@@ -24,10 +24,9 @@ export default {
       source: userSource,
       blotName: 'notranslate-mention'
     },
-    //'emoji-toolbar': true,      // having emoji button in toolbar does not work well with bubble theme
-    'emoji-textarea': true,       // adds an emoji button to the Quill textarea instead
-    'emoji-shortname': true       // Note: invoking emoji-menu by colon-key is broken, it does not appear:
-                                  // https://github.com/contentco/quill-emoji/issues/88
+    'emoji-picker': true,       // adds an button to the Quill textarea to open an emoji picker
+    'emoji-completion': true    // Note: detection of colon-key might be errornous for international keyboard layouts:
+                                // https://github.com/contentco/quill-emoji/issues/88
   }
 }
 

@@ -1,42 +1,33 @@
-.ql-container .emoji_completions {
+.ql-container .emoji-completions {
     list-style: none;
     margin: 0;
     padding: 2px;
-    background: var(--white);
+    background: white;
     border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 3px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
 }
 
-.ql-container .emoji_completions > li {
-    margin: 2px;
-}
-
-.ql-container .emoji_completions > li > button {
-    box-sizing: border-box;
-    padding: 3px 2px 6px;
-    margin: 0;
-    display: block;
+.ql-container .emoji-completions li button {
+    padding: 6px 12px 6px 8px;
     width: 100%;
     text-align: left;
-    background: #efefef;
+    background: none;
     border: none;
-    border-radius: 3px;
 }
 
-.ql-container .emoji_completions > li > button:hover,
-.ql-container .emoji_completions > li > button:focus,
-.ql-container .emoji_completions > li > button.emoji-active {
-    background: var(--highlight-color);
-    color: var(--white);
+.ql-container .emoji-completions li button:hover,
+.ql-container .emoji-completions li button:focus,
+.ql-container .emoji-completions li button.emoji-active {
+    background: var(--highlight-color-9);
+
+    .label {    /* FIXME: nested CSS does not work in Safari 15, update Webpack CSS plugin? */
+      color: var(--highlight-color-2) !important;
+    }
 }
 
-.ql-container .emoji_completions > li > button > .matched {
-    font-weight: bold;
-}
-
-.ql-container .emoji_completions > li > button > * {
-    vertical-align: middle;
+.ql-container .emoji-completions li .label {
+  margin-left: 8px;
 }
 
 .ql-container #emoji-picker {
@@ -144,7 +135,7 @@
     max-height: 220px;
     overflow-y: scroll;
     padding: 2px;
-    background: var(--white);
+    background: white;
 }
 
 .ql-container #emoji-picker #tab-panel .bem {

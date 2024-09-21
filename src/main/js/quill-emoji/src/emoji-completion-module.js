@@ -6,7 +6,7 @@ import utils from './emoji-utils.js';
 const Module = Quill.import('core/module');
 
 /**
- * Adds a list of possible emoji completions (CSS class 'emoji_completions') to the Quill container.
+ * Adds a list of possible emoji completions (CSS class 'emoji-completions') to the Quill container.
  * Invoked by colon key (:), completions are filtered then during typing.
  */
 class EmojiCompletionModule extends Module {
@@ -20,8 +20,8 @@ class EmojiCompletionModule extends Module {
     this.quill     = quill;
     this.onClose   = options.onClose;
     this.onOpen    = options.onOpen;
-    this.container = document.createElement('ul');      // the list of completions
-    this.container.classList.add('emoji_completions');
+    this.container = document.createElement('ul');      // the <ul> list of emoji completions
+    this.container.classList.add('emoji-completions');
     this.quill.container.appendChild(this.container);
     this.container.style.position = 'absolute';
     this.container.style.display  = 'none';
@@ -160,7 +160,7 @@ class EmojiCompletionModule extends Module {
       this.container.removeChild(this.container.firstChild);
     }
     const buttons = Array(emojis.length);
-    this.buttons = buttons;
+    this.buttons = buttons;     // array of emoji <button> elements
     //
     const handler = (i, emoji) => event => {
       if (event.key === 'ArrowRight' || event.keyCode === 39) {
@@ -190,19 +190,16 @@ class EmojiCompletionModule extends Module {
         this.closeCompletions(emoji);
       }
     };
-    //
+    // add emoji <li> elements to completion list
     emojis.forEach((emoji, i) => {
-      const li = makeElement(
-        'li', {},
-        makeElement(
-          'button', {type: 'button'},
-          makeElement('span', {className: 'button-emoji ap ap-' + emoji.name, innerHTML: emoji.code_decimal }),
-          makeElement('span', {className: 'unmatched'}, emoji.shortname)
-        )
-      );
+      const li = createElement('li', {}, createElement(
+        'button', {type: 'button'},
+        createElement('span', {innerHTML: emoji.code_decimal}),
+        createElement('span', {className: 'label'}, emoji.name)    // Note: 'label' is Linqa class
+      ));
       this.container.appendChild(li);
       buttons[i] = li.firstChild;
-      // Events will be GC-ed with button on each re-render:
+      // event handlers will be GC-ed on each re-render
       buttons[i].addEventListener('keydown', handler(i, emoji));
       buttons[i].addEventListener('mousedown', () => this.closeCompletions(emoji));
       buttons[i].addEventListener('focus', () => this.focusedButton = i);
@@ -254,7 +251,7 @@ EmojiCompletionModule.DEFAULTS = {
   }
 };
 
-function makeElement(tag, attrs, ...children) {
+function createElement(tag, attrs, ...children) {
   const elem = document.createElement(tag);
   Object.keys(attrs).forEach(key => elem[key] = attrs[key]);
   children.forEach(child => {

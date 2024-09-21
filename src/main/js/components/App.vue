@@ -58,7 +58,6 @@
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
 
   /* quill-emoji, TODO: drop */
-  --white: #fff;
   --blue: #0366d6;
   --light-blue: #84a8cc;
   --light-gray: #ddd;

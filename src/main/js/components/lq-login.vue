@@ -30,6 +30,7 @@
       <el-button type="text" @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
     </div>
     <router-view></router-view>
+    <lq-about-dialog></lq-about-dialog>
   </div>
 </template>
 
@@ -87,7 +88,7 @@ export default {
     // Legal
 
     openAbout () {
-      this.$store.dispatch('callRoute', 'about')
+      this.$store.dispatch('openAboutDialog')
     },
 
     openImprint () {

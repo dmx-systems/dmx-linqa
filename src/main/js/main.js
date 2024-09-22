@@ -8,7 +8,7 @@ import messageHandler from './message-handler'
 import './element-ui'
 import './country-flag-polyfill'
 
-console.log('[Linqa] 2024/09/22')
+console.log('[Linqa] 2024/09/22-2')
 
 // 1) Init dmx library
 dmx.init({
@@ -35,6 +35,7 @@ Vue.component('lq-document-ref',    require('./components/lq-document-ref').defa
 Vue.component('lq-textblock-ref',   require('./components/lq-textblock-ref').default)
 Vue.component('lq-attachment',      require('./components/lq-attachment').default)
 Vue.component('lq-pdf-viewer',      require('./components/lq-pdf-viewer').default)
+Vue.component('lq-about-dialog',    require('./components/lq-about-dialog').default)
 Vue.component('vue-moveable',       require('vue-moveable').default)
 
 // 3) Create Vue root instance

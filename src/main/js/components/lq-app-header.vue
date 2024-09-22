@@ -37,6 +37,7 @@
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
+    <lq-about-dialog></lq-about-dialog>
   </div>
 </template>
 
@@ -125,7 +126,7 @@ export default {
     },
 
     openAbout () {
-      this.$store.dispatch('callRoute', 'about')
+      this.$store.dispatch('openAboutDialog')
     },
 
     openImprint () {

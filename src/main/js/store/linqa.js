@@ -46,6 +46,7 @@ const state = {
   lang2: '',                    // configured UI language 2 (ISO 639-1 language code, e.g. 'de', 'fr', 'fi', 'sv')
   uiStrings: {},                // 2 keys: lang1/lang2 (ISO 639-1 language code), value: object
   loginMessage: '',             // the status message shown next to Login button
+  aboutVisibility: false,       // About dialog visibility
   profileVisibility: false,     // user profile dialog visibility
   profilePane: 'privacy',       // active pane in user profile dialog ('privacy', 'notifications', 'password', '')
 
@@ -680,6 +681,14 @@ const actions = {
     setTimeout(() => {
       document.querySelector('.lq-canvas .content-layer .moveable-control-box').__vue__.updateTarget()
     })
+  },
+
+  openAboutDialog () {
+    state.aboutVisibility = true
+  },
+
+  closeAboutDialog () {
+    state.aboutVisibility = false
   },
 
   openUserProfile (_, profilePane) {

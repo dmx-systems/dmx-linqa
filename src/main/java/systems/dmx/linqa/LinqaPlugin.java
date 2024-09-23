@@ -990,9 +990,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     private String getInternalResourcePath(String path, String lang) {
         String internalPath = null;
         if (path.equals("logo.png") || path.equals("logo-small.png")) {     // TODO
-            internalPath = "linqa-logo.png";
-        } else if (path.equals("about.html")) {
-            internalPath = multilingualResourcePath(path, lang);
+            internalPath = "web/linqa-logo.png";
         } else if (path.startsWith("help/")) {
             internalPath = path;
         }

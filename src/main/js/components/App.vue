@@ -47,13 +47,13 @@
   --background-color: #e6e6e6;                /* used for panels and forms */
   --primary-color: #ffd100;                   /* used for doc-filter, comment-refs, login/legal pages (yellow) */
   --primary-color-light: #fff6cc;             /* used for doc-filter, comment-refs, login/legal pages (light yellow) */
-  --highlight-color: #409eff;                 /* matches Element UI --color-primary (blue) */
-  --highlight-color-2: #66b1ff;               /* matches Element UI --color-primary-light-2 */
-  --highlight-color-9: #ecf5ff;               /* matches Element UI --color-primary-light-9 */
+  --highlight-color: #409eff;                 /* matches Element UI --color-primary (blue), interactive elements */
+  --highlight-color-2: #66b1ff;               /* matches Element UI --color-primary-light-2, hovered menu item */
+  --highlight-color-9: #ecf5ff;               /* matches Element UI --color-primary-light-9, hovered menu item bg */
+  --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item fg color, menus, dialogs */
   --color-danger: #f56c6c;                    /* matches Element UI --color-danger */
   --border-color: #dcdfe6;                    /* matches Element UI --border-color-base */
   --border-color-lighter: #ebeef5;            /* matches Element UI --border-color-lighter */
-  --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item color */
   --filter-border: 6px solid transparent;
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
 

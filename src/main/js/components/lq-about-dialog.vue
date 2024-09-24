@@ -1,6 +1,6 @@
 <template>
   <el-dialog custom-class="lq-about-dialog" :visible="visible" @open="fetchText" @close="close">
-    <img class="logo" src="/systems.dmx.linqa/linqa-logo.png">
+    <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
     <div class="version">
       <span>2.0-SNAPSHOT</span>
       <span class="date">Sep 24, 2024</span>
@@ -60,8 +60,8 @@ export default {
   word-break: unset;    /* Element UI default is "break-all" */
 }
 
-.lq-about-dialog .logo {
-  height: 84px !important;
+.lq-about-dialog .linqa-logo {
+  height: 84px;
 }
 
 .lq-about-dialog .version {

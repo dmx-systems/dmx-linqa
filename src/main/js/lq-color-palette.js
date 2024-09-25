@@ -20,7 +20,7 @@ export default {
     'transparent'
   ],
   textBackground: [             // Used as Quill "background" format options
-    false,
+    false,                      // "not set"
     'hsl(0, 0%, 73%)',          // gray
     'hsl(0, 82%, 67%)',         // red
     'hsl(36, 100%, 70%)',       // orange

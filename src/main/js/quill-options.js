@@ -1,4 +1,4 @@
-import Quill from "quill"
+import Quill from 'quill'
 import 'quill-mention'
 import 'quill-mention/dist/quill.mention.css'
 import './quill-emoji/src/quill-emoji.js'
@@ -11,7 +11,8 @@ export default {
   modules: {
     toolbar: {
       container: [
-        ['bold', 'italic', {background: COLOR_PALETTE.textBackground}],
+        ['bold', 'italic', 'strike'],
+        [{color: COLOR_PALETTE.foreground}, {background: COLOR_PALETTE.textBackground}],
         [{list: 'ordered'}, {list: 'bullet'}],
         ['link', 'image', 'video'],
         [{header: [1, 2, 3, false]}]

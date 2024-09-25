@@ -272,12 +272,16 @@ input, button {
 }
 
 .ql-container .ql-tooltip {
-  width: 384px;         /* fixed toolbar width */
+  width: 244px;         /* fixed toolbar width to force 2 button lines */
   z-index: 2;           /* stack toolbar above adjacent detail panel fields and el-checkboxes (z-index 1) */
 }
 
 .ql-container .ql-toolbar .ql-color-picker .ql-picker-options {
-  width: 170px;         /* was 152px, we need room for another color option */
+  width: 170px;         /* we need extra room for 8th color option, Quill sets 152px for 7 colors */
+}
+
+.ql-container .ql-toolbar .ql-formats:nth-child(4) {
+  margin-left: 12px;    /* 2nd button line starts with extra margin */
 }
 
 /* Quill-Mention Overrides */

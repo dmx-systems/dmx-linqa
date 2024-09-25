@@ -17,7 +17,7 @@ const SHAPE_HEIGHT = 120      // Should be a multiple of CANVAS_GRID
 const quillOptions = require('./quill-options').default   // Quill config for canvas
 const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for discussion panel
 quillOptions2.bounds = '.lq-discussion .comments'
-quillOptions2.modules.toolbar.container[2].splice(2, 1)   // strip "video" button
+quillOptions2.modules.toolbar.container[3].splice(2, 1)   // strip "video" button
 
 const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
 console.log('[Linqa] isChrome:', isChrome)

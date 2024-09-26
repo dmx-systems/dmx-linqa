@@ -1,7 +1,7 @@
 import Quill from 'quill';
 import EmojiCompletionModule from './emoji-completion-module';
 import EmojiPickerModule from './emoji-picker-module';
-import '../css/quill-emoji.css';
+import './quill-emoji.css';
 
 Quill.register({
     'modules/emoji-completion': EmojiCompletionModule,

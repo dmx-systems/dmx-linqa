@@ -1,6 +1,7 @@
 import Quill from 'quill'
 import 'quill-mention'
 import 'quill-mention/dist/quill.mention.css'
+import './quill-emoji/quill-emoji.js'
 import store from './store/linqa'
 import lq from './lq-globals'
 import COLOR_PALETTE from './lq-color-palette'
@@ -23,7 +24,10 @@ export default {
     mention: {
       source: userSource,
       blotName: 'notranslate-mention'
-    }
+    },
+    'emoji-picker': true,       // adds a button to the Quill textarea to open an emoji picker
+    'emoji-completion': true    // Note: detection of colon-key might be errornous for international keyboard layouts:
+                                // https://github.com/contentco/quill-emoji/issues/88
   }
 }
 

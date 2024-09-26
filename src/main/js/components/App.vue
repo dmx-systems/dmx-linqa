@@ -56,6 +56,11 @@
   --border-color-lighter: #ebeef5;            /* matches Element UI --border-color-lighter */
   --filter-border: 6px solid transparent;
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
+
+  /* quill-emoji, TODO: drop */
+  --blue: #0366d6;
+  --light-blue: #84a8cc;
+  --light-gray: #ddd;
 }
 
 html {
@@ -118,6 +123,7 @@ body.fixed {
 
 input, button {
   font-family: unset;     /* Firefox (Mac) default is "-apple-system", Chrome (Mac) default is "Arial" */
+  font-size: unset;       /* Safari (Mac) default is 11px, Firefox (Mac) also reduces size */
 }
 
 /* Element UI Overrides */

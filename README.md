@@ -176,7 +176,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**1.8** -- unreleased
+**2.0** -- unreleased
 
 * Features:
     * UI adapted for mobile devices

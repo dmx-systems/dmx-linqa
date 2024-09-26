@@ -12,7 +12,7 @@ const Module = Quill.import('core/module');
 class EmojiCompletionModule extends Module {
 
   constructor(quill, options) {
-    console.log('EmojiCompletionModule', options, quill.container)
+    // console.log('EmojiCompletionModule', options, quill.container)
     super(quill, options);
     //
     this.emojiList = options.emojiList;
@@ -61,7 +61,7 @@ class EmojiCompletionModule extends Module {
   }
 
   openCompletions(range, context) {
-    console.log('openCompletions', range, context)
+    // console.log('openCompletions', range, context)
     if (this.open) {
       return true;
     }

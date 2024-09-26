@@ -57,6 +57,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
+    <lq-emoji-menu ref="emojiMenu"></lq-emoji-menu>
   </div>
 </template>
 
@@ -71,7 +72,8 @@ export default {
     require('./mixins/editable').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
-    require('./mixins/doc-util').default
+    require('./mixins/doc-util').default,
+    require('./mixins/emoji-menu').default
   ],
 
   created () {

@@ -28,7 +28,8 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
-    <lq-color-menu v-model="color" :showTransparent="true" ref="colorMenu"></lq-color-menu>
+    <lq-color-menu ref="colorMenu" v-model="color" :showTransparent="true"></lq-color-menu>
+    <lq-emoji-menu ref="emojiMenu"></lq-emoji-menu>
   </div>
 </template>
 
@@ -43,7 +44,8 @@ export default {
     require('./mixins/editable').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
-    require('./mixins/color-menu').default
+    require('./mixins/color-menu').default,
+    require('./mixins/emoji-menu').default
   ],
 
   props: {

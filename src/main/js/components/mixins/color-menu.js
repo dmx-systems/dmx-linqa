@@ -1,6 +1,7 @@
 /**
  * The host component is expected to hold
- * - topic      any topic which has a "color" child value
+ * - "topic"     - any topic which has a "color" child value
+ * - "colorMenu" - a reference of a <lq-color-menu> element
  */
 export default {
 

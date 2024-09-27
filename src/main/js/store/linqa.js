@@ -670,6 +670,10 @@ const actions = {
     }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
 
+  reactWithEmoji (_, {topic, emoji}) {
+    http.put(`/linqa/topic/${topic.id}/emoji/${emoji}`)
+  },
+
   /**
    * Precondition: the given topic is visible on canvas.
    */

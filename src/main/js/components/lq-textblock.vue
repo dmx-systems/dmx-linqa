@@ -7,7 +7,7 @@
         <div class="text" v-html="textblock[lang2nd]"></div>
       </div>
       <div class="discussion-button" :style="backgroundColor">
-        <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
     <template v-else>
@@ -39,7 +39,7 @@
       </el-button>
     </template>
     <lq-color-menu ref="colorMenu" v-model="color" :showTransparent="true"></lq-color-menu>
-    <lq-emoji-menu ref="emojiMenu"></lq-emoji-menu>
+    <lq-emoji-menu ref="emojiMenu" @select="selectEmoji"></lq-emoji-menu>
   </div>
 </template>
 

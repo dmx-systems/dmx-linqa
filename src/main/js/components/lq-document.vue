@@ -2,7 +2,7 @@
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
       <div class="discussion-button">
-        <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
       <pre v-if="isText">{{text}}</pre>
@@ -57,7 +57,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
-    <lq-emoji-menu ref="emojiMenu"></lq-emoji-menu>
+    <lq-emoji-menu ref="emojiMenu" @select="selectEmoji"></lq-emoji-menu>
   </div>
 </template>
 

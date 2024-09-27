@@ -22,8 +22,7 @@ export default {
   methods: {
 
     setEmoji (emoji) {
-      console.log('setEmoji', emoji)
-      // this.$emit('input', color)   TODO
+      this.$emit('select', emoji)
     },
 
     open () {

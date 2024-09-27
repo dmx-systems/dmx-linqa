@@ -8,15 +8,20 @@ export default {
   created () {
     this.$emit('action', {
       key: 'action.emoji',
-      icon: 'el-icon-circle-check',
+      icon: 'el-icon-chat-round',
       handler: this.openEmojiMenu
     })
   },
 
   methods: {
+
     openEmojiMenu () {
       this.$store.dispatch('select', [this.topic])      // programmatic selection
       this.$refs.emojiMenu.open()
+    },
+
+    selectEmoji (emoji) {
+      this.$store.dispatch('reactWithEmoji', {topic: this.topic, emoji})
     }
   },
 

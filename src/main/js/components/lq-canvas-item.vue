@@ -11,6 +11,12 @@
         <span v-else>{{actionLabel(action)}}</span>
       </el-button>
     </div>
+    <div class="reactions">
+      <el-button v-for="(usernames, emoji) in reactions" type="text" :key="emoji" @click="selectEmoji(emoji)"
+          @mousedown.native.stop>
+        <span>{{emoji}} {{usernames.length}}</span>
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -118,6 +124,21 @@ export default {
       return this.infoMode && !this.presentationMode
     },
 
+    /**
+     * Returns Object. Key: emoji char, value: array of usernames.
+     */
+    reactions () {
+      const reactions = this.topic.children['dmx.accesscontrol.username#linqa.reaction']
+      return reactions?.reduce((emojis, reaction) => {
+        const emoji = reaction.assoc.value
+        if (!emojis[emoji]) {
+          emojis[emoji] = []
+        }
+        emojis[emoji].push(reaction.value)          // push username
+        return emojis
+      }, {})
+    },
+
     flipped () {
       const a = Math.abs(this.angle) % 360
       return a > 90 && a < 270
@@ -200,6 +221,11 @@ export default {
 
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
+    },
+
+    selectEmoji (emoji, b) {
+      console.log('selectEmoji', emoji)
+      this.$store.dispatch('reactWithEmoji', {topic: this.topic, emoji})
     }
   },
 
@@ -249,6 +275,12 @@ export default {
 
 .lq-canvas-item .item-toolbar .el-button + .el-button {
   margin-left: var(--button-spacing);
+}
+
+.lq-canvas-item .reactions {
+  position: absolute;
+  top: -14px;
+  right: 0;
 }
 
 .lq-canvas-item .lock-icon {

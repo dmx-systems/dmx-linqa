@@ -518,14 +518,14 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         // List<RelatedTopic> reactions = dmx.getTopic(topicId).getChildTopics().getTopicsOrNull(USERNAME + "#" +
         //    REACTION);
         Topic user = acs.getUsernameTopic();
-        Assoc reaction = dmx.getAssocBetweenTopicAndTopic(REACTION, topicId, user.getId(), PARENT, CHILD);
+        // Assoc reaction = dmx.getAssocBetweenTopicAndTopic(REACTION, topicId, user.getId(), PARENT, CHILD);
         AssocModel assoc;
-        if (reaction != null) {
-            assoc = mf.newAssocModel(new SimpleValue(reaction.getSimpleValue().toString() + "," + emoji));
+        /* if (reaction != null) {
+            assoc = mf.newAssocModel(new SimpleValue(reaction.getSimpleValue().toString() + emoji));
             assoc.setId(reaction.getId());  // setting assoc ID updates it's value in-place instead of creating another
-        } else {
+        } else { */
             assoc = mf.newAssocModel(new SimpleValue(emoji));
-        }
+        // }
         dmx.getTopic(topicId).update(mf.newChildTopicsModel().addRef(
             USERNAME + "#" + REACTION, user.getId(), assoc
         ));

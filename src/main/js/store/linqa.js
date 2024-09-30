@@ -671,7 +671,20 @@ const actions = {
   },
 
   reactWithEmoji (_, {topic, emoji}) {
-    http.put(`/linqa/topic/${topic.id}/emoji/${emoji}`)
+    if (hasReaction(topic, emoji)) {
+      http.delete(`/linqa/topic/${topic.id}/emoji/${emoji}`)
+      // TODO
+    } else {
+      http.put(`/linqa/topic/${topic.id}/emoji/${emoji}`)
+      const uri = 'dmx.accesscontrol.username#linqa.reaction'
+      if (!topic.children[uri]) {
+        Vue.set(topic.children, uri, [])
+      }
+      topic.children[uri].push({
+        value: state.username,
+        assoc: {value: emoji}
+      })
+    }
   },
 
   /**
@@ -995,4 +1008,10 @@ function findCommentIndex (comment) {
 
 function filerepoUrl (repoPath) {
   return '/filerepo/' + encodeURIComponent(repoPath)
+}
+
+function hasReaction (topic, emoji) {
+  return topic.children['dmx.accesscontrol.username#linqa.reaction']?.some(reaction => {
+    return reaction.value === state.username && reaction.assoc.value === emoji
+  })
 }

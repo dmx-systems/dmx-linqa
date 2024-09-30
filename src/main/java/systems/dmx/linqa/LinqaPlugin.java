@@ -546,7 +546,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Path("/topic/{id}/emoji/{emoji}")
     @Transactional
     @Override
-    public void removeEmojiReaction(long topicId, String emoji) {
+    public void removeEmojiReaction(@PathParam("id") long topicId, @PathParam("emoji") String emoji) {
         // TODO
     }
 

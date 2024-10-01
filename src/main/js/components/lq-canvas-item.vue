@@ -12,8 +12,8 @@
       </el-button>
     </div>
     <div class="reactions">
-      <el-button v-for="(usernames, emoji) in reactions" :key="emoji" type="primary" plain @click="reactWithEmoji(emoji)"
-          @mousedown.native.stop>
+      <el-button v-for="(usernames, emoji) in reactions" :key="emoji" :title="displayNames(usernames)" type="info" plain
+          @click="reactWithEmoji(emoji)" @mousedown.native.stop>
         {{emoji}} <span class="label">{{usernames.length}}</span>
       </el-button>
     </div>
@@ -222,6 +222,10 @@ export default {
 
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
+    },
+
+    displayNames (usernames) {
+      return usernames.map(username => lq.getDisplayName(username)).join(', ')
     }
   },
 

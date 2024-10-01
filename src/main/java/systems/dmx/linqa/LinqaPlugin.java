@@ -13,7 +13,6 @@ import systems.dmx.accesscontrol.event.PostLoginUser;
 import systems.dmx.core.Assoc;
 import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
-import systems.dmx.core.model.AssocModel;
 import systems.dmx.core.model.ChildTopicsModel;
 import systems.dmx.core.model.SimpleValue;
 import systems.dmx.core.model.TopicModel;
@@ -48,7 +47,6 @@ import systems.dmx.topicmaps.TopicmapsService;
 import systems.dmx.workspaces.WorkspacesService;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -508,46 +506,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         } catch (Exception e) {
             throw new RuntimeException("Translation failed, text=\"" + text + "\", targetLang=" + targetLang, e);
         }
-    }
-
-    @PUT
-    @Path("/topic/{id}/emoji/{emoji}")
-    @Transactional
-    @Override
-    public void addEmojiReaction(@PathParam("id") long topicId, @PathParam("emoji") String emoji) {
-        // List<RelatedTopic> reactions = dmx.getTopic(topicId).getChildTopics().getTopicsOrNull(USERNAME + "#" +
-        //    REACTION);
-        Topic user = acs.getUsernameTopic();
-        // Assoc reaction = dmx.getAssocBetweenTopicAndTopic(REACTION, topicId, user.getId(), PARENT, CHILD);
-        AssocModel assoc;
-        /* if (reaction != null) {
-            assoc = mf.newAssocModel(new SimpleValue(reaction.getSimpleValue().toString() + emoji));
-            assoc.setId(reaction.getId());  // setting assoc ID updates it's value in-place instead of creating another
-        } else { */
-            assoc = mf.newAssocModel(new SimpleValue(emoji));
-        // }
-        dmx.getTopic(topicId).update(mf.newChildTopicsModel().addRef(
-            USERNAME + "#" + REACTION, user.getId(), assoc
-        ));
-        // reaction.setSimpleValue(reactions + "," + emoji);
-        /* dmx.getTopic(topicId).update(mf.newChildTopicsModel().addRef(
-            USERNAME + "#" + REACTION, user.getId(),
-            mf.newAssocModel(new SimpleValue(reactions))
-        )); */
-        /* dmx.getTopic(topicId).update(mf.newChildTopicsModel().add(
-            USERNAME + "#" + REACTION, mf.newRelatedTopicModel(
-                mf.newTopicModel(USERNAME, user.getSimpleValue()),
-                assoc
-            )
-       )); */
-    }
-
-    @DELETE
-    @Path("/topic/{id}/emoji/{emoji}")
-    @Transactional
-    @Override
-    public void removeEmojiReaction(@PathParam("id") long topicId, @PathParam("emoji") String emoji) {
-        // TODO
     }
 
     @POST

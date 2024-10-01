@@ -671,18 +671,21 @@ const actions = {
   },
 
   reactWithEmoji (_, {topic, emoji}) {
+    const uri = 'dmx.accesscontrol.username#linqa.reaction'
     if (hasReaction(topic, emoji)) {
-      http.delete(`/linqa/topic/${topic.id}/emoji/${emoji}`)
       // TODO
     } else {
-      http.put(`/linqa/topic/${topic.id}/emoji/${emoji}`)
-      const uri = 'dmx.accesscontrol.username#linqa.reaction'
-      if (!topic.children[uri]) {
-        Vue.set(topic.children, uri, [])
-      }
-      topic.children[uri].push({
-        value: state.username,
-        assoc: {value: emoji}
+      const userId = lq.getUser(state.username).id
+      dmx.rpc.updateTopic({
+        id: topic.id,
+        children: {
+          [uri]: [{
+            value: 'ref_id:' + userId,
+            assoc: {value: emoji}
+          }]
+        }
+      }).then(_topic => {
+        Vue.set(topic.children, uri, _topic.children[uri])
       })
     }
   },

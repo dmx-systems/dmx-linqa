@@ -64,18 +64,6 @@ public interface LinqaService {
      */
     Translation translate(String text, String targetLang);
 
-    /**
-     * Adds an emoji reaction for the current user.
-     * If that emoji is added already (by the current user) nothing happens.
-     */
-    void addEmojiReaction(long topicId, String emoji);
-
-    /**
-     * Removes an emoji reaction for the current user.
-     * If there is no such emoji reaction (by the current user) nothing happens.
-     */
-    void removeEmojiReaction(long topicId, String emoji);
-
     List<ViewTopic> duplicateMulti(IdList topicIds, int xyOffset);
 
     void setLockedMulti(boolean locked, IdList topicIds);

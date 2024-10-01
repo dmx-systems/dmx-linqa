@@ -12,9 +12,9 @@
       </el-button>
     </div>
     <div class="reactions">
-      <el-button v-for="(usernames, emoji) in reactions" type="text" :key="emoji" @click="reactWithEmoji(emoji)"
+      <el-button v-for="(usernames, emoji) in reactions" :key="emoji" type="primary" plain @click="reactWithEmoji(emoji)"
           @mousedown.native.stop>
-        <span>{{emoji}} {{usernames.length}}</span>
+        {{emoji}} <span class="label">{{usernames.length}}</span>
       </el-button>
     </div>
   </div>
@@ -275,8 +275,13 @@ export default {
 
 .lq-canvas-item .reactions {
   position: absolute;
-  top: -14px;
+  top: -18px;
   right: 0;
+}
+
+.lq-canvas-item .reactions > button {
+  padding: 3px 8px 5px;
+  border-radius: 12px;
 }
 
 .lq-canvas-item .lock-icon {

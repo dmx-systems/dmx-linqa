@@ -5,6 +5,10 @@
  */
 export default {
 
+  mixins: [
+    require('./emoji-reaction').default
+  ],
+
   created () {
     this.$emit('action', {
       key: 'action.emoji',
@@ -14,14 +18,9 @@ export default {
   },
 
   methods: {
-
     openEmojiMenu () {
       this.$store.dispatch('select', [this.topic])      // programmatic selection
       this.$refs.emojiMenu.open()
-    },
-
-    selectEmoji (emoji) {
-      this.$store.dispatch('reactWithEmoji', {topic: this.topic, emoji})
     }
   },
 

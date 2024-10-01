@@ -12,7 +12,7 @@
       </el-button>
     </div>
     <div class="reactions">
-      <el-button v-for="(usernames, emoji) in reactions" type="text" :key="emoji" @click="selectEmoji(emoji)"
+      <el-button v-for="(usernames, emoji) in reactions" type="text" :key="emoji" @click="reactWithEmoji(emoji)"
           @mousedown.native.stop>
         <span>{{emoji}} {{usernames.length}}</span>
       </el-button>
@@ -31,7 +31,8 @@ export default {
     require('./mixins/selection').default,
     require('./mixins/roles').default,
     require('./mixins/viewport').default,
-    require('./mixins/presentation-mode').default
+    require('./mixins/presentation-mode').default,
+    require('./mixins/emoji-reaction').default
   ],
 
   inject: ['context'],
@@ -221,11 +222,6 @@ export default {
 
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
-    },
-
-    selectEmoji (emoji, b) {
-      console.log('selectEmoji', emoji)
-      this.$store.dispatch('reactWithEmoji', {topic: this.topic, emoji})
     }
   },
 

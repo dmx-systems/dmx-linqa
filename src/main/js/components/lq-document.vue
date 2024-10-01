@@ -57,7 +57,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
-    <lq-emoji-menu ref="emojiMenu" @select="selectEmoji"></lq-emoji-menu>
+    <lq-emoji-menu ref="emojiMenu" @select="reactWithEmoji"></lq-emoji-menu>
   </div>
 </template>
 

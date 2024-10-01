@@ -672,22 +672,20 @@ const actions = {
 
   reactWithEmoji (_, {topic, emoji}) {
     const uri = 'dmx.accesscontrol.username#linqa.reaction'
-    if (hasReaction(topic, emoji)) {
-      // TODO
-    } else {
-      const userId = lq.getUser(state.username).id
-      dmx.rpc.updateTopic({
-        id: topic.id,
-        children: {
-          [uri]: [{
-            value: 'ref_id:' + userId,
-            assoc: {value: emoji}
-          }]
-        }
-      }).then(_topic => {
-        Vue.set(topic.children, uri, _topic.children[uri])
-      })
+    const assocId = hasReaction(topic, emoji)
+    const model = assocId ? {
+      value: 'del_id:' + assocId,
+      assoc: {id: assocId}    // Needed by Core :-(
+    } : {
+      value: 'ref_id:' + lq.getUser(state.username).id,
+      assoc: {value: emoji}
     }
+    dmx.rpc.updateTopic({
+      id: topic.id,
+      children: {[uri]: [model]}
+    }).then(_topic => {
+      Vue.set(topic.children, uri, _topic.children[uri])
+    })
   },
 
   /**
@@ -1014,7 +1012,8 @@ function filerepoUrl (repoPath) {
 }
 
 function hasReaction (topic, emoji) {
-  return topic.children['dmx.accesscontrol.username#linqa.reaction']?.some(reaction => {
+  const r = topic.children['dmx.accesscontrol.username#linqa.reaction']?.find(reaction => {
     return reaction.value === state.username && reaction.assoc.value === emoji
   })
+  return r?.assoc.id
 }

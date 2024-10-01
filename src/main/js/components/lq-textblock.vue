@@ -39,7 +39,7 @@
       </el-button>
     </template>
     <lq-color-menu ref="colorMenu" v-model="color" :showTransparent="true"></lq-color-menu>
-    <lq-emoji-menu ref="emojiMenu" @select="selectEmoji"></lq-emoji-menu>
+    <lq-emoji-menu ref="emojiMenu" @select="reactWithEmoji"></lq-emoji-menu>
   </div>
 </template>
 

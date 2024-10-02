@@ -12,7 +12,7 @@ export default {
   created () {
     this.$emit('action', {
       key: 'action.emoji',
-      icon: 'el-icon-chat-round',
+      icon: 'el-icon-s-flag',
       handler: this.openEmojiMenu
     })
   },

@@ -284,7 +284,7 @@ export default {
 }
 
 .lq-canvas-item .reactions > button {
-  padding: 3px 8px 5px;
+  padding: 4px 7px;
   border-radius: 12px;
 }
 

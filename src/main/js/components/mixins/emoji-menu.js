@@ -13,7 +13,8 @@ export default {
     this.$emit('action', {
       key: 'action.emoji',
       icon: 'el-icon-s-flag',
-      handler: this.openEmojiMenu
+      handler: this.openEmojiMenu,
+      enabledForUser: true
     })
   },
 

@@ -281,6 +281,7 @@ export default {
   position: absolute;
   top: -18px;
   right: 0;
+  white-space: nowrap;
 }
 
 .lq-canvas-item .reactions > button {

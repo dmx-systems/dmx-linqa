@@ -53,16 +53,19 @@ class EmojiCompletionModule extends Module {
       key: 40,  // ArrowDown
       collapsed: true
     }, this.handleArrow.bind(this));
-    // TODO: Add keybindings for Enter (13) and Tab (9) directly on the quill editor
+    // TODO: add keybindings for Enter (13) and Tab (9) statically in Quill configuration.
+    // Note: dynmic binding (via quill.keyboard.addBinding()) does not work for these keys as Quill provides
+    // default handlers which can only be overridden by Quill configuration.
+    // But how to dispatch into the module from a statically configured key handler?
   }
 
   /**
    * Key handler invoked by colon key.
-   * Enters "completions mode" (sets this.open to true). Calculates menu position and registers key handlers.
+   * Enters "completion mode" (sets this.open to true). Calculates menu position and registers key handlers.
    * The menu is not actually opened (but only on next key press).
    */
   openCompletions(range, context) {
-    console.log('openCompletions', this.open, range.index)
+    console.log('openCompletions', 'open', this.open, 'index', range.index)
     if (this.open) {
       return true;
     }
@@ -93,23 +96,25 @@ class EmojiCompletionModule extends Module {
 
   /**
    * Key handler invoked while in "completion mode" ("this" is the module instance).
-   * Filters emojis by current "query" and updates the completion menu accordingly.
+   * Filters emojis by current "query" and updates the menu accordingly.
    */
   updateCompletions() {
     const sel = this.quill.getSelection().index;
-    if (this.atIndex >= sel) {    // Deleted the at character
-      console.log('updateCompletions --> abort', this.atIndex, sel)
-      return this.closeCompletions(null);
+    console.log('### updateCompletions', this.atIndex, sel, this.quill.getText().split(), this.quill.getText().length)
+    if (this.atIndex >= sel) {          // Deleted the at character
+      console.log('  --> abort', this.atIndex, sel)
+      return this.closeCompletions();
     }
     //
     // calculate "query"
     this.query = this.quill.getText(this.atIndex + 1, sel - this.atIndex - 1);
-    console.log('updateCompletions', `"${this.query}"`, this.query.length, /\s/.test(this.query))
-    if (/\s/.test(this.query)) {      // typing whitespace leaves "completion mode"
-      this.closeCompletions(null);
+    console.log('  query', `"${this.query}"`, 'len', this.query.length, 'whitespace', /\s/.test(this.query))
+    if (/\s/.test(this.query)) {        // typing whitespace leaves "completion mode"
+      this.closeCompletions();
       return;
     }
-    this.query = this.query.trim();   // TODO: needed?
+    // this.query = this.query.trim();  // TODO: needed? Space ends completion mode.
+    //                                     Enter/Tab does not contribute to "query".
     //
     // search emojis (using fuse.js)
     let emojis = this.fuse.search(this.query).sort((a, b) => a.emoji_order - b.emoji_order);
@@ -120,25 +125,16 @@ class EmojiCompletionModule extends Module {
     if (emojis.length > MAX_MENU_ITEMS) {
       emojis = emojis.slice(0, MAX_MENU_ITEMS);
     }
+    // TODO: call this at *begin* of this method. Both, Enter and Tab do not require recalculation of "query" and
+    // "emojis". But called here because "emojis" is needed for Enter. "emojis" should be module state instead.
+    if (this.handleDefaultEditorKeys(emojis[0])) {
+      return
+    }
     this.renderCompletions(emojis);
   }
 
   renderCompletions(emojis) {
     console.log('renderCompletions', emojis.length)
-    if (event) {
-      if (event.key === 'Enter' || event.keyCode === 13) {
-        console.log('  Enter (editor) -->', emojis[0].name)
-        this.closeCompletions(emojis[0], 1);
-        this.container.style.display = 'none';
-        return;
-      } else if (event.key === 'Tab' || event.keyCode === 9) {
-        console.log('  Tab --> move focus from editor to menu')
-        this.quill.disable();
-        this.buttons[0].classList.remove('emoji-active');
-        this.buttons[1].focus();
-        return;
-      }
-    }
     // clear menu
     while (this.container.firstChild){
       this.container.removeChild(this.container.firstChild);
@@ -162,7 +158,7 @@ class EmojiCompletionModule extends Module {
     });
     //
     this.container.style.display = 'block';
-    // position completions above cursor
+    // position menu *above* cursor
     const height = window.innerHeight;
     const top = this.quill.container.getBoundingClientRect().top;
     if (top > height / 2 && this.container.offsetHeight > 0) {
@@ -170,6 +166,23 @@ class EmojiCompletionModule extends Module {
     }
     //
     this.buttons[0].classList.add('emoji-active');
+  }
+
+  handleDefaultEditorKeys(emoji) {
+    if (event) {    // global window object
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        console.log('  Enter (editor) -->', emoji.name)
+        this.closeCompletions(emoji, 1);              // Note: "1" deletes inserted \n character
+        // this.container.style.display = 'none';     // already done by closeCompletions()
+        return true;
+      } else if (event.key === 'Tab' || event.keyCode === 9) {
+        console.log('  Tab (editor) --> move focus from editor to menu')
+        this.quill.disable();                         // FIXME: delete inserted \t character
+        this.buttons[0].classList.remove('emoji-active');
+        this.buttons[1].focus();
+        return true;
+      }
+    }
   }
 
   createMenuKeyHandler(i, emoji) {
@@ -206,8 +219,8 @@ class EmojiCompletionModule extends Module {
   }
 
   /**
-   * Leaves "completions mode" (sets this.open to false).
-   * Closes the completions menu. Inserts the emoji, if given.
+   * Leaves "completion mode" (sets this.open to false).
+   * Closes the menu. Inserts the emoji, if given.
    */
   closeCompletions(emoji, trailingDelete = 0) {
     console.log('closeCompletions', emoji?.name, trailingDelete)
@@ -221,7 +234,7 @@ class EmojiCompletionModule extends Module {
     //
     // insert emoji
     if (emoji) {
-      const str = utils.emojiToString(emoji)
+      const str = utils.emojiToString(emoji)      // Note: emoji can consist of more than one character
       this.quill.deleteText(this.atIndex, this.query.length + 1 + trailingDelete, Quill.sources.USER);
       this.quill.insertText(this.atIndex, str, Quill.sources.USER);
       setTimeout(() => this.quill.setSelection(this.atIndex + str.length), 0);
@@ -247,7 +260,7 @@ class EmojiCompletionModule extends Module {
     if (this.container.querySelector('*:focus')) {
       return;
     }
-    this.closeCompletions(null);
+    this.closeCompletions();
   }
 }
 

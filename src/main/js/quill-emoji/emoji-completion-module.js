@@ -8,7 +8,7 @@ const Module = Quill.import('core/module');
 const MAX_MENU_ITEMS = 10
 
 /**
- * Adds a list of possible emoji completions (CSS class 'emoji-completions') to the Quill container.
+ * Adds a menu of possible emoji completions (CSS class 'emoji-completions') to the Quill container.
  * Invoked by colon key (:), completions are filtered then during typing.
  */
 class EmojiCompletionModule extends Module {
@@ -22,7 +22,7 @@ class EmojiCompletionModule extends Module {
     this.quill     = quill;
     this.onClose   = options.onClose;
     this.onOpen    = options.onOpen;
-    this.container = document.createElement('ul');      // the <ul> list of emoji completions
+    this.container = document.createElement('ul');                // the emoji menu (<ul> element)
     this.container.classList.add('emoji-completions');
     this.quill.container.appendChild(this.container);
     this.container.style.position = 'absolute';
@@ -34,6 +34,7 @@ class EmojiCompletionModule extends Module {
     this.open          = false;     // true while completion mode is active
     this.atIndex       = null;      // cursor position where completion mode was activated, *before* colon char (Number)
     this.query         = null;      // while completion mode: search term entered after colon char (String)
+    this.buttons       = null;      // while completion mode: buttons shown in emoji menu (array of DOM elememts)
     this.focusedButton = null;
     //
     quill.keyboard.addBinding({
@@ -97,23 +98,23 @@ class EmojiCompletionModule extends Module {
   updateCompletions() {
     const sel = this.quill.getSelection().index;
     if (this.atIndex >= sel) {    // Deleted the at character
-      console.log('updateCompletions', this.atIndex, sel)
+      console.log('updateCompletions --> abort', this.atIndex, sel)
       return this.closeCompletions(null);
     }
     //
     // calculate "query"
     this.query = this.quill.getText(this.atIndex + 1, sel - this.atIndex - 1);
-    console.log('updateCompletions', `"${this.query}"`)
-    if (/\s/.test(this.query)) {    // whitespace leaves "completion mode"
+    console.log('updateCompletions', `"${this.query}"`, this.query.length, /\s/.test(this.query))
+    if (/\s/.test(this.query)) {      // typing whitespace leaves "completion mode"
       this.closeCompletions(null);
       return;
     }
-    this.query = this.query.trim();
+    this.query = this.query.trim();   // TODO: needed?
     //
     // search emojis (using fuse.js)
     let emojis = this.fuse.search(this.query).sort((a, b) => a.emoji_order - b.emoji_order);
     if (this.query.length < this.options.fuse.minMatchCharLength || emojis.length === 0){
-      this.container.style.display = 'none';
+      this.container.style.display = 'none';    // close menu w/o leaving "completion mode"
       return;
     }
     if (emojis.length > MAX_MENU_ITEMS) {
@@ -126,24 +127,54 @@ class EmojiCompletionModule extends Module {
     console.log('renderCompletions', emojis.length)
     if (event) {
       if (event.key === 'Enter' || event.keyCode === 13) {
+        console.log('  Enter (editor) -->', emojis[0].name)
         this.closeCompletions(emojis[0], 1);
         this.container.style.display = 'none';
         return;
       } else if (event.key === 'Tab' || event.keyCode === 9) {
+        console.log('  Tab --> move focus from editor to menu')
         this.quill.disable();
         this.buttons[0].classList.remove('emoji-active');
         this.buttons[1].focus();
         return;
       }
     }
-    //
+    // clear menu
     while (this.container.firstChild){
       this.container.removeChild(this.container.firstChild);
     }
-    const buttons = Array(emojis.length);
-    this.buttons = buttons;     // array of emoji <button> elements
+    this.buttons = [];
     //
-    const handler = (i, emoji) => event => {
+    // add emojis to menu (<li> elements containing a <button>)
+    emojis.forEach((emoji, i) => {
+      const li = createElement('li', {}, createElement(
+        'button', {type: 'button'},
+        createElement('span', {innerHTML: emoji.code_decimal}),
+        createElement('span', {className: 'label'}, emoji.name)    // Note: 'label' is Linqa class
+      ));
+      this.container.appendChild(li);
+      this.buttons[i] = li.firstChild;
+      // event handlers will be GC-ed on each re-render
+      this.buttons[i].addEventListener('keydown', this.createMenuKeyHandler(i, emoji));
+      this.buttons[i].addEventListener('mousedown', () => this.closeCompletions(emoji));
+      this.buttons[i].addEventListener('focus', () => this.focusedButton = i);
+      this.buttons[i].addEventListener('unfocus', () => this.focusedButton = null);
+    });
+    //
+    this.container.style.display = 'block';
+    // position completions above cursor
+    const height = window.innerHeight;
+    const top = this.quill.container.getBoundingClientRect().top;
+    if (top > height / 2 && this.container.offsetHeight > 0) {
+      this.container.style.top = '-' + this.container.offsetHeight + 'px';
+    }
+    //
+    this.buttons[0].classList.add('emoji-active');
+  }
+
+  createMenuKeyHandler(i, emoji) {
+    return event => {
+      const buttons = this.buttons
       if (event.key === 'ArrowRight' || event.keyCode === 39) {
         event.preventDefault();
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
@@ -166,36 +197,12 @@ class EmojiCompletionModule extends Module {
       } else if (event.key === 'Enter' || event.keyCode === 13
                || event.key === ' ' || event.keyCode === 32
                || event.key === 'Tab' || event.keyCode === 9) {
+        console.log('  Enter/Space/Tab -->', emoji.name)
         event.preventDefault();
         this.quill.enable();
         this.closeCompletions(emoji);
       }
-    };
-    // add emoji <li> elements to completion list
-    emojis.forEach((emoji, i) => {
-      const li = createElement('li', {}, createElement(
-        'button', {type: 'button'},
-        createElement('span', {innerHTML: emoji.code_decimal}),
-        createElement('span', {className: 'label'}, emoji.name)    // Note: 'label' is Linqa class
-      ));
-      this.container.appendChild(li);
-      buttons[i] = li.firstChild;
-      // event handlers will be GC-ed on each re-render
-      buttons[i].addEventListener('keydown', handler(i, emoji));
-      buttons[i].addEventListener('mousedown', () => this.closeCompletions(emoji));
-      buttons[i].addEventListener('focus', () => this.focusedButton = i);
-      buttons[i].addEventListener('unfocus', () => this.focusedButton = null);
-    });
-    //
-    this.container.style.display = 'block';
-    // position completions above cursor
-    const height = window.innerHeight;
-    const top = this.quill.container.getBoundingClientRect().top;
-    if (top > height / 2 && this.container.offsetHeight > 0) {
-      this.container.style.top = '-' + this.container.offsetHeight + 'px';
     }
-    //
-    buttons[0].classList.add('emoji-active');
   }
 
   /**
@@ -225,6 +232,7 @@ class EmojiCompletionModule extends Module {
   }
 
   handleArrow() {
+    console.log('handleArrow (editor)', 'open', this.open)
     if (!this.open) {
       return true;
     }

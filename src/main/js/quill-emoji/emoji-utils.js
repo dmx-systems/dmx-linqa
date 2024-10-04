@@ -1,4 +1,21 @@
+import emojiList from "./emoji-list";
+
+const emojiMap = {} /* = emojiList.reduce((emoji, map) => {   // reduce() is very slow (in Firefox/Mac)
+  console.log(emoji.emoji_order)
+  map[emoji.name] = emoji
+  return map
+}, {}) */
+
+// console.log('Emojis:', emojiList.length)
+emojiList.forEach(emoji => {
+  emojiMap[emoji.name] = emoji
+})
+
 export default {
+
+  getEmoji(name) {
+    return emojiMap[name]
+  },
 
   emojiToString(emoji) {
       return String.fromCodePoint(...this.parseUnicode(emoji.unicode))

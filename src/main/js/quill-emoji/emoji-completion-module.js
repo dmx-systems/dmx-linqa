@@ -6,6 +6,9 @@ import utils from './emoji-utils.js';
 const Module = Quill.import('core/module');
 
 const MAX_MENU_ITEMS = 10
+const DEFAULT_MENU_ITEMS = [
+  'slightly_smiling_face', 'thumbsup', 'thumbsdown', 'heart_decoration', 'white_check_mark'
+].map(utils.getEmoji)
 
 /**
  * Adds a menu of possible emoji completions (CSS class 'emoji-menu') to the Quill container.
@@ -33,7 +36,7 @@ class EmojiCompletionModule extends Module {
     //
     this.compMode      = false;     // signalizes completion mode
     this.colIndex      = null;      // cursor position when completion mode was entered, *before* colon char (Number)
-    this.query         = null;      // during completion mode: search term entered after colon char (String)
+    this.query         = '';        // during completion mode: search term entered after colon char (String)
     this.buttons       = null;      // during completion mode: buttons shown in emoji menu (array of DOM elememts)
     this.focusedButton = null;
     //
@@ -93,6 +96,8 @@ class EmojiCompletionModule extends Module {
     this.quill.on('text-change', this.onTextChange);
     this.quill.once('selection-change', this.onSelectionChange);
     this.onOpen && this.onOpen();
+    //
+    this.renderCompletions(DEFAULT_MENU_ITEMS)
   }
 
   /**

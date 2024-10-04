@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  * Transforms data-URLs to "real" URLs.
  * Stores images in file repo instead, possibly scaled down.
  * <p>
- * Part of Linqa 1.8
+ * Part of Linqa 2.0
  * Runs ALWAYS.
  */
 public class Migration3 extends Migration {

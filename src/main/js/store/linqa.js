@@ -670,6 +670,24 @@ const actions = {
     }).catch(() => {})                      // suppress unhandled rejection on cancel
   },
 
+  reactWithEmoji (_, {topic, emoji}) {
+    const uri = 'dmx.accesscontrol.username#linqa.reaction'
+    const assocId = hasReaction(topic, emoji)
+    const model = assocId ? {
+      value: 'del_id:' + assocId,
+      assoc: {id: assocId}    // Needed by Core :-(
+    } : {
+      value: 'ref_id:' + lq.getUser(state.username).id,
+      assoc: {value: emoji}
+    }
+    dmx.rpc.updateTopic({
+      id: topic.id,
+      children: {[uri]: [model]}
+    }).then(_topic => {
+      Vue.set(topic.children, uri, _topic.children[uri])
+    })
+  },
+
   /**
    * Precondition: the given topic is visible on canvas.
    */
@@ -991,4 +1009,11 @@ function findCommentIndex (comment) {
 
 function filerepoUrl (repoPath) {
   return '/filerepo/' + encodeURIComponent(repoPath)
+}
+
+function hasReaction (topic, emoji) {
+  const r = topic.children['dmx.accesscontrol.username#linqa.reaction']?.find(reaction => {
+    return reaction.value === state.username && reaction.assoc.value === emoji
+  })
+  return r?.assoc.id
 }

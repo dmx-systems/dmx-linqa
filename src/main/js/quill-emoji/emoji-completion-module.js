@@ -17,7 +17,7 @@ const DEFAULT_MENU_ITEMS = [
 class EmojiCompletionModule extends Module {
 
   constructor(quill, options) {
-    console.log('EmojiCompletionModule', options, quill.container)
+    // console.log('EmojiCompletionModule', options, quill.container)
     super(quill, options);
     //
     this.emojiList = options.emojiList;

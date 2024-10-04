@@ -22,7 +22,7 @@
       </el-button>
       <lq-canvas-search></lq-canvas-search>
     </div>
-    <el-button class="discussion-button" v-if="!panelVisibility" type="text" icon="el-icon-chat-round"
+    <el-button class="discussion-button" v-if="!panelVisibility" type="text" icon="el-icon-chat-line-round"
       :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
   </div>

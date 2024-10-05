@@ -39,6 +39,7 @@ class EmojiCompletionModule extends Module {
     this.query         = '';        // during completion mode: search term entered after colon char (String)
     this.buttons       = null;      // during completion mode: buttons shown in emoji menu (array of DOM elememts)
     this.focusedButton = null;
+    this.firstEmoji    = null;      // menu's first emoji (Object), inserted when Enter is pressed when editor has focus
     //
     quill.keyboard.addBinding({
       key: 186, // Colon (Chrome/Safari/German Keyboard)
@@ -97,7 +98,7 @@ class EmojiCompletionModule extends Module {
     this.quill.once('selection-change', this.onSelectionChange);
     this.onOpen && this.onOpen();
     //
-    this.renderCompletions(DEFAULT_MENU_ITEMS)
+    this.renderMenu(DEFAULT_MENU_ITEMS)
   }
 
   /**
@@ -105,6 +106,9 @@ class EmojiCompletionModule extends Module {
    * Filters emojis by current "query" and updates the menu accordingly.
    */
   updateCompletions() {
+    if (this.handleDefaultEditorKeys(this.firstEmoji)) {
+      return
+    }
     const index = this.quill.getSelection().index;
     console.log('### updateCompletions', 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
       this.quill.getText().length)
@@ -127,22 +131,19 @@ class EmojiCompletionModule extends Module {
     // search emojis (using fuse.js)
     let emojis = this.fuse.search(this.query).sort((a, b) => a.emoji_order - b.emoji_order);
     if (this.query.length < this.options.fuse.minMatchCharLength || emojis.length === 0) {
+      console.log('  --> no result')
       this.menu.style.display = 'none';    // close menu w/o leaving completion mode
       return;
     }
     if (emojis.length > MAX_MENU_ITEMS) {
       emojis = emojis.slice(0, MAX_MENU_ITEMS);
     }
-    // TODO: call this at *begin* of this method. Both, Enter and Tab do not require recalculation of "query" and
-    // "emojis". But called here because "emojis" is needed for Enter. "emojis" should be module state instead.
-    if (this.handleDefaultEditorKeys(emojis[0])) {
-      return
-    }
-    this.renderCompletions(emojis);
+    this.renderMenu(emojis);
   }
 
-  renderCompletions(emojis) {
-    console.log('  renderCompletions', emojis.length)
+  renderMenu(emojis) {
+    console.log('  renderMenu', 'items', emojis.length)
+    this.firstEmoji = emojis[0]
     // clear menu
     while (this.menu.firstChild){
       this.menu.removeChild(this.menu.firstChild);
@@ -231,7 +232,7 @@ class EmojiCompletionModule extends Module {
    * Closes the menu. Inserts the emoji, if given.
    */
   leaveCompMode(emoji, trailingDelete = 0) {
-    console.log('leaveCompMode', emoji?.name, trailingDelete)
+    console.log('leaveCompMode', 'emoji', emoji?.name, 'trailingDelete', trailingDelete)
     this.quill.enable();
     this.menu.style.display = 'none';
     while (this.menu.firstChild) {

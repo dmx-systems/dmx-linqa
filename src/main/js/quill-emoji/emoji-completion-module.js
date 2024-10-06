@@ -66,39 +66,39 @@ class EmojiCompletionModule extends Module {
   /**
    * Quill key handler invoked by colon key.
    * Enters completion mode (sets this.compMode to true), registers "text-change" and "selection-change" handlers.
-   * Calculates menu position.
-   * The menu is not actually opened (but only on next key press).
+   * Calculates menu position and opens it.
    */
   enterCompMode(range, context) {
-    console.log('enterCompMode', 'compMode', this.compMode, 'index', range.index)
+    console.log('### enterCompMode', 'compMode', this.compMode, 'index', range.index)
     if (this.compMode) {
-      return true;
+      return true;    // true triggers default Quill handler to insert colon
     }
-    if (range.length > 0) {
-      this.quill.deleteText(range.index, range.length, Quill.sources.USER);
-    }
-    //
-    this.quill.insertText(range.index, ':', Quill.sources.USER);
-    const atSignBounds = this.quill.getBounds(range.index);
-    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-    //
+    this.compMode = true;
     this.colIndex = range.index;
     //
-    let paletteMaxPos = atSignBounds.left + 250;
-    if (paletteMaxPos > this.quill.container.offsetWidth) {
-      this.menu.style.left = (atSignBounds.left - 250) + 'px';
-    } else {
-      this.menu.style.left = atSignBounds.left + 'px';
+    // insert colon
+    if (range.length > 0) {
+      this.quill.deleteText(range.index, range.length, Quill.sources.USER);   // delete selected text, replaced by colon
     }
+    this.quill.insertText(range.index, ':', Quill.sources.USER);              // insert colon
+    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);           // advance cursor to *after* colon
     //
-    this.menu.style.top = atSignBounds.top + atSignBounds.height + 'px';
-    this.compMode = true;
+    // calculate menu position
+    const bounds = this.quill.getBounds(range.index);
+    let paletteMaxPos = bounds.left + 250;
+    if (paletteMaxPos > this.quill.container.offsetWidth) {
+      this.menu.style.left = `${bounds.left - 250}px`;
+    } else {
+      this.menu.style.left = `${bounds.left}px`;
+    }
+    this.menu.style.top = `${bounds.top + bounds.height}px`;
     //
+    // register Quill event handlers
     this.quill.on('text-change', this.onTextChange);
     this.quill.once('selection-change', this.onSelectionChange);
-    this.onOpen && this.onOpen();
     //
-    this.renderMenu(DEFAULT_MENU_ITEMS)
+    this.onOpen?.();
+    this.renderMenu(DEFAULT_MENU_ITEMS);
   }
 
   /**
@@ -106,32 +106,30 @@ class EmojiCompletionModule extends Module {
    * Filters emojis by current "query" and updates the menu accordingly.
    */
   updateCompletions() {
-    if (this.handleDefaultEditorKeys(this.firstEmoji)) {
+    const index = this.quill.getSelection().index;
+    console.log('  updateCompletions', 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
+      this.quill.getText().length)
+    if (this.handleDefaultEditorKeys()) {
       return
     }
-    const index = this.quill.getSelection().index;
-    console.log('### updateCompletions', 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
-      this.quill.getText().length)
     if (this.colIndex >= index) {       // Deleted the at character
-      console.log('  --> abort', this.colIndex, index)
+      console.log('    --> abort', this.colIndex, index)
       this.leaveCompMode();
       return;
     }
     //
     // calculate "query"
     this.query = this.quill.getText(this.colIndex + 1, index - this.colIndex - 1);
-    console.log('  query', `"${this.query}"`, 'len', this.query.length, 'whitespace', /\s/.test(this.query))
+    console.log('    query', `"${this.query}"`, 'len', this.query.length, 'whitespace', /\s/.test(this.query))
     if (/\s/.test(this.query)) {        // typing whitespace leaves completion mode
       this.leaveCompMode();
       return;
     }
-    // this.query = this.query.trim();  // TODO: needed? Space ends completion mode.
-    //                                     Enter/Tab does not contribute to "query".
     //
     // search emojis (using fuse.js)
     let emojis = this.fuse.search(this.query).sort((a, b) => a.emoji_order - b.emoji_order);
     if (this.query.length < this.options.fuse.minMatchCharLength || emojis.length === 0) {
-      console.log('  --> no result')
+      console.log('    --> no result')
       this.menu.style.display = 'none';    // close menu w/o leaving completion mode
       return;
     }
@@ -142,7 +140,7 @@ class EmojiCompletionModule extends Module {
   }
 
   renderMenu(emojis) {
-    console.log('  renderMenu', 'items', emojis.length)
+    console.log('    renderMenu', 'items', emojis.length)
     this.firstEmoji = emojis[0]
     // clear menu
     while (this.menu.firstChild){
@@ -167,7 +165,7 @@ class EmojiCompletionModule extends Module {
     });
     //
     this.menu.style.display = 'block';
-    // position menu *above* cursor
+    // change menu position to *above* cursor
     const height = window.innerHeight;
     const top = this.quill.container.getBoundingClientRect().top;
     if (top > height / 2 && this.menu.offsetHeight > 0) {
@@ -177,16 +175,32 @@ class EmojiCompletionModule extends Module {
     this.buttons[0].classList.add('emoji-active');
   }
 
-  handleDefaultEditorKeys(emoji) {
+  /**
+   * Handles Enter/Tab keys when the *editor* has focus (not the *menu*).
+   * "Enter" inserts the *first* emoji from the menu to Quill content.
+   * "Tab" changes the focus to the menu and advances to the 2nd emoji.
+   * Note: the Enter/Tab characters land in Quill content and need to be deleted.
+   *
+   * @return  true if the recent event was Enter/Tab key (which is now handled), false otherwise.
+   */
+  handleDefaultEditorKeys() {
+    const deleteChar = () => {
+      // Note: in a Quill text-change handler the selection not yet reflects the change, so index has not yet advanced
+      // Note: we use SILENT to not emit another text-change event
+      const index = this.quill.getSelection().index
+      this.quill.deleteText(index, 1, Quill.sources.SILENT);
+    }
+    //
     if (event) {    // global window object
       if (event.key === 'Enter' || event.keyCode === 13) {
-        console.log('  Enter (editor) -->', emoji.name)
-        this.leaveCompMode(emoji, 1);                 // Note: "1" deletes inserted \n character
-        // this.menu.style.display = 'none';          // already done by leaveCompMode()
+        console.log('    Enter (editor) -->', this.firstEmoji.name)
+        deleteChar()
+        this.leaveCompMode(this.firstEmoji);
         return true;
       } else if (event.key === 'Tab' || event.keyCode === 9) {
-        console.log('  Tab (editor) --> move focus from editor to menu')
-        this.quill.disable();                         // FIXME: delete inserted \t character
+        console.log('    Tab (editor) --> move focus from editor to menu')
+        deleteChar()
+        this.quill.disable();
         this.buttons[0].classList.remove('emoji-active');
         this.buttons[1].focus();
         return true;
@@ -219,7 +233,7 @@ class EmojiCompletionModule extends Module {
       } else if (event.key === 'Enter' || event.keyCode === 13
                || event.key === ' ' || event.keyCode === 32
                || event.key === 'Tab' || event.keyCode === 9) {
-        console.log('  Enter/Space/Tab -->', emoji.name)
+        console.log('    Enter/Space/Tab -->', emoji.name)
         event.preventDefault();
         this.quill.enable();
         this.leaveCompMode(emoji);
@@ -231,8 +245,8 @@ class EmojiCompletionModule extends Module {
    * Leaves completion mode (sets this.compMode to false), unregisters "text-change" and "selection-change" handlers.
    * Closes the menu. Inserts the emoji, if given.
    */
-  leaveCompMode(emoji, trailingDelete = 0) {
-    console.log('leaveCompMode', 'emoji', emoji?.name, 'trailingDelete', trailingDelete)
+  leaveCompMode(emoji) {
+    console.log('### leaveCompMode', 'emoji', emoji?.name, 'length', emoji && utils.emojiToString(emoji).length)
     this.quill.enable();
     this.menu.style.display = 'none';
     while (this.menu.firstChild) {
@@ -244,20 +258,20 @@ class EmojiCompletionModule extends Module {
     // insert emoji
     if (emoji) {
       const str = utils.emojiToString(emoji)      // Note: emoji can consist of more than one character
-      this.quill.deleteText(this.colIndex, this.query.length + 1 + trailingDelete, Quill.sources.USER);
+      this.quill.deleteText(this.colIndex, this.query.length + 1, Quill.sources.USER);
       this.quill.insertText(this.colIndex, str, Quill.sources.USER);
       setTimeout(() => this.quill.setSelection(this.colIndex + str.length), 0);
     }
     this.quill.focus();
     this.compMode = false;
-    this.onClose && this.onClose(emoji);
+    this.onClose?.(emoji);
   }
 
   /**
    * Quill key handler for arrow-right and arrow-down.
    */
   handleArrow() {
-    console.log('handleArrow (editor)', 'compMode', this.compMode)
+    console.log('  handleArrow (editor)', 'compMode', this.compMode)
     if (!this.compMode) {
       return true;
     }
@@ -273,10 +287,10 @@ class EmojiCompletionModule extends Module {
    */
   maybeUnfocus() {
     if (this.menu.querySelector('*:focus')) {
-      console.log('maybeUnfocus (menu has focus) --> abort')
+      console.log('  maybeUnfocus (menu has focus) --> abort')
       return;
     }
-    console.log('maybeUnfocus (menu does not have focus) --> leave completion mode')
+    console.log('  maybeUnfocus (menu does not have focus) --> leave completion mode')
     this.leaveCompMode();
   }
 }

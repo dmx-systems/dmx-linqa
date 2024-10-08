@@ -3,7 +3,6 @@ import Fuse from 'fuse.js';
 import emojiList from './emoji-list.js';
 import utils from './emoji-utils.js';
 
-const Delta = Quill.import('delta');
 const Module = Quill.import('core/module');
 
 /**
@@ -14,11 +13,11 @@ class EmojiPickerModule extends Module {
   constructor(quill, options) {
     super(quill, options);
     this.quill = quill;
-    this.container = document.createElement('div'); // the button to open the picker
-    this.container.classList.add('emoji-picker-button');
-    this.container.innerHTML = options.buttonIcon;
-    this.quill.container.appendChild(this.container);
-    this.container.addEventListener('click', this.openEmojiPicker.bind(this), false);
+    this.button = document.createElement('div');    // the button to open the picker
+    this.button.classList.add('emoji-picker-button');
+    this.button.innerHTML = options.buttonIcon;
+    this.quill.container.appendChild(this.button);
+    this.button.addEventListener('click', this.openEmojiPicker.bind(this));
   }
 
   openEmojiPicker() {
@@ -44,14 +43,15 @@ class EmojiPickerModule extends Module {
       ];
       const tabElementHolder = document.createElement('ul');
       tabToolbar.appendChild(tabElementHolder);
+      /* TODO: mask
       if (document.getElementById('emoji-picker-mask') === null) {
         const pickerMask = document.createElement('div');
         pickerMask.id = 'emoji-picker-mask';
-        pickerMask.addEventListener('click', closeEmojiPicker, false);
-        document.getElementsByTagName('body')[0].appendChild(pickerMask);
+        pickerMask.addEventListener('click', closeEmojiPicker);
+        document.body.appendChild(pickerMask);
       } else {
         document.getElementById('emoji-picker-mask').style.display = 'block';
-      }
+      } */
       const panel = document.createElement('div');
       panel.id = 'tab-panel';
       emojiPicker.appendChild(panel);
@@ -100,7 +100,7 @@ EmojiPickerModule.DEFAULTS = {
 
 function closeEmojiPicker() {
   const emojiPicker = document.getElementById('emoji-picker');
-  document.getElementById('emoji-picker-mask').style.display = 'none';
+  // document.getElementById('emoji-picker-mask').style.display = 'none';     // TODO
   if (emojiPicker) {
     emojiPicker.remove();
   }
@@ -134,24 +134,17 @@ function addEmojisToPanel(type, panel, quill) {
   quill.focus();
   const range = quill.getSelection();
   //
-  result.map(function (emoji) {
+  result.forEach(emoji => {
     const span = document.createElement('span');
-    const t = document.createTextNode(emoji.shortname);
-    span.appendChild(t);
     span.classList.add('bem');
-    span.classList.add('bem-' + emoji.name);
-    const output = '' + emoji.code_decimal + '';
-    span.innerHTML = output + ' ';
+    span.innerHTML = emoji.code_decimal;
+    span.addEventListener('click', () => {
+      const str = utils.emojiToString(emoji)      // Note: emoji can consist of more than one character
+      quill.insertText(range.index, str, Quill.sources.USER);
+      setTimeout(() => quill.setSelection(range.index + str.length), 0);
+      closeEmojiPicker();
+    });
     panel.appendChild(span);
-    //
-    const customButton = document.querySelector('.bem-' + emoji.name);
-    if (customButton) {
-      customButton.addEventListener('click', function () {
-        quill.insertText(range.index, utils.emojiToString(emoji), Quill.sources.USER);
-        setTimeout(() => quill.setSelection(range.index + 1), 0);
-        closeEmojiPicker();
-      });
-    }
   });
 }
 

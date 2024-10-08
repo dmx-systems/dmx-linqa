@@ -39,14 +39,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "3"
   },
-  /* ///@todo not found on image{
+  {
     "name": "rolling_on_the_floor_laughing",
     "unicode": "1f923",
     "shortname": ":rofl:",
     "code_decimal": "&#129315;",
     "category": "p",
     "emoji_order": "4"
-  },*/
+  },
   {
     "name": "smiley",
     "unicode": "1f603",
@@ -319,14 +319,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "39"
   },
-  /*{ //@todo not found on image
+  {
     "name": "drooling_face",
     "unicode": "1f924",
     "shortname": ":drooling_face:",
     "code_decimal": "&#129316;",
     "category": "p",
     "emoji_order": "40"
-  },*/
+  },
   {
     "name": "unamused",
     "unicode": "1f612",
@@ -535,30 +535,30 @@ const emojiList = [
     "category": "p",
     "emoji_order": "67"
   },
-  /*{ //@todo not found on image
+  {
     "name": "face_with_cowboy_hat",
     "unicode": "1f920",
     "shortname": ":cowboy:",
     "code_decimal": "&#129312;",
     "category": "p",
     "emoji_order": "68"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "clown_face",
     "unicode": "1f921",
     "shortname": ":clown:",
     "code_decimal": "&#129313;",
     "category": "p",
     "emoji_order": "69"
-  },*/
-  /*{ //@todo not founf on image
+  },
+  {
     "name": "lying_face",
     "unicode": "1f925",
     "shortname": ":lying_face:",
     "code_decimal": "&#129317;",
     "category": "p",
     "emoji_order": "70"
-  },*/
+  },
   {
     "name": "mask",
     "unicode": "1f637",
@@ -583,22 +583,22 @@ const emojiList = [
     "category": "p",
     "emoji_order": "73"
   },
-  /*{ //@todo not found on image
+  {
     "name": "nauseated_face",
     "unicode": "1f922",
     "shortname": ":nauseated_face:",
     "code_decimal": "&#129314;",
     "category": "p",
     "emoji_order": "74"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "sneezing_face",
     "unicode": "1f927",
     "shortname": ":sneezing_face:",
     "code_decimal": "&#129319;",
     "category": "p",
     "emoji_order": "75"
-  },*/
+  },
   {
     "name": "smiling_imp",
     "unicode": "1f608",
@@ -903,14 +903,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "447"
   },
-  /*{ //@todo not found on image
+  {
     "name": "mrs_claus",
     "unicode": "1f936",
     "shortname": ":mrs_claus:",
     "code_decimal": "&#129334;",
     "category": "p",
     "emoji_order": "453"
-  },*/
+  },
   {
     "name": "princess",
     "unicode": "1f478",
@@ -919,14 +919,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "459"
   },
-  /*{ //@todo not found on image
+  {
     "name": "prince",
     "unicode": "1f934",
     "shortname": ":prince:",
     "code_decimal": "&#129332;",
     "category": "p",
     "emoji_order": "465"
-  },*/
+  },
   {
     "name": "bride_with_veil",
     "unicode": "1f470",
@@ -935,22 +935,22 @@ const emojiList = [
     "category": "p",
     "emoji_order": "471"
   },
-  /*{ //@todo not found on image
+  {
     "name": "man_in_tuxedo",
     "unicode": "1f935",
     "shortname": ":man_in_tuxedo:",
     "code_decimal": "&#129333;",
     "category": "p",
     "emoji_order": "477"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "pregnant_woman",
     "unicode": "1f930",
     "shortname": ":pregnant_woman:",
     "code_decimal": "&#129328;",
     "category": "p",
     "emoji_order": "483"
-  },*/
+  },
   {
     "name": "man_with_gua_pi_mao",
     "unicode": "1f472",
@@ -1015,22 +1015,22 @@ const emojiList = [
     "category": "p",
     "emoji_order": "603"
   },
-  /*{ //@todo not found on image
+  {
     "name": "face_palm",
     "unicode": "1f926",
     "shortname": ":face_palm:",
     "code_decimal": "&#129318;",
     "category": "p",
     "emoji_order": "621"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "shrug",
     "unicode": "1f937",
     "shortname": ":shrug:",
     "code_decimal": "&#129335;",
     "category": "p",
     "emoji_order": "639"
-  },*/
+  },
   {
     "name": "massage",
     "unicode": "1f486",
@@ -1071,14 +1071,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "729"
   },
-  /*{ //@todo not found on image
+  {
     "name": "man_dancing",
     "unicode": "1f57a",
     "shortname": ":man_dancing:",
     "code_decimal": "&#128378;",
     "category": "p",
     "emoji_order": "735"
-  },*/
+  },
   {
     "name": "dancers",
     "unicode": "1f46f",
@@ -1119,14 +1119,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "767"
   },
-  /*{ //@todo not found on image
+  {
     "name": "fencer",
     "unicode": "1f93a",
     "shortname": ":fencer:",
     "code_decimal": "&#129338;",
     "category": "a",
     "emoji_order": "768"
-  },*/
+  },
   {
     "name": "horse_racing",
     "unicode": "1f3c7",
@@ -1231,46 +1231,46 @@ const emojiList = [
     "category": "t",
     "emoji_order": "927"
   },
-  /*{ //@todo not found on image
+  {
     "name": "cartwheel",
     "unicode": "1f938",
     "shortname": ":cartwheel:",
     "code_decimal": "&#129336;",
     "category": "a",
     "emoji_order": "928"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "wrestlers",
     "unicode": "1f93c",
     "shortname": ":wrestlers:",
     "code_decimal": "&#129340;",
     "category": "a",
     "emoji_order": "946"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "water_polo",
     "unicode": "1f93d",
     "shortname": ":water_polo:",
     "code_decimal": "&#129341;",
     "category": "a",
     "emoji_order": "964"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "handball",
     "unicode": "1f93e",
     "shortname": ":handball:",
     "code_decimal": "&#129342;",
     "category": "a",
     "emoji_order": "982"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "juggling",
     "unicode": "1f939",
     "shortname": ":juggling:",
     "code_decimal": "&#129337;",
     "category": "a",
     "emoji_order": "1000"
-  },*/
+  },
   {
     "name": "couple",
     "unicode": "1f46b",
@@ -1328,14 +1328,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1080"
   },
-  /*{ //@todo not found on image
+  {
     "name": "selfie",
     "unicode": "1f933",
     "shortname": ":selfie:",
     "code_decimal": "&#129331;",
     "category": "p",
     "emoji_order": "1086"
-  },*/
+  },
   {
     "name": "point_left",
     "unicode": "1f448",
@@ -1392,22 +1392,22 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1128"
   },
-  /*{ //@todo not found on image
+  {
     "name": "fingers_crossed",
     "unicode": "1f91e",
     "shortname": ":fingers_crossed:",
     "code_decimal": "&#129310;",
     "category": "p",
     "emoji_order": "1134"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "vulcan",
     "unicode": "1f596",
     "shortname": ":vulcan:",
     "code_decimal": "&#128406;",
     "category": "p",
     "emoji_order": "1140"
-  },*/
+  },
   {
     "name": "the_horns",
     "unicode": "1f918",
@@ -1416,14 +1416,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1146"
   },
-  /*{ //@todo not found on image
+  {
     "name": "call_me",
     "unicode": "1f919",
     "shortname": ":call_me:",
     "code_decimal": "&#129305;",
     "category": "p",
     "emoji_order": "1152"
-  },*/
+  },
   {
     "name": "raised_hand_with_fingers_splayed",
     "unicode": "1f590",
@@ -1432,14 +1432,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1158"
   },
-  /*{ //@todo not found on image
+  {
     "name": "raised_hand",
     "unicode": "270b",
     "shortname": ":raised_hand:",
     "code_decimal": "&#9995;",
     "category": "p",
     "emoji_order": "1164"
-  },*/
+  },
   {
     "name": "ok_hand",
     "unicode": "1f44c",
@@ -1480,30 +1480,30 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1194"
   },
-  /*{ //@todo not found on image
+  {
     "name": "left_facing_fist",
     "unicode": "1f91b",
     "shortname": ":left_facing_fist:",
     "code_decimal": "&#129307;",
     "category": "p",
     "emoji_order": "1200"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "right_facing_fist",
     "unicode": "1f91c",
     "shortname": ":right_facing_fist:",
     "code_decimal": "&#129308;",
     "category": "p",
     "emoji_order": "1206"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "raised_back_of_hand",
     "unicode": "1f91a",
     "shortname": ":raised_back_of_hand:",
     "code_decimal": "&#129306;",
     "category": "p",
     "emoji_order": "1212"
-  },*/
+  },
   {
     "name": "wave",
     "unicode": "1f44b",
@@ -1552,14 +1552,14 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1248"
   },
-  /*{ //@todo not found on image
+  {
     "name": "handshake",
     "unicode": "1f91d",
     "shortname": ":handshake:",
     "code_decimal": "&#129309;",
     "category": "p",
     "emoji_order": "1254"
-  },*/
+  },
   {
     "name": "nail_care",
     "unicode": "1f485",
@@ -1720,14 +1720,14 @@ const emojiList = [
     "category": "s",
     "emoji_order": "1295"
   },
-  /*{ //@todo not found on image
+  {
     "name": "black_heart",
     "unicode": "1f5a4",
     "shortname": ":black_heart:",
     "code_decimal": "&#128420;",
     "category": "s",
     "emoji_order": "1296"
-  },*/
+  },
   {
     "name": "gift_heart",
     "unicode": "1f49d",
@@ -2104,14 +2104,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1343"
   },
-  /*{ //@todo not found on image
+  {
     "name": "gorilla",
     "unicode": "1f98d",
     "shortname": ":gorilla:",
     "code_decimal": "&#129421;",
     "category": "n",
     "emoji_order": "1344"
-  },*/
+  },
   {
     "name": "dog",
     "unicode": "1f436",
@@ -2144,14 +2144,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1348"
   },
-  /*{ //@todo not found on image
+  {
     "name": "fox",
     "unicode": "1f98a",
     "shortname": ":fox:",
     "code_decimal": "&#129418;",
     "category": "n",
     "emoji_order": "1349"
-  },*/
+  },
   {
     "name": "cat",
     "unicode": "1f431",
@@ -2216,14 +2216,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1357"
   },
-  /*{ //@todo not found on image
+  {
     "name": "deer",
     "unicode": "1f98c",
     "shortname": ":deer:",
     "code_decimal": "&#129420;",
     "category": "n",
     "emoji_order": "1358"
-  },*/
+  },
   {
     "name": "unicorn_face",
     "unicode": "1f984",
@@ -2344,14 +2344,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1373"
   },
-  /*{ //@todo not found on image
+  {
     "name": "rhino",
     "unicode": "1f98f",
     "shortname": ":rhino:",
     "code_decimal": "&#129423;",
     "category": "n",
     "emoji_order": "1374"
-  },*/
+  },
   {
     "name": "mouse",
     "unicode": "1f42d",
@@ -2408,14 +2408,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1381"
   },
-  /*{ //@todo not found on image
+  {
     "name": "bat",
     "unicode": "1f987",
     "shortname": ":bat:",
     "code_decimal": "&#129415;",
     "category": "n",
     "emoji_order": "1382"
-  },*/
+  },
   {
     "name": "bear",
     "unicode": "1f43b",
@@ -2520,30 +2520,30 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1395"
   },
-  /*{ //@todo not found on image
+  {
     "name": "eagle",
     "unicode": "1f985",
     "shortname": ":eagle:",
     "code_decimal": "&#129413;",
     "category": "n",
     "emoji_order": "1396"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "duck",
     "unicode": "1f986",
     "shortname": ":duck:",
     "code_decimal": "&#129414;",
     "category": "n",
     "emoji_order": "1397"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "owl",
     "unicode": "1f989",
     "shortname": ":owl:",
     "code_decimal": "&#129417;",
     "category": "n",
     "emoji_order": "1398"
-  },*/
+  },
   {
     "name": "frog",
     "unicode": "1f438",
@@ -2568,14 +2568,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1401"
   },
-  /*{ //@todo not found on image
+  {
     "name": "lizard",
     "unicode": "1f98e",
     "shortname": ":lizard:",
     "code_decimal": "&#129422;",
     "category": "n",
     "emoji_order": "1402"
-  },*/
+  },
   {
     "name": "snake",
     "unicode": "1f40d",
@@ -2648,14 +2648,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1411"
   },
-  /*{ //@todo not found on image
+  {
     "name": "shark",
     "unicode": "1f988",
     "shortname": ":shark:",
     "code_decimal": "&#129416;",
     "category": "n",
     "emoji_order": "1412"
-  },*/
+  },
   {
     "name": "octopus",
     "unicode": "1f419",
@@ -2680,30 +2680,30 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1415"
   },
-  /*{ //@todo not found on image
+  {
     "name": "shrimp",
     "unicode": "1f990",
     "shortname": ":shrimp:",
     "code_decimal": "&#129424;",
     "category": "n",
     "emoji_order": "1416"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "squid",
     "unicode": "1f991",
     "shortname": ":squid:",
     "code_decimal": "&#129425;",
     "category": "n",
     "emoji_order": "1417"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "butterfly",
     "unicode": "1f98b",
     "shortname": ":butterfly:",
     "code_decimal": "&#129419;",
     "category": "n",
     "emoji_order": "1418"
-  },*/
+  },
   {
     "name": "snail",
     "unicode": "1f40c",
@@ -2808,14 +2808,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1431"
   },
-  /*{ //@todo not found on image
+  {
     "name": "wilted_rose",
     "unicode": "1f940",
     "shortname": ":wilted_rose:",
     "code_decimal": "&#129344;",
     "category": "n",
     "emoji_order": "1432"
-  },*/
+  },
   {
     "name": "hibiscus",
     "unicode": "1f33a",
@@ -3048,14 +3048,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1461"
   },
-  /*{ //@todo not found on image
+  {
     "name": "kiwi",
     "unicode": "1f95d",
     "shortname": ":kiwi:",
     "code_decimal": "&#129373;",
     "category": "d",
     "emoji_order": "1462"
-  },*/
+  },
   {
     "name": "tomato",
     "unicode": "1f345",
@@ -3064,14 +3064,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1463"
   },
-  /*{ //@todo not found on image
+  {
     "name": "avocado",
     "unicode": "1f951",
     "shortname": ":avocado:",
     "code_decimal": "&#129361;",
     "category": "d",
     "emoji_order": "1464"
-  },*/
+  },
   {
     "name": "eggplant",
     "unicode": "1f346",
@@ -3080,22 +3080,22 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1465"
   },
-  /*{ //@todo not found on image
+  {
     "name": "potato",
     "unicode": "1f954",
     "shortname": ":potato:",
     "code_decimal": "&#129364;",
     "category": "d",
     "emoji_order": "1466"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "carrot",
     "unicode": "1f955",
     "shortname": ":carrot:",
     "code_decimal": "&#129365;",
     "category": "d",
     "emoji_order": "1467"
-  },*/
+  },
   {
     "name": "corn",
     "unicode": "1f33d",
@@ -3112,14 +3112,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1469"
   },
-  /*{ //@todo not found on image
+  {
     "name": "cucumber",
     "unicode": "1f952",
     "shortname": ":cucumber:",
     "code_decimal": "&#129362;",
     "category": "d",
     "emoji_order": "1470"
-  },*/
+  },
   {
     "name": "mushroom",
     "unicode": "1f344",
@@ -3128,14 +3128,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1471"
   },
-  /*{ //@todo not found on image
+  {
     "name": "peanuts",
     "unicode": "1f95c",
     "shortname": ":peanuts:",
     "code_decimal": "&#129372;",
     "category": "d",
     "emoji_order": "1472"
-  },*/
+  },
   {
     "name": "chestnut",
     "unicode": "1f330",
@@ -3152,30 +3152,30 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1474"
   },
-  /*{ //@todo not found on image
+  {
     "name": "croissant",
     "unicode": "1f950",
     "shortname": ":croissant:",
     "code_decimal": "&#129360;",
     "category": "d",
     "emoji_order": "1475"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "french_bread",
     "unicode": "1f956",
     "shortname": ":french_bread:",
     "code_decimal": "&#129366;",
     "category": "d",
     "emoji_order": "1476"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "pancakes",
     "unicode": "1f95e",
     "shortname": ":pancakes:",
     "code_decimal": "&#129374;",
     "category": "d",
     "emoji_order": "1477"
-  },*/
+  },
   {
     "name": "cheese_wedge",
     "unicode": "1f9c0",
@@ -3200,14 +3200,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1480"
   },
-  /*{ //@todo not found on image
+  {
     "name": "bacon",
     "unicode": "1f953",
     "shortname": ":bacon:",
     "code_decimal": "&#129363;",
     "category": "d",
     "emoji_order": "1481"
-  },*/
+  },
   {
     "name": "hamburger",
     "unicode": "1f354",
@@ -3256,14 +3256,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1487"
   },
-  /*{ //@todo not found on image
+  {
     "name": "stuffed_flatbread",
     "unicode": "1f959",
     "shortname": ":stuffed_flatbread:",
     "code_decimal": "&#129369;",
     "category": "d",
     "emoji_order": "1488"
-  },*/
+  },
   {
     "name": "egg",
     "unicode": "1f95a",
@@ -3272,22 +3272,22 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1489"
   },
-  /*{ //@todo not found on image
+  {
     "name": "cooking",
     "unicode": "1f373",
     "shortname": ":cooking:",
     "code_decimal": "&#127859;",
     "category": "d",
     "emoji_order": "1490"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "shallow_pan_of_f",
     "unicode": "1f958",
     "shortname": ":shallow_pan_of_f:",
     "code_decimal": "&#129368;",
     "category": "d",
     "emoji_order": "1491"
-  },*/
+  },
   {
     "name": "stew",
     "unicode": "1f372",
@@ -3296,14 +3296,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1492"
   },
-  /*{ //@todo not found on image
+  {
     "name": "salad",
     "unicode": "1f957",
     "shortname": ":salad:",
     "code_decimal": "&#129367;",
     "category": "d",
     "emoji_order": "1493"
-  },*/
+  },
   {
     "name": "popcorn",
     "unicode": "1f37f",
@@ -3520,14 +3520,14 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1520"
   },
-  /*{ //@todo not found on image
+  {
     "name": "milk",
     "unicode": "1f95b",
     "shortname": ":milk:",
     "code_decimal": "&#129371;",
     "category": "d",
     "emoji_order": "1521"
-  },*/
+  },
   {
     "name": "coffee",
     "unicode": "2615",
@@ -3600,22 +3600,22 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1530"
   },
-  /*{ //@todo not found on image
+  {
     "name": "champagne_glass",
     "unicode": "1f942",
     "shortname": ":champagne_glass:",
     "code_decimal": "&#129346;",
     "category": "d",
     "emoji_order": "1531"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "tumbler_glass",
     "unicode": "1f943",
     "shortname": ":tumbler_glass:",
     "code_decimal": "&#129347;",
     "category": "d",
     "emoji_order": "1532"
-  },*/
+  },
   {
     "name": "knife_fork_plate",
     "unicode": "1f37d",
@@ -3632,22 +3632,22 @@ const emojiList = [
     "category": "d",
     "emoji_order": "1534"
   },
-  /*{ //@todo not found on image
+  {
     "name": "spoon",
     "unicode": "1f944",
     "shortname": ":spoon:",
     "code_decimal": "&#129348;",
     "category": "d",
     "emoji_order": "1535"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "knife",
     "unicode": "1f52a",
     "shortname": ":knife:",
     "code_decimal": "&#128298;",
     "category": "o",
     "emoji_order": "1536"
-  },*/
+  },
   {
     "name": "amphora",
     "unicode": "1f3fa",
@@ -4056,14 +4056,14 @@ const emojiList = [
     "category": "t",
     "emoji_order": "1587"
   },
-  /*{ //@todo not found on image
+  {
     "name": "city_dusk",
     "unicode": "1f306",
     "shortname": ":city_dusk:",
     "code_decimal": "&#127750;",
     "category": "t",
     "emoji_order": "1588"
-  },*/
+  },
   {
     "name": "city_sunset",
     "unicode": "1f307",
@@ -4400,22 +4400,22 @@ const emojiList = [
     "category": "t",
     "emoji_order": "1630"
   },
-  /*{ //@todo not found on image
+  {
     "name": "scooter",
     "unicode": "1f6f4",
     "shortname": ":scooter:",
     "code_decimal": "&#128756;",
     "category": "t",
     "emoji_order": "1631"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "motor_scooter",
     "unicode": "1f6f5",
     "shortname": ":motor_scooter:",
     "code_decimal": "&#128757;",
     "category": "t",
     "emoji_order": "1632"
-  },*/
+  },
   {
     "name": "busstop",
     "unicode": "1f68f",
@@ -4504,14 +4504,14 @@ const emojiList = [
     "category": "t",
     "emoji_order": "1643"
   },
-  /*{ //@todo not found on image
+  {
     "name": "canoe",
     "unicode": "1f6f6",
     "shortname": ":canoe:",
     "code_decimal": "&#128758;",
     "category": "t",
     "emoji_order": "1644"
-  },*/
+  },
   {
     "name": "speedboat",
     "unicode": "1f6a4",
@@ -4984,14 +4984,14 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1713"
   },
-  /*{ //@todo not found on image
+  {
     "name": "waxing_gibbous_moon",
     "unicode": "1f314",
     "shortname": ":waxing_gibbous_moon:",
     "code_decimal": "&#127764;",
     "category": "n",
     "emoji_order": "1714"
-  },*/
+  },
   {
     "name": "full_moon",
     "unicode": "1f315",
@@ -5136,30 +5136,30 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1732"
   },
-  /*{ //@todo not found on image
+  {
     "name": "white_sun_small_cloud",
     "unicode": "1f324",
     "shortname": ":white_sun_small_cloud:",
     "code_decimal": "&#127780;",
     "category": "n",
     "emoji_order": "1733"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "white_sun_cloud",
     "unicode": "1f325",
     "shortname": ":white_sun_cloud:",
     "code_decimal": "&#127781;",
     "category": "n",
     "emoji_order": "1734"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "white_sun_rain_cloud",
     "unicode": "1f326",
     "shortname": ":white_sun_rain_cloud:",
     "code_decimal": "&#127782;",
     "category": "n",
     "emoji_order": "1735"
-  },*/
+  },
   {
     "name": "rain_cloud",
     "unicode": "1f327",
@@ -5176,22 +5176,22 @@ const emojiList = [
     "category": "n",
     "emoji_order": "1737"
   },
-  /*{ //@todo not found on image
+  {
     "name": "cloud_lightning",
     "unicode": "1f329",
     "shortname": ":cloud_lightning:",
     "code_decimal": "&#127785;",
     "category": "n",
     "emoji_order": "1738"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "cloud_tornado",
     "unicode": "1f32a",
     "shortname": ":cloud_tornado:",
     "code_decimal": "&#127786;",
     "category": "n",
     "emoji_order": "1739"
-  },*/
+  },
   {
     "name": "fog",
     "unicode": "1f32b",
@@ -5496,30 +5496,30 @@ const emojiList = [
     "category": "a",
     "emoji_order": "1777"
   },
-  /*{ //@todo not found on image
+  {
     "name": "first_place",
     "unicode": "1f947",
     "shortname": ":first_place:",
     "code_decimal": "&#129351;",
     "category": "a",
     "emoji_order": "1778"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "second_place",
     "unicode": "1f948",
     "shortname": ":second_place:",
     "code_decimal": "&#129352;",
     "category": "a",
     "emoji_order": "1779"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "third_place",
     "unicode": "1f949",
     "shortname": ":third_place:",
     "code_decimal": "&#129353;",
     "category": "a",
     "emoji_order": "1780"
-  },*/
+  },
   {
     "name": "soccer",
     "unicode": "26bd",
@@ -5632,30 +5632,30 @@ const emojiList = [
     "category": "a",
     "emoji_order": "1794"
   },
-  /*{ //@todo not found on image
+  {
     "name": "boxing_glove",
     "unicode": "1f94a",
     "shortname": ":boxing_glove:",
     "code_decimal": "&#129354;",
     "category": "a",
     "emoji_order": "1795"
-  },*/
-  /*{ //@todo not found on image
+  },
+  {
     "name": "martial_arts_uniform",
     "unicode": "1f94b",
     "shortname": ":martial_arts_uniform:",
     "code_decimal": "&#129355;",
     "category": "a",
     "emoji_order": "1796"
-  },*/
-  /*{ @todo not found on image
+  },
+  {
     "name": "goal",
     "unicode": "1f945",
     "shortname": ":goal:",
     "code_decimal": "&#129349;",
     "category": "a",
     "emoji_order": "1797"
-  },*/
+  },
   {
     "name": "dart",
     "unicode": "1f3af",
@@ -5968,14 +5968,14 @@ const emojiList = [
     "category": "a",
     "emoji_order": "1836"
   },
-  /*{ //@todo not found on image
+  {
     "name": "drum",
     "unicode": "1f941",
     "shortname": ":drum:",
     "code_decimal": "&#129345;",
     "category": "a",
     "emoji_order": "1837"
-  },*/
+  },
   {
     "name": "iphone",
     "unicode": "1f4f1",
@@ -6480,14 +6480,14 @@ const emojiList = [
     "category": "s",
     "emoji_order": "1900"
   },
-  /* { //@todo not found on image
+  {
     "name": "envelope",
     "unicode": "2709",
     "shortname": ":envelope:",
     "code_decimal": "&#9993;",
     "category": "o",
     "emoji_order": "1901"
-  },*/
+  },
   {
     "name": "e-mail",
     "unicode": "1f4e7",
@@ -7072,14 +7072,14 @@ const emojiList = [
     "category": "o",
     "emoji_order": "1974"
   },
-  /*{ //@todo not found on image
+  {
     "name": "shopping_cart",
     "unicode": "1f6d2",
     "shortname": ":shopping_cart:",
     "code_decimal": "&#128722;",
     "category": "o",
     "emoji_order": "1975"
-  },*/
+  },
   {
     "name": "atm",
     "unicode": "1f3e7",
@@ -7792,14 +7792,14 @@ const emojiList = [
     "category": "s",
     "emoji_order": "2064"
   },
-  /*{ //@todo not found on image
+  {
     "name": "eject",
     "unicode": "23cf",
     "shortname": ":eject:",
     "code_decimal": "&#9167;",
     "category": "s",
     "emoji_order": "2065"
-  },*/
+  },
   {
     "name": "cinema",
     "unicode": "1f3a6",
@@ -10782,14 +10782,6 @@ const emojiList = [
     "code_decimal": "&#127487;&#127484;",
     "category": "f",
     "emoji_order": "2444"
-  },
-  {
-    "name": "speech",
-    "unicode": "1f600",
-    "shortname": ":speech:",
-    "code_decimal": "&#128172;",
-    "category": "p",
-    "emoji_order": "1"
   }
 ];
 

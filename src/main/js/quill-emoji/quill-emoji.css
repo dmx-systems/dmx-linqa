@@ -162,4 +162,5 @@
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 998;   /* picker itself is at 999 */
 }

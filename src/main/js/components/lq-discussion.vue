@@ -389,7 +389,7 @@ export default {
 }
 
 .lq-discussion .new-comment .emoji-picker-button {
-  top: 0;
+  top: -1px;
   right: 22px;
 }
 </style>

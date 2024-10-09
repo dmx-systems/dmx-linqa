@@ -6,14 +6,14 @@ import utils from './emoji-utils.js';
 const Module = Quill.import('core/module');
 
 const CATEGORIES = [
-  {type: 'p', name: 'people',   content: '<div class="i-people"></div>'},
-  {type: 'n', name: 'nature',   content: '<div class="i-nature"></div>'},
-  {type: 'd', name: 'food',     content: '<div class="i-food"></div>'},
-  {type: 's', name: 'symbols',  content: '<div class="i-symbols"></div>'},
-  {type: 'a', name: 'activity', content: '<div class="i-activity"></div>'},
-  {type: 't', name: 'travel',   content: '<div class="i-travel"></div>'},
-  {type: 'o', name: 'objects',  content: '<div class="i-objects"></div>'},
-  {type: 'f', name: 'flags',    content: '<div class="i-flags"></div>'}
+  {id: 'p', name: 'people'},
+  {id: 'n', name: 'nature'},
+  {id: 'd', name: 'food'},
+  {id: 's', name: 'symbols'},
+  {id: 'a', name: 'activity'},
+  {id: 't', name: 'travel'},
+  {id: 'o', name: 'objects'},
+  {id: 'f', name: 'flags'}
 ];
 
 /**
@@ -29,6 +29,7 @@ class EmojiPickerModule extends Module {
     this.button.addEventListener('click', this.openEmojiPicker.bind(this));
     this.quill = quill;
     this.quill.container.appendChild(this.button);
+    this.fuse = new Fuse(emojiData, options.fuse);
   }
 
   openEmojiPicker() {
@@ -43,8 +44,8 @@ class EmojiPickerModule extends Module {
     const tabToolbar = document.createElement('div');
     tabToolbar.id = 'tab-toolbar';
     emojiPicker.appendChild(tabToolbar);
-    const categoryList = document.createElement('ul');
-    tabToolbar.appendChild(categoryList);
+    const catList = document.createElement('ul');
+    tabToolbar.appendChild(catList);
     // this.createMask()    // TODO
     const tabPanel = document.createElement('div');
     tabPanel.id = 'tab-panel';
@@ -52,25 +53,19 @@ class EmojiPickerModule extends Module {
     CATEGORIES.forEach(cat => {
       const catItem = document.createElement('li');
       catItem.classList.add('emoji-tab');
-      catItem.classList.add('filter-' + cat.name);
-      catItem.innerHTML = cat.content;
-      catItem.dataset.filter = cat.type;
-      categoryList.appendChild(catItem);
-      const emojiFilter = document.querySelector('.filter-' + cat.name);
-      emojiFilter.addEventListener('click', () => {
-        const emojiContainer = document.getElementById('emoji-picker');
-        const tab = emojiContainer && emojiContainer.querySelector('.active');
-        if (tab) {
-          tab.classList.remove('active');
-        }
-        emojiFilter.classList.toggle('active');
+      catItem.classList.add(cat.id);
+      catItem.innerHTML = '<div></div>';
+      catItem.addEventListener('click', () => {
+        emojiPicker.querySelector('.active').classList.remove('active');
+        catItem.classList.add('active');
         while (tabPanel.firstChild) {
           tabPanel.removeChild(tabPanel.firstChild);
         }
-        const type = emojiFilter.dataset.filter;
-        this.addEmojisToPanel(type, tabPanel);
+        this.addEmojisToPanel(cat.id, tabPanel);
       });
+      catList.appendChild(catItem);
     });
+    //
     const windowHeight = window.innerHeight;
     const editorPos = this.quill.container.getBoundingClientRect().top;
     if (editorPos > windowHeight / 2) {
@@ -80,21 +75,10 @@ class EmojiPickerModule extends Module {
   }
 
   /**
-   * Adds all emojis of the given type to the given panel.
+   * Adds all emojis of the given category to the given panel.
    */
-  addEmojisToPanel(type, panel) {
-    const fuseOptions = {
-      shouldSort: true,
-      matchAllTokens: true,
-      threshold: 0.3,
-      location: 0,
-      distance: 100,
-      maxPatternLength: 32,
-      minMatchCharLength: 3,
-      keys: ['category']
-    };
-    const fuse = new Fuse(emojiData, fuseOptions);
-    const result = fuse.search(type);
+  addEmojisToPanel(catId, panel) {
+    const result = this.fuse.search(catId);
     result.sort((a, b) => a.emoji_order - b.emoji_order);
     //
     this.quill.focus();
@@ -126,8 +110,8 @@ class EmojiPickerModule extends Module {
   }
 
   initEmojiPicker(panel) {
-    this.addEmojisToPanel('p', panel);
-    document.querySelector('.filter-people').classList.add('active');
+    this.addEmojisToPanel('p', panel);    // "p" = people category
+    document.querySelector('li.emoji-tab.p').classList.add('active');
   }
 
   closeEmojiPicker() {
@@ -145,7 +129,17 @@ EmojiPickerModule.DEFAULTS = {
     <circle class="ql-fill" cx="11" cy="7" r="1"></circle>
     <path class="ql-stroke" d="M7,10a2,2,0,0,0,4,0H7Z"></path>
     <circle class="ql-stroke" cx="9" cy="9" r="6"></circle>
-  </svg>`
+  </svg>`,
+  fuse: {
+    shouldSort: true,
+    matchAllTokens: true,
+    threshold: 0.3,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 3,
+    keys: ['category']
+  }
 };
 
 export default EmojiPickerModule;

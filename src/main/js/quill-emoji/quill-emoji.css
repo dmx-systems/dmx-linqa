@@ -149,10 +149,9 @@
 
 .ql-container .emoji-picker-button {
   position: absolute;
-  width: 25px;
-  height: 25px;
+  width: 23px;
   right: 4px;
-  top: 10px;
+  top: 6px;
 }
 
 /* body mounted */

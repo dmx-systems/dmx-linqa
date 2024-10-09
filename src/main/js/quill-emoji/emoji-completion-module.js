@@ -1,6 +1,6 @@
 import Quill from 'quill';
 import Fuse from 'fuse.js';
-import emojiList from './emoji-list.js';
+import emojiData from './emoji-data.js';
 import utils from './emoji-utils.js';
 
 const Module = Quill.import('core/module');
@@ -20,8 +20,8 @@ class EmojiCompletionModule extends Module {
     // console.log('EmojiCompletionModule', options, quill.container)
     super(quill, options);
     //
-    this.emojiList = options.emojiList;
-    this.fuse      = new Fuse(options.emojiList, options.fuse);
+    this.emojiData = options.emojiData;
+    this.fuse      = new Fuse(options.emojiData, options.fuse);
     this.quill     = quill;
     this.onClose   = options.onClose;
     this.onOpen    = options.onOpen;
@@ -305,7 +305,7 @@ class EmojiCompletionModule extends Module {
 }
 
 EmojiCompletionModule.DEFAULTS = {
-  emojiList: emojiList,
+  emojiData: emojiData,
   fuse: {
     shouldSort: true,
     threshold: 0.1,

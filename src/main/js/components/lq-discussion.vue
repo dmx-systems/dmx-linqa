@@ -387,4 +387,9 @@ export default {
   right: 0;
   font-size: 20px;
 }
+
+.lq-discussion .new-comment .emoji-picker-button {
+  top: 0;
+  right: 22px;
+}
 </style>

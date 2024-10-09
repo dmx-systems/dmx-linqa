@@ -1,6 +1,6 @@
 import Quill from 'quill';
 import Fuse from 'fuse.js';
-import emojiList from './emoji-list.js';
+import emojiData from './emoji-data.js';
 import utils from './emoji-utils.js';
 
 const Module = Quill.import('core/module');
@@ -125,7 +125,7 @@ function addEmojisToPanel(type, panel, quill) {
     minMatchCharLength: 3,
     keys: ['category']
   };
-  const fuse = new Fuse(emojiList, fuseOptions);
+  const fuse = new Fuse(emojiData, fuseOptions);
   const result = fuse.search(type);
   result.sort(function (a, b) {
     return a.emoji_order - b.emoji_order;

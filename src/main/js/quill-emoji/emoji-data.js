@@ -1,4 +1,4 @@
-const emojiList = [
+const emojiData = [
   {
     "name": "100",
     "unicode": "1f4af",
@@ -1303,7 +1303,6 @@ const emojiList = [
     "category": "p",
     "emoji_order": "1036"
   },
-
   {
     "name": "couple_with_heart",
     "unicode": "1f491",
@@ -9592,9 +9591,6 @@ const emojiList = [
     "category": "f",
     "emoji_order": "2295"
   },
-
-
-
   {
     "name": "flag-im",
     "unicode": "1f1ee-1f1f2",
@@ -10315,9 +10311,6 @@ const emojiList = [
     "category": "f",
     "emoji_order": "2385"
   },
-
-
-
   {
     "name": "flag-sb",
     "unicode": "1f1f8-1f1e7",
@@ -10710,7 +10703,6 @@ const emojiList = [
     "category": "f",
     "emoji_order": "2435"
   },
-
   {
     "name": "flag-vu",
     "unicode": "1f1fb-1f1fa",
@@ -10785,4 +10777,4 @@ const emojiList = [
   }
 ];
 
-export default emojiList;
+export default emojiData;

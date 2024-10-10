@@ -1,9 +1,11 @@
+/* Emoji Menu */
+
 .ql-container .emoji-menu {
   list-style: none;
   margin: 0;
   padding: 2px;
   background: white;
-  border: 1px solid rgba(0, 0, 0, .15);
+  border: 1px solid #d3d4d6;   /* Element UI Info plain color */
   border-radius: 3px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
 }
@@ -30,20 +32,22 @@
   margin-left: 8px;
 }
 
+/* Emoji Picker */
+
 .ql-container #emoji-picker {
   position: absolute;
-  right:0px;
-  max-width: 250px;
+  right: 0;
+  width: 250px;
   z-index: 999;
-  border: 1px solid rgba(0, 0, 0, .15);
+  border: 1px solid #d3d4d6;          /* Element UI Info plain color */
   border-radius: 3px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
 }
 
 .ql-container #emoji-picker #tab-toolbar {
-  background-color: #f7f7f7;
+  background-color: #f4f4f5;          /* Element UI Info color */
   padding: 4px 4px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, .15);
+  border-bottom: 1px solid #d3d4d6;   /* Element UI Info plain color */
 }
 
 .ql-container #emoji-picker #tab-toolbar ul {
@@ -61,7 +65,7 @@
 }
 
 .ql-container #emoji-picker #tab-toolbar .emoji-tab.active {
-  border-bottom: 3px solid #2ab27b;
+  border-bottom: 3px solid var(--highlight-color);
 }
 
 .ql-container #emoji-picker #tab-toolbar .emoji-tab > div {

@@ -6,14 +6,14 @@ import utils from './emoji-utils.js';
 const Module = Quill.import('core/module');
 
 const CATEGORIES = [
-  {id: 'p', name: 'people'},
-  {id: 'n', name: 'nature'},
-  {id: 'd', name: 'food'},
-  {id: 's', name: 'symbols'},
-  {id: 'a', name: 'activity'},
-  {id: 't', name: 'travel'},
-  {id: 'o', name: 'objects'},
-  {id: 'f', name: 'flags'}
+  {id: 'p', name: 'Smileys & People'},
+  {id: 'n', name: 'Animals & Nature'},
+  {id: 'd', name: 'Food & Drink'},
+  {id: 's', name: 'Symbols'},
+  {id: 'a', name: 'Activity'},
+  {id: 't', name: 'Travel & Places'},
+  {id: 'o', name: 'Objects'},
+  {id: 'f', name: 'Flags'}
 ];
 
 /**
@@ -38,25 +38,26 @@ class EmojiPickerModule extends Module {
       this.closeEmojiPicker();
       return;
     }
-    emojiPicker = document.createElement('div');
-    emojiPicker.id = 'emoji-picker';
-    this.quill.container.appendChild(emojiPicker);
+    // this.createMask()    // TODO
+    const catList = document.createElement('ul');
     const tabToolbar = document.createElement('div');
     tabToolbar.id = 'tab-toolbar';
-    emojiPicker.appendChild(tabToolbar);
-    const catList = document.createElement('ul');
     tabToolbar.appendChild(catList);
-    // this.createMask()    // TODO
     const tabPanel = document.createElement('div');
     tabPanel.id = 'tab-panel';
+    emojiPicker = document.createElement('div');
+    emojiPicker.id = 'emoji-picker';
+    emojiPicker.appendChild(tabToolbar);
     emojiPicker.appendChild(tabPanel);
+    this.quill.container.appendChild(emojiPicker);
     CATEGORIES.forEach(cat => {
       const catItem = document.createElement('li');
       catItem.classList.add('emoji-tab');
       catItem.classList.add(cat.id);
+      catItem.title = cat.name;
       catItem.innerHTML = '<div></div>';
       catItem.addEventListener('click', () => {
-        emojiPicker.querySelector('.active').classList.remove('active');
+        emojiPicker.querySelector('.emoji-tab.active').classList.remove('active');
         catItem.classList.add('active');
         while (tabPanel.firstChild) {
           tabPanel.removeChild(tabPanel.firstChild);
@@ -86,7 +87,8 @@ class EmojiPickerModule extends Module {
     //
     result.forEach(emoji => {
       const span = document.createElement('span');
-      span.classList.add('bem');
+      span.classList.add('emoji');
+      span.title = emoji.name;
       span.innerHTML = emoji.code_decimal;
       span.addEventListener('click', () => {
         const str = utils.emojiToString(emoji)      // Note: emoji can consist of more than one character

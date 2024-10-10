@@ -64,6 +64,8 @@ class EmojiCompletionModule extends Module {
     //
     this.quill.keyboard.addBinding({key: 39, collapsed: true}, this.handleArrow.bind(this));    // ArrowRight
     this.quill.keyboard.addBinding({key: 40, collapsed: true}, this.handleArrow.bind(this));    // ArrowDown
+    //
+    this.quill.keyboard.addBinding({key: 27}, this.handleEscape.bind(this));                    // Escape
     // TODO: add keybindings for Enter (13) and Tab (9) statically in Quill configuration.
     // Note: dynmic binding (via quill.keyboard.addBinding()) does not work for these keys as Quill provides
     // default handlers which can only be overridden by Quill configuration.
@@ -202,51 +204,47 @@ class EmojiCompletionModule extends Module {
       const index = this.quill.getSelection().index
       this.quill.deleteText(index, 1, Quill.sources.SILENT);
     }
-    //
-    if (event) {    // global window object
-      if (event.key === 'Enter') {
-        console.log('    Enter (editor) -->', this.firstEmoji.name)
-        deleteChar()
-        this.leaveCompletionMode(this.firstEmoji);
-        return true;
-      } else if (event.key === 'Tab') {
-        console.log('    Tab (editor) --> move focus from editor to menu')
-        deleteChar()
-        this.quill.disable();
-        this.buttons[0].classList.remove('emoji-active');
-        this.buttons[1].focus();
-        return true;
-      }
+    // "event" is global window object
+    if (event.key === 'Enter') {
+      console.log('    Enter (editor) -->', this.firstEmoji.name)
+      deleteChar()
+      this.leaveCompletionMode(this.firstEmoji);
+      return true;
+    } else if (event.key === 'Tab') {
+      console.log('    Tab (editor) --> move focus from editor to menu')
+      deleteChar()
+      this.quill.disable();
+      this.buttons[0].classList.remove('emoji-active');
+      this.buttons[1].focus();
+      return true;
     }
   }
 
   createMenuKeyHandler(i, emoji) {
     return event => {
       const buttons = this.buttons
-      if (event.key === 'ArrowRight') {
+      if (event.key === 'Tab') {
         event.preventDefault();
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
-      } else if (event.key === 'Tab') {
+      } else if (event.key === 'ArrowRight') {
         event.preventDefault();
-        if ((i + 1) === buttons.length) {
-          buttons[0].focus();
-          return;
-        }
+        buttons[Math.min(buttons.length - 1, i + 1)].focus();
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
       } else if (event.key === 'ArrowLeft') {
         event.preventDefault();
         buttons[Math.max(0, i - 1)].focus();
-      } else if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        buttons[Math.min(buttons.length - 1, i + 1)].focus();
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
         buttons[Math.max(0, i - 1)].focus();
-      } else if (event.key === 'Enter' || event.key === ' ' || event.key === 'Tab') {
-        console.log('    Enter/Space/Tab -->', emoji.name)
+      } else if (event.key === 'Enter' || event.key === ' ') {
+        console.log('    Enter/Space -->', emoji.name)
         event.preventDefault();
-        this.quill.enable();
         this.leaveCompletionMode(emoji);
+      } else if (event.key === 'Escape') {
+        console.log('    Escape --> abort')
+        this.leaveCompletionMode();
       }
     }
   }
@@ -290,6 +288,14 @@ class EmojiCompletionModule extends Module {
     if (this.buttons.length > 1) {
       this.buttons[1].focus();
     }
+  }
+
+  handleEscape() {
+    console.log('  handleEscape (editor)', 'compMode', this.compMode)
+    if (!this.compMode) {
+      return true;
+    }
+    this.leaveCompletionMode()
   }
 
   /**

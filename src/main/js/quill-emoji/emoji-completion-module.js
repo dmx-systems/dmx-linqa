@@ -7,7 +7,8 @@ const Module = Quill.import('core/module');
 
 const MAX_MENU_ITEMS = 10
 const DEFAULT_MENU_ITEMS = [
-  'slightly_smiling_face', 'thumbsup', 'thumbsdown', 'heart_decoration', 'white_check_mark'
+  'grinning', 'grin', 'joy', 'rolling_on_the_floor_laughing', 'smiley',
+  'smile', 'sweat_smile', 'laughing', 'wink', 'blush'
 ].map(utils.getEmoji)
 
 /**

@@ -58,10 +58,15 @@ class EmojiCompletionModule extends Module {
     //
     // Chrome      186/shift     186/shift     186
     //             same as Ö!
-    this.quill.keyboard.addBinding({key: 186, shiftKey: null},  this.enterCompletionMode.bind(this));
-    this.quill.keyboard.addBinding({key: 190, shiftKey: true},  this.enterCompletionMode.bind(this));
-    this.quill.keyboard.addBinding({key: 59,  shiftKey: true},  this.enterCompletionMode.bind(this));
-    this.quill.keyboard.addBinding({key: 58,  shiftKey: false}, this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 186, shiftKey: null,  prefix: / /}, this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 190, shiftKey: true,  prefix: / /}, this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 59,  shiftKey: true,  prefix: / /}, this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 58,  shiftKey: false, prefix: / /}, this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 186, shiftKey: null,  offset: 0},   this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 190, shiftKey: true,  offset: 0},   this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 59,  shiftKey: true,  offset: 0},   this.enterCompletionMode.bind(this));
+    this.quill.keyboard.addBinding({key: 58,  shiftKey: false, offset: 0},   this.enterCompletionMode.bind(this));
+    // Note: emoji menu is triggered only when colon follows a space OR at the beginning of the line
     //
     this.quill.keyboard.addBinding({key: 39, collapsed: true}, this.handleArrow.bind(this));    // ArrowRight
     this.quill.keyboard.addBinding({key: 40, collapsed: true}, this.handleArrow.bind(this));    // ArrowDown

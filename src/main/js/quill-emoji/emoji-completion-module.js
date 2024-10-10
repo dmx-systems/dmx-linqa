@@ -5,6 +5,7 @@ import utils from './emoji-utils.js';
 
 const Module = Quill.import('core/module');
 
+const LOG = false
 const MAX_MENU_ITEMS = 10
 const DEFAULT_MENU_ITEMS = [
   'grinning', 'grin', 'joy', 'rolling_on_the_floor_laughing', 'smiley',
@@ -78,13 +79,14 @@ class EmojiCompletionModule extends Module {
    * Calculates menu position and opens it.
    */
   enterCompletionMode(range, context) {
-    console.log('### enterCompletionMode', 'key', `"${event.key}"`, 'compMode', this.compMode, 'index', range.index)
+    LOG && console.log('### enterCompletionMode', 'key', `"${event.key}"`, 'compMode', this.compMode, 'index',
+      range.index)
     if (event.key !== ':') {
-      console.log('  --> abort, not colon key')
+      LOG && console.log('  --> abort, not colon key')
       return true;    // true triggers default Quill handler to insert typed character
     }
     if (this.compMode) {
-      console.log('  --> abort, already in completion mode')
+      LOG && console.log('  --> abort, already in completion mode')
       return true;    // true triggers default Quill handler to insert colon
     }
     this.compMode = true;
@@ -121,20 +123,20 @@ class EmojiCompletionModule extends Module {
    */
   updateCompletions() {
     const index = this.quill.getSelection().index;
-    console.log('  updateCompletions', 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
+    LOG && console.log('  updateCompletions', 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
       this.quill.getText().length)
     if (this.handleDefaultEditorKeys()) {
       return
     }
     if (this.colIndex >= index) {       // Deleted the at character
-      console.log('    --> abort', this.colIndex, index)
+      LOG && console.log('    --> abort', this.colIndex, index)
       this.leaveCompletionMode();
       return;
     }
     //
     // calculate "query"
     this.query = this.quill.getText(this.colIndex + 1, index - this.colIndex - 1);
-    console.log('    query', `"${this.query}"`, 'len', this.query.length, 'whitespace', /\s/.test(this.query))
+    LOG && console.log('    query', `"${this.query}"`, 'len', this.query.length, 'whitespace', /\s/.test(this.query))
     if (/\s/.test(this.query)) {        // typing whitespace leaves completion mode
       this.leaveCompletionMode();
       return;
@@ -143,7 +145,7 @@ class EmojiCompletionModule extends Module {
     // search emojis (using fuse.js)
     let emojis = this.fuse.search(this.query).sort((a, b) => a.emoji_order - b.emoji_order);
     if (this.query.length < this.options.fuse.minMatchCharLength || emojis.length === 0) {
-      console.log('    --> no result')
+      LOG && console.log('    --> no result')
       this.menu.style.display = 'none';    // close menu w/o leaving completion mode
       return;
     }
@@ -154,7 +156,7 @@ class EmojiCompletionModule extends Module {
   }
 
   renderMenu(emojis) {
-    console.log('    renderMenu', 'items', emojis.length)
+    LOG && console.log('    renderMenu', 'items', emojis.length)
     this.firstEmoji = emojis[0]
     // clear menu
     while (this.menu.firstChild){
@@ -206,12 +208,12 @@ class EmojiCompletionModule extends Module {
     }
     // "event" is global window object
     if (event.key === 'Enter') {
-      console.log('    Enter (editor) -->', this.firstEmoji.name)
+      LOG && console.log('    Enter (editor) -->', this.firstEmoji.name)
       deleteChar()
       this.leaveCompletionMode(this.firstEmoji);
       return true;
     } else if (event.key === 'Tab') {
-      console.log('    Tab (editor) --> move focus from editor to menu')
+      LOG && console.log('    Tab (editor) --> move focus from editor to menu')
       deleteChar()
       this.quill.disable();
       this.buttons[0].classList.remove('emoji-active');
@@ -225,6 +227,10 @@ class EmojiCompletionModule extends Module {
       const buttons = this.buttons
       if (event.key === 'Tab') {
         event.preventDefault();
+        if ((i + 1) === buttons.length) {
+          buttons[0].focus();
+          return;
+        }
         buttons[Math.min(buttons.length - 1, i + 1)].focus();
       } else if (event.key === 'ArrowRight') {
         event.preventDefault();
@@ -239,11 +245,11 @@ class EmojiCompletionModule extends Module {
         event.preventDefault();
         buttons[Math.max(0, i - 1)].focus();
       } else if (event.key === 'Enter' || event.key === ' ') {
-        console.log('    Enter/Space -->', emoji.name)
+        LOG && console.log('    Enter/Space -->', emoji.name)
         event.preventDefault();
         this.leaveCompletionMode(emoji);
       } else if (event.key === 'Escape') {
-        console.log('    Escape --> abort')
+        LOG && console.log('    Escape --> abort')
         this.leaveCompletionMode();
       }
     }
@@ -254,7 +260,8 @@ class EmojiCompletionModule extends Module {
    * Closes the menu. Inserts the emoji, if given.
    */
   leaveCompletionMode(emoji) {
-    console.log('### leaveCompletionMode', 'emoji', emoji?.name, 'length', emoji && utils.emojiToString(emoji).length)
+    LOG && console.log('### leaveCompletionMode', 'emoji', emoji?.name, 'length',
+      emoji && utils.emojiToString(emoji).length)
     this.quill.enable();
     this.menu.style.display = 'none';
     while (this.menu.firstChild) {
@@ -279,7 +286,7 @@ class EmojiCompletionModule extends Module {
    * Quill key handler for arrow-right and arrow-down.
    */
   handleArrow() {
-    console.log('  handleArrow (editor)', 'compMode', this.compMode)
+    LOG && console.log('  handleArrow (editor)', 'compMode', this.compMode)
     if (!this.compMode) {
       return true;
     }
@@ -291,7 +298,7 @@ class EmojiCompletionModule extends Module {
   }
 
   handleEscape() {
-    console.log('  handleEscape (editor)', 'compMode', this.compMode)
+    LOG && console.log('handleEscape (editor)', 'compMode', this.compMode)
     if (!this.compMode) {
       return true;
     }
@@ -303,10 +310,10 @@ class EmojiCompletionModule extends Module {
    */
   maybeUnfocus() {
     if (this.menu.querySelector('*:focus')) {
-      console.log('  maybeUnfocus (menu has focus) --> abort')
+      LOG && console.log('  maybeUnfocus (menu has focus) --> abort')
       return;
     }
-    console.log('  maybeUnfocus (menu does not have focus) --> leave completion mode')
+    LOG && console.log('  maybeUnfocus (menu does not have focus) --> leave completion mode')
     this.leaveCompletionMode();
   }
 }

@@ -23,13 +23,14 @@ class EmojiPickerModule extends Module {
 
   constructor(quill, options) {
     super(quill, options);
+    this.fuse = new Fuse(emojiData, options.fuse);
     this.button = document.createElement('div');    // the button to open the picker
     this.button.classList.add('emoji-picker-button');
     this.button.innerHTML = options.buttonIcon;
     this.button.addEventListener('click', this.openEmojiPicker.bind(this));
     this.quill = quill;
     this.quill.container.appendChild(this.button);
-    this.fuse = new Fuse(emojiData, options.fuse);
+    this.quill.keyboard.addBinding({key: 27}, this.closeEmojiPicker);   // Escape
   }
 
   openEmojiPicker() {
@@ -119,8 +120,11 @@ class EmojiPickerModule extends Module {
   closeEmojiPicker() {
     const emojiPicker = document.getElementById('emoji-picker');
     // document.getElementById('emoji-picker-mask').style.display = 'none';     // TODO
+    // console.log('closeEmojiPicker', 'open', !!emojiPicker)
     if (emojiPicker) {
       emojiPicker.remove();
+    } else {
+      return true;    // let other key handlers handle ESC
     }
   }
 }

@@ -733,6 +733,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
+    @POST
+    @Path("/admin/workspace/{workspaceId}")
+    @Transactional
+    @Override
+    public Topic duplicateLinqaWorkspace(@PathParam("workspaceId") long workspaceId) {
+        ChildTopics topics = dmx.getTopic(workspaceId).getChildTopics();
+        String nameLang1 = topics.getString(WORKSPACE_NAME + "#" + LANG1, "");
+        String nameLang2 = topics.getString(WORKSPACE_NAME + "#" + LANG2, "");
+        Topic workspace = createLinqaWorkspace(nameLang1, nameLang2);
+        // TODO: duplicate content
+        return workspace;
+    }
+
 
 
     // ------------------------------------------------------------------------------------------------- Private Methods

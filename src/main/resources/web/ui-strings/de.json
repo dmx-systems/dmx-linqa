@@ -102,6 +102,7 @@
   "action.edit_memberships": "Mitglieder verwalten",
   "action.edit_user": "Benutzer bearbeiten",
   "action.edit_affiliations": "Mitgliedschaften verwalten",
+  "action.duplicate_workspace": "Arbeitsbereich duplizieren",
   "action.delete_workspace": "Arbeitsbereich löschen",
   "action.delete_user": "Benutzer löschen",
   "action.reset_password": "Passwort zurücksetzen",

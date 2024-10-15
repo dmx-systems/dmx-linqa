@@ -165,6 +165,11 @@ const actions = {
     })
   },
 
+  duplicateWorkspace (_, workspaceId) {
+    http.post(`/linqa/admin/workspace/${workspaceId}`)
+    // TODO
+  },
+
   deleteWorkspace (_, workspaceId) {
     return lq.confirmDeletion('warning.delete_workspace').then(() => {
       dmx.rpc.deleteWorkspace(workspaceId)          // update server state

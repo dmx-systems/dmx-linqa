@@ -102,6 +102,7 @@
   "action.edit_memberships": "Hallinnoi jäseniä",
   "action.edit_user": "Muokkaa käyttäjää",
   "action.edit_affiliations": "Hallinnoi jäsenyyksiä",
+  "action.duplicate_workspace": "Duplicate workspace",
   "action.delete_workspace": "Poista työtila",
   "action.delete_user": "Poista käyttäjä",
   "action.reset_password": "Palauta salasana",

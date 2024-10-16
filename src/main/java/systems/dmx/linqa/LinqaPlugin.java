@@ -64,6 +64,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -733,7 +734,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         long srcTopicmapId = topicmapId(workspaceId);
         long destTopicmapId = topicmapId(dupWorkspace.getId());
         duplicateTopics(
-            dmx.getTopic(srcTopicmapId).getRelatedTopics(TOPICMAP_CONTEXT, DEFAULT, TOPICMAP_CONTENT, null).stream(),
+            tms.fetchTopics(srcTopicmapId).stream().filter(this::canvasFilter),
             srcTopicmapId, destTopicmapId, 0, true     // duplicateLockedState=true
         );
         //
@@ -741,6 +742,20 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
+
+    // Note: must correspond to client-side counterpart in lq-globals.js
+    // However "linqa.viewport" is not included here. At server-side this is used during workspace duplication and
+    // viewports are not duplicated. They're created already as part of createLinqaWorkspace().
+    private boolean canvasFilter(Topic topic) {
+        return Arrays.asList(
+            "linqa.document",
+            "linqa.note",
+            "linqa.textblock",
+            "linqa.heading",
+            "linqa.shape",
+            "linqa.line"
+        ).contains(topic.getTypeUri());
+    }
 
     private TopicModel createBilingualTopicModel(String topicTypeUri, String text) {
         return createBilingualTopicModel(topicTypeUri, text, "_text");
@@ -816,17 +831,18 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                                                                         int xyOffset, boolean duplicateLockedState) {
         logger.info("srcTopicmapId=" + srcTopicmapId + ", destTopicmapId=" + destTopicmapId);
         return topics.map(topic -> {
+            logger.info("  --> topic=" + topic);
+            long topicId = topic.getId();       // saved as overridden in model by createTopic()
             // 1) duplicate topic
             topic.loadChildTopics();
-            TopicModel model = topic.getModel().clone();
+            TopicModel model = topic.getModel();
             if (!duplicateLockedState) {
                 model.getChildTopics().remove(LOCKED);      // don't duplicate Locked-state
             }
             Topic dupTopic = dmx.createTopic(model);
             // 2) duplicate view props
-            Assoc assoc = tms.getTopicMapcontext(srcTopicmapId, topic.getId());
-            logger.info("  --> topic=" + topic + ", assoc=" + assoc);
-            ViewProps viewProps = tms.getTopicViewProps(srcTopicmapId, topic.getId());
+            Assoc assoc = tms.getTopicMapcontext(srcTopicmapId, topicId);
+            ViewProps viewProps = tms.getTopicViewProps(srcTopicmapId, topicId);
             fetchLinqaViewProps(topic.getTypeUri(), assoc, viewProps);
             enrichWithColor(dupTopic, viewProps);
             viewProps.set(X, viewProps.getInt(X) + xyOffset);

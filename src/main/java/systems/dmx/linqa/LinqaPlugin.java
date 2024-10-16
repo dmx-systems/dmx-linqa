@@ -11,6 +11,7 @@ import static systems.dmx.linqa.Constants.*;
 import systems.dmx.accesscontrol.AccessControlService;
 import systems.dmx.accesscontrol.event.PostLoginUser;
 import systems.dmx.core.Assoc;
+import systems.dmx.core.ChildTopics;
 import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
 import systems.dmx.core.model.ChildTopicsModel;
@@ -71,6 +72,7 @@ import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.sun.jersey.core.util.Base64;
 
@@ -476,16 +478,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     @Override
     public Topic createViewport(long workspaceId) {
-        List<Topic> topicmaps = ws.getAssignedTopics(workspaceId, TOPICMAP);
-        if (topicmaps.size() != 1) {
-            throw new RuntimeException("Workspace " + workspaceId + " has " + topicmaps.size() +
-                " topicmaps (expected is 1)");
-        }
-        long topicmapId = topicmaps.get(0).getId();
         Topic viewport = dmx.createTopic(mf.newTopicModel(VIEWPORT, new SimpleValue("Viewport " + random.nextLong())));
         ViewProps viewProps = mf.newViewProps(0, 0, true, false);
         viewProps.set(ZOOM, 1);
-        tms.addTopicToTopicmap(topicmapId, viewport.getId(), viewProps);
+        tms.addTopicToTopicmap(topicmapId(workspaceId), viewport.getId(), viewProps);
         return viewport;
     }
 
@@ -515,23 +511,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public List<ViewTopic> duplicateMulti(@PathParam("topicIds") IdList topicIds,
                                           @QueryParam("xyOffset") int xyOffset) {
         long topicmapId = topicmapId();
-        return topicIds.stream().map(topicId -> {
-            // 1) duplicate topic
-            Topic topic = dmx.getTopic(topicId).loadChildTopics();
-            TopicModel model = topic.getModel();
-            model.getChildTopics().remove(LOCKED);      // don't duplicate Locked-state
-            Topic dupTopic = dmx.createTopic(model);
-            // 2) duplicate view props
-            Assoc assoc = tms.getTopicMapcontext(topicmapId, topicId);
-            ViewProps viewProps = tms.getTopicViewProps(topicmapId, topicId);
-            fetchLinqaViewProps(topic.getTypeUri(), assoc, viewProps);
-            enrichWithColor(dupTopic, viewProps);
-            viewProps.set(X, viewProps.getInt(X) + xyOffset);
-            viewProps.set(Y, viewProps.getInt(Y) + xyOffset);
-            // 3) add to topicmap
-            tms.addTopicToTopicmap(topicmapId, dupTopic.getId(), viewProps);
-            return mf.newViewTopic(dupTopic.getModel(), viewProps);
-        }).collect(Collectors.toList());
+        return duplicateTopics(
+            topicIds.stream().map(topicId -> dmx.getTopic(topicId)),
+            topicmapId, topicmapId, xyOffset, false     // duplicateLockedState=false
+        );
     }
 
     @PUT
@@ -738,15 +721,24 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Transactional
     @Override
     public Topic duplicateLinqaWorkspace(@PathParam("workspaceId") long workspaceId) {
-        ChildTopics topics = dmx.getTopic(workspaceId).getChildTopics();
-        String nameLang1 = topics.getString(WORKSPACE_NAME + "#" + LANG1, "");
-        String nameLang2 = topics.getString(WORKSPACE_NAME + "#" + LANG2, "");
-        Topic workspace = createLinqaWorkspace(nameLang1, nameLang2);
-        // TODO: duplicate content
-        return workspace;
+        // 1) Duplicate workspace
+        Topic workspace = dmx.getTopic(workspaceId);
+        ChildTopics children = workspace.getChildTopics();
+        String nameLang1 = children.getString(WORKSPACE_NAME + "#" + LANG1, "");
+        String nameLang2 = children.getString(WORKSPACE_NAME + "#" + LANG2, "");
+        if (!nameLang1.equals("")) nameLang1 += " (Copy)";  // TODO
+        if (!nameLang2.equals("")) nameLang2 += " (Copy)";  // TODO
+        Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2);
+        // 2) Duplicate content
+        long srcTopicmapId = topicmapId(workspaceId);
+        long destTopicmapId = topicmapId(dupWorkspace.getId());
+        duplicateTopics(
+            dmx.getTopic(srcTopicmapId).getRelatedTopics(TOPICMAP_CONTEXT, DEFAULT, TOPICMAP_CONTENT, null).stream(),
+            srcTopicmapId, destTopicmapId, 0, true     // duplicateLockedState=true
+        );
+        //
+        return dupWorkspace;
     }
-
-
 
     // ------------------------------------------------------------------------------------------------- Private Methods
 
@@ -818,6 +810,31 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         timestamps.enrichWithTimestamps(commentTopic);
         me.addComment(workspaceId(), commentTopic);
         return commentTopic;
+    }
+
+    private List<ViewTopic> duplicateTopics(Stream<? extends Topic> topics, long srcTopicmapId, long destTopicmapId,
+                                                                        int xyOffset, boolean duplicateLockedState) {
+        logger.info("srcTopicmapId=" + srcTopicmapId + ", destTopicmapId=" + destTopicmapId);
+        return topics.map(topic -> {
+            // 1) duplicate topic
+            topic.loadChildTopics();
+            TopicModel model = topic.getModel().clone();
+            if (!duplicateLockedState) {
+                model.getChildTopics().remove(LOCKED);      // don't duplicate Locked-state
+            }
+            Topic dupTopic = dmx.createTopic(model);
+            // 2) duplicate view props
+            Assoc assoc = tms.getTopicMapcontext(srcTopicmapId, topic.getId());
+            logger.info("  --> topic=" + topic + ", assoc=" + assoc);
+            ViewProps viewProps = tms.getTopicViewProps(srcTopicmapId, topic.getId());
+            fetchLinqaViewProps(topic.getTypeUri(), assoc, viewProps);
+            enrichWithColor(dupTopic, viewProps);
+            viewProps.set(X, viewProps.getInt(X) + xyOffset);
+            viewProps.set(Y, viewProps.getInt(Y) + xyOffset);
+            // 3) add to topicmap
+            tms.addTopicToTopicmap(destTopicmapId, dupTopic.getId(), viewProps);
+            return mf.newViewTopic(dupTopic.getModel(), viewProps);
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -914,6 +931,15 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private long topicmapId() {
         return Cookies.get().getLong("dmx_topicmap_id");
+    }
+
+    public long topicmapId(long workspaceId) {
+        List<Topic> topicmaps = ws.getAssignedTopics(workspaceId, TOPICMAP);
+        if (topicmaps.size() != 1) {
+            throw new RuntimeException("Workspace " + workspaceId + " has " + topicmaps.size() +
+                " topicmaps (expected is 1)");
+        }
+        return topicmaps.get(0).getId();
     }
 
     // convenience

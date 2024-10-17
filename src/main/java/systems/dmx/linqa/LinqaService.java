@@ -102,5 +102,8 @@ public interface LinqaService {
 
     Topic createLinqaUser(String emailAddress, String displayName, String language);
 
+    /**
+     * @throws  RuntimeException    if nameLang1 or nameLang2 is null
+     */
     Topic createLinqaWorkspace(String nameLang1, String nameLang2);
 }

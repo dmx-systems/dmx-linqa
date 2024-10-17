@@ -511,11 +511,15 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public List<ViewTopic> duplicateMulti(@PathParam("topicIds") IdList topicIds,
                                           @QueryParam("xyOffset") int xyOffset) {
-        long topicmapId = topicmapId();
-        return duplicateTopics(
-            topicIds.stream().map(topicId -> dmx.getTopic(topicId)),
-            topicmapId, topicmapId, xyOffset, false     // duplicateLockedState=false
-        );
+        try {
+            long topicmapId = topicmapId();
+            return duplicateTopics(
+                topicIds.stream().map(topicId -> dmx.getTopic(topicId)),
+                topicmapId, topicmapId, xyOffset, false     // duplicateLockedState=false
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Topic duplication failed, topicIds=" + topicIds + ", xyOffset=" + xyOffset, e);
+        }
     }
 
     @PUT
@@ -722,23 +726,29 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Transactional
     @Override
     public Topic duplicateLinqaWorkspace(@PathParam("workspaceId") long workspaceId) {
-        // 1) Duplicate workspace
-        Topic workspace = dmx.getTopic(workspaceId);
-        ChildTopics children = workspace.getChildTopics();
-        String nameLang1 = children.getString(WORKSPACE_NAME + "#" + LANG1, "");
-        String nameLang2 = children.getString(WORKSPACE_NAME + "#" + LANG2, "");
-        if (!nameLang1.equals("")) nameLang1 += " (Copy)";  // TODO
-        if (!nameLang2.equals("")) nameLang2 += " (Copy)";  // TODO
-        Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2);
-        // 2) Duplicate content
-        long srcTopicmapId = topicmapId(workspaceId);
-        long destTopicmapId = topicmapId(dupWorkspace.getId());
-        duplicateTopics(
-            tms.fetchTopics(srcTopicmapId).stream().filter(this::canvasFilter),
-            srcTopicmapId, destTopicmapId, 0, true     // duplicateLockedState=true
-        );
-        //
-        return dupWorkspace;
+        try {
+            // 1) Duplicate workspace
+            Topic workspace = dmx.getTopic(workspaceId);
+            ChildTopics children = workspace.getChildTopics();
+            String nameLang1 = children.getString(WORKSPACE_NAME + "#" + LANG1, "");
+            String nameLang2 = children.getString(WORKSPACE_NAME + "#" + LANG2, "");
+            if (!nameLang1.equals("")) nameLang1 += " (Copy)";  // TODO
+            if (!nameLang2.equals("")) nameLang2 += " (Copy)";  // TODO
+            Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2);
+            // 2) Duplicate content
+            long srcTopicmapId = topicmapId(workspaceId);
+            long destTopicmapId = topicmapId(dupWorkspace.getId());
+            duplicateTopics(                                    // TODO: run in duplicate workspace context
+                // tms.fetchTopics(srcTopicmapId).stream().filter(this::canvasFilter),      // TODO: extend platform
+                dmx.getTopic(srcTopicmapId).getRelatedTopics(TOPICMAP_CONTEXT, DEFAULT, TOPICMAP_CONTENT,
+                    null).stream().filter(this::canvasFilter),  // othersTopicTypeUri=null
+                srcTopicmapId, destTopicmapId, 0, true          // duplicateLockedState=true
+            );
+            //
+            return dupWorkspace;
+        } catch (Exception e) {
+            throw new RuntimeException("Duplicating workspace " + workspaceId + " failed", e);
+        }
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
@@ -829,15 +839,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     private List<ViewTopic> duplicateTopics(Stream<? extends Topic> topics, long srcTopicmapId, long destTopicmapId,
                                                                         int xyOffset, boolean duplicateLockedState) {
-        logger.info("srcTopicmapId=" + srcTopicmapId + ", destTopicmapId=" + destTopicmapId);
+        // logger.info("srcTopicmapId=" + srcTopicmapId + ", destTopicmapId=" + destTopicmapId);
         return topics.map(topic -> {
-            logger.info("  --> topic=" + topic);
-            long topicId = topic.getId();       // saved as overridden in model by createTopic()
+            // logger.info("  --> topic=" + topic);
+            long topicId = topic.getId();   // save ID as overridden in model by createTopic()
             // 1) duplicate topic
             topic.loadChildTopics();
             TopicModel model = topic.getModel();
+            model.getChildTopics().remove(USERNAME + "#" + REACTION);       // don't duplicate reactions
             if (!duplicateLockedState) {
-                model.getChildTopics().remove(LOCKED);      // don't duplicate Locked-state
+                model.getChildTopics().remove(LOCKED);                      // don't duplicate Locked-state
             }
             Topic dupTopic = dmx.createTopic(model);
             // 2) duplicate view props

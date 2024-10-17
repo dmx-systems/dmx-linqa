@@ -12,7 +12,7 @@ export default {
     toolbar: {
       container: [
         ['bold', 'italic', 'strike'],
-        [{color: COLOR_PALETTE.foreground}, {background: COLOR_PALETTE.textBackground}],
+        [{color: [false, ...COLOR_PALETTE.foreground]}, {background: [false, ...COLOR_PALETTE.textBackground]}],
         [{list: 'ordered'}, {list: 'bullet'}],
         ['link', 'image', 'video'],
         [{header: [1, 2, 3, false]}]

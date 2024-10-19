@@ -51,16 +51,14 @@
 }
 
 .ql-container #emoji-picker #tab-toolbar ul {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 .ql-container #emoji-picker #tab-toolbar .emoji-tab {
   display: inline-table;
-  text-align: center;
   width: 30px;
-  height: 100%;
-  min-height: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
@@ -109,8 +107,7 @@
 .ql-container #emoji-picker #tab-panel {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  max-height: 220px;
+  height: 220px;
   overflow-y: scroll;
   padding: 2px;
   background: white;
@@ -119,7 +116,6 @@
 .ql-container #emoji-picker #tab-panel .emoji {
   font-size: 24px;
   width: 34px;
-  display: inline-block;
   text-align: center;
   cursor: pointer;
   margin: 2px;

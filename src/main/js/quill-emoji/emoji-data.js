@@ -8649,7 +8649,7 @@ const emojiData = [
   },
   // 9 color circles (order 2177-2185).
   // 5 were added from Unicode block "Geometric Shapes Extended".
-  // Note: 5 "order" numbers (2181-2185) now clash, they're relvant only for sorting though.
+  // Note: 5 "order" numbers (2181-2185) now clash, they're relevant only for sorting though.
   {
     "name": "red_circle",
     "unicode": "1f534",

@@ -122,11 +122,11 @@ export default {
     //
 
     newDocumentViewTopic () {
-      return new dmx.ViewTopic({
-        ...dmx.typeCache.getTopicType('linqa.document').newFormModel(),
-        id: newSynId(),   // overwrite ID created in previous line
-        viewProps: this.viewProps('linqa.document')
-      })
+      const model = dmx.typeCache.getTopicType('linqa.document').newFormModel()
+      model.id = newSynId()
+      model.viewProps = this.viewProps('linqa.document')
+      delete model.children['dmx.accesscontrol.username#linqa.reaction']      // don't create empty default-reaction
+      return new dmx.ViewTopic(model)
     },
 
     newViewTopic (typeUri) {

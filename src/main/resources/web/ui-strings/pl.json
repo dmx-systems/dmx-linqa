@@ -94,7 +94,7 @@
   "action.delete_multi": "${} usuń obiekty",
   "action.download": "Pobrać",
   "action.translate": "Tłumacz",
-  "action.set_zoom": "Zapisz bieżący poziom powiększenia",
+  "action.save_zoom_level": "Zapisz bieżący poziom powiększenia",
   "action.add_workspace": "Dodaj przestrzeń roboczę",
   "action.add_user": "Dodaj użytkownika",
   "action.show_workspace": "Pokaż przestrzeń roboczę",

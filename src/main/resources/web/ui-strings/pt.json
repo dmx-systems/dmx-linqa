@@ -94,7 +94,7 @@
   "action.delete_multi": "Excluir ${} objetos",
   "action.download": "Baixar",
   "action.translate": "Traduzir",
-  "action.set_zoom": "Salvar nível de zoom atual",
+  "action.save_zoom_level": "Salvar nível de zoom atual",
   "action.add_workspace": "Nova Área de Trabalho",
   "action.add_user": "Novo Usuário",
   "action.show_workspace": "Visitar Área de Trabalho",

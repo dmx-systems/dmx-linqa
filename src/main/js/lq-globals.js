@@ -4,15 +4,18 @@ import Vue from 'vue'
 import dmx from 'dmx-api'
 import store from './store/linqa'
 
-const SMALL_SCREEN_WIDTH = 600
-const CANVAS_GRID = 20        // 20x20 pixel = size of grid.png
-const CANVAS_BORDER = 40      // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
-                              // Should be a multiple of CANVAS_GRID.
-const FORM_WIDTH = 384        // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
-const LINE_LENGTH = 200       // Should be a multiple of CANVAS_GRID
-const LINE_HEIGHT = 40        // Should be a multiple of CANVAS_GRID
-const SHAPE_WIDTH = 200       // Should be a multiple of CANVAS_GRID
-const SHAPE_HEIGHT = 120      // Should be a multiple of CANVAS_GRID
+const SMALL_SCREEN_WIDTH = 600  // Threshold for switching between small/big UI layout (in pixel)
+const CANVAS_GRID = 20          // 20x20 pixel = size of grid.png
+const CANVAS_BORDER = 40        // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
+                                // Should be a multiple of CANVAS_GRID.
+const CANVAS_ZOOM_FACTOR = 1.2  // Factor for stepwise zoom-in/zoom-out
+const CANVAS_ZOOM_MIN = .04     // Zoom change is only applied if within this range
+const CANVAS_ZOOM_MAX = 2       // Zoom change is only applied if within this range
+const FORM_WIDTH = 384          // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
+const LINE_LENGTH = 200         // Should be a multiple of CANVAS_GRID
+const LINE_HEIGHT = 40          // Should be a multiple of CANVAS_GRID
+const SHAPE_WIDTH = 200         // Should be a multiple of CANVAS_GRID
+const SHAPE_HEIGHT = 120        // Should be a multiple of CANVAS_GRID
 
 const quillOptions = require('./quill-options').default   // Quill config for canvas
 const quillOptions2 = dmx.utils.clone(quillOptions)       // Quill config for discussion panel
@@ -27,6 +30,9 @@ export default {
   SMALL_SCREEN_WIDTH,
   CANVAS_GRID,
   CANVAS_BORDER,
+  CANVAS_ZOOM_FACTOR,
+  CANVAS_ZOOM_MIN,
+  CANVAS_ZOOM_MAX,
 
   FORM_WIDTH,
   LINE_LENGTH,

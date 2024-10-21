@@ -94,7 +94,7 @@
   "action.delete_multi": "${} Objekte löschen",
   "action.download": "Download",
   "action.translate": "Übersetzen",
-  "action.set_zoom": "Aktuellen Zoom-Wert speichern",
+  "action.save_zoom_level": "Aktuellen Zoom-Wert speichern",
   "action.add_workspace": "Arbeitsbereich hinzufügen",
   "action.add_user": "Benutzer hinzufügen",
   "action.show_workspace": "Arbeitsbereich anzeigen",

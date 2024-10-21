@@ -94,7 +94,7 @@
   "action.delete_multi": "Radera ${} objekt",
   "action.download": "Ladda ner",
   "action.translate": "Översätt",
-  "action.set_zoom": "Ange zoom",
+  "action.save_zoom_level": "Ange zoom",
   "action.add_workspace": "Lägg till arbetsyta",
   "action.add_user": "Lägg till användare",
   "action.show_workspace": "Visa arbetsyta",

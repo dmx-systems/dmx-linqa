@@ -223,12 +223,7 @@ const actions = {
     state.topicmap.addTopic(topic)      // update client state
     state.isEditActive.push(topic.id)
     //
-    // workaround to prevent body scrolling when new topic exceeds viewport
-    // ### TODO: not needed anymore, since body overflow hidden?
-    // document.body.classList.add('fixed')
     Vue.nextTick(() => {
-      // a fixed body would not adapt to window resize anymore
-      // document.body.classList.remove('fixed')
       dispatch('select', [topic])       // programmatic selection
     })
   },

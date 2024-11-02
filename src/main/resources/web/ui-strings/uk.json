@@ -94,7 +94,7 @@
   "action.delete_multi": "Видалити ${} об'єктів",
   "action.download": "Завантажити",
   "action.translate": "Перекласти",
-  "action.set_zoom": "Зберегти поточний рівень зуму",
+  "action.save_zoom_level": "Зберегти поточний рівень зуму",
   "action.add_workspace": "Новий робочий простір",
   "action.add_user": "Новий користувач",
   "action.show_workspace": "Показати робочий простір",

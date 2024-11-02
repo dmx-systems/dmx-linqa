@@ -1,21 +1,5 @@
 const emojiData = [
   {
-    "name": "100",
-    "unicode": "1f4af",
-    "shortname": ":100:",
-    "code_decimal": "&#128175;",
-    "category": "s",
-    "emoji_order": "2119"
-  },
-  {
-    "name": "1234",
-    "unicode": "1f522",
-    "shortname": ":1234:",
-    "code_decimal": "&#128290;",
-    "category": "s",
-    "emoji_order": "2122"
-  },
-  {
     "name": "grinning",
     "unicode": "1f600",
     "shortname": ":grinning:",
@@ -8200,6 +8184,14 @@ const emojiData = [
     "emoji_order": "2118"
   },
   {
+    "name": "100",
+    "unicode": "1f4af",
+    "shortname": ":100:",
+    "code_decimal": "&#128175;",
+    "category": "s",
+    "emoji_order": "2119"
+  },
+  {
     "name": "capital_abcd",
     "unicode": "1f520",
     "shortname": ":capital_abcd:",
@@ -8214,6 +8206,14 @@ const emojiData = [
     "code_decimal": "&#128289;",
     "category": "s",
     "emoji_order": "2121"
+  },
+  {
+    "name": "1234",
+    "unicode": "1f522",
+    "shortname": ":1234:",
+    "code_decimal": "&#128290;",
+    "category": "s",
+    "emoji_order": "2122"
   },
   {
     "name": "s",
@@ -8647,13 +8647,56 @@ const emojiData = [
     "category": "s",
     "emoji_order": "2176"
   },
+  // 9 color circles (order 2177-2185).
+  // 5 were added from Unicode block "Geometric Shapes Extended".
+  // Note: 5 "order" numbers (2181-2185) now clash, they're relevant only for sorting though.
   {
-    "name": "white_circle",
-    "unicode": "26aa",
-    "shortname": ":white_circle:",
-    "code_decimal": "&#9898;",
+    "name": "red_circle",
+    "unicode": "1f534",
+    "shortname": ":red_circle:",
+    "code_decimal": "&#128308;",
     "category": "s",
     "emoji_order": "2177"
+  },
+  {
+    "name": "orange_circle",
+    "unicode": "1f7e0",
+    "shortname": ":orange_circle:",
+    "code_decimal": "&#128992;",
+    "category": "s",
+    "emoji_order": "2178"
+  },
+  {
+    "name": "yellow_circle",
+    "unicode": "1f7e1",
+    "shortname": ":yellow_circle:",
+    "code_decimal": "&#128993;",
+    "category": "s",
+    "emoji_order": "2179"
+  },
+  {
+    "name": "green_circle",
+    "unicode": "1f7e2",
+    "shortname": ":green_circle:",
+    "code_decimal": "&#128994;",
+    "category": "s",
+    "emoji_order": "2180"
+  },
+  {
+    "name": "blue_circle",
+    "unicode": "1f535",
+    "shortname": ":blue_circle:",
+    "code_decimal": "&#128309;",
+    "category": "s",
+    "emoji_order": "2181"
+  },
+  {
+    "name": "purple_circle",
+    "unicode": "1f7e3",
+    "shortname": ":purple_circle:",
+    "code_decimal": "&#128995;",
+    "category": "s",
+    "emoji_order": "2182"
   },
   {
     "name": "black_circle",
@@ -8661,24 +8704,25 @@ const emojiData = [
     "shortname": ":black_circle:",
     "code_decimal": "&#9899;",
     "category": "s",
-    "emoji_order": "2178"
+    "emoji_order": "2183"
   },
   {
-    "name": "red_circle",
-    "unicode": "1f534",
-    "shortname": ":red_circle:",
-    "code_decimal": "&#128308;",
+    "name": "white_circle",
+    "unicode": "26aa",
+    "shortname": ":white_circle:",
+    "code_decimal": "&#9898;",
     "category": "s",
-    "emoji_order": "2179"
+    "emoji_order": "2184"
   },
   {
-    "name": "large_blue_circle",
-    "unicode": "1f535",
-    "shortname": ":blue_circle:",
-    "code_decimal": "&#128309;",
+    "name": "brown_circle",
+    "unicode": "1f7e4",
+    "shortname": ":brown_circle:",
+    "code_decimal": "&#128996;",
     "category": "s",
-    "emoji_order": "2180"
+    "emoji_order": "2185"
   },
+  // end of color circles
   {
     "name": "checkered_flag",
     "unicode": "1f3c1",

@@ -10,7 +10,7 @@ import dmx from 'dmx-api'
 export default {
 
   created () {
-    this.$emit('actions', [{key: 'action.set_zoom', handler: this.setZoom}])
+    this.$emit('actions', [{key: 'action.save_zoom_level', handler: this.saveZoomLevel}])
   },
 
   props: {
@@ -32,7 +32,7 @@ export default {
   },
 
   methods: {
-    setZoom () {
+    saveZoomLevel () {
       // update client state
       this.topic.setViewProp('dmx.topicmaps.zoom', this.$store.state.zoom)
       // update server state    // TODO: dispatch

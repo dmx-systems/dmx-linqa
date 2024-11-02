@@ -50,6 +50,7 @@ class EmojiPickerModule extends Module {
     emojiPicker.id = 'emoji-picker';
     emojiPicker.appendChild(tabToolbar);
     emojiPicker.appendChild(tabPanel);
+    emojiPicker.addEventListener('wheel', e => e.stopPropagation());
     this.quill.container.appendChild(emojiPicker);
     CATEGORIES.forEach(cat => {
       const catItem = document.createElement('li');

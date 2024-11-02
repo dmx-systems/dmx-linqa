@@ -186,6 +186,10 @@ export default {
         locked: !this.locked,
         topics: [this.topic]
       })
+      // on unlock remove text selection
+      if (!this.locked) {
+        getSelection().empty()    // getSelection() is window method
+      }
     },
 
     // Note: can't be named "delete"

@@ -14,11 +14,9 @@
     <div class="view-controls">
       <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
       <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" @click="zoomToFit"></el-button>
-      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip"
-        @click="stepZoom(.1)">
+      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="zoomIn">
       </el-button>
-      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip"
-        @click="stepZoom(-.1)">
+      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="zoomOut">
       </el-button>
       <lq-canvas-search></lq-canvas-search>
     </div>
@@ -122,11 +120,11 @@ export default {
     //
 
     newDocumentViewTopic () {
-      return new dmx.ViewTopic({
-        ...dmx.typeCache.getTopicType('linqa.document').newFormModel(),
-        id: newSynId(),   // overwrite ID created in previous line
-        viewProps: this.viewProps('linqa.document')
-      })
+      const model = dmx.typeCache.getTopicType('linqa.document').newFormModel()
+      model.id = newSynId()
+      model.viewProps = this.viewProps('linqa.document')
+      delete model.children['dmx.accesscontrol.username#linqa.reaction']      // don't create empty default-reaction
+      return new dmx.ViewTopic(model)
     },
 
     newViewTopic (typeUri) {
@@ -195,8 +193,16 @@ export default {
       this.$store.dispatch('setViewport', {pan: {x, y}, zoom, transition: true})
     },
 
-    stepZoom (delta) {
-      this.setZoom(this.zoom + delta, this.canvas.clientWidth / 2, this.canvas.clientHeight / 2, true)
+    zoomIn () {
+      this.zoomTo(this.zoom * lq.CANVAS_ZOOM_FACTOR)
+    },
+
+    zoomOut () {
+      this.zoomTo(this.zoom / lq.CANVAS_ZOOM_FACTOR)
+    },
+
+    zoomTo (zoom) {
+      this.setZoom(zoom, this.canvas.clientWidth / 2, this.canvas.clientHeight / 2, true)
     },
 
     openDiscussion () {

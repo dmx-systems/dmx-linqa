@@ -94,7 +94,7 @@
   "action.delete_multi": "Poista ${} kohteet",
   "action.download": "Lataa",
   "action.translate": "Käännä",
-  "action.set_zoom": "Aseta zoom",
+  "action.save_zoom_level": "Aseta zoom",
   "action.add_workspace": "Lisää työtila",
   "action.add_user": "Lisää käyttäjä",
   "action.show_workspace": "Näytä työtila",

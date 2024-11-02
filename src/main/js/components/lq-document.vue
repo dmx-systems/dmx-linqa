@@ -344,6 +344,7 @@ export default {
 .lq-document.info {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .lq-document .doc-name {

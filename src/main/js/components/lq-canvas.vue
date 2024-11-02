@@ -68,6 +68,9 @@ export default {
         zIndex: 0
       },
       CONFIG: {
+        'linqa.document': {
+          resizeStyle: 'xy',
+        },
         'linqa.note': {
           resizeStyle: 'xy',
         },

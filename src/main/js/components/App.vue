@@ -241,8 +241,8 @@ input, button {
 }
 
 .ql-container .ql-editor {
-  line-height: inherit !important;                        /* Quill default is 1.42; inherit from dmx-html-field */
-  padding: 6px 8px !important;                            /* Quill default is 12px 15px */
+  line-height: inherit;                                   /* Quill default is 1.42; inherit from dmx-html-field */
+  padding: 6px 24px 6px 8px;                              /* Quill default is 12px 15px; right pad for emoji button */
   background-color: white;
 }
 

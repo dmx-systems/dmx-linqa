@@ -223,7 +223,7 @@ export default {
     edit () {
       this.mode = 'form'
       this.topicBuffer = this.topic.clone()
-      // Note 1: in an untranslatable comment "lang2" is not defined. We meed it as editor model.
+      // Note 1: in an untranslatable comment "lang2" is not defined. We need it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
       // Note 3: we need Vue.set() as topic clone is put into state already.
       if (!this.topicBuffer.children['linqa.comment_text#linqa.lang2']) {

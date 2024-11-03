@@ -735,15 +735,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             if (!nameLang1.equals("")) nameLang1 += " (Copy)";  // TODO
             if (!nameLang2.equals("")) nameLang2 += " (Copy)";  // TODO
             Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2);
+            long dupWorkspaceId = dupWorkspace.getId();
             // 2) Duplicate content
             long srcTopicmapId = topicmapId(workspaceId);
-            long destTopicmapId = topicmapId(dupWorkspace.getId());
-            duplicateTopics(                                    // TODO: run in duplicate workspace context
-                // tms.fetchTopics(srcTopicmapId).stream().filter(this::canvasFilter),      // TODO: extend platform
-                dmx.getTopic(srcTopicmapId).getRelatedTopics(TOPICMAP_CONTEXT, DEFAULT, TOPICMAP_CONTENT,
-                    null).stream().filter(this::canvasFilter),  // othersTopicTypeUri=null
-                srcTopicmapId, destTopicmapId, 0, true          // duplicateLockedState=true
-            );
+            long destTopicmapId = topicmapId(dupWorkspaceId);
+            dmx.getPrivilegedAccess().runInWorkspaceContext(dupWorkspaceId, () -> {
+                duplicateTopics(
+                    // tms.fetchTopics(srcTopicmapId).stream().filter(this::canvasFilter),      // TODO: extend platform
+                    dmx.getTopic(srcTopicmapId).getRelatedTopics(TOPICMAP_CONTEXT, DEFAULT, TOPICMAP_CONTENT,
+                        null).stream().filter(this::canvasFilter),  // othersTopicTypeUri=null
+                    srcTopicmapId, destTopicmapId, 0, true          // duplicateLockedState=true
+                );
+                return null;
+            });
             //
             return dupWorkspace;
         } catch (Exception e) {

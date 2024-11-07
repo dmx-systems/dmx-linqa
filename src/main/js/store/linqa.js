@@ -52,8 +52,8 @@ const state = {
 
   // User
   username: '',                 // username of current user (String), empty/undefined if not logged in
-  workspaces: [],               // Linqa shared workspaces of current user (array of plain Workspace topics), "assoc"
-                                // prop holds user's Membership. "Linqa Administration" workspace is not included.
+  workspaces: [],               // Linqa workspaces of current user (array of plain Workspace topics), "assoc" prop
+                                // holds user's Membership. "Linqa Administration" workspace is not included.
                                 // Array is unsorted; a sorted array is available by the "sortedWorkspaces" getter.
   isLinqaAdmin: false,          // true if the current user is a Linqa admin (Boolean)
   workspace: undefined,         // the selected workspace (dmx.Topic, w/o "assoc" prop)
@@ -120,7 +120,7 @@ const actions = {
   },
 
   /**
-   * Fetches the Linqa shared workspaces of the current user.
+   * Fetches the Linqa workspaces of the current user.
    */
   fetchLinqaWorkspaces () {
     return http.get('/linqa/workspaces').then(response => {

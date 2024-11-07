@@ -699,6 +699,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public Topic createLinqaWorkspace(@QueryParam("nameLang1") String nameLang1,
                                       @QueryParam("nameLang2") String nameLang2) {
+        return createLinqaWorkspace(nameLang1, nameLang2, true);
+    }
+
+    private Topic createLinqaWorkspace(String nameLang1, String nameLang2, boolean createViewport) {
         try {
             // 1) Create workspace
             Topic workspace = ws.createWorkspace(nameLang1, null, SharingMode.COLLABORATIVE);
@@ -717,8 +721,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 return null;
             });
             // 3) Create vieport for new workspace
-            createViewport(workspaceId);
-            // 4) Grant access to all Linqa admins
+            if (createViewport) {
+                createViewport(workspaceId);
+            }
+            // 4) Create memberships for all Linqa admins
             List<RelatedTopic> usernames = getLinqaAdmins();
             logger.info("### Inviting " + usernames.size() + " Linqa admins to workspace \"" +
                 workspace.getSimpleValue() + "\"");
@@ -742,7 +748,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             String nameLang2 = children.getString(WORKSPACE_NAME + "#" + LANG2, "");
             if (!nameLang1.equals("")) nameLang1 += " (Copy)";  // TODO
             if (!nameLang2.equals("")) nameLang2 += " (Copy)";  // TODO
-            Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2);
+            Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2, false);     // createViewport=false
             long dupWorkspaceId = dupWorkspace.getId();
             // 2) Duplicate content
             long srcTopicmapId = topicmapId(workspaceId);
@@ -766,8 +772,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     // ------------------------------------------------------------------------------------------------- Private Methods
 
     // Note: must correspond to client-side counterpart in lq-globals.js
-    // However "linqa.viewport" is not included here. At server-side this is used during workspace duplication and
-    // viewports are not duplicated. They're created already as part of createLinqaWorkspace().
     private boolean canvasFilter(Topic topic) {
         return Arrays.asList(
             "linqa.document",
@@ -775,7 +779,8 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             "linqa.textblock",
             "linqa.heading",
             "linqa.shape",
-            "linqa.line"
+            "linqa.line",
+            "linqa.viewport"
         ).contains(topic.getTypeUri());
     }
 

@@ -103,6 +103,9 @@ public interface LinqaService {
     Topic createLinqaUser(String emailAddress, String displayName, String language);
 
     /**
+     * Creates a Linqa shared workspace and creates memberships for all Linqa admins.
+     * Can not be used to create the "Linqa Administration" workspace (see Migration2.java).
+     *
      * @throws  RuntimeException    if nameLang1 or nameLang2 is null
      */
     Topic createLinqaWorkspace(String nameLang1, String nameLang2);

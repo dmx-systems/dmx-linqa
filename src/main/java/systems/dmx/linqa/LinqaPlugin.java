@@ -479,11 +479,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     @Override
     public Topic createViewport(long workspaceId) {
-        Topic viewport = dmx.createTopic(mf.newTopicModel(VIEWPORT, new SimpleValue("Viewport " + random.nextLong())));
-        ViewProps viewProps = mf.newViewProps(0, 0, true, false);
-        viewProps.set(ZOOM, 1);
-        tms.addTopicToTopicmap(topicmapId(workspaceId), viewport.getId(), viewProps);
-        return viewport;
+        try {
+            return dmx.getPrivilegedAccess().runInWorkspaceContext(workspaceId, () -> {
+                Topic viewport = dmx.createTopic(
+                    mf.newTopicModel(VIEWPORT, new SimpleValue("Viewport " + random.nextLong()))
+                );
+                ViewProps viewProps = mf.newViewProps(0, 0, true, false);
+                viewProps.set(ZOOM, 1);
+                tms.addTopicToTopicmap(topicmapId(workspaceId), viewport.getId(), viewProps);
+                return viewport;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Creating Viewport topic for workspace " + workspaceId + " failed", e);
+        }
     }
 
     @POST

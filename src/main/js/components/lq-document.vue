@@ -301,13 +301,17 @@ export default {
 
     createSuccessHandler (lang) {
       return (response, file, fileList) => {
-        const fileTopic = response.topic
-        delete fileTopic.assoc    // the lead-to-parent-folder assoc must not be contained in create/update request
-        const topic = this.isNew ? this.topic : this.topicBuffer
-        topic.children['dmx.files.file#linqa.' + lang] = fileTopic
-        //
         this.$refs['upload.' + lang].clearFiles()
-        this.saveButtonDisabled = false
+        // el-upload's files-list is removed from DOM only after clearFiles() animation has finished. Only then we must
+        // update component state and trigger recalculation of the control box size (see updated() in editable.js mixin)
+        // TODO: proper synchronization with animation end
+        setTimeout(() => {
+          const fileTopic = response.topic
+          delete fileTopic.assoc    // the lead-to-parent-folder assoc must not be contained in create/update request
+          const topic = this.isNew ? this.topic : this.topicBuffer
+          topic.children['dmx.files.file#linqa.' + lang] = fileTopic
+          this.saveButtonDisabled = false
+        }, 1000)
       }
     },
 

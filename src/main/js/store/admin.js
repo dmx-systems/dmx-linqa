@@ -104,12 +104,19 @@ const actions = {
     }
   },
 
+  /**
+   * Refreshes a given user's memberships state, if needed.
+   *
+   * Fetches the given user's memberships and stores them in the Username topic's (as of `users` root state)
+   * `memberships` ad-hoc property (array of workspace topics).
+   * If memberships are fetched already (`memberships` property is defined) nothing is performed.
+   */
   fetchUserMemberships (_, username) {
     const usernameTopic = lq.getUser(username)
     if (!usernameTopic.memberships) {
       return http.get(`/linqa/admin/user/${username}/workspaces`).then(response => {
         const workspaces = response.data
-        Vue.set(usernameTopic, 'memberships', workspaces)                 // ad-hoc property is not reactive by default
+        Vue.set(usernameTopic, 'memberships', workspaces)         // ad-hoc property is not reactive by default
       })
     }
   },
@@ -148,13 +155,16 @@ const actions = {
   },
 
   createLinqaWorkspace ({rootState, dispatch}, {nameLang1, nameLang2}) {
-    return http.post('/linqa/admin/workspace', undefined, {
+    return http.post('/linqa/admin/workspace', undefined, {                       // update server state
       params: {nameLang1, nameLang2}
     }).then(response => {
-      // update client state
-      state.workspaces.push(new dmx.Topic(response.data))         // admin area: add to workspace list
-      collapseUsers(rootState, dispatch)                          // admin area: force refetching user's memberships
-      dispatch('fetchLinqaWorkspaces', undefined, {root: true})   // workspace area: add to workspace selector
+      addWorkspace(response.data, rootState, dispatch)                            // update client state
+    })
+  },
+
+  duplicateWorkspace ({rootState, dispatch}, workspaceId) {
+    return http.post(`/linqa/admin/workspace/${workspaceId}`).then(response => {  // update server state
+      addWorkspace(response.data, rootState, dispatch)                            // update client state
     })
   },
 
@@ -263,6 +273,12 @@ function removeUser (id, rootState) {
   rootState.users.splice(i, 1)
 }
 
+function addWorkspace(workspace, rootState, dispatch) {
+  state.workspaces.push(new dmx.Topic(workspace))             // admin area: add to workspace list
+  collapseUsers(rootState, dispatch)                          // admin area: force refetching user's memberships
+  dispatch('fetchLinqaWorkspaces', undefined, {root: true})   // Linqa UI: add to current user's workspace selector
+}
+
 function replaceWorkspace (workspace, rootState, dispatch) {
   // admin state
   let i = state.workspaces.findIndex(ws => ws.id === workspace.id)
@@ -288,16 +304,24 @@ function updateUser(username, displayName) {
   children['dmx.signup.display_name'].value = displayName
 }
 
+/**
+ * Collapses *all* items of admin area's workspace list.
+ * Forces refetching a workspace's users on next expand.
+ */
 function collapseWorkspaces (dispatch) {
   state.workspaces.forEach(workspace => {
-    delete workspace.memberships                // force refetch once needed
+    delete workspace.memberships                // force refetch on next expand
     dispatch('setExpandedWorkspaceIds', [])     // TODO: don't collapse but refetch later on when needed
   })
 }
 
+/**
+ * Collapses *all* items of admin area's users list.
+ * Forces refetching an user's workspaces on next expand.
+ */
 function collapseUsers (rootState, dispatch) {
   rootState.users.forEach(user => {
-    delete user.memberships                     // force refetch once needed
+    delete user.memberships                     // force refetch on next expand
     dispatch('setExpandedUsernames', [])        // TODO: don't collapse but refetch later on when needed
   })
 }

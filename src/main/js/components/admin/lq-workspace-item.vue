@@ -12,6 +12,9 @@
           <el-dropdown-item command="edit">
             <i class="fa fa-fw fa-pencil"></i><lq-string>action.edit_workspace</lq-string>
           </el-dropdown-item>
+          <el-dropdown-item command="duplicate">
+            <i class="fa fa-fw fa-files-o"></i><lq-string>action.duplicate_workspace</lq-string>
+          </el-dropdown-item>
           <el-dropdown-item command="delete">
             <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_workspace</lq-string>
           </el-dropdown-item>
@@ -75,6 +78,10 @@ export default {
 
     edit () {
       this.$store.dispatch('admin/showWorkspaceForm', this.workspace)
+    },
+
+    duplicate () {
+      this.$store.dispatch('admin/duplicateWorkspace', this.workspace.id)
     },
 
     delete () {

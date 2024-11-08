@@ -479,11 +479,19 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
 
     @Override
     public Topic createViewport(long workspaceId) {
-        Topic viewport = dmx.createTopic(mf.newTopicModel(VIEWPORT, new SimpleValue("Viewport " + random.nextLong())));
-        ViewProps viewProps = mf.newViewProps(0, 0, true, false);
-        viewProps.set(ZOOM, 1);
-        tms.addTopicToTopicmap(topicmapId(workspaceId), viewport.getId(), viewProps);
-        return viewport;
+        try {
+            return dmx.getPrivilegedAccess().runInWorkspaceContext(workspaceId, () -> {
+                Topic viewport = dmx.createTopic(
+                    mf.newTopicModel(VIEWPORT, new SimpleValue("Viewport " + random.nextLong()))
+                );
+                ViewProps viewProps = mf.newViewProps(0, 0, true, false);
+                viewProps.set(ZOOM, 1);
+                tms.addTopicToTopicmap(topicmapId(workspaceId), viewport.getId(), viewProps);
+                return viewport;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Creating Viewport topic for workspace " + workspaceId + " failed", e);
+        }
     }
 
     @POST
@@ -691,6 +699,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public Topic createLinqaWorkspace(@QueryParam("nameLang1") String nameLang1,
                                       @QueryParam("nameLang2") String nameLang2) {
+        return createLinqaWorkspace(nameLang1, nameLang2, true);
+    }
+
+    private Topic createLinqaWorkspace(String nameLang1, String nameLang2, boolean createViewport) {
         try {
             // 1) Create workspace
             Topic workspace = ws.createWorkspace(nameLang1, null, SharingMode.COLLABORATIVE);
@@ -709,8 +721,10 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
                 return null;
             });
             // 3) Create vieport for new workspace
-            createViewport(workspaceId);
-            // 4) Grant access to all Linqa admins
+            if (createViewport) {
+                createViewport(workspaceId);
+            }
+            // 4) Create memberships for all Linqa admins
             List<RelatedTopic> usernames = getLinqaAdmins();
             logger.info("### Inviting " + usernames.size() + " Linqa admins to workspace \"" +
                 workspace.getSimpleValue() + "\"");
@@ -721,9 +735,54 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
     }
 
-
+    @POST
+    @Path("/admin/workspace/{workspaceId}")
+    @Transactional
+    @Override
+    public Topic duplicateLinqaWorkspace(@PathParam("workspaceId") long workspaceId) {
+        try {
+            // 1) Duplicate workspace
+            Topic workspace = dmx.getTopic(workspaceId);
+            ChildTopics children = workspace.getChildTopics();
+            String nameLang1 = children.getString(WORKSPACE_NAME + "#" + LANG1, "");
+            String nameLang2 = children.getString(WORKSPACE_NAME + "#" + LANG2, "");
+            if (!nameLang1.equals("")) nameLang1 += " (Copy)";  // TODO
+            if (!nameLang2.equals("")) nameLang2 += " (Copy)";  // TODO
+            Topic dupWorkspace = createLinqaWorkspace(nameLang1, nameLang2, false);     // createViewport=false
+            long dupWorkspaceId = dupWorkspace.getId();
+            // 2) Duplicate content
+            long srcTopicmapId = topicmapId(workspaceId);
+            long destTopicmapId = topicmapId(dupWorkspaceId);
+            dmx.getPrivilegedAccess().runInWorkspaceContext(dupWorkspaceId, () -> {
+                duplicateTopics(
+                    // tms.fetchTopics(srcTopicmapId).stream().filter(this::canvasFilter),      // TODO: extend platform
+                    dmx.getTopic(srcTopicmapId).getRelatedTopics(TOPICMAP_CONTEXT, DEFAULT, TOPICMAP_CONTENT,
+                        null).stream().filter(this::canvasFilter),  // othersTopicTypeUri=null
+                    srcTopicmapId, destTopicmapId, 0, true          // duplicateLockedState=true
+                );
+                return null;
+            });
+            //
+            return dupWorkspace;
+        } catch (Exception e) {
+            throw new RuntimeException("Duplicating workspace " + workspaceId + " failed", e);
+        }
+    }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
+
+    // Note: must correspond to client-side counterpart in lq-globals.js
+    private boolean canvasFilter(Topic topic) {
+        return Arrays.asList(
+            "linqa.document",
+            "linqa.note",
+            "linqa.textblock",
+            "linqa.heading",
+            "linqa.shape",
+            "linqa.line",
+            "linqa.viewport"
+        ).contains(topic.getTypeUri());
+    }
 
     private TopicModel createBilingualTopicModel(String topicTypeUri, String text) {
         return createBilingualTopicModel(topicTypeUri, text, "_text");

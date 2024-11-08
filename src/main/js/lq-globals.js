@@ -167,6 +167,7 @@ function workspaceName (topic) {
   }
 }
 
+// Note: must correspond to server-side counterpart in LinqaPlugin.java
 function canvasFilter (topic) {
   return topic.typeUri === 'linqa.document'  ||
          topic.typeUri === 'linqa.note'      ||

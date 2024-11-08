@@ -102,6 +102,7 @@
   "action.edit_memberships": "Administrera medlemmar",
   "action.edit_user": "Redigera användare",
   "action.edit_affiliations": "Administrera medlemskap",
+  "action.duplicate_workspace": "Duplicera arbetsytan",
   "action.delete_workspace": "Radera arbetsytan",
   "action.delete_user": "Radera användare",
   "action.reset_password": "Återställ lösenord",

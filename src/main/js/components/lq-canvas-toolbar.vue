@@ -13,7 +13,9 @@
     </el-dropdown>
     <div class="view-controls">
       <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
-      <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" @click="zoomToFit"></el-button>
+      <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
+        @click="zoomToFit">
+      </el-button>
       <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="zoomIn">
       </el-button>
       <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="zoomOut">

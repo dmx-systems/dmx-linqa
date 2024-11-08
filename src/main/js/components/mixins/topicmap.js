@@ -9,6 +9,10 @@ export default {
 
     topics () {
       return this.topicmap?.topics.filter(lq.canvasFilter) || []
+    },
+
+    isTopicmapEmpty () {
+      return !this.topics.length
     }
   }
 }

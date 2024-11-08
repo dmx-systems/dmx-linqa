@@ -102,7 +102,7 @@
   "action.edit_memberships": "Zarządzać członkami",
   "action.edit_user": "Edytuj użytkownika",
   "action.edit_affiliations": "Zarządzać członkostwem",
-  "action.duplicate_workspace": "Duplicate workspace",
+  "action.duplicate_workspace": "Zduplikowany obszar roboczy",
   "action.delete_workspace": "Usuń przestrzeń roboczę",
   "action.delete_user": "Usuń użytkownika",
   "action.reset_password": "Zresetuj hasło",

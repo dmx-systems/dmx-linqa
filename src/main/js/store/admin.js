@@ -5,15 +5,20 @@ import lq from '../lq-globals'
 
 const state = {
 
+  // Admin area (global)
   primaryPanel: 'lq-workspace-list',  // 'lq-workspace-list'/'lq-user-list'
   secondaryPanel: undefined,          // 'lq-workspace-form'/... or undefined if secondary panel is not engaged
   formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
   editBuffer: undefined,              // workspace form model, for both, create and update (plain workspace topic)
+  loading1: false,                    // true while operation in progress, disables primary panel
+  loading2: false,                    // true while operation in progress, disables secondary panel
 
+  // "Workspaces" tab
   workspaces: [],                     // all Linqa shared workspaces + "Linqa Administration" (dmx.Topic, clone() used)
   expandedWorkspaceIds: [],           // IDs of the workspaces that are expanded
   selectedWorkspace: undefined,       // (plain Workspace topic)
 
+  // "Users" tab
   // Note: "users" is found in root state (see linqa.js) as it also holds the user display names
   expandedUsernames: [],              // usernames of the users that are expanded (array of String)
   selectedUser: undefined             // (plain Username topic)
@@ -122,6 +127,7 @@ const actions = {
   },
 
   updateWorkspaceMemberships ({rootState, dispatch}, {addUserIds1, removeUserIds1, addUserIds2, removeUserIds2}) {
+    state.loading2 = true
     const workspace = state.selectedWorkspace
     dispatch('expandWorkspace', workspace.id)
     return http.put(`/linqa/admin/workspace/${workspace.id}`, undefined, {
@@ -135,10 +141,13 @@ const actions = {
       const users = response.data
       workspace.memberships = users.sort(lq.topicSort)
       collapseUsers(rootState, dispatch)
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
   updateUserMemberships ({dispatch}, {addWorkspaceIds1, removeWorkspaceIds1, addWorkspaceIds2, removeWorkspaceIds2}) {
+    state.loading2 = true
     const user = state.selectedUser
     dispatch('expandUser', user.value)
     return http.put(`/linqa/admin/user/${user.value}`, undefined, {
@@ -151,14 +160,19 @@ const actions = {
     }).then(response => {
       user.memberships = response.data
       collapseWorkspaces(dispatch)
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
   createLinqaWorkspace ({rootState, dispatch}, {nameLang1, nameLang2}) {
+    state.loading2 = true
     return http.post('/linqa/admin/workspace', undefined, {                       // update server state
       params: {nameLang1, nameLang2}
     }).then(response => {
       addWorkspace(response.data, rootState, dispatch)                            // update client state
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
@@ -169,9 +183,12 @@ const actions = {
   },
 
   updateWorkspace ({rootState, dispatch}, workspace) {
+    state.loading2 = true
     return dmx.rpc.updateTopic(workspace).then(workspace => {
       replaceWorkspace(workspace, rootState, dispatch)
       collapseUsers(rootState, dispatch)
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
@@ -188,6 +205,7 @@ const actions = {
    * @param   userModel   object w/ "displayName", "emailAddress" and "defaultLanguage" props.
    */
   createUser ({rootState}, userModel) {
+    state.loading2 = true
     let p
     if (DEV) {
       // Note: in development mode display name is ignored and password is fixed to '123'
@@ -211,17 +229,30 @@ const actions = {
     return p.then(user => {
       rootState.users.push(user)
       rootState.users.sort(lq.topicSort)              // TODO: sort by display name (email address at the moment)
+      state.secondaryPanel = undefined
+    }).catch(error => {
+      return lq.alertError(error)
+    }).finally(() => {
+      state.loading2 = false
     })
   },
 
   updateUser ({rootState}, userModel) {
+    state.loading2 = true
     const username = userModel.emailAddress
     const displayName = userModel.displayName
+    // update server state
     return http.put(`/sign-up/display-name/${username}`, undefined, {
       params: {displayName}
     }).then(() => {
-      updateUser(username, displayName)               // update client state
-      // rootState.users.sort(lq.topicSort)           // TODO: sort by display name (email address at the moment)
+      // update client state
+      updateUser(username, displayName)
+      // rootState.users.sort(lq.topicSort)     // TODO: sort by display name (email address at the moment)
+      state.secondaryPanel = undefined
+    }).catch(error => {
+      return lq.alertError(error)
+    }).finally(() => {
+      state.loading2 = false
     })
   },
 

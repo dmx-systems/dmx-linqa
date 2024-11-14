@@ -1,6 +1,6 @@
 export default {
   methods: {
-    clearSecondaryPanel () {
+    cancel () {
       this.$store.dispatch('admin/setSecondaryPanel', undefined)
     }
   }

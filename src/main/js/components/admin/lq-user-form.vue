@@ -16,7 +16,7 @@
     <el-button class="submit-button" type="primary" size="medium" :disabled="isIncomplete" @click="submit">
       <lq-string>action.submit</lq-string>
     </el-button>
-    <el-button size="medium" @click="clearSecondaryPanel">
+    <el-button size="medium" @click="cancel">
       <lq-string>action.cancel</lq-string>
     </el-button>
   </div>
@@ -28,7 +28,7 @@ import lq from '../../lq-globals'
 export default {
 
   mixins: [
-    require('./mixins/admin-util').default
+    require('./mixins/cancel').default
   ],
 
   created () {
@@ -80,19 +80,8 @@ export default {
 
   methods: {
     submit () {
-      this.$emit('loading')
       let action = this.isUpdate ? 'admin/updateUser' : 'admin/createUser'
-      this.$store.dispatch(action, this.model).then(() => {
-        this.$emit('complete')    // must emit *before* removing this panel
-        this.clearSecondaryPanel()
-      }).catch(error => {
-        this.$alert(error.message, {
-          type: 'error',
-          showClose: false
-        }).then(() => {
-          this.$emit('complete')
-        })
-      })
+      this.$store.dispatch(action, this.model)
     }
   }
 }

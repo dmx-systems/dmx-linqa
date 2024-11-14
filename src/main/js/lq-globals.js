@@ -54,6 +54,7 @@ export default {
   canvasFilter,
   snapToGrid,
   confirmDeletion,
+  alertError,
 
   quillOptions,
   quillOptions2,
@@ -187,6 +188,13 @@ function confirmDeletion (textKey = 'warning.delete', value) {
     confirmButtonText: getString('action.delete'),
     confirmButtonClass: 'el-button--danger',
     cancelButtonText: getString('action.cancel'),
+    showClose: false
+  })
+}
+
+function alertError (error) {
+  return Vue.prototype.$alert(error.message, {
+    type: 'error',
     showClose: false
   })
 }

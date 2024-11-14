@@ -12,7 +12,7 @@
     <el-button class="submit-button" type="primary" size="medium" @click="submit">
       <lq-string>action.submit</lq-string>
     </el-button>
-    <el-button size="medium" @click="clearSecondaryPanel">
+    <el-button size="medium" @click="cancel">
       <lq-string>action.cancel</lq-string>
     </el-button>
   </div>
@@ -22,7 +22,7 @@
 export default {
 
   mixins: [
-    require('./mixins/admin-util').default
+    require('./mixins/cancel').default
   ],
 
   computed: {
@@ -54,20 +54,14 @@ export default {
 
   methods: {
     submit () {
-      let p
-      this.$emit('loading')
       if (this.formMode === 'create') {
-        p = this.$store.dispatch('admin/createLinqaWorkspace', {
+        this.$store.dispatch('admin/createLinqaWorkspace', {
           nameLang1: this.lang1.value,
           nameLang2: this.lang2.value
         })
       } else if (this.formMode === 'update') {
-        p = this.$store.dispatch('admin/updateWorkspace', this.editBuffer)
+        this.$store.dispatch('admin/updateWorkspace', this.editBuffer)
       }
-      p.then(() => {
-        this.$emit('complete')
-        this.clearSecondaryPanel()
-      })
     }
   }
 }

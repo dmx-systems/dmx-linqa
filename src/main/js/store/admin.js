@@ -26,28 +26,33 @@ const state = {
 
 const actions = {
 
+  gotoPrimaryPanel (_, panel) {
+    state.primaryPanel = panel
+    state.secondaryPanel = undefined
+  },
+
   newWorkspace () {
+    state.secondaryPanel = 'lq-workspace-form'
     state.formMode = 'create'
     state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel()
-    state.secondaryPanel = 'lq-workspace-form'
   },
 
   editWorkspace (_, workspace) {
-    state.formMode = 'update'
-    state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(workspace.clone())
     state.selectedWorkspace = workspace
     state.secondaryPanel = 'lq-workspace-form'
+    state.formMode = 'update'
+    state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(workspace.clone())
   },
 
   newUser () {
-    state.formMode = 'create'
     state.secondaryPanel = 'lq-user-form'
+    state.formMode = 'create'
   },
 
   editUser (_, user) {
-    state.formMode = 'update'
     state.selectedUser = user
     state.secondaryPanel = 'lq-user-form'
+    state.formMode = 'update'
   },
 
   editWorkspaceMemberships (_, workspace) {
@@ -60,21 +65,8 @@ const actions = {
     state.secondaryPanel = 'lq-user-memberships'
   },
 
-  setPrimaryPanel (_, panel) {
-    state.primaryPanel = panel
-    if (panel === 'lq-workspace-list' && state.selectedWorkspace) {
-      state.secondaryPanel = 'lq-workspace-memberships'
-    } else {
-      state.secondaryPanel = undefined
-    }
-  },
-
   cancelForm () {
     state.secondaryPanel = undefined
-  },
-
-  setSelectedWorkspace (_, workspace) {
-    state.selectedWorkspace = workspace
   },
 
   setExpandedWorkspaceIds ({dispatch}, workspaceIds) {
@@ -101,10 +93,6 @@ const actions = {
     if (!state.expandedUsernames.includes(username)) {
       state.expandedUsernames.push(username)
     }
-  },
-
-  setSelectedUser (_, user) {
-    state.selectedUser = user
   },
 
   fetchAllLinqaWorkspaces ({rootState}) {
@@ -199,11 +187,12 @@ const actions = {
     })
   },
 
-  deleteWorkspace (_, workspaceId) {
+  deleteWorkspace (_, workspace) {
+    state.selectedWorkspace = workspace
     return lq.confirmDeletion('warning.delete_workspace').then(() => {
-      dmx.rpc.deleteWorkspace(workspaceId)          // update server state
+      dmx.rpc.deleteWorkspace(workspace.id)         // update server state
     }).then(() => {
-      removeWorkspace(workspaceId)                  // update client state
+      removeWorkspace(workspace.id)                 // update client state
       // TODO: collapse?
     }).catch(() => {})                              // suppress unhandled rejection on cancel
   },
@@ -264,6 +253,7 @@ const actions = {
   },
 
   deleteUser ({rootState}, user) {
+    state.selectedUser = user
     return lq.confirmDeletion('warning.delete_user').then(() => {
       return http.delete(`/ldap/user/${user.value}`)  // update server state
     }).then(() => {

@@ -85,8 +85,7 @@ export default {
     },
 
     delete () {
-      this.$store.dispatch('admin/setSelectedWorkspace', this.workspace)
-      this.$store.dispatch('admin/deleteWorkspace', this.workspace.id)
+      this.$store.dispatch('admin/deleteWorkspace', this.workspace)
     },
 
     editMemberships () {

@@ -75,7 +75,6 @@ export default {
     },
 
     delete () {
-      this.$store.dispatch('admin/setSelectedUser', this.user)
       this.$store.dispatch('admin/deleteUser', this.user)
     },
 

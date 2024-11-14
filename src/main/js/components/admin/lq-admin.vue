@@ -52,11 +52,11 @@ export default {
   methods: {
 
     goArea1 () {
-      this.$store.dispatch('admin/setPrimaryPanel', 'lq-workspace-list')
+      this.$store.dispatch('admin/gotoPrimaryPanel', 'lq-workspace-list')
     },
 
     goArea2 () {
-      this.$store.dispatch('admin/setPrimaryPanel', 'lq-user-list')
+      this.$store.dispatch('admin/gotoPrimaryPanel', 'lq-user-list')
     },
 
     close () {

@@ -166,6 +166,7 @@ const actions = {
       params: {nameLang1, nameLang2}
     }).then(response => {
       addWorkspace(response.data, rootState, dispatch)                            // update client state
+      state.selectedWorkspace = response.data
       state.secondaryPanel = undefined
       state.loading2 = false
     })
@@ -207,6 +208,7 @@ const actions = {
   createUser ({rootState}, userModel) {
     state.loading2 = true
     let p
+    // update server state
     if (DEV) {
       // Note: in development mode display name is ignored and password is fixed to '123'
       p = dmx.rpc.createUserAccount(userModel.emailAddress, '123')
@@ -226,9 +228,11 @@ const actions = {
           .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }
+    // update client state
     return p.then(user => {
       rootState.users.push(user)
       rootState.users.sort(lq.topicSort)              // TODO: sort by display name (email address at the moment)
+      state.selectedUser = user
       state.secondaryPanel = undefined
     }).catch(error => {
       return lq.alertError(error)

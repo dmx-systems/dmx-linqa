@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-user-form">
+  <div class="lq-user-form" :key="formMode">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
       <div class="field-label"><lq-string>label.display_name</lq-string></div>
@@ -32,21 +32,15 @@ export default {
   ],
 
   created () {
-    if (this.isUpdate) {
-      const username = this.selectedUser.value
-      this.model.emailAddress = username
-      this.model.displayName = lq.getDisplayName(username)
-    } else {
-      this.model.defaultLanguage = this.lang
-    }
+    this.initModel()
   },
 
   data () {
     return {
       model: {
-        displayName: '',
-        emailAddress: '',
-        defaultLanguage: ''
+        displayName: undefined,       // String
+        emailAddress: undefined,      // String
+        defaultLanguage: undefined    // String
       }
     }
   },
@@ -78,7 +72,26 @@ export default {
     }
   },
 
+  watch: {
+    selectedUser () {
+      this.initModel()
+    }
+  },
+
   methods: {
+
+    initModel () {
+      if (this.isUpdate) {
+        const username = this.selectedUser.value
+        this.model.displayName = lq.getDisplayName(username)
+        this.model.emailAddress = username
+      } else {
+        this.model.displayName = ''
+        this.model.emailAddress = ''
+        this.model.defaultLanguage = this.lang
+      }
+    },
+
     submit () {
       let action = this.isUpdate ? 'admin/updateUser' : 'admin/createUser'
       this.$store.dispatch(action, this.model)

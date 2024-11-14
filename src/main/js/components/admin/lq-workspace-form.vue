@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-workspace-form">
+  <div class="lq-workspace-form" :key="formMode">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
       <div class="field-label"><lq-string>label.workspace_name</lq-string> ({{$store.state.lang1}})</div>
@@ -19,20 +19,32 @@
 </template>
 
 <script>
+import dmx from 'dmx-api'
+
 export default {
 
   mixins: [
     require('./mixins/cancel').default
   ],
 
+  created () {
+    this.initModel()
+  },
+
+  data () {
+    return {
+      model: undefined      // Workspace form model (Object)
+    }
+  },
+
   computed: {
 
     lang1 () {
-      return this.editBuffer.children['dmx.workspaces.workspace_name#linqa.lang1']
+      return this.model.children['dmx.workspaces.workspace_name#linqa.lang1']
     },
 
     lang2 () {
-      return this.editBuffer.children['dmx.workspaces.workspace_name#linqa.lang2']
+      return this.model.children['dmx.workspaces.workspace_name#linqa.lang2']
     },
 
     heading () {
@@ -47,12 +59,27 @@ export default {
       return this.$store.state.admin.formMode
     },
 
-    editBuffer () {
-      return this.$store.state.admin.editBuffer
+    selectedWorkspace () {
+      return this.$store.state.admin.selectedWorkspace
+    }
+  },
+
+  watch: {
+    selectedWorkspace () {
+      this.initModel()
     }
   },
 
   methods: {
+
+    initModel () {
+      if (this.isUpdate) {
+        this.model = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(this.selectedWorkspace.clone())
+      } else {
+        this.model = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel()
+      }
+    },
+
     submit () {
       if (this.formMode === 'create') {
         this.$store.dispatch('admin/createLinqaWorkspace', {
@@ -60,7 +87,7 @@ export default {
           nameLang2: this.lang2.value
         })
       } else if (this.formMode === 'update') {
-        this.$store.dispatch('admin/updateWorkspace', this.editBuffer)
+        this.$store.dispatch('admin/updateWorkspace', this.model)
       }
     }
   }

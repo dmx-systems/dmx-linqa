@@ -9,7 +9,6 @@ const state = {
   primaryPanel: 'lq-workspace-list',  // 'lq-workspace-list'/'lq-user-list'
   secondaryPanel: undefined,          // 'lq-workspace-form'/... or undefined if secondary panel is not engaged
   formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
-  editBuffer: undefined,              // workspace form model, for both, create and update (plain workspace topic)
   loading1: false,                    // true while operation in progress, disables primary panel
   loading2: false,                    // true while operation in progress, disables secondary panel
 
@@ -32,19 +31,19 @@ const actions = {
   },
 
   newWorkspace () {
+    state.selectedWorkspace = undefined
     state.secondaryPanel = 'lq-workspace-form'
     state.formMode = 'create'
-    state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel()
   },
 
   editWorkspace (_, workspace) {
     state.selectedWorkspace = workspace
     state.secondaryPanel = 'lq-workspace-form'
     state.formMode = 'update'
-    state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(workspace.clone())
   },
 
   newUser () {
+    state.selectedUser = undefined
     state.secondaryPanel = 'lq-user-form'
     state.formMode = 'create'
   },

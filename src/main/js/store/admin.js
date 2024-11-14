@@ -171,9 +171,13 @@ const actions = {
     })
   },
 
-  duplicateWorkspace ({rootState, dispatch}, workspaceId) {
-    return http.post(`/linqa/admin/workspace/${workspaceId}`).then(response => {  // update server state
+  duplicateWorkspace ({rootState, dispatch}, workspace) {
+    state.loading1 = true
+    state.selectedWorkspace = workspace
+    return http.post(`/linqa/admin/workspace/${workspace.id}`).then(response => { // update server state
       addWorkspace(response.data, rootState, dispatch)                            // update client state
+      state.selectedWorkspace = response.data
+      state.loading1 = false
     })
   },
 

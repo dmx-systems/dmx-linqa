@@ -81,7 +81,7 @@ export default {
     },
 
     duplicate () {
-      this.$store.dispatch('admin/duplicateWorkspace', this.workspace.id)
+      this.$store.dispatch('admin/duplicateWorkspace', this.workspace)
     },
 
     delete () {

@@ -12,7 +12,7 @@
           <el-dropdown-item command="delete">
             <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_user</lq-string>
           </el-dropdown-item>
-          <el-dropdown-item command="editAffiliations" divided>
+          <el-dropdown-item command="editMemberships" divided>
             <i class="fa fa-fw fa-list"></i><lq-string>action.edit_affiliations</lq-string>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -71,7 +71,7 @@ export default {
     },
 
     edit () {
-      this.$store.dispatch('admin/showUserForm', this.user)
+      this.$store.dispatch('admin/editUser', this.user)
     },
 
     delete () {
@@ -79,9 +79,8 @@ export default {
       this.$store.dispatch('admin/deleteUser', this.user)
     },
 
-    editAffiliations () {
-      this.$store.dispatch('admin/setSelectedUser', this.user)
-      this.$store.dispatch('admin/setSecondaryPanel', 'lq-user-memberships')
+    editMemberships () {
+      this.$store.dispatch('admin/editUserMemberships', this.user)
     }
   }
 }

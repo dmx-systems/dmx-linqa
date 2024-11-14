@@ -26,28 +26,38 @@ const state = {
 
 const actions = {
 
-  showWorkspaceForm ({dispatch}, workspace) {
-    const type = dmx.typeCache.getTopicType('dmx.workspaces.workspace')
-    if (workspace) {
-      state.formMode = 'update'
-      state.editBuffer = type.newFormModel(workspace.clone())
-      dispatch('setSelectedWorkspace', workspace)
-    } else {
-      state.formMode = 'create'
-      state.editBuffer = type.newFormModel()
-      // console.log('editBuffer', state.editBuffer)
-    }
-    dispatch('setSecondaryPanel', 'lq-workspace-form')
+  newWorkspace () {
+    state.formMode = 'create'
+    state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel()
+    state.secondaryPanel = 'lq-workspace-form'
   },
 
-  showUserForm ({dispatch}, user) {
-    if (user) {
-      state.formMode = 'update'
-      dispatch('setSelectedUser', user)
-    } else {
-      state.formMode = 'create'
-    }
-    dispatch('setSecondaryPanel', 'lq-user-form')
+  editWorkspace (_, workspace) {
+    state.formMode = 'update'
+    state.editBuffer = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(workspace.clone())
+    state.selectedWorkspace = workspace
+    state.secondaryPanel = 'lq-workspace-form'
+  },
+
+  newUser () {
+    state.formMode = 'create'
+    state.secondaryPanel = 'lq-user-form'
+  },
+
+  editUser (_, user) {
+    state.formMode = 'update'
+    state.selectedUser = user
+    state.secondaryPanel = 'lq-user-form'
+  },
+
+  editWorkspaceMemberships (_, workspace) {
+    state.selectedWorkspace = workspace
+    state.secondaryPanel = 'lq-workspace-memberships'
+  },
+
+  editUserMemberships (_, user) {
+    state.selectedUser = user
+    state.secondaryPanel = 'lq-user-memberships'
   },
 
   setPrimaryPanel (_, panel) {
@@ -59,11 +69,8 @@ const actions = {
     }
   },
 
-  setSecondaryPanel (_, panel) {
-    state.secondaryPanel = panel
-    /* if (panel === 'lq-workspace-form' || !panel) {
-      state.selectedWorkspace = undefined
-    } */    // TODO
+  cancelForm () {
+    state.secondaryPanel = undefined
   },
 
   setSelectedWorkspace (_, workspace) {

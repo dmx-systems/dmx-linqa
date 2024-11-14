@@ -77,7 +77,7 @@ export default {
     },
 
     edit () {
-      this.$store.dispatch('admin/showWorkspaceForm', this.workspace)
+      this.$store.dispatch('admin/editWorkspace', this.workspace)
     },
 
     duplicate () {
@@ -90,8 +90,7 @@ export default {
     },
 
     editMemberships () {
-      this.$store.dispatch('admin/setSelectedWorkspace', this.workspace)
-      this.$store.dispatch('admin/setSecondaryPanel', 'lq-workspace-memberships')
+      this.$store.dispatch('admin/editWorkspaceMemberships', this.workspace)
     }
   }
 }

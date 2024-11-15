@@ -8,7 +8,6 @@ const state = {
   // Admin area (global)
   primaryPanel: 'lq-workspace-list',  // 'lq-workspace-list'/'lq-user-list'
   secondaryPanel: undefined,          // 'lq-workspace-form'/... or undefined if secondary panel is not engaged
-  formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
   loading1: false,                    // true while operation in progress, disables primary panel
   loading2: false,                    // true while operation in progress, disables secondary panel
 
@@ -31,37 +30,33 @@ const actions = {
   },
 
   newWorkspace () {
-    state.selectedWorkspace = undefined
     state.secondaryPanel = 'lq-workspace-form'
-    state.formMode = 'create'
+    state.selectedWorkspace = undefined
   },
 
   editWorkspace (_, workspace) {
-    state.selectedWorkspace = workspace
     state.secondaryPanel = 'lq-workspace-form'
-    state.formMode = 'update'
+    state.selectedWorkspace = workspace
   },
 
   newUser () {
-    state.selectedUser = undefined
     state.secondaryPanel = 'lq-user-form'
-    state.formMode = 'create'
+    state.selectedUser = undefined
   },
 
   editUser (_, user) {
-    state.selectedUser = user
     state.secondaryPanel = 'lq-user-form'
-    state.formMode = 'update'
+    state.selectedUser = user
   },
 
   editWorkspaceMemberships (_, workspace) {
-    state.selectedWorkspace = workspace
     state.secondaryPanel = 'lq-workspace-memberships'
+    state.selectedWorkspace = workspace
   },
 
   editUserMemberships (_, user) {
-    state.selectedUser = user
     state.secondaryPanel = 'lq-user-memberships'
+    state.selectedUser = user
   },
 
   cancelForm () {

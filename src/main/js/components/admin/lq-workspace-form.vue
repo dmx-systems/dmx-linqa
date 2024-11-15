@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-workspace-form" :key="formMode">
+  <div class="lq-workspace-form" :key="!!workspace">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
       <div class="field-label"><lq-string>label.workspace_name</lq-string> ({{$store.state.lang1}})</div>
@@ -39,33 +39,25 @@ export default {
 
   computed: {
 
+    workspace () {
+      return this.$store.state.admin.selectedWorkspace
+    },
+
+    heading () {
+      return this.workspace ? 'label.edit_workspace' : 'label.new_workspace'
+    },
+
     lang1 () {
       return this.model.children['dmx.workspaces.workspace_name#linqa.lang1']
     },
 
     lang2 () {
       return this.model.children['dmx.workspaces.workspace_name#linqa.lang2']
-    },
-
-    heading () {
-      return this.isUpdate ? 'label.edit_workspace' : 'label.new_workspace'
-    },
-
-    isUpdate () {
-      return this.formMode === 'update'
-    },
-
-    formMode () {
-      return this.$store.state.admin.formMode
-    },
-
-    selectedWorkspace () {
-      return this.$store.state.admin.selectedWorkspace
     }
   },
 
   watch: {
-    selectedWorkspace () {
+    workspace () {
       this.initModel()
     }
   },
@@ -73,21 +65,17 @@ export default {
   methods: {
 
     initModel () {
-      if (this.isUpdate) {
-        this.model = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(this.selectedWorkspace.clone())
-      } else {
-        this.model = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel()
-      }
+      this.model = dmx.typeCache.getTopicType('dmx.workspaces.workspace').newFormModel(this.workspace?.clone())
     },
 
     submit () {
-      if (this.formMode === 'create') {
+      if (this.workspace) {
+        this.$store.dispatch('admin/updateWorkspace', this.model)
+      } else {
         this.$store.dispatch('admin/createLinqaWorkspace', {
           nameLang1: this.lang1.value,
           nameLang2: this.lang2.value
         })
-      } else if (this.formMode === 'update') {
-        this.$store.dispatch('admin/updateWorkspace', this.model)
       }
     }
   }

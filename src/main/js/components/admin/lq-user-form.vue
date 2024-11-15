@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-user-form" :key="formMode">
+  <div class="lq-user-form" :key="!!user">
     <div class="heading"><lq-string>{{heading}}</lq-string></div>
     <div class="field">
       <div class="field-label"><lq-string>label.display_name</lq-string></div>
@@ -7,9 +7,9 @@
     </div>
     <div class="field">
       <div class="field-label"><lq-string>label.email_address</lq-string></div>
-      <el-input v-model="model.emailAddress" :disabled="isUpdate"></el-input>
+      <el-input v-model="model.emailAddress" :disabled="!!user"></el-input>
     </div>
-    <div class="field" v-if="!isUpdate">
+    <div class="field" v-if="!user">
       <div class="field-label"><lq-string>label.default_language</lq-string></div>
       <lq-language-switch v-model="model.defaultLanguage"></lq-language-switch>
     </div>
@@ -47,24 +47,16 @@ export default {
 
   computed: {
 
-    heading () {
-      return this.isUpdate ? 'label.edit_user' : 'label.new_user'
+    user () {
+      return this.$store.state.admin.selectedUser
     },
 
-    isUpdate () {
-      return this.formMode === 'update'
+    heading () {
+      return this.user ? 'label.edit_user' : 'label.new_user'
     },
 
     isIncomplete () {
       return !this.model.displayName || !this.model.emailAddress
-    },
-
-    formMode () {
-      return this.$store.state.admin.formMode
-    },
-
-    selectedUser () {
-      return this.$store.state.admin.selectedUser
     },
 
     lang () {
@@ -73,7 +65,7 @@ export default {
   },
 
   watch: {
-    selectedUser () {
+    user () {
       this.initModel()
     }
   },
@@ -81,8 +73,8 @@ export default {
   methods: {
 
     initModel () {
-      if (this.isUpdate) {
-        const username = this.selectedUser.value
+      if (this.user) {
+        const username = this.user.value
         this.model.displayName = lq.getDisplayName(username)
         this.model.emailAddress = username
       } else {
@@ -93,7 +85,7 @@ export default {
     },
 
     submit () {
-      let action = this.isUpdate ? 'admin/updateUser' : 'admin/createUser'
+      let action = this.user ? 'admin/updateUser' : 'admin/createUser'
       this.$store.dispatch(action, this.model)
     }
   }

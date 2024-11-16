@@ -248,12 +248,12 @@ export default {
     //
 
     wheelZoom (e) {
-      // console.log('wheelZoom', e.deltaY)
+      LOG && console.log('wheelZoom', e.deltaY)
       if (e.deltaY == 0) {
         return
       }
+      const f = 1.1 * e.deltaY / e.deltaY
       let zoom
-      let f = 1.1 * e.deltaY / e.deltaY
       if (e.deltaY > 0) {
         zoom = this.zoom / f
       } else {

@@ -36,7 +36,6 @@ export default {
 
   methods: {
     setZoom (zoom, cx, cy, transition) {
-      // console.log(this.zoom, zoom, zoom >= lq.CANVAS_ZOOM_MIN)
       // ignore if not in range
       if (zoom < lq.CANVAS_ZOOM_MIN) {
         return

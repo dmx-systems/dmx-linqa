@@ -1,5 +1,6 @@
 <template>
-  <el-collapse-item :class="['lq-workspace-item', {'lq-selected': selected}]" :name="workspace.id">
+  <el-collapse-item :class="['lq-workspace-item', {'lq-selected': selected}]" :name="workspace.id"
+      :data-id="workspace.id">
     <div class="workspace" slot="title">
       <div class="name"><span class="fa fa-fw fa-list"></span> {{workspaceName}}</div>
       <div class="owner"><span class="fa fa-fw fa-user"></span> {{owner}}</div>

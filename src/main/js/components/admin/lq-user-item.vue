@@ -1,5 +1,5 @@
 <template>
-  <el-collapse-item :class="['lq-user-item', {'lq-selected': selected}]" :name="user.value">
+  <el-collapse-item :class="['lq-user-item', {'lq-selected': selected}]" :name="user.value" :data-id="user.id">
     <div class="user" slot="title">
       <div class="name"><span class="fa fa-fw fa-user"></span> {{displayName}} ({{user.value}})</div>
       <div class="active"><span :class="['fa', active ? 'fa-check' : 'fa-minus']"></span></div>

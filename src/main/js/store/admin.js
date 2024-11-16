@@ -228,6 +228,7 @@ const actions = {
       rootState.users.sort(lq.topicSort)              // TODO: sort by display name (email address at the moment)
       state.selectedUser = user
       state.secondaryPanel = undefined
+      scrollIntoView('lq-user-item', user.id)
     }).catch(error => {
       return lq.alertError(error)
     }).finally(() => {
@@ -277,7 +278,7 @@ export default {
   getters
 }
 
-// state helper
+// State helper
 
 function findWorkspace (id) {
   const ws = state.workspaces.find(ws => ws.id === id)
@@ -307,6 +308,7 @@ function addWorkspace(workspace, rootState, dispatch) {
   state.workspaces.push(new dmx.Topic(workspace))             // admin area: add to workspace list
   collapseUsers(rootState, dispatch)                          // admin area: force refetching user's memberships
   dispatch('fetchLinqaWorkspaces', undefined, {root: true})   // Linqa UI: add to current user's workspace selector
+  scrollIntoView('lq-workspace-item', workspace.id)
 }
 
 function replaceWorkspace (workspace, rootState, dispatch) {
@@ -353,5 +355,17 @@ function collapseUsers (rootState, dispatch) {
   rootState.users.forEach(user => {
     delete user.memberships                     // force refetch on next expand
     dispatch('setExpandedUsernames', [])        // TODO: don't collapse but refetch later on when needed
+  })
+}
+
+// View helper
+
+function scrollIntoView(cssClass, id) {
+  Vue.nextTick(() => {
+    // Regarding scrollIntoView() see comments in jumpToComment() action (linqa.js)
+    document.querySelector(`.${cssClass}[data-id="${id}"]`).scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    })
   })
 }

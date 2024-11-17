@@ -1,10 +1,12 @@
 import Quill from 'quill'
-import 'quill-mention'
+import 'quill-mention/dist/autoregister'
 import 'quill-mention/dist/quill.mention.css'
 import './quill-emoji/quill-emoji.js'
 import store from './store/linqa'
 import lq from './lq-globals'
 import COLOR_PALETTE from './lq-color-palette'
+
+console.log('[Linqa] Quill', Quill.version)
 
 export default {
   theme: 'bubble',
@@ -12,7 +14,7 @@ export default {
     toolbar: {
       container: [
         ['bold', 'italic', 'strike'],
-        [{color: COLOR_PALETTE.foreground}, {background: COLOR_PALETTE.textBackground}],
+        [{color: [false, ...COLOR_PALETTE.foreground]}, {background: [false, ...COLOR_PALETTE.textBackground]}],
         [{list: 'ordered'}, {list: 'bullet'}],
         ['link', 'image', 'video'],
         [{header: [1, 2, 3, false]}]

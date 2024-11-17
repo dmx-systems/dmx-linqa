@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * Sets notification level of existing Linqa admins to "all".
  * <p>
- * Part of Linqa 1.8
+ * Part of Linqa 2.0
  * Runs only in UPDATE mode.
  */
 public class Migration7 extends Migration {

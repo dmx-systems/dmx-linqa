@@ -248,8 +248,18 @@ export default {
     //
 
     wheelZoom (e) {
-      LOG && console.log('wheelZoom', e)
-      this.setZoom(this.zoom - .003 * e.deltaY, e.clientX, e.clientY - APP_HEADER_HEIGHT)
+      LOG && console.log('wheelZoom', e.deltaY)
+      if (e.deltaY == 0) {
+        return
+      }
+      const f = 1.1 * e.deltaY / e.deltaY
+      let zoom
+      if (e.deltaY > 0) {
+        zoom = this.zoom / f
+      } else {
+        zoom = this.zoom * f
+      }
+      this.setZoom(zoom, e.clientX, e.clientY - APP_HEADER_HEIGHT)
     },
 
     trackStart ({pageX: initialPageX, pageY: initialPageY}) {

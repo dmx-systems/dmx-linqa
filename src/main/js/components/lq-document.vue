@@ -2,7 +2,7 @@
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
       <div class="discussion-button">
-        <el-button type="text" icon="el-icon-chat-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
       <pre v-if="isText">{{text}}</pre>
@@ -57,6 +57,7 @@
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
+    <lq-emoji-menu ref="emojiMenu" @select="reactWithEmoji"></lq-emoji-menu>
   </div>
 </template>
 
@@ -71,7 +72,8 @@ export default {
     require('./mixins/editable').default,
     require('./mixins/translation').default,
     require('./mixins/highlight').default,
-    require('./mixins/doc-util').default
+    require('./mixins/doc-util').default,
+    require('./mixins/emoji-menu').default
   ],
 
   created () {
@@ -299,13 +301,17 @@ export default {
 
     createSuccessHandler (lang) {
       return (response, file, fileList) => {
-        const fileTopic = response.topic
-        delete fileTopic.assoc    // the lead-to-parent-folder assoc must not be contained in create/update request
-        const topic = this.isNew ? this.topic : this.topicBuffer
-        topic.children['dmx.files.file#linqa.' + lang] = fileTopic
-        //
         this.$refs['upload.' + lang].clearFiles()
-        this.saveButtonDisabled = false
+        // el-upload's files-list is removed from DOM only after clearFiles() animation has finished. Only then we must
+        // update component state and trigger recalculation of the control box size (see updated() in editable.js mixin)
+        // TODO: proper synchronization with animation end
+        setTimeout(() => {
+          const fileTopic = response.topic
+          delete fileTopic.assoc    // the lead-to-parent-folder assoc must not be contained in create/update request
+          const topic = this.isNew ? this.topic : this.topicBuffer
+          topic.children['dmx.files.file#linqa.' + lang] = fileTopic
+          this.saveButtonDisabled = false
+        }, 1000)
       }
     },
 
@@ -342,6 +348,7 @@ export default {
 .lq-document.info {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .lq-document .doc-name {

@@ -5,15 +5,18 @@ import lq from '../lq-globals'
 
 const state = {
 
+  // Admin area (global)
   primaryPanel: 'lq-workspace-list',  // 'lq-workspace-list'/'lq-user-list'
   secondaryPanel: undefined,          // 'lq-workspace-form'/... or undefined if secondary panel is not engaged
-  formMode: undefined,                // 'create'/'update' (String), relevant only for secondary panel forms
-  editBuffer: undefined,              // workspace form model, for both, create and update (plain workspace topic)
+  loading1: false,                    // true while operation in progress, disables primary panel
+  loading2: false,                    // true while operation in progress, disables secondary panel
 
+  // "Workspaces" tab
   workspaces: [],                     // all Linqa shared workspaces + "Linqa Administration" (dmx.Topic, clone() used)
   expandedWorkspaceIds: [],           // IDs of the workspaces that are expanded
   selectedWorkspace: undefined,       // (plain Workspace topic)
 
+  // "Users" tab
   // Note: "users" is found in root state (see linqa.js) as it also holds the user display names
   expandedUsernames: [],              // usernames of the users that are expanded (array of String)
   selectedUser: undefined             // (plain Username topic)
@@ -21,48 +24,43 @@ const state = {
 
 const actions = {
 
-  showWorkspaceForm ({dispatch}, workspace) {
-    const type = dmx.typeCache.getTopicType('dmx.workspaces.workspace')
-    if (workspace) {
-      state.formMode = 'update'
-      state.editBuffer = type.newFormModel(workspace.clone())
-      dispatch('setSelectedWorkspace', workspace)
-    } else {
-      state.formMode = 'create'
-      state.editBuffer = type.newFormModel()
-      // console.log('editBuffer', state.editBuffer)
-    }
-    dispatch('setSecondaryPanel', 'lq-workspace-form')
-  },
-
-  showUserForm ({dispatch}, user) {
-    if (user) {
-      state.formMode = 'update'
-      dispatch('setSelectedUser', user)
-    } else {
-      state.formMode = 'create'
-    }
-    dispatch('setSecondaryPanel', 'lq-user-form')
-  },
-
-  setPrimaryPanel (_, panel) {
+  gotoPrimaryPanel (_, panel) {
     state.primaryPanel = panel
-    if (panel === 'lq-workspace-list' && state.selectedWorkspace) {
-      state.secondaryPanel = 'lq-workspace-memberships'
-    } else {
-      state.secondaryPanel = undefined
-    }
+    state.secondaryPanel = undefined
   },
 
-  setSecondaryPanel (_, panel) {
-    state.secondaryPanel = panel
-    /* if (panel === 'lq-workspace-form' || !panel) {
-      state.selectedWorkspace = undefined
-    } */    // TODO
+  newWorkspace () {
+    state.secondaryPanel = 'lq-workspace-form'
+    state.selectedWorkspace = undefined
   },
 
-  setSelectedWorkspace (_, workspace) {
+  editWorkspace (_, workspace) {
+    state.secondaryPanel = 'lq-workspace-form'
     state.selectedWorkspace = workspace
+  },
+
+  newUser () {
+    state.secondaryPanel = 'lq-user-form'
+    state.selectedUser = undefined
+  },
+
+  editUser (_, user) {
+    state.secondaryPanel = 'lq-user-form'
+    state.selectedUser = user
+  },
+
+  editWorkspaceMemberships (_, workspace) {
+    state.secondaryPanel = 'lq-workspace-memberships'
+    state.selectedWorkspace = workspace
+  },
+
+  editUserMemberships (_, user) {
+    state.secondaryPanel = 'lq-user-memberships'
+    state.selectedUser = user
+  },
+
+  cancelForm () {
+    state.secondaryPanel = undefined
   },
 
   setExpandedWorkspaceIds ({dispatch}, workspaceIds) {
@@ -91,10 +89,6 @@ const actions = {
     }
   },
 
-  setSelectedUser (_, user) {
-    state.selectedUser = user
-  },
-
   fetchAllLinqaWorkspaces ({rootState}) {
     if (!state.workspaces.length) {
       return http.get('/linqa/admin/workspaces').then(response => {
@@ -104,17 +98,25 @@ const actions = {
     }
   },
 
+  /**
+   * Refreshes a given user's memberships state, if needed.
+   *
+   * Fetches the given user's memberships and stores them in the Username topic's (as of `users` root state)
+   * `memberships` ad-hoc property (array of workspace topics).
+   * If memberships are fetched already (`memberships` property is defined) nothing is performed.
+   */
   fetchUserMemberships (_, username) {
     const usernameTopic = lq.getUser(username)
     if (!usernameTopic.memberships) {
       return http.get(`/linqa/admin/user/${username}/workspaces`).then(response => {
         const workspaces = response.data
-        Vue.set(usernameTopic, 'memberships', workspaces)                 // ad-hoc property is not reactive by default
+        Vue.set(usernameTopic, 'memberships', workspaces)         // ad-hoc property is not reactive by default
       })
     }
   },
 
   updateWorkspaceMemberships ({rootState, dispatch}, {addUserIds1, removeUserIds1, addUserIds2, removeUserIds2}) {
+    state.loading2 = true
     const workspace = state.selectedWorkspace
     dispatch('expandWorkspace', workspace.id)
     return http.put(`/linqa/admin/workspace/${workspace.id}`, undefined, {
@@ -128,10 +130,13 @@ const actions = {
       const users = response.data
       workspace.memberships = users.sort(lq.topicSort)
       collapseUsers(rootState, dispatch)
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
   updateUserMemberships ({dispatch}, {addWorkspaceIds1, removeWorkspaceIds1, addWorkspaceIds2, removeWorkspaceIds2}) {
+    state.loading2 = true
     const user = state.selectedUser
     dispatch('expandUser', user.value)
     return http.put(`/linqa/admin/user/${user.value}`, undefined, {
@@ -144,32 +149,49 @@ const actions = {
     }).then(response => {
       user.memberships = response.data
       collapseWorkspaces(dispatch)
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
   createLinqaWorkspace ({rootState, dispatch}, {nameLang1, nameLang2}) {
-    return http.post('/linqa/admin/workspace', undefined, {
+    state.loading2 = true
+    return http.post('/linqa/admin/workspace', undefined, {                       // update server state
       params: {nameLang1, nameLang2}
     }).then(response => {
-      // update client state
-      state.workspaces.push(new dmx.Topic(response.data))         // admin area: add to workspace list
-      collapseUsers(rootState, dispatch)                          // admin area: force refetching user's memberships
-      dispatch('fetchLinqaWorkspaces', undefined, {root: true})   // workspace area: add to workspace selector
+      addWorkspace(response.data, rootState, dispatch)                            // update client state
+      state.selectedWorkspace = response.data
+      state.secondaryPanel = undefined
+      state.loading2 = false
+    })
+  },
+
+  duplicateWorkspace ({rootState, dispatch}, workspace) {
+    state.loading1 = true
+    state.selectedWorkspace = workspace
+    return http.post(`/linqa/admin/workspace/${workspace.id}`).then(response => { // update server state
+      addWorkspace(response.data, rootState, dispatch)                            // update client state
+      state.selectedWorkspace = response.data
+      state.loading1 = false
     })
   },
 
   updateWorkspace ({rootState, dispatch}, workspace) {
+    state.loading2 = true
     return dmx.rpc.updateTopic(workspace).then(workspace => {
       replaceWorkspace(workspace, rootState, dispatch)
       collapseUsers(rootState, dispatch)
+      state.secondaryPanel = undefined
+      state.loading2 = false
     })
   },
 
-  deleteWorkspace (_, workspaceId) {
+  deleteWorkspace (_, workspace) {
+    state.selectedWorkspace = workspace
     return lq.confirmDeletion('warning.delete_workspace').then(() => {
-      dmx.rpc.deleteWorkspace(workspaceId)          // update server state
+      dmx.rpc.deleteWorkspace(workspace.id)         // update server state
     }).then(() => {
-      removeWorkspace(workspaceId)                  // update client state
+      removeWorkspace(workspace.id)                 // update client state
       // TODO: collapse?
     }).catch(() => {})                              // suppress unhandled rejection on cancel
   },
@@ -178,7 +200,9 @@ const actions = {
    * @param   userModel   object w/ "displayName", "emailAddress" and "defaultLanguage" props.
    */
   createUser ({rootState}, userModel) {
+    state.loading2 = true
     let p
+    // update server state
     if (DEV) {
       // Note: in development mode display name is ignored and password is fixed to '123'
       p = dmx.rpc.createUserAccount(userModel.emailAddress, '123')
@@ -198,24 +222,41 @@ const actions = {
           .then(response => response.data)            // Note: in Linqa username *is* email address
       })
     }
+    // update client state
     return p.then(user => {
       rootState.users.push(user)
       rootState.users.sort(lq.topicSort)              // TODO: sort by display name (email address at the moment)
+      state.selectedUser = user
+      state.secondaryPanel = undefined
+      scrollIntoView('lq-user-item', user.id)
+    }).catch(error => {
+      return lq.alertError(error)
+    }).finally(() => {
+      state.loading2 = false
     })
   },
 
   updateUser ({rootState}, userModel) {
+    state.loading2 = true
     const username = userModel.emailAddress
     const displayName = userModel.displayName
+    // update server state
     return http.put(`/sign-up/display-name/${username}`, undefined, {
       params: {displayName}
     }).then(() => {
-      updateUser(username, displayName)               // update client state
-      // rootState.users.sort(lq.topicSort)           // TODO: sort by display name (email address at the moment)
+      // update client state
+      updateUser(username, displayName)
+      // rootState.users.sort(lq.topicSort)     // TODO: sort by display name (email address at the moment)
+      state.secondaryPanel = undefined
+    }).catch(error => {
+      return lq.alertError(error)
+    }).finally(() => {
+      state.loading2 = false
     })
   },
 
   deleteUser ({rootState}, user) {
+    state.selectedUser = user
     return lq.confirmDeletion('warning.delete_user').then(() => {
       return http.delete(`/ldap/user/${user.value}`)  // update server state
     }).then(() => {
@@ -237,7 +278,7 @@ export default {
   getters
 }
 
-// state helper
+// State helper
 
 function findWorkspace (id) {
   const ws = state.workspaces.find(ws => ws.id === id)
@@ -261,6 +302,13 @@ function removeUser (id, rootState) {
     throw Error('removeUser')
   }
   rootState.users.splice(i, 1)
+}
+
+function addWorkspace(workspace, rootState, dispatch) {
+  state.workspaces.push(new dmx.Topic(workspace))             // admin area: add to workspace list
+  collapseUsers(rootState, dispatch)                          // admin area: force refetching user's memberships
+  dispatch('fetchLinqaWorkspaces', undefined, {root: true})   // Linqa UI: add to current user's workspace selector
+  scrollIntoView('lq-workspace-item', workspace.id)
 }
 
 function replaceWorkspace (workspace, rootState, dispatch) {
@@ -288,16 +336,36 @@ function updateUser(username, displayName) {
   children['dmx.signup.display_name'].value = displayName
 }
 
+/**
+ * Collapses *all* items of admin area's workspace list.
+ * Forces refetching a workspace's users on next expand.
+ */
 function collapseWorkspaces (dispatch) {
   state.workspaces.forEach(workspace => {
-    delete workspace.memberships                // force refetch once needed
+    delete workspace.memberships                // force refetch on next expand
     dispatch('setExpandedWorkspaceIds', [])     // TODO: don't collapse but refetch later on when needed
   })
 }
 
+/**
+ * Collapses *all* items of admin area's users list.
+ * Forces refetching an user's workspaces on next expand.
+ */
 function collapseUsers (rootState, dispatch) {
   rootState.users.forEach(user => {
-    delete user.memberships                     // force refetch once needed
+    delete user.memberships                     // force refetch on next expand
     dispatch('setExpandedUsernames', [])        // TODO: don't collapse but refetch later on when needed
+  })
+}
+
+// View helper
+
+function scrollIntoView(cssClass, id) {
+  Vue.nextTick(() => {
+    // Regarding scrollIntoView() see comments in jumpToComment() action (linqa.js)
+    document.querySelector(`.${cssClass}[data-id="${id}"]`).scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    })
   })
 }

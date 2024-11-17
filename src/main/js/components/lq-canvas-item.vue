@@ -11,6 +11,12 @@
         <span v-else>{{actionLabel(action)}}</span>
       </el-button>
     </div>
+    <div class="reactions">
+      <el-button v-for="(usernames, emoji) in reactions" :key="emoji" :title="displayNames(usernames)" type="info" plain
+          @click="reactWithEmoji(emoji)" @mousedown.native.stop>
+        {{emoji}} <span class="label">{{usernames.length}}</span>
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -25,7 +31,8 @@ export default {
     require('./mixins/selection').default,
     require('./mixins/roles').default,
     require('./mixins/viewport').default,
-    require('./mixins/presentation-mode').default
+    require('./mixins/presentation-mode').default,
+    require('./mixins/emoji-reaction').default
   ],
 
   inject: ['context'],
@@ -118,6 +125,21 @@ export default {
       return this.infoMode && !this.presentationMode
     },
 
+    /**
+     * Returns Object. Key: emoji char, value: array of usernames.
+     */
+    reactions () {
+      const reactions = this.topic.children['dmx.accesscontrol.username#linqa.reaction']
+      return reactions?.reduce((emojis, reaction) => {
+        const emoji = reaction.assoc.value
+        if (!emojis[emoji]) {
+          emojis[emoji] = []
+        }
+        emojis[emoji].push(reaction.value)          // push username
+        return emojis
+      }, {})
+    },
+
     flipped () {
       const a = Math.abs(this.angle) % 360
       return a > 90 && a < 270
@@ -164,6 +186,10 @@ export default {
         locked: !this.locked,
         topics: [this.topic]
       })
+      // on unlock remove text selection
+      if (!this.locked) {
+        getSelection().empty()    // getSelection() is window method
+      }
     },
 
     // Note: can't be named "delete"
@@ -200,6 +226,10 @@ export default {
 
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
+    },
+
+    displayNames (usernames) {
+      return usernames.map(username => lq.getDisplayName(username)).join(', ')
     }
   },
 
@@ -249,6 +279,18 @@ export default {
 
 .lq-canvas-item .item-toolbar .el-button + .el-button {
   margin-left: var(--button-spacing);
+}
+
+.lq-canvas-item .reactions {
+  position: absolute;
+  top: -18px;
+  right: 0;
+  white-space: nowrap;
+}
+
+.lq-canvas-item .reactions > button {
+  padding: 4px 7px;
+  border-radius: 12px;
 }
 
 .lq-canvas-item .lock-icon {

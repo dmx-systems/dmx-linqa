@@ -6,21 +6,13 @@
       <div class="gap"></div>
       <el-button class="close-button fa fa-times-circle-o" v-if="showClose" type="text" @click="close"></el-button>
     </div>
-    <component class="primary-panel" :is="primaryPanel"></component>
-    <component class="secondary-panel" :is="secondaryPanel" v-loading="loading" @loading="startLoading"
-      @complete="stopLoading">
-    </component>
+    <component class="primary-panel" :is="primaryPanel" v-loading="loading1"></component>
+    <component class="secondary-panel" :is="secondaryPanel" v-loading="loading2"></component>
   </div>
 </template>
 
 <script>
 export default {
-
-  data () {
-    return {
-      loading: false
-    }
-  },
 
   computed: {
 
@@ -40,6 +32,14 @@ export default {
       return this.$store.state.admin.secondaryPanel
     },
 
+    loading1 () {
+      return this.$store.state.admin.loading1
+    },
+
+    loading2 () {
+      return this.$store.state.admin.loading2
+    },
+
     workspace () {
       return this.$store.state.workspace
     },
@@ -52,23 +52,15 @@ export default {
   methods: {
 
     goArea1 () {
-      this.$store.dispatch('admin/setPrimaryPanel', 'lq-workspace-list')
+      this.$store.dispatch('admin/gotoPrimaryPanel', 'lq-workspace-list')
     },
 
     goArea2 () {
-      this.$store.dispatch('admin/setPrimaryPanel', 'lq-user-list')
+      this.$store.dispatch('admin/gotoPrimaryPanel', 'lq-user-list')
     },
 
     close () {
       this.$store.dispatch('callWorkspaceRoute')
-    },
-
-    startLoading () {
-      this.loading = true
-    },
-
-    stopLoading () {
-      this.loading = false
     }
   },
 

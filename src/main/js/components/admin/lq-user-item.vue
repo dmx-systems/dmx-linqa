@@ -1,5 +1,5 @@
 <template>
-  <el-collapse-item :class="['lq-user-item', {'lq-selected': selected}]" :name="user.value">
+  <el-collapse-item :class="['lq-user-item', {'lq-selected': selected}]" :name="user.value" :data-id="user.id">
     <div class="user" slot="title">
       <div class="name"><span class="fa fa-fw fa-user"></span> {{displayName}} ({{user.value}})</div>
       <div class="active"><span :class="['fa', active ? 'fa-check' : 'fa-minus']"></span></div>
@@ -12,7 +12,7 @@
           <el-dropdown-item command="delete">
             <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_user</lq-string>
           </el-dropdown-item>
-          <el-dropdown-item command="editAffiliations" divided>
+          <el-dropdown-item command="editMemberships" divided>
             <i class="fa fa-fw fa-list"></i><lq-string>action.edit_affiliations</lq-string>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -71,17 +71,15 @@ export default {
     },
 
     edit () {
-      this.$store.dispatch('admin/showUserForm', this.user)
+      this.$store.dispatch('admin/editUser', this.user)
     },
 
     delete () {
-      this.$store.dispatch('admin/setSelectedUser', this.user)
       this.$store.dispatch('admin/deleteUser', this.user)
     },
 
-    editAffiliations () {
-      this.$store.dispatch('admin/setSelectedUser', this.user)
-      this.$store.dispatch('admin/setSecondaryPanel', 'lq-user-memberships')
+    editMemberships () {
+      this.$store.dispatch('admin/editUserMemberships', this.user)
     }
   }
 }

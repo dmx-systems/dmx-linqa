@@ -1,153 +1,152 @@
 import Quill from 'quill';
 import Fuse from 'fuse.js';
-import emojiList from './emoji-list.js';
+import emojiData from './emoji-data.js';
 import utils from './emoji-utils.js';
 
-const Delta = Quill.import('delta');
 const Module = Quill.import('core/module');
+
+const CATEGORIES = [
+  {id: 'p', name: 'Smileys & People'},
+  {id: 'n', name: 'Animals & Nature'},
+  {id: 'd', name: 'Food & Drink'},
+  {id: 's', name: 'Symbols'},
+  {id: 'a', name: 'Activity'},
+  {id: 't', name: 'Travel & Places'},
+  {id: 'o', name: 'Objects'},
+  {id: 'f', name: 'Flags'}
+];
 
 /**
  * Adds a button (CSS class 'emoji-picker-button') to the Quill container to open an emoji picker.
  */
 class EmojiPickerModule extends Module {
 
-    constructor(quill, options) {
-        super(quill, options);
-        this.quill = quill;
-        this.container = document.createElement('div');     // the button to open the picker
-        this.container.classList.add('emoji-picker-button');
-        this.container.innerHTML = options.buttonIcon;
-        this.quill.container.appendChild(this.container);
-        this.container.addEventListener('click', this.openEmojiPicker.bind(this), false);
-    }
+  constructor(quill, options) {
+    super(quill, options);
+    this.fuse = new Fuse(emojiData, options.fuse);
+    this.button = document.createElement('div');    // the button to open the picker
+    this.button.classList.add('emoji-picker-button');
+    this.button.innerHTML = options.buttonIcon;
+    this.button.addEventListener('click', this.openEmojiPicker.bind(this));
+    this.quill = quill;
+    this.quill.container.appendChild(this.button);
+    this.quill.keyboard.addBinding({key: 27}, this.closeEmojiPicker);   // Escape
+  }
 
-    openEmojiPicker() {
-        const pickerExists = document.getElementById('emoji-picker');
-        if (pickerExists) {
-            pickerExists.remove();
-        } else {
-            const emojiPicker = document.createElement('div');
-            emojiPicker.id = 'emoji-picker';
-            this.quill.container.appendChild(emojiPicker);
-            const tabToolbar = document.createElement('div');
-            tabToolbar.id = 'tab-toolbar';
-            emojiPicker.appendChild(tabToolbar);
-            const emojiTypes = [
-                {'type': 'p', 'name': 'people',   'content': '<div class="i-people"></div>'},
-                {'type': 'n', 'name': 'nature',   'content': '<div class="i-nature"></div>'},
-                {'type': 'd', 'name': 'food',     'content': '<div class="i-food"></div>'},
-                {'type': 's', 'name': 'symbols',  'content': '<div class="i-symbols"></div>'},
-                {'type': 'a', 'name': 'activity', 'content': '<div class="i-activity"></div>'},
-                {'type': 't', 'name': 'travel',   'content': '<div class="i-travel"></div>'},
-                {'type': 'o', 'name': 'objects',  'content': '<div class="i-objects"></div>'},
-                {'type': 'f', 'name': 'flags',    'content': '<div class="i-flags"></div>'}
-            ];
-            const tabElementHolder = document.createElement('ul');
-            tabToolbar.appendChild(tabElementHolder);
-            if (document.getElementById('emoji-picker-mask') === null) {
-                const pickerMask = document.createElement('div');
-                pickerMask.id = 'emoji-picker-mask';
-                pickerMask.addEventListener('click', closeEmojiPicker, false);
-                document.getElementsByTagName('body')[0].appendChild(pickerMask);
-            } else {
-                document.getElementById('emoji-picker-mask').style.display = 'block';
-            }
-            const panel = document.createElement('div');
-            panel.id = 'tab-panel';
-            emojiPicker.appendChild(panel);
-            const innerQuill = this.quill;
-            emojiTypes.map(function(emojiType) {
-                const tabElement = document.createElement('li');
-                tabElement.classList.add('emoji-tab');
-                tabElement.classList.add('filter-' + emojiType.name);
-                const tabValue = emojiType.content;
-                tabElement.innerHTML = tabValue;
-                tabElement.dataset.filter = emojiType.type;
-                tabElementHolder.appendChild(tabElement);
-                const emojiFilter = document.querySelector('.filter-' + emojiType.name);
-                emojiFilter.addEventListener('click', function() {
-                    const emojiContainer = document.getElementById('emoji-picker');
-                    const tab = emojiContainer && emojiContainer.querySelector('.active');
-                    if (tab) {
-                        tab.classList.remove('active');
-                    }
-                    emojiFilter.classList.toggle('active');
-                    while (panel.firstChild) {
-                        panel.removeChild(panel.firstChild);
-                    }
-                    const type = emojiFilter.dataset.filter;
-                    addEmojisToPanel(type, panel, innerQuill);
-                })
-            });
-            const windowHeight = window.innerHeight;
-            const editorPos = this.quill.container.getBoundingClientRect().top;
-            if (editorPos > windowHeight / 2) {
-                emojiPicker.style.top = '-250px';
-            }
-            initEmojiPicker(panel, this.quill);
-        }
+  openEmojiPicker() {
+    let emojiPicker = document.getElementById('emoji-picker');
+    if (emojiPicker) {
+      this.closeEmojiPicker();
+      return;
     }
+    // this.createMask()    // TODO
+    const catList = document.createElement('ul');
+    const tabToolbar = document.createElement('div');
+    tabToolbar.id = 'tab-toolbar';
+    tabToolbar.appendChild(catList);
+    const tabPanel = document.createElement('div');
+    tabPanel.id = 'tab-panel';
+    emojiPicker = document.createElement('div');
+    emojiPicker.id = 'emoji-picker';
+    emojiPicker.appendChild(tabToolbar);
+    emojiPicker.appendChild(tabPanel);
+    emojiPicker.addEventListener('wheel', e => e.stopPropagation());
+    this.quill.container.appendChild(emojiPicker);
+    CATEGORIES.forEach(cat => {
+      const catItem = document.createElement('li');
+      catItem.classList.add('emoji-tab');
+      catItem.classList.add(cat.id);
+      catItem.title = cat.name;
+      catItem.innerHTML = '<div></div>';
+      catItem.addEventListener('click', () => {
+        emojiPicker.querySelector('.emoji-tab.active').classList.remove('active');
+        catItem.classList.add('active');
+        while (tabPanel.firstChild) {
+          tabPanel.removeChild(tabPanel.firstChild);
+        }
+        this.addEmojisToPanel(cat.id, tabPanel);
+      });
+      catList.appendChild(catItem);
+    });
+    //
+    const windowHeight = window.innerHeight;
+    const editorPos = this.quill.container.getBoundingClientRect().top;
+    if (editorPos > windowHeight / 2) {
+      emojiPicker.style.top = '-250px';
+    }
+    this.initEmojiPicker(tabPanel);
+  }
+
+  /**
+   * Adds all emojis of the given category to the given panel.
+   */
+  addEmojisToPanel(catId, panel) {
+    const result = this.fuse.search(catId);
+    result.sort((a, b) => a.emoji_order - b.emoji_order);
+    //
+    this.quill.focus();
+    const range = this.quill.getSelection();
+    //
+    result.forEach(emoji => {
+      const span = document.createElement('span');
+      span.classList.add('emoji');
+      span.title = emoji.name;
+      span.innerHTML = emoji.code_decimal;
+      span.addEventListener('click', () => {
+        const str = utils.emojiToString(emoji)      // Note: emoji can consist of more than one character
+        this.quill.insertText(range.index, str, Quill.sources.USER);
+        setTimeout(() => this.quill.setSelection(range.index + str.length), 0);
+        this.closeEmojiPicker();
+      });
+      panel.appendChild(span);
+    });
+  }
+
+  createMask() {
+    if (document.getElementById('emoji-picker-mask') === null) {
+      const pickerMask = document.createElement('div');
+      pickerMask.id = 'emoji-picker-mask';
+      pickerMask.addEventListener('click', this.closeEmojiPicker);
+      document.body.appendChild(pickerMask);
+    } else {
+      document.getElementById('emoji-picker-mask').style.display = 'block';
+    }
+  }
+
+  initEmojiPicker(panel) {
+    this.addEmojisToPanel('p', panel);    // "p" = people category
+    document.querySelector('li.emoji-tab.p').classList.add('active');
+  }
+
+  closeEmojiPicker() {
+    const emojiPicker = document.getElementById('emoji-picker');
+    // document.getElementById('emoji-picker-mask').style.display = 'none';     // TODO
+    // console.log('closeEmojiPicker', 'open', !!emojiPicker)
+    if (emojiPicker) {
+      emojiPicker.remove();
+    } else {
+      return true;    // let other key handlers handle ESC
+    }
+  }
 }
 
 EmojiPickerModule.DEFAULTS = {
-  buttonIcon: '<svg viewbox="0 0 18 18"><circle class="ql-fill" cx="7" cy="7" r="1"></circle><circle class="ql-fill" cx="11" cy="7" r="1"></circle><path class="ql-stroke" d="M7,10a2,2,0,0,0,4,0H7Z"></path><circle class="ql-stroke" cx="9" cy="9" r="6"></circle></svg>'
-}
-
-function closeEmojiPicker() {
-    const emojiPicker = document.getElementById('emoji-picker');
-    document.getElementById('emoji-picker-mask').style.display = 'none';
-    if (emojiPicker) {emojiPicker.remove()}
-}
-
-function initEmojiPicker(panel, quill) {
-    addEmojisToPanel('p', panel, quill);
-    document.querySelector('.filter-people').classList.add('active');
-}
-
-/**
- * Adds all emojis of the given type to the given panel.
- */
-function addEmojisToPanel(type, panel, quill) {
-    const fuseOptions = {
-        shouldSort: true,
-        matchAllTokens: true,
-        threshold: 0.3,
-        location: 0,
-        distance: 100,
-        maxPatternLength: 32,
-        minMatchCharLength: 3,
-        keys: [
-            'category'
-        ]
-    };
-    const fuse = new Fuse(emojiList, fuseOptions);
-    const result = fuse.search(type);
-    result.sort(function (a, b) {
-      return a.emoji_order - b.emoji_order;
-    });
-    //
-    quill.focus();
-    const range = quill.getSelection();
-    //
-    result.map(function(emoji) {
-        const span = document.createElement('span');
-        const t = document.createTextNode(emoji.shortname);
-        span.appendChild(t);
-        span.classList.add('bem');
-        span.classList.add('bem-' + emoji.name);
-        const output = '' + emoji.code_decimal + '';
-        span.innerHTML = output + ' ';
-        panel.appendChild(span);
-        //
-        const customButton = document.querySelector('.bem-' + emoji.name);
-        if (customButton) {
-            customButton.addEventListener('click', function() {
-                quill.insertText(range.index, utils.emojiToString(emoji), Quill.sources.USER);
-                setTimeout(() => quill.setSelection(range.index + 1), 0);
-                closeEmojiPicker();
-            });
-        }
-    });
-}
+  buttonIcon: `<svg viewbox="0 0 18 18">
+    <circle class="ql-fill" cx="7" cy="7" r="1"></circle>
+    <circle class="ql-fill" cx="11" cy="7" r="1"></circle>
+    <path class="ql-stroke" d="M7,10a2,2,0,0,0,4,0H7Z"></path>
+    <circle class="ql-stroke" cx="9" cy="9" r="6"></circle>
+  </svg>`,
+  fuse: {
+    shouldSort: true,
+    matchAllTokens: true,
+    threshold: 0.3,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 3,
+    keys: ['category']
+  }
+};
 
 export default EmojiPickerModule;

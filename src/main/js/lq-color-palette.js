@@ -19,8 +19,7 @@ export default {
     'hsl(270, 100%, 92%)',      // purple
     'transparent'
   ],
-  textBackground: [             // Used as Quill "background" format options
-    false,                      // "not set"
+  textBackground: [
     'hsl(0, 0%, 73%)',          // gray
     'hsl(0, 82%, 67%)',         // red
     'hsl(36, 100%, 70%)',       // orange

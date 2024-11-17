@@ -32,6 +32,7 @@ public class Constants {
     // Assoc Types
     public static final String SHARED_WORKSPACE         = "linqa.shared_workspace";
     public static final String ATTACHMENT               = "linqa.attachment";
+    public static final String REACTION                 = "linqa.reaction";
     public static final String ORIGINAL_LANGUAGE        = "linqa.original_language";
     public static final String LANG1                    = "linqa.lang1";
     public static final String LANG2                    = "linqa.lang2";

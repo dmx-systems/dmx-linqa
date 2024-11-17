@@ -1,5 +1,6 @@
 <template>
-  <el-collapse-item :class="['lq-workspace-item', {'lq-selected': selected}]" :name="workspace.id">
+  <el-collapse-item :class="['lq-workspace-item', {'lq-selected': selected}]" :name="workspace.id"
+      :data-id="workspace.id">
     <div class="workspace" slot="title">
       <div class="name"><span class="fa fa-fw fa-list"></span> {{workspaceName}}</div>
       <div class="owner"><span class="fa fa-fw fa-user"></span> {{owner}}</div>
@@ -11,6 +12,9 @@
           </el-dropdown-item>
           <el-dropdown-item command="edit">
             <i class="fa fa-fw fa-pencil"></i><lq-string>action.edit_workspace</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="duplicate">
+            <i class="fa fa-fw fa-files-o"></i><lq-string>action.duplicate_workspace</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="delete">
             <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_workspace</lq-string>
@@ -74,17 +78,19 @@ export default {
     },
 
     edit () {
-      this.$store.dispatch('admin/showWorkspaceForm', this.workspace)
+      this.$store.dispatch('admin/editWorkspace', this.workspace)
+    },
+
+    duplicate () {
+      this.$store.dispatch('admin/duplicateWorkspace', this.workspace)
     },
 
     delete () {
-      this.$store.dispatch('admin/setSelectedWorkspace', this.workspace)
-      this.$store.dispatch('admin/deleteWorkspace', this.workspace.id)
+      this.$store.dispatch('admin/deleteWorkspace', this.workspace)
     },
 
     editMemberships () {
-      this.$store.dispatch('admin/setSelectedWorkspace', this.workspace)
-      this.$store.dispatch('admin/setSecondaryPanel', 'lq-workspace-memberships')
+      this.$store.dispatch('admin/editWorkspaceMemberships', this.workspace)
     }
   }
 }

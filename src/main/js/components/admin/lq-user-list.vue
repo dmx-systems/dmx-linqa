@@ -7,7 +7,7 @@
         <lq-user-item v-for="user in users" :user="user" :key="user.id"></lq-user-item>
       </el-collapse>
     </div>
-    <el-button class="add-button" size="medium" icon="el-icon-plus" @click="addUser">
+    <el-button class="add-button" size="medium" icon="el-icon-plus" @click="newUser">
       <lq-string>action.add_user</lq-string>
     </el-button>
   </div>
@@ -37,8 +37,8 @@ export default {
   },
 
   methods: {
-    addUser () {
-      this.$store.dispatch('admin/showUserForm')
+    newUser () {
+      this.$store.dispatch('admin/newUser')
     }
   },
 

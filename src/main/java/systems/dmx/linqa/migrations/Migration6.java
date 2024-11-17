@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Transforms existing "Arrow" instances into "Line".
  * Deletes topic type "Arrow".
  * <p>
- * Part of Linqa 1.8
+ * Part of Linqa 2.0
  * Runs only in UPDATE mode.
  */
 public class Migration6 extends Migration {

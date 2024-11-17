@@ -19,7 +19,7 @@
       <el-button class="submit-button" type="primary" size="medium" @click="updateMemberships">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="clearSecondaryPanel">
+      <el-button size="medium" @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </div>
@@ -30,7 +30,7 @@
 export default {
 
   mixins: [
-    require('./mixins/admin-util').default,
+    require('./mixins/cancel').default,
     require('../mixins/workspace-name').default
   ],
 
@@ -101,12 +101,8 @@ export default {
       const removeWorkspaceIds1 = this.workspaces.filter(ws => !this.model1[ws.id]).map(ws => ws.id)
       const addWorkspaceIds2    = this.workspaces.filter(ws =>  this.model2[ws.id]).map(ws => ws.id)
       const removeWorkspaceIds2 = this.workspaces.filter(ws => !this.model2[ws.id]).map(ws => ws.id)
-      this.$emit('loading')
       this.$store.dispatch('admin/updateUserMemberships', {
         addWorkspaceIds1, removeWorkspaceIds1, addWorkspaceIds2, removeWorkspaceIds2
-      }).then(() => {
-        this.$emit('complete')
-        this.clearSecondaryPanel()
       })
     }
   }

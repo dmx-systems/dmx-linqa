@@ -11,7 +11,7 @@
         </el-collapse>
       </div>
     </template>
-    <el-button class="add-button" size="medium" icon="el-icon-plus" @click="addWorkspace">
+    <el-button class="add-button" size="medium" icon="el-icon-plus" @click="newWorkspace">
       <lq-string>action.add_workspace</lq-string>
     </el-button>
   </div>
@@ -45,8 +45,8 @@ export default {
   },
 
   methods: {
-    addWorkspace () {
-      this.$store.dispatch('admin/showWorkspaceForm')
+    newWorkspace () {
+      this.$store.dispatch('admin/newWorkspace')
     }
   },
 

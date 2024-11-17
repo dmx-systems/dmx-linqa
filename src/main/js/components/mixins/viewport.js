@@ -1,3 +1,5 @@
+import lq from '../../lq-globals'
+
 export default {
 
   computed: {
@@ -34,7 +36,10 @@ export default {
 
   methods: {
     setZoom (zoom, cx, cy, transition) {
-      zoom = Math.min(Math.max(zoom, .2), 2)
+      // ignore if not in range
+      if (zoom < lq.CANVAS_ZOOM_MIN) {
+        return
+      }
       const zoomChange = zoom - this.zoom
       const px = (cx - this.pan.x) / this.zoom * zoomChange
       const py = (cy - this.pan.y) / this.zoom * zoomChange

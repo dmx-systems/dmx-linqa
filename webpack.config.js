@@ -13,7 +13,7 @@ module.exports = (env = {}) => {
       filename: env.dev ? '[name].js' : '[chunkhash].[name].js'
     },
     resolve: {
-      extensions: ['.js', '.vue']
+      extensions: ['.js', '.mjs', '.ts', '.vue']
     },
     module: {
       rules: [
@@ -22,9 +22,9 @@ module.exports = (env = {}) => {
           loader: 'vue-loader'
         },
         {
-          test: /\.js$/,
+          test: /\.m?js$/,
           loader: 'babel-loader',
-          exclude: /node_modules/
+          exclude: /node_modules\/(?!quill)/
         },
         {
           test: /\.css$/,

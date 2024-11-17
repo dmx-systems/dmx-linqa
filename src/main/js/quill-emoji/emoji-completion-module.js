@@ -84,7 +84,7 @@ class EmojiCompletionModule extends Module {
    * Calculates menu position and opens it.
    */
   enterCompletionMode(range, context) {
-    LOG && console.log('### enterCompletionMode', 'key', `"${event.key}"`, 'compMode', this.compMode, 'index',
+    console.log('### enterCompletionMode', 'key', `"${event.key}"`, 'compMode', this.compMode, 'index',
       range.index)
     if (event.key !== ':') {
       LOG && console.log('  --> abort, not colon key')
@@ -128,7 +128,7 @@ class EmojiCompletionModule extends Module {
    */
   updateCompletions() {
     const index = this.quill.getSelection().index;
-    LOG && console.log('  updateCompletions', 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
+    console.log('  updateCompletions', 'event', `"${window.event}"`, 'colIndex', this.colIndex, 'index', index, this.quill.getText().split(),
       this.quill.getText().length)
     if (this.handleDefaultEditorKeys()) {
       return

@@ -133,8 +133,8 @@ class EmojiCompletionModule extends Module {
     if (this.handleDefaultEditorKeys()) {
       return
     }
-    if (this.colIndex >= index) {       // Deleted the at character
-      LOG && console.log('    --> abort', this.colIndex, index)
+    if (index <= this.colIndex) {           // typing left of colon or deleting colon character
+      LOG && console.log('    cursor out of range or colon deleted --> abort')
       this.leaveCompletionMode();
       return;
     }
@@ -142,7 +142,7 @@ class EmojiCompletionModule extends Module {
     // calculate "query"
     this.query = this.quill.getText(this.colIndex + 1, index - this.colIndex - 1);
     LOG && console.log('    query', `"${this.query}"`, 'len', this.query.length, 'whitespace', /\s/.test(this.query))
-    if (/\s/.test(this.query)) {        // typing whitespace leaves completion mode
+    if (/\s/.test(this.query)) {            // typing whitespace leaves completion mode
       this.leaveCompletionMode();
       return;
     }
@@ -151,7 +151,7 @@ class EmojiCompletionModule extends Module {
     let emojis = this.fuse.search(this.query).sort((a, b) => a.emoji_order - b.emoji_order);
     if (this.query.length < this.options.fuse.minMatchCharLength || emojis.length === 0) {
       LOG && console.log('    --> no result')
-      this.menu.style.display = 'none';    // close menu w/o leaving completion mode
+      this.menu.style.display = 'none';     // close menu w/o leaving completion mode
       return;
     }
     if (emojis.length > MAX_MENU_ITEMS) {
@@ -212,12 +212,13 @@ class EmojiCompletionModule extends Module {
       this.quill.deleteText(index, 1, Quill.sources.SILENT);
     }
     // "event" is global window object
-    if (event.key === 'Enter') {
+    // Note: (in contrast to Firefox) in Chrome for regular keys "event" is undefined but for Enter/Tab is defined
+    if (event?.key === 'Enter') {
       LOG && console.log('    Enter (editor) -->', this.firstEmoji.name)
       deleteChar()
       this.leaveCompletionMode(this.firstEmoji);
       return true;
-    } else if (event.key === 'Tab') {
+    } else if (event?.key === 'Tab') {
       LOG && console.log('    Tab (editor) --> move focus from editor to menu')
       deleteChar()
       this.quill.disable();

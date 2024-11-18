@@ -13,7 +13,7 @@ module.exports = (env = {}) => {
       filename: env.dev ? '[name].js' : '[chunkhash].[name].js'
     },
     resolve: {
-      extensions: ['.js', '.mjs', '.ts', '.vue']
+      extensions: ['.js', '.mjs', '.vue']
     },
     module: {
       rules: [

@@ -35,7 +35,7 @@ module.exports = (env = {}) => {
           loader: 'file-loader',
           options: {
             esModule: false   // Note: since file-loader 5.0 "esModule" is true by default.
-          }                   // Does not work with <img src"..."> element in vue template.
+          }                   // Does not work with <img src="..."> element in vue template.
         }
       ]
     },

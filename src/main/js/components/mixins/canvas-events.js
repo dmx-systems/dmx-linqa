@@ -1,3 +1,4 @@
+import Hammer from 'hammerjs'
 import lq from '../../lq-globals'
 
 const TRACK_PAN_SPEED = 0.2
@@ -12,6 +13,15 @@ export default {
 
   mounted () {
     APP_HEADER_HEIGHT = document.querySelector('.lq-app-header').clientHeight
+    //
+    const c = this.$refs.canvas
+    console.log('CANVAS MOUNTED -> create Hammer', c)
+    const h = new Hammer.Manager(c, {
+      recognizers: [[Hammer.Pinch]]
+    })
+    h.on('pinchstart', this.onPinchStart)
+    h.on('pinchmove', this.onPinch)
+    h.on('pinchend', this.onPinchEnd)
   },
 
   methods: {
@@ -232,13 +242,13 @@ export default {
     },
 
     onPinchStart (e) {
-      LOG && console.log('onPinchStart()', e.inputEvent.target === this.$refs.canvas, e.targets)
+      LOG && console.log('onPinchStart()', this.zoom, e.target === this.$refs.canvas, e.targets)
       this.startZoom = this.zoom
     },
 
     onPinch (e) {
-      // LOG && console.log('onPinch()' /*, e.inputEvent.scale, e */)
-      this.setZoom(this.startZoom * e.inputEvent.scale, e.clientX, e.clientY - APP_HEADER_HEIGHT)
+      LOG && console.log('onPinch()', e.scale, e)
+      this.setZoom(this.startZoom * e.scale, e.srcEvent.clientX, e.srcEvent.clientY - APP_HEADER_HEIGHT)
     },
 
     onPinchEnd (e) {

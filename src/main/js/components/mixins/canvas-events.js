@@ -248,7 +248,7 @@ export default {
 
     onPinch (e) {
       LOG && console.log('onPinch()', e.scale, e)
-      this.setZoom(this.startZoom * e.scale, e.srcEvent.clientX, e.srcEvent.clientY - APP_HEADER_HEIGHT)
+      this.setZoom(this.startZoom * e.scale, e.center.x, e.center.y - APP_HEADER_HEIGHT)
     },
 
     onPinchEnd (e) {

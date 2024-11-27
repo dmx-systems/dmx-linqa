@@ -13,7 +13,7 @@ module.exports = (env = {}) => {
       filename: env.dev ? '[name].js' : '[chunkhash].[name].js'
     },
     resolve: {
-      extensions: ['.js', '.mjs', '.ts', '.vue']
+      extensions: ['.js', '.mjs', '.vue']
     },
     module: {
       rules: [
@@ -35,7 +35,7 @@ module.exports = (env = {}) => {
           loader: 'file-loader',
           options: {
             esModule: false   // Note: since file-loader 5.0 "esModule" is true by default.
-          }                   // Does not work with <img src"..."> element in vue template.
+          }                   // Does not work with <img src="..."> element in vue template.
         }
       ]
     },

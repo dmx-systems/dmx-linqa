@@ -25,9 +25,8 @@
       toggle-continue-select="shift" @dragStart="onDragSelectStart" @select="onSelect" @selectEnd="onSelectEnd">
     </vue-selecto>
     <lq-line-handles></lq-line-handles>
-    <!-- Canvas panning + pinching -->
-    <vue-moveable target=".lq-canvas" :draggable="true" :pinchable="true" @dragStart="onPanStart" @drag="onPan"
-      @dragEnd="onPanEnd" @pinchStart="onPinchStart" @pinch="onPinch" @pinchEnd="onPinchEnd">
+    <!-- Canvas panning -->
+    <vue-moveable target=".lq-canvas" :draggable="true" @dragStart="onPanStart" @drag="onPan" @dragEnd="onPanEnd">
     </vue-moveable>
   </div>
 </template>

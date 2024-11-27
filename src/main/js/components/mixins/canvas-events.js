@@ -15,7 +15,7 @@ export default {
     APP_HEADER_HEIGHT = document.querySelector('.lq-app-header').clientHeight
     //
     const c = this.$refs.canvas
-    console.log('CANVAS MOUNTED -> create Hammer', c)
+    LOG && console.log('CANVAS MOUNTED -> create Hammer', c)
     const h = new Hammer.Manager(c, {
       recognizers: [[Hammer.Pinch]]
     })
@@ -37,7 +37,7 @@ export default {
           LOG && console.log('onDragSelectStart() -> STARTING DRAG SELECTION and PREVENT CANVAS PAN')
           e.inputEvent.stopImmediatePropagation()
         } else {
-          LOG && console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
+          // LOG && console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (shift key not pressed)')
           // Prevent drag selection but still allow *deselection* (click on canvas) which is also part
           // of "selecto" logic. e.stop() on the other hand would stop the entire "selecto" logic.
           e.preventDrag()
@@ -47,15 +47,15 @@ export default {
         const element = this.$refs.selecto.getSelectableElements().find(e => e.contains(target))
         if (element) {
           if (this.$refs.moveable.isMoveableElement(target) || this.targets.includes(element)) {
-            LOG && console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on already selected item)',
+            /* LOG && console.log('onDragSelectStart() -> PREVENT DRAG SELECTION (clicked on already selected item)',
               this.$refs.moveable.isMoveableElement(target), this.targets.includes(element),
-              element !== undefined)
+              element !== undefined) */
             // Stop "selecto" logic (drag selection + deselection) if we've clicked
             // 1) a multi-selection in order to drag it (for a multi-selection isMoveableElement() is true), OR
             // 2) a selected item in order to do a text-selection drag in form mode
             e.stop()
           } else {
-            LOG && console.log('onDragSelectStart() -> SELECT ITEM', element.dataset.id)
+            // LOG && console.log('onDragSelectStart() -> SELECT ITEM', element.dataset.id)
           }
         } else {
           LOG && console.log('onDragSelectStart() -> PREVENT ITEM SELECTION (clicked element is not selectable)')
@@ -65,7 +65,7 @@ export default {
     },
 
     onSelect (e) {
-      LOG && console.log('onSelect()')
+      // LOG && console.log('onSelect()')
       this.$store.dispatch('updateSelection', {
         addTopics: e.added.map(el => el.__vue__.topic),
         removeTopicIds: e.removed.map(el => Number(el.dataset.id))
@@ -76,7 +76,7 @@ export default {
     },
 
     onSelectEnd (e) {
-      LOG && console.log('onSelectEnd()', e.isDragStart)
+      // LOG && console.log('onSelectEnd()', e.isDragStart)
       if (e.isDragStart) {
         e.inputEvent.preventDefault()
         setTimeout(() => {
@@ -92,27 +92,33 @@ export default {
     // - stopDrag() -- stops all "able" behaviors. stopDrag() is more radical than stopAble()
     // - stop()     -- not in API docs, apparently an alias for stopAble()
     onDragStart (e) {
-      const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
-      if (parent) {
-        LOG && console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
+      if (e.inputEvent.touches?.length === 2) {
+        // 2 fingers never drag an item (but initiate pan and pinch)
+        LOG && console.log('onDragStart() -> PREVENT ITEM DRAG (2 finger gesture)')
         e.stopDrag()
       } else {
-        LOG && console.log('onDragStart() -> STARTING ITEM DRAG', e.target.dataset.id)
-        const topic = this.findTopic(e.target)
-        if (topic) {
-          this.dragStartPos = {[topic.id]: topic.pos}
-        } else {
-          // FIXME: this should never happen. When deselecting an item or selecting a different one a
-          // superfluous start-item-drag is triggered together with intended start-canvas-pan or start-item-drag
-          // (for the previously selected item). This happens only on mobile. Timing is an issue here.
-          console.warn(`onDragStart() -> ABORT ITEM DRAG (item ${e.target.dataset.id} not in selection)`)
+        const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
+        if (parent) {
+          LOG && console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
           e.stopDrag()
+        } else {
+          LOG && console.log('onDragStart() -> STARTING ITEM DRAG', e.target.dataset.id)
+          const topic = this.findTopic(e.target)
+          if (topic) {
+            this.dragStartPos = {[topic.id]: topic.pos}
+          } else {
+            // FIXME: this should never happen. When deselecting an item or selecting a different one a
+            // superfluous start-item-drag is triggered together with intended start-canvas-pan or start-item-drag
+            // (for the previously selected item). This happens only on mobile. Timing is an issue here.
+            console.warn(`onDragStart() -> ABORT ITEM DRAG (item ${e.target.dataset.id} not in selection)`)
+            e.stopDrag()
+          }
         }
       }
     },
 
     onDrag (e) {
-      LOG && console.log('onDrag()')
+      // LOG && console.log('onDrag()')
       this.config('moveHandler')(this.findTopic(e.target), e.dist[0], e.dist[1])
       if (e.isFirstDrag) {
         this.dragStart('drag-item')
@@ -191,22 +197,19 @@ export default {
       this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
     },
 
-    // 6 vue-moveable event handlers (canvas panning + pinching)
+    // 3 vue-moveable event handlers (canvas panning)
 
     // "Moveable" passes a custom "dragStart" event. Regarding cancelling it provides 3 functions:
     // - stopAble() -- stops the current "able", e.g. you can stop a "draggable" behavior but not a "pinchable" behavior
     // - stopDrag() -- stops all "able" behaviors. stopDrag() is more radical than stopAble()
     // - stop()     -- not in API docs, apparently an alias for stopAble()
     onPanStart (e) {
-      const target = e.inputEvent.target
-      if (target !== this.$refs.canvas) {
-        if (e.inputEvent.touches?.length === 2) {
-          LOG && console.log('onPanStart() -> PREVENT CANVAS PAN (2 finger gesture)', target)
-          // Only stop the "draggable" (which handles canvas panning), NOT the "pinchable" (as handled by the same
-          // Moveable instance). So the current mousedown/touchstart event can still invoke a "pinch" event. Calling
-          // e.stopDrag() on the other hand would stop invocation of *all* the drag events, including "pinch".
-          e.stopAble()
-        } else {
+      if (e.inputEvent.touches?.length === 2) {
+        // 2 fingers always initiates pan (and pinch) regardless what they touch (item or canvas)
+        LOG && console.log('onPanStart() -> STARTING CANVAS PAN (2 finger gesture)')
+      } else {
+        const target = e.inputEvent.target
+        if (target !== this.$refs.canvas) {
           const item = target.closest('.lq-canvas-item')
           if ((!this.isAuthor || this.presentationMode) && item) {
             LOG && console.log('onPanStart() -> STARTING CANVAS PAN (read-only mode)')
@@ -216,14 +219,14 @@ export default {
             // Cancel entire gesture, otherwise search input field does not receive focus (default prevented).
             e.stopDrag()
           }
+        } else {
+          LOG && console.log('onPanStart() -> STARTING CANVAS PAN')
         }
-      } else {
-        LOG && console.log('onPanStart() -> STARTING CANVAS PAN')
       }
     },
 
     onPan (e) {
-      LOG && console.log('onPan()', e.isFirstDrag)
+      // LOG && console.log('onPan()', e.isFirstDrag)
       this.$store.dispatch('setViewport', {
         pan: {
           x: this.pan.x + e.delta[0],
@@ -241,13 +244,15 @@ export default {
       // this.dragStop()          // TODO: needed?
     },
 
+    // 3 hammerjs event handlers (canvas pinching)
+
     onPinchStart (e) {
-      LOG && console.log('onPinchStart()', this.zoom, e.target === this.$refs.canvas, e.targets)
+      LOG && console.log('onPinchStart()')
       this.startZoom = this.zoom
     },
 
     onPinch (e) {
-      LOG && console.log('onPinch()', e.scale, e)
+      // LOG && console.log('onPinch()')
       this.setZoom(this.startZoom * e.scale, e.center.x, e.center.y - APP_HEADER_HEIGHT)
     },
 

@@ -401,6 +401,9 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public Topic createDocument(String docName, @QueryParam("fileId") long fileId) {
         try {
+            //
+            new VideoFrameGrabber(dmx, files).createPosterFrame(fileId);
+            //
             TopicModel document = createBilingualTopicModel(DOCUMENT, docName, "_name");
             String lang = document.getChildTopics().getString(LANGUAGE + "#" + ORIGINAL_LANGUAGE);
             document.getChildTopics().setRef(FILE + "#linqa." + langSuffix(lang), fileId);

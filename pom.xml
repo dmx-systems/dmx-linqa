@@ -61,6 +61,16 @@
             <artifactId>jsoup</artifactId>
             <version>1.16.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec</artifactId>
+            <version>0.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec-javase</artifactId>
+            <version>0.2.5</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -72,7 +82,7 @@
                     <instructions>
                         <Bundle-Activator>systems.dmx.linqa.LinqaPlugin</Bundle-Activator>
                         <Include-Resource>{maven-resources},web=target/classes/web</Include-Resource>
-                        <Embed-Dependency>jsoup</Embed-Dependency>
+                        <Embed-Dependency>jsoup, jcodec, jcodec-javase</Embed-Dependency>
                         <Import-Package>
                             !javax.annotation.meta, *
                         </Import-Package>

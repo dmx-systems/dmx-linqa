@@ -43,7 +43,7 @@ class VideoFrameGrabber {
                 File file = fs.getFile(fileTopicId);
                 Picture picture = FrameGrab.getFrameAtSec(file, SEEK_IN_SECS);
                 BufferedImage image = AWTUtil.toBufferedImage(picture);
-                String outPath = replaceExtension(file.getPath(), "png");
+                String outPath = replaceExtension(file.getPath(), ".png");
                 ImageIO.write(image, "png", new File(outPath));
             }
         } catch (Exception e) {
@@ -54,6 +54,6 @@ class VideoFrameGrabber {
     // ------------------------------------------------------------------------------------------------- Private Methods
 
     private String replaceExtension(String path, String newExt) {
-        return path.substring(0, path.lastIndexOf('.') + 1) + newExt;
+        return path.substring(0, path.lastIndexOf('.')) + newExt;
     }
 }

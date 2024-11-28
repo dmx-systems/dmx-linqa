@@ -2,7 +2,7 @@
   <pre v-if="isText">{{text}}</pre>
   <img v-else-if="isImage" :src="fileUrl" @loadstart="loading" @load="complete">
   <audio v-else-if="isAudio" :src="fileUrl" controls></audio>
-  <video v-else-if="isVideo" :src="fileUrl" controls @loadeddata="update"></video>
+  <video v-else-if="isVideo" :src="fileUrl" controls preload="none" :poster="posterUrl" @loadeddata="update"></video>
   <lq-pdf-viewer v-else-if="isPDF" :topic="topic" :src="fileUrl" @loading="loading" @complete="complete">
   </lq-pdf-viewer>
   <div v-else-if="isOfficeDocument">
@@ -25,7 +25,7 @@ export default {
   },
 
   props: {
-    topic: {                  // the topic to render
+    topic: {        // the Document topic to render
       type: dmx.ViewTopic,
       required: true
     }
@@ -33,7 +33,13 @@ export default {
 
   data () {
     return {
-      text: ''                // used only for text files: the contained text (String)      FIXME: 2x ?
+      text: ''      // for text files only: the contained text (String)      FIXME: 2x ?
+    }
+  },
+
+  computed: {
+    posterUrl () {
+      return this.fileUrl.substring(0, this.fileUrl.lastIndexOf('.')) + '.png'
     }
   },
 

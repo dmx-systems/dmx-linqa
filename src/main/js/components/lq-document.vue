@@ -5,15 +5,7 @@
         <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
-      <pre v-if="isText">{{text}}</pre>
-      <img v-if="isImage" :src="fileUrl" @loadstart="loading" @load="complete">
-      <audio v-if="isAudio" :src="fileUrl" controls></audio>
-      <video v-if="isVideo" :src="fileUrl" controls @loadeddata="update"></video>
-      <lq-pdf-viewer v-if="isPDF" :topic="topic" :src="fileUrl" @loading="loading" @complete="complete"></lq-pdf-viewer>
-      <div v-if="isOfficeDocument">
-        <img class="office-icon" :src="iconUrl">
-        <div class="label">{{fileName}}</div>
-      </div>
+      <lq-document-renderer :topic="topic" @loading="loading" @complete="complete"></lq-document-renderer>
     </template>
     <template v-else>
       <div class="field">
@@ -84,7 +76,6 @@ export default {
       handler: this.download,
       enabledForUser: true
     })
-    this.initText()
   },
 
   mounted () {
@@ -100,7 +91,6 @@ export default {
   data () {
     return {
       biTypeUri: 'linqa.document_name',   // URI of the bilingual child type
-      text: '',                           // used only for text files: the contained text (String)      FIXME: 2x ?
       isLoading: false,                   // true while document is loaded/saved (Boolean)
       saveButtonDisabled: false,          // true when save button is disabled (Boolean)
       onSuccess: {                        // upload success handler (2x Function)
@@ -180,40 +170,6 @@ export default {
       return '/upload/' + encodeURIComponent('/')
     },
 
-    isText () {
-      return this.mediaType?.startsWith('text/')
-    },
-
-    isImage () {
-      return this.mediaType?.startsWith('image/')
-    },
-
-    isAudio () {
-      return this.mediaType?.startsWith('audio/')
-    },
-
-    isVideo () {
-      return this.mediaType?.startsWith('video/')
-    },
-
-    isPDF () {
-      return this.mediaType === 'application/pdf'
-    },
-
-    isOfficeDocument () {
-      return [
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.ms-excel',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'application/vnd.oasis.opendocument.text',
-        'application/vnd.oasis.opendocument.spreadsheet',
-        'application/vnd.oasis.opendocument.presentation'
-      ].includes(this.mediaType)
-    },
-
     isFiltered () {
       return this.documentFilter?.id === this.topic.id
     },
@@ -227,25 +183,7 @@ export default {
     }
   },
 
-  watch: {
-    file () {
-      this.initText()
-    }
-  },
-
   methods: {
-
-    update() {
-      // this.$emit('update')     // ### FIXME?
-    },
-
-    initText () {
-      if (this.isText) {
-        this.$store.dispatch('getFileContent', this.path).then(content => {
-          this.text = content
-        })
-      }
-    },
 
     setFilter () {
       this.$store.dispatch('setDocumentFilter', this.topic)
@@ -325,6 +263,10 @@ export default {
     beforeUpload (file) {
       this.saveButtonDisabled = true
     }
+  },
+
+  components: {
+    'lq-document-renderer': require('./lq-document-renderer').default
   }
 }
 </script>

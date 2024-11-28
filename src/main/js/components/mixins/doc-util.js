@@ -59,6 +59,44 @@ export default {
       return this.getPath(this.file)
     },
 
+    // 6 document types
+
+    isText () {
+      return this.mediaType?.startsWith('text/')
+    },
+
+    isImage () {
+      return this.mediaType?.startsWith('image/')
+    },
+
+    isAudio () {
+      return this.mediaType?.startsWith('audio/')
+    },
+
+    isVideo () {
+      return this.mediaType?.startsWith('video/')
+    },
+
+    isPDF () {
+      return this.mediaType === 'application/pdf'
+    },
+
+    isOfficeDocument () {
+      return [
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.oasis.opendocument.text',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.presentation'
+      ].includes(this.mediaType)
+    },
+
+    //
+
     lang () {
       return this.$store.state.lang
     }

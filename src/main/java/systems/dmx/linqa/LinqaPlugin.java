@@ -26,7 +26,7 @@ import systems.dmx.core.service.Transactional;
 import systems.dmx.core.service.accesscontrol.PrivilegedAccess;
 import systems.dmx.core.service.accesscontrol.SharingMode;
 import systems.dmx.core.service.event.PostCreateAssoc;
-import systems.dmx.core.service.event.PostUpdateTopic;
+import systems.dmx.core.service.event.PostCreateTopic;
 import systems.dmx.core.service.event.PreDeleteAssoc;
 import systems.dmx.core.service.event.PreSendTopic;
 import systems.dmx.core.storage.spi.DMXTransaction;
@@ -81,7 +81,8 @@ import com.sun.jersey.core.util.Base64;
 
 @Path("/linqa")
 @Produces(MediaType.APPLICATION_JSON)
-public class LinqaPlugin extends PluginActivator implements LinqaService, TopicmapCustomizer, PostCreateAssoc,
+public class LinqaPlugin extends PluginActivator implements LinqaService, TopicmapCustomizer, PostCreateTopic,
+                                                                                              PostCreateAssoc,
                                                                                               PreDeleteAssoc,
                                                                                               PreSendTopic,
                                                                                               PostLoginUser {
@@ -140,6 +141,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     // Listeners
+
+    @Override
+    public void postCreateTopic(Topic topic) {
+        new VideoFrameGrabber(dmx, files).createPosterFrame(topic);
+    }
 
     /**
      * Creates required memberships for new Linqa admins.
@@ -401,9 +407,6 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     @Override
     public Topic createDocument(String docName, @QueryParam("fileId") long fileId) {
         try {
-            //
-            new VideoFrameGrabber(dmx, files).createPosterFrame(fileId);
-            //
             TopicModel document = createBilingualTopicModel(DOCUMENT, docName, "_name");
             String lang = document.getChildTopics().getString(LANGUAGE + "#" + ORIGINAL_LANGUAGE);
             document.getChildTopics().setRef(FILE + "#linqa." + langSuffix(lang), fileId);

@@ -47,7 +47,7 @@ public class Migration9 extends Migration {
             createPosterFrame(file2);
         });
         logger.info(String.format("### Video poster frame migration complete\n  Documents: %d\n  Files: %d\n  " +
-            "Videos: %d\n  Posterframes created: %d\n  Errors: %d", docs, files, videos, posterframes, errors));
+            "Videos: %d\n  Poster frames created: %d\n  Errors: %d", docs, files, videos, posterframes, errors));
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
@@ -64,7 +64,7 @@ public class Migration9 extends Migration {
         } catch (Exception e) {
             videos++;   // also an erroneous video is a video
             errors++;
-            logger.warning("Frame grabber failed: " + e);
+            logger.warning(e + ", cause: " + e.getCause());
         }
     }
 }

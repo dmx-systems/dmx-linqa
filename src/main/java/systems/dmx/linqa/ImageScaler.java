@@ -5,8 +5,6 @@ import systems.dmx.files.UploadedFile;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -70,21 +68,12 @@ public class ImageScaler {
         return scaledImage;
     }
 
-    private UploadedFile outputScaledImage(BufferedImage image, String fileName) {
+    private UploadedFile outputScaledImage(BufferedImage image, String filename) {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream() {
-                @Override
-                public synchronized byte[] toByteArray() {
-                    return this.buf;
-                }
-            };
-            String basename = JavaUtils.getBasename(fileName);
-            String format = JavaUtils.getExtension(fileName);
+            String basename = JavaUtils.getBasename(filename);
+            String format = JavaUtils.getExtension(filename);
             String scaledFilename = basename + "-" + MAX_IMAGE_SIZE + "." + format;
-            ImageIO.write(image, format, out);
-            int size = out.size();
-            InputStream in = new ByteArrayInputStream(out.toByteArray(), 0, size);
-            return new UploadedFile(scaledFilename, size, in);
+            return new ImageInputStream(image, format, scaledFilename).get();
         } catch (Exception e) {
             throw new RuntimeException("Output image failed", e);
         }

@@ -4,6 +4,7 @@ import systems.dmx.core.Topic;
 import systems.dmx.core.service.CoreService;
 import static systems.dmx.files.Constants.*;
 import systems.dmx.files.FilesService;
+import systems.dmx.files.UploadedFile;
 
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.model.Picture;
@@ -40,8 +41,8 @@ public class VideoFrameGrabber {
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
     /**
-     * Creates a poster frame for a video file and stores it in the DMX file repo. If the given topic is not of type
-     * File or does not represent a video file nothing is performed.
+     * Creates a poster frame for a video file and stores it in DMX file repo. If the given topic is not of type File
+     * or does not represent a video file nothing is performed.
      *
      * @return  true if the given topic represents a video file, false otherwise.
      */
@@ -50,10 +51,14 @@ public class VideoFrameGrabber {
             if (topic.getTypeUri().equals(FILE) &&
                     topic.getChildTopics().getString(MEDIA_TYPE, "").startsWith("video/")) {
                 logger.info("\"" + topic.getChildTopics().getString(PATH, "") + "\"");
-                File file = fs.getFile(topic.getId());
-                Picture picture = FrameGrab.getFrameAtSec(file, SEEK_IN_SECS);
+                // 1) create poster image
+                File video = fs.getFile(topic.getId());
+                Picture picture = FrameGrab.getFrameAtSec(video, SEEK_IN_SECS);
                 BufferedImage image = AWTUtil.toBufferedImage(picture);
-                ImageIO.write(image, "png", new File(replaceExtension(file.getPath(), ".png")));
+                // 2) write to file repo
+                String filename = replaceExtension(video.getName(), "png");
+                UploadedFile uf = new ImageInputStream(image, "png", filename).get();
+                fs.createFile(uf.getInputStream(), fs.pathPrefix() + "/" + filename);
                 return true;
             }
             return false;
@@ -67,6 +72,6 @@ public class VideoFrameGrabber {
     // ------------------------------------------------------------------------------------------------- Private Methods
 
     private String replaceExtension(String path, String newExt) {
-        return path.substring(0, path.lastIndexOf('.')) + newExt;
+        return path.substring(0, path.lastIndexOf('.') + 1) + newExt;
     }
 }

@@ -19,23 +19,20 @@ module.exports = (env = {}) => {
       rules: [
         {
           test: /\.vue$/,
-          loader: 'vue-loader'
+          use: 'vue-loader'
         },
         {
           test: /\.m?js$/,
-          loader: 'babel-loader',
+          use: 'babel-loader',
           exclude: /node_modules\/(?!quill)/
         },
         {
           test: /\.css$/,
-          loader: [env.dev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
+          use: [env.dev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
         },
         {
           test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-          loader: 'file-loader',
-          options: {
-            esModule: false   // Note: since file-loader 5.0 "esModule" is true by default.
-          }                   // Does not work with <img src="..."> element in vue template.
+          type: 'asset/resource'
         }
       ]
     },

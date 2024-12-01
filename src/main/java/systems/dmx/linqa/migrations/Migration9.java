@@ -69,7 +69,7 @@ public class Migration9 extends Migration {
     private String dumpException(Throwable e) {
         StringBuilder builder = new StringBuilder(e.toString());
         while ((e = e.getCause()) != null) {
-            builder.append(", cause: " + e.getCause());
+            builder.append(", cause: " + e);
         }
         return builder.toString();
     }

@@ -23,6 +23,7 @@ public class VideoFrameGrabber {
     // ------------------------------------------------------------------------------------------------------- Constants
 
     private static final int SEEK_IN_SECS = 2;
+    private static final String IMAGE_FORMAT = "png";
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
@@ -50,15 +51,15 @@ public class VideoFrameGrabber {
         try {
             if (topic.getTypeUri().equals(FILE) &&
                     topic.getChildTopics().getString(MEDIA_TYPE, "").startsWith("video/")) {
-                logger.info("\"" + topic.getChildTopics().getString(PATH, "") + "\"");
+                logger.info(topic.getChildTopics().getString(PATH, ""));
                 // 1) create poster image
                 File video = fs.getFile(topic.getId());
                 Picture picture = FrameGrab.getFrameAtSec(video, SEEK_IN_SECS);
                 BufferedImage image = AWTUtil.toBufferedImage(picture);
                 // 2) write to file repo
-                String filename = replaceExtension(video.getName(), "png");
-                UploadedFile uf = new ImageInputStream(image, "png", filename).get();
-                fs.createFile(uf.getInputStream(), fs.pathPrefix() + "/" + filename);
+                UploadedFile uf = new ImageInputStream(image, IMAGE_FORMAT).get();
+                String path = replaceExtension(video.getPath(), IMAGE_FORMAT);
+                fs.createFile(uf.getInputStream(), fs.repoPath(new File(path)));
                 return true;
             }
             return false;

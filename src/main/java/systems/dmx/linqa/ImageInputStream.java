@@ -11,6 +11,10 @@ import javax.imageio.ImageIO;
 
 
 
+/**
+ * An InputStream providing the encoded data of a BufferedImage.
+ * It also holds a) the size (in bytes) of the encoded image, and b) an optional filename.
+ */
 class ImageInputStream {
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
@@ -21,8 +25,13 @@ class ImageInputStream {
 
     // ---------------------------------------------------------------------------------------------------- Constructors
 
+    ImageInputStream(BufferedImage image, String format) {
+        this(image, format, null);
+    }
+
     /**
-     * @param   filename    a sole filename, no path information
+     * @param   filename    optional: a filename (no path information). The given string is available in the
+     *                      UploadedFile object returned by get() then.
      */
     ImageInputStream(BufferedImage image, String format, String filename) {
         this.image = image;
@@ -32,7 +41,11 @@ class ImageInputStream {
 
     // ----------------------------------------------------------------------------------------- Package Private Methods
 
+    /**
+     * Encodes the image according to the given format.
+     */
     UploadedFile get() throws IOException {
+        // https://stackoverflow.com/questions/4251383/how-to-convert-bufferedimage-to-inputstream/
         ByteArrayOutputStream out = new ByteArrayOutputStream() {
             @Override
             public synchronized byte[] toByteArray() {

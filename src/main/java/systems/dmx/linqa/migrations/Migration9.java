@@ -41,10 +41,8 @@ public class Migration9 extends Migration {
         logger.info("##### Migration 9: Creating video poster frames ...");
         dmx.getTopicsByType(DOCUMENT).stream().forEach(doc -> {
             docs++;
-            Topic file1 = doc.getChildTopics().getTopicOrNull(FILE + "#" + LANG1);
-            Topic file2 = doc.getChildTopics().getTopicOrNull(FILE + "#" + LANG2);
-            createPosterFrame(file1);
-            createPosterFrame(file2);
+            createPosterFrame(doc.getChildTopics().getTopicOrNull(FILE + "#" + LANG1));
+            createPosterFrame(doc.getChildTopics().getTopicOrNull(FILE + "#" + LANG2));
         });
         logger.info(String.format("### Video poster frame migration complete\n  Documents: %d\n  Files: %d\n  " +
             "Videos: %d\n  Poster frames created: %d\n  Errors: %d", docs, files, videos, posterframes, errors));
@@ -64,7 +62,15 @@ public class Migration9 extends Migration {
         } catch (Exception e) {
             videos++;   // also an erroneous video is a video
             errors++;
-            logger.warning(e + ", cause: " + e.getCause());
+            logger.warning(dumpException(e));
         }
+    }
+
+    private String dumpException(Throwable e) {
+        StringBuilder builder = new StringBuilder(e.toString());
+        while ((e = e.getCause()) != null) {
+            builder.append(", cause: " + e.getCause());
+        }
+        return builder.toString();
     }
 }

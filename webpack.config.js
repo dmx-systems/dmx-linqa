@@ -50,9 +50,8 @@ module.exports = env => {
       })
     ],
     stats: {
-      entrypoints: false,
-      children: false,
-      assetsSort: 'chunks'
+      assets: false,
+      modules: false
     },
     performance: {
       hints: false

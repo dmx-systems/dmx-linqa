@@ -1,5 +1,5 @@
 import dmx from 'dmx-api'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './components/App'
 import store from './store/linqa'
 import router from './router'
@@ -26,23 +26,27 @@ dmx.init({
   onHttpError
 })
 
-// 2) Global component registrations (needed by several components)
-Vue.component('lq-language-switch', require('./components/lq-language-switch').default)
-Vue.component('lq-string',          require('./components/lq-string').default)
-Vue.component('lq-truncate',        require('./components/lq-truncate').default)
-Vue.component('lq-comment-ref',     require('./components/lq-comment-ref').default)
-Vue.component('lq-document-ref',    require('./components/lq-document-ref').default)
-Vue.component('lq-textblock-ref',   require('./components/lq-textblock-ref').default)
-Vue.component('lq-attachment',      require('./components/lq-attachment').default)
-Vue.component('lq-pdf-viewer',      require('./components/lq-pdf-viewer').default)
-Vue.component('lq-about-dialog',    require('./components/lq-about-dialog').default)
-Vue.component('vue-moveable',       require('vue-moveable').default)
-Vue.component('quill',              require('vue-quill-minimum').default)
+// 2) Create app instance
+const app = createApp(App)
+app.mount('#app')
 
-// 3) Create Vue root instance
+/* TODO: store, router
 new Vue({
   el: '#app',
   store,
   router,
   render: h => h(App)
-})
+}) */
+
+// 3) app-wide component registrations (needed by several components)
+app.component('lq-language-switch', require('./components/lq-language-switch').default)
+app.component('lq-string',          require('./components/lq-string').default)
+app.component('lq-truncate',        require('./components/lq-truncate').default)
+app.component('lq-comment-ref',     require('./components/lq-comment-ref').default)
+app.component('lq-document-ref',    require('./components/lq-document-ref').default)
+app.component('lq-textblock-ref',   require('./components/lq-textblock-ref').default)
+app.component('lq-attachment',      require('./components/lq-attachment').default)
+app.component('lq-pdf-viewer',      require('./components/lq-pdf-viewer').default)
+app.component('lq-about-dialog',    require('./components/lq-about-dialog').default)
+app.component('vue-moveable',       require('vue-moveable').default)
+app.component('quill',              require('vue-quill-minimum').default)

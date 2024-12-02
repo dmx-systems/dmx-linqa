@@ -3,16 +3,20 @@
     <div class="heading"><lq-string>label.edit_affiliations</lq-string></div>
     <div class="scroll-container">
       <table>
-        <tr>
-          <th><lq-string>label.workspace</lq-string></th>
-          <th><lq-string>label.member</lq-string></th>
-          <th><lq-string>label.editor</lq-string></th>
-        </tr>
-        <tr v-for="ws in workspaces">
-          <td>{{getWorkspaceName(ws)}}</td>
-          <td><el-checkbox v-model="model1[ws.id]"></el-checkbox></td>
-          <td><el-checkbox v-model="model2[ws.id]" :disabled="!model1[ws.id]"></el-checkbox></td>
-        </tr>
+        <thead>
+          <tr>
+            <th><lq-string>label.workspace</lq-string></th>
+            <th><lq-string>label.member</lq-string></th>
+            <th><lq-string>label.editor</lq-string></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="ws in workspaces">
+            <td>{{getWorkspaceName(ws)}}</td>
+            <td><el-checkbox v-model="model1[ws.id]"></el-checkbox></td>
+            <td><el-checkbox v-model="model2[ws.id]" :disabled="!model1[ws.id]"></el-checkbox></td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div>
@@ -125,13 +129,13 @@ export default {
   width: 100%;
 }
 
-.lq-user-memberships table > tr > th {
+.lq-user-memberships table th {
   text-align: unset;        /* browser style is "center" */
   padding-bottom: 5px;
   padding-right: 20px;
 }
 
-.lq-user-memberships table > tr > td {
+.lq-user-memberships table td {
   word-break: break-all;    /* break long workspace names */
   padding-right: 20px;
 }

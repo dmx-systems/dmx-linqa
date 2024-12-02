@@ -3,16 +3,20 @@
     <div class="heading"><lq-string>label.edit_memberships</lq-string></div>
     <div class="scroll-container">
       <table>
-        <tr>
-          <th><lq-string>label.user</lq-string></th>
-          <th><lq-string>label.member</lq-string></th>
-          <th><lq-string>label.editor</lq-string></th>
-        </tr>
-        <tr v-for="(user, i) in users">
-          <td>{{user.value}}</td>
-          <td><el-checkbox v-model="model1[i]"></el-checkbox></td>
-          <td><el-checkbox v-model="model2[i]" :disabled="!model1[i]"></el-checkbox></td>
-        </tr>
+        <thead>
+          <tr>
+            <th><lq-string>label.user</lq-string></th>
+            <th><lq-string>label.member</lq-string></th>
+            <th><lq-string>label.editor</lq-string></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, i) in users">
+            <td>{{user.value}}</td>
+            <td><el-checkbox v-model="model1[i]"></el-checkbox></td>
+            <td><el-checkbox v-model="model2[i]" :disabled="!model1[i]"></el-checkbox></td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div>
@@ -118,13 +122,13 @@ export default {
   width: 100%;
 }
 
-.lq-workspace-memberships table > tr > th {
+.lq-workspace-memberships table th {
   text-align: unset;        /* browser style is "center" */
   padding-bottom: 5px;
   padding-right: 20px;
 }
 
-.lq-workspace-memberships table > tr > td {
+.lq-workspace-memberships table td {
   word-break: break-all;    /* break long usernames */
   padding-right: 20px;
 }

@@ -4,13 +4,13 @@ const {VueLoaderPlugin} = require('vue-loader')
 const {DefinePlugin} = require('webpack')
 const path = require('path')
 
-module.exports = (env = {}) => {
+module.exports = env => {
 
   const webpackConfig = {
     entry: './src/main/js/main.js',
     output: {
       path: path.join(__dirname, '/target/classes/web'),
-      filename: env.dev ? '[name].js' : '[chunkhash].[name].js'
+      filename: env.WEBPACK_SERVE ? '[name].js' : '[chunkhash].[name].js'
     },
     resolve: {
       extensions: ['.js', '.mjs', '.vue']
@@ -28,7 +28,7 @@ module.exports = (env = {}) => {
         },
         {
           test: /\.css$/,
-          use: [env.dev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
+          use: [env.WEBPACK_SERVE ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
         },
         {
           test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
@@ -42,11 +42,11 @@ module.exports = (env = {}) => {
         favicon:  'src/main/resources-build/favicon.png'
       }),
       new MiniCssExtractPlugin({
-        filename: env.dev ? '[name].css' : '[contenthash].[name].css'
+        filename: env.WEBPACK_SERVE ? '[name].css' : '[contenthash].[name].css'
       }),
       new VueLoaderPlugin(),
       new DefinePlugin({
-        DEV: env.dev
+        DEV: env.WEBPACK_SERVE
       })
     ],
     stats: {
@@ -59,11 +59,13 @@ module.exports = (env = {}) => {
     }
   }
 
-  if (env.dev) {
+  if (env.WEBPACK_SERVE) {
     webpackConfig.devServer = {
       port: 8084,
-      proxy: {'/': 'http://localhost:8080'},
-      noInfo: true,
+      proxy: [{
+        context: '/',
+        target: 'http://localhost:8080'
+      }],
       open: true
     }
   }

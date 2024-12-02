@@ -171,7 +171,7 @@ const actions = {
   fetchWorkspaceMemberships (_, workspace) {
     if (!workspace.memberships) {
       return dmx.rpc.getMemberships(workspace.id).then(users => {
-        Vue.set(workspace, 'memberships', users.sort(lq.topicSort))       // ad-hoc property is not reactive by default
+        workspace.memberships = users.sort(lq.topicSort)
       })
     }
   },
@@ -442,7 +442,7 @@ const actions = {
   initPageNr (_, topicId) {
     const pageNr = state.pageNr[lq.langSuffix(state.lang)]
     if (!pageNr[topicId]) {
-      Vue.set(pageNr, topicId, 1)
+      pageNr[topicId] = 1
     }
   },
 
@@ -626,9 +626,9 @@ const actions = {
     // update client state
     const topicIds = topics.map(topic => {
       if (!topic.children['linqa.locked']) {
-        Vue.set(topic.children, 'linqa.locked', {})
+        topic.children['linqa.locked'] = {}
       }
-      Vue.set(topic.children['linqa.locked'], 'value', locked)
+      topic.children['linqa.locked'].value = locked
       return topic.id
     })
     // update server state
@@ -679,7 +679,7 @@ const actions = {
       id: topic.id,
       children: {[uri]: [model]}
     }).then(_topic => {
-      Vue.set(topic.children, uri, _topic.children[uri])
+      topic.children[uri] = _topic.children[uri]
     })
   },
 
@@ -869,10 +869,10 @@ function initLangConfig () {
     state.lang1 = response.data[0]
     state.lang2 = response.data[1]
     http.get(`/systems.dmx.linqa/ui-strings/${state.lang1}.json`).then(response => {
-      Vue.set(state.uiStrings, state.lang1, response.data)
+      state.uiStrings[state.lang1] = response.data
     })
     http.get(`/systems.dmx.linqa/ui-strings/${state.lang2}.json`).then(response => {
-      Vue.set(state.uiStrings, state.lang2, response.data)
+      state.uiStrings[state.lang2] = response.data
     })
   })
 }
@@ -946,7 +946,7 @@ function updateUserProfile(userProfile) {
   const children = lq.getUser(state.username).children
   // Note: for show_email_address and notification_level server sends a default value, for display_name it does not
   if (!children['dmx.signup.display_name']) {
-    Vue.set(children, 'dmx.signup.display_name', {})
+    children['dmx.signup.display_name'] = {}
   }
   children['dmx.signup.display_name'].value = userProfile.displayName
   children['linqa.show_email_address'].value = userProfile.showEmailAddress

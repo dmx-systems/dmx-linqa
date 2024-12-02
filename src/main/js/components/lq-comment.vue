@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import lq from '../lq-globals'
 
 export default {
@@ -225,9 +224,8 @@ export default {
       this.topicBuffer = this.topic.clone()
       // Note 1: in an untranslatable comment "lang2" is not defined. We need it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
-      // Note 3: we need Vue.set() as topic clone is put into state already.
       if (!this.topicBuffer.children['linqa.comment_text#linqa.lang2']) {
-        Vue.set(this.topicBuffer.children, 'linqa.comment_text#linqa.lang2', {value: ''})
+        this.topicBuffer.children['linqa.comment_text#linqa.lang2'] = {value: ''}
       }
       this.$nextTick(() => {
         this.$store.dispatch('jumpToComment', {

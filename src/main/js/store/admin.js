@@ -110,7 +110,7 @@ const actions = {
     if (!usernameTopic.memberships) {
       return http.get(`/linqa/admin/user/${username}/workspaces`).then(response => {
         const workspaces = response.data
-        Vue.set(usernameTopic, 'memberships', workspaces)         // ad-hoc property is not reactive by default
+        usernameTopic.memberships = workspaces
       })
     }
   },
@@ -317,13 +317,13 @@ function replaceWorkspace (workspace, rootState, dispatch) {
   if (i === -1) {
     throw Error('replaceWorkspace')
   }
-  Vue.set(state.workspaces, i, workspace)
+  state.workspaces[i] = workspace
   dispatch('fetchWorkspaceMemberships', workspace, {root: true})
   // root state
   i = rootState.workspaces.findIndex(ws => ws.id === workspace.id)
   if (i >= 0) {
     workspace.assoc = rootState.workspaces[i].assoc     // transfer membership of current user
-    Vue.set(rootState.workspaces, i, workspace)
+    rootState.workspaces[i] = workspace
   }
 }
 
@@ -331,7 +331,7 @@ function updateUser(username, displayName) {
   const children = lq.getUser(username).children
   // Note: for display_name server sends no default value, children might not be there
   if (!children['dmx.signup.display_name']) {
-    Vue.set(children, 'dmx.signup.display_name', {})
+    children['dmx.signup.display_name'] = {}
   }
   children['dmx.signup.display_name'].value = displayName
 }

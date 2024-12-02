@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import http from 'axios'
@@ -223,7 +224,7 @@ const actions = {
     state.topicmap.addTopic(topic)      // update client state
     state.isEditActive.push(topic.id)
     //
-    Vue.nextTick(() => {
+    nextTick(() => {
       dispatch('select', [topic])       // programmatic selection
     })
   },
@@ -432,7 +433,7 @@ const actions = {
   setFullscreen ({dispatch}, fullscreen) {
     state.fullscreen = fullscreen
     if (!fullscreen) {
-      Vue.nextTick(() => {
+      nextTick(() => {
         document.querySelector('.lq-resizer')?.__vue__.resize()   // Note: resizer does not exist for mobile layout
         dispatch('select', [state.selection[0]])                  // sync Selecto model/view with app state
       })
@@ -616,7 +617,7 @@ const actions = {
         state.topicmap.addTopic(_viewTopic)
         return _viewTopic
       })
-      Vue.nextTick(() => {
+      nextTick(() => {
         dispatch('select', viewTopics)      // programmatic selection
       })
     })
@@ -969,7 +970,7 @@ function addTopicToTopicmap (viewTopic, topic) {
   state.topicmap.addTopic(viewTopic)
   // update server state
   dmx.rpc.addTopicToTopicmap(state.topicmap.id, topic.id, viewTopic.viewProps)
-  Vue.nextTick(() => {
+  nextTick(() => {
     store.dispatch('select', [viewTopic])     // programmatic selection
   })
 }

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { nextTick } from 'vue'
 import http from 'axios'
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
@@ -361,7 +361,7 @@ function collapseUsers (rootState, dispatch) {
 // View helper
 
 function scrollIntoView(cssClass, id) {
-  Vue.nextTick(() => {
+  nextTick(() => {
     // Regarding scrollIntoView() see comments in jumpToComment() action (linqa.js)
     document.querySelector(`.${cssClass}[data-id="${id}"]`).scrollIntoView({
       behavior: 'smooth',

@@ -1,6 +1,6 @@
+import { nextTick } from 'vue'
 import store from './store/linqa'
 import dmx from 'dmx-api'
-import Vue from 'vue'
 
 export default message => {
   const topicmap = store.state.topicmap     // Note: is undefined if app is launched directly into admin area
@@ -9,7 +9,7 @@ export default message => {
     if (message.args.workspaceId === store.state.workspace.id) {
       const comment = message.args.comment
       store.dispatch('addComment', comment)
-      Vue.nextTick(() => {
+      nextTick(() => {
         store.dispatch('jumpToComment', {comment})
       })
     }

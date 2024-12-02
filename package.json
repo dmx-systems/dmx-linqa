@@ -10,8 +10,8 @@
   },
   "scripts": {
     "build": "webpack --mode production",
+    "stats": "webpack --mode production --analyze",
     "dev": "webpack serve --mode development",
-    "stats": "webpack --mode production --json > stats.json && webpack-bundle-analyzer stats.json target/classes/web",
     "test": "jest --coverage"
   },
   "dependencies": {
@@ -48,6 +48,7 @@
     "vue-loader": "15.11.1",
     "vue-template-compiler": "2.6.11",
     "webpack": "5.96.1",
+    "webpack-bundle-analyzer": "4.10.2",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0"
   }

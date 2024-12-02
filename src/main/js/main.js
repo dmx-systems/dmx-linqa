@@ -37,6 +37,7 @@ Vue.component('lq-attachment',      require('./components/lq-attachment').defaul
 Vue.component('lq-pdf-viewer',      require('./components/lq-pdf-viewer').default)
 Vue.component('lq-about-dialog',    require('./components/lq-about-dialog').default)
 Vue.component('vue-moveable',       require('vue-moveable').default)
+Vue.component('quill',              require('vue-quill-minimum').default)
 
 // 3) Create Vue root instance
 new Vue({

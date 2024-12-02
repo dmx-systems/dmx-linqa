@@ -10,7 +10,7 @@ module.exports = env => {
     entry: './src/main/js/main.js',
     output: {
       path: path.join(__dirname, '/target/classes/web'),
-      filename: env.WEBPACK_SERVE ? '[name].js' : '[chunkhash].[name].js'
+      filename: env.WEBPACK_SERVE ? '[name].js' : '[contenthash].[name].js'
     },
     resolve: {
       extensions: ['.js', '.mjs', '.vue']

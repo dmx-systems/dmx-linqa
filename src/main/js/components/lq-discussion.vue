@@ -265,11 +265,7 @@ export default {
 
   components: {
     'lq-comment':       require('./lq-comment').default,
-    'lq-upload-dialog': require('./lq-upload-dialog').default,
-    quill: () => ({
-      component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
-      loading: require('./lq-spinner')
-    })
+    'lq-upload-dialog': require('./lq-upload-dialog').default
   }
 }
 </script>

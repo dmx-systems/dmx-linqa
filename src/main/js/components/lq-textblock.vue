@@ -172,13 +172,6 @@ export default {
       const compDefUri = 'linqa.textblock_text#linqa.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
-  },
-
-  components: {
-    quill: () => ({
-      component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
-      loading: require('./lq-spinner')
-    })
   }
 }
 </script>

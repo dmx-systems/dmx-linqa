@@ -1,17 +1,17 @@
 import { nextTick } from 'vue'
-import Vue from 'vue'
 import Vuex from 'vuex'
 import http from 'axios'
 import dmx from 'dmx-api'
 import searchStore from './search'
 import adminStore from './admin'
 import errorHandler from '../error-handler'
+import app from '../app'
 import lq from '../lq-globals'
 
 window.addEventListener('focus', updateCookies)
 window.addEventListener('resize', updateSmallScreenState)
 
-Vue.use(Vuex)
+// Vue.use(Vuex)    // TODO
 
 const linqaAdminWs = dmx.rpc.getTopicByUri('linqa.admin_ws', true).then(workspace => {      // includeChildren=true
   state.linqaAdminWs = workspace
@@ -98,7 +98,7 @@ const actions = {
       ).then(workspaceId =>
         dispatch('callWorkspaceRoute', workspaceId)
       ).catch(error =>
-        Vue.prototype.$alert(error.message, {
+        app.config.globalProperties.$alert(error.message, {
           type: 'error',
           showClose: false
         }).then(() =>
@@ -729,14 +729,14 @@ const actions = {
       if (response.data.result !== 'SUCCESS') {
         throw Error(response.data.result)
       }
-      Vue.prototype.$notify({
+      app.config.globalProperties.$notify({
         type: 'success',
         title: lq.getString('label.email_sent'),
         message: `${lq.getString('label.to')} ${emailAddress}`,
         showClose: false
       })
     }).catch(error => {
-      Vue.prototype.$alert('An error occurred while sending the password reset mail', {
+      app.config.globalProperties.$alert('An error occurred while sending the password reset mail', {
         type: 'error',
         showClose: false
       })
@@ -753,7 +753,7 @@ const actions = {
       if (result !== 'SUCCESS') {
         throw Error(result)
       }
-      Vue.prototype.$notify({
+      app.config.globalProperties.$notify({
         type: 'success',
         title: 'Success!',                          // TODO
         message: 'Password changed successfully',   // TODO
@@ -762,7 +762,7 @@ const actions = {
       return result
     }).catch(error => {
       if (error.message !== 'PASSWORD_COMPLEXITY_INSUFFICIENT') {
-        Vue.prototype.$alert('An error occurred while changing the password', {
+        app.config.globalProperties.$alert('An error occurred while changing the password', {
           type: 'error',
           showClose: false
         })

@@ -1,7 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const {VueLoaderPlugin} = require('vue-loader')
-const {DefinePlugin} = require('webpack')
+const { VueLoaderPlugin } = require('vue-loader')
+const { DefinePlugin } = require('webpack')
+const AutoImport = require('unplugin-auto-import/webpack').default
+const Components = require('unplugin-vue-components/webpack').default
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 const path = require('path')
 
 module.exports = env => {
@@ -47,6 +50,12 @@ module.exports = env => {
       new VueLoaderPlugin(),
       new DefinePlugin({
         DEV: env.WEBPACK_SERVE
+      }),
+      AutoImport({
+        resolvers: [ElementPlusResolver()]
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()]
       })
     ],
     stats: {

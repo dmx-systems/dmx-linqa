@@ -2,7 +2,6 @@
  * The router: when URL changes adapt app state accordingly.
  */
 
-import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from './components/lq-login'
 import PasswordResetDialog from './components/lq-password-reset-dialog'
@@ -11,13 +10,14 @@ import Legal from './components/lq-legal'
 import Webclient from './components/lq-webclient'
 import Workspace from './components/lq-workspace'
 import Admin from './components/admin/lq-admin'
+import app from './app'
 import store from './store/linqa'
 import lq from './lq-globals'
 import dmx from 'dmx-api'
 
 let initialNavigation = true
 
-Vue.use(VueRouter)
+// Vue.use(VueRouter)     // TODO
 
 const router = new VueRouter({
   routes: [
@@ -111,7 +111,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   }).catch(error => {
-    Vue.prototype.$alert(error.message, {
+    app.config.globalProperties.$alert(error.message, {
       type: 'error',
       showClose: false
     }).then(() =>

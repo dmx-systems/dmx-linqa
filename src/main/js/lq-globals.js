@@ -1,7 +1,7 @@
 // Global functions and values (non-reactive)
 
-import Vue from 'vue'
 import dmx from 'dmx-api'
+import app from './app'
 import store from './store/linqa'
 
 const SMALL_SCREEN_WIDTH = 600  // Threshold for switching between small/big UI layout (in pixel)
@@ -182,7 +182,7 @@ function snapToGrid(value) {
 }
 
 function confirmDeletion (textKey = 'warning.delete', value) {
-  return Vue.prototype.$confirm(getString(textKey, value), {
+  return app.config.globalProperties.$confirm(getString(textKey, value), {
     type: 'warning',
     title: getString('label.warning'),
     confirmButtonText: getString('action.delete'),
@@ -193,7 +193,7 @@ function confirmDeletion (textKey = 'warning.delete', value) {
 }
 
 function alertError (error) {
-  return Vue.prototype.$alert(error.message, {
+  return app.config.globalProperties.$alert(error.message, {
     type: 'error',
     showClose: false
   })

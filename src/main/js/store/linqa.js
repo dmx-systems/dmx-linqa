@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import http from 'axios'
 import dmx from 'dmx-api'
 import searchStore from './search'
@@ -10,8 +10,6 @@ import lq from '../lq-globals'
 
 window.addEventListener('focus', updateCookies)
 window.addEventListener('resize', updateSmallScreenState)
-
-// Vue.use(Vuex)    // TODO
 
 const linqaAdminWs = dmx.rpc.getTopicByUri('linqa.admin_ws', true).then(workspace => {      // includeChildren=true
   state.linqaAdminWs = workspace
@@ -820,7 +818,7 @@ const getters = {
   }
 }
 
-const store = new Vuex.Store({
+const store = createStore({
   state,
   actions,
   getters

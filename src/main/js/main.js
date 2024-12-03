@@ -1,9 +1,9 @@
 import dmx from 'dmx-api'
-import app from './app'
 import store from './store/linqa'
 import router from './router'
 import onHttpError from './error-handler'
 import messageHandler from './message-handler'
+import app from './app'
 import './element-ui'
 import './country-flag-polyfill'
 
@@ -26,4 +26,5 @@ dmx.init({
 })
 
 // 2) Mount root component
+app.use(store)
 app.mount('#app')

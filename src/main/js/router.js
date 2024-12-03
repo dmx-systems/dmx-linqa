@@ -2,7 +2,7 @@
  * The router: when URL changes adapt app state accordingly.
  */
 
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from './components/lq-login'
 import PasswordResetDialog from './components/lq-password-reset-dialog'
 import NewPasswordDialog from './components/lq-new-password-dialog'
@@ -17,9 +17,8 @@ import dmx from 'dmx-api'
 
 let initialNavigation = true
 
-// Vue.use(VueRouter)     // TODO
-
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',

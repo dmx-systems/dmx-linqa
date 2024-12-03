@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import App from './components/App'
 
 const app = createApp(App)
-app.mount('#app')
 
 /* TODO: store, router
 new Vue({
@@ -12,7 +11,7 @@ new Vue({
   render: h => h(App)
 }) */
 
-// 3) app-wide component registrations (needed by several components)
+// app-wide component registrations (needed by several components)
 app.component('lq-language-switch', require('./components/lq-language-switch').default)
 app.component('lq-string',          require('./components/lq-string').default)
 app.component('lq-truncate',        require('./components/lq-truncate').default)

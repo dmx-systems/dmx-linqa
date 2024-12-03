@@ -1,4 +1,5 @@
 import dmx from 'dmx-api'
+import app from './app'
 import store from './store/linqa'
 import router from './router'
 import onHttpError from './error-handler'
@@ -8,7 +9,7 @@ import './country-flag-polyfill'
 
 console.log('[Linqa] 2024/12/01-2')
 
-// 1) Init dmx library
+// 1) Init DMX library
 dmx.init({
   topicTypes: [                   // types are needed for dmx-api form generator (type.newFormModel())
     'linqa.document',
@@ -23,3 +24,6 @@ dmx.init({
   messageHandler,
   onHttpError
 })
+
+// 2) Mount root component
+app.mount('#app')

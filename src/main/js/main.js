@@ -7,7 +7,7 @@ import app from './app'
 import './element-ui'
 import './country-flag-polyfill'
 
-console.log('[Linqa] 2024/12/01-2')
+console.log('[Linqa] 2024/12/04')
 
 // 1) Init DMX library
 dmx.init({

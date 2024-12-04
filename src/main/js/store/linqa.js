@@ -228,31 +228,12 @@ const store = createStore({
       })
     },
 
-    // TODO: unify these 2
+    // 4 create-actions
 
     /**
-     * @param   topic   a dmx.ViewTopic
-     */
-    createShape ({state, dispatch}, topic) {
-      state.topicmap.addTopic(topic)      // update client state
-      return dmx.rpc.createTopic(topic).then(_topic => {
-        addTopicToTopicmap(state, topic, _topic)
-      })
-    },
-
-    /**
-     * @param   topic   a dmx.ViewTopic
-     */
-    createLine ({state, dispatch}, topic) {
-      state.topicmap.addTopic(topic)      // update client state
-      return dmx.rpc.createTopic(topic).then(_topic => {
-        addTopicToTopicmap(state, topic, _topic)
-      })
-    },
-
-    // 4 create() actions, dispatched when "OK" is pressed in an create form. ### FIXDOC
-
-    /**
+     * Dispatched when "OK" is pressed in a Note/Textblock/Heading create-form.
+     * Creates the item and closes the form.
+     *
      * @param   type          'note'/'textblock'/'heading'
      * @param   topic         a dmx.ViewTopic of the respective type.
      *                        Its "value" is used for topic creation (not its "children").
@@ -279,6 +260,9 @@ const store = createStore({
     },
 
     /**
+     * Dispatched when "OK" is pressed in a Document create-form.
+     * Creates the Document and closes the form.
+     *
      * @param   topic         a dmx.ViewTopic of type "Document"
      * @param   monolingual   Optional: if truish a monolingual document is created (no auto-translation)
      */
@@ -299,17 +283,45 @@ const store = createStore({
       })
     },
 
-    // 4 update() actions, dispatched when "OK" is pressed in an update form. ### FIXDOC ### TODO: rename to "save"
-    // Both, client state and server state is updated and the form is closed.
+    // TODO: unify these 2
 
     /**
      * @param   topic   a dmx.ViewTopic
      */
+    createShape ({state, dispatch}, topic) {
+      state.topicmap.addTopic(topic)      // update client state
+      return dmx.rpc.createTopic(topic).then(_topic => {
+        addTopicToTopicmap(state, topic, _topic)
+      })
+    },
+
+    /**
+     * @param   topic   a dmx.ViewTopic
+     */
+    createLine ({state, dispatch}, topic) {
+      state.topicmap.addTopic(topic)      // update client state
+      return dmx.rpc.createTopic(topic).then(_topic => {
+        addTopicToTopicmap(state, topic, _topic)
+      })
+    },
+
+    // 5 update-actions
+
+    /**
+     * Dispatched when "OK" is pressed in a Document/Note/Textblock/Heading update-form.
+     * Saves the changes and closes the form.
+     *
+     * @param   topic   a dmx.ViewTopic
+     */
     update ({state}, topic) {
+      // Reactions must not be included in core create/update request. The recent ValueIntegrator policy -- reuse topics
+      // only from same workspace, otherwise create -- would create new Username topics as they live in System workspace
+      delete topic.children['dmx.accesscontrol.username#linqa.reaction']
+      //
       return dmx.rpc.updateTopic(topic).then(topic => removeEditActive(state, topic))
     },
 
-    // TODO: unify these 4
+    // TODO: unify these 4, rename to "store"
 
     updateColor ({state}, topic) {
       dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {

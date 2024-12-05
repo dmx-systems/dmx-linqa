@@ -829,10 +829,13 @@ const store = createStore({
         return memberships
       }, {})
     }
+  },
+
+  modules: {
+    search: searchStore,
+    admin: adminStore
   }
 })
-store.registerModule('search', searchStore)     // TODO: do static registration instead
-store.registerModule('admin', adminStore)       // TODO: do static registration instead
 
 export default store
 

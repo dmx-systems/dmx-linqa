@@ -1,52 +1,51 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
 
-const state = {
-  searchTerm: '',
-  matches: [],        // search result (array of plain topics)
-  matchIndex: 0       // current match (Number)
-}
-
-const actions = {
-
-  search ({rootState, dispatch}, searchTerm) {
-    state.searchTerm = searchTerm
-    state.matches = []
-    state.matchIndex = 0
-    if (state.searchTerm) {
-      // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
-      rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
-        const text = itemText(topic)
-        if (text) {
-          // TODO: locale lower case?
-          const i = text.toLowerCase().indexOf(state.searchTerm.toLowerCase())
-          if (i >= 0) {
-            state.matches.push(topic)
-          }
-        }
-      })
-      // console.log('search', state.searchTerm, state.matches.length)
-      if (state.matches.length) {
-        showMatch(dispatch)
-      }
-    }
-  },
-
-  prevMatch ({dispatch}) {
-    state.matchIndex--
-    showMatch(dispatch)
-  },
-
-  nextMatch ({dispatch}) {
-    state.matchIndex++
-    showMatch(dispatch)
-  }
-}
-
 export default {
+
   namespaced: true,
-  state,
-  actions
+
+  state: {
+    searchTerm: '',
+    matches: [],        // search result (array of plain topics)
+    matchIndex: 0       // current match (Number)
+  },
+
+  actions: {
+
+    search ({state, rootState, dispatch}, searchTerm) {
+      state.searchTerm = searchTerm
+      state.matches = []
+      state.matchIndex = 0
+      if (state.searchTerm) {
+        // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
+        rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
+          const text = itemText(topic)
+          if (text) {
+            // TODO: locale lower case?
+            const i = text.toLowerCase().indexOf(state.searchTerm.toLowerCase())
+            if (i >= 0) {
+              state.matches.push(topic)
+            }
+          }
+        })
+        // console.log('search', state.searchTerm, state.matches.length)
+        if (state.matches.length) {
+          showMatch(state, dispatch)
+        }
+      }
+    },
+
+    prevMatch ({state, dispatch}) {
+      state.matchIndex--
+      showMatch(state, dispatch)
+    },
+
+    nextMatch ({state, dispatch}) {
+      state.matchIndex++
+      showMatch(state, dispatch)
+    }
+  }
 }
 
 function itemText (topic) {
@@ -65,6 +64,6 @@ function itemText (topic) {
   }
 }
 
-function showMatch (dispatch) {
+function showMatch (state, dispatch) {
   dispatch('revealTopic', state.matches[state.matchIndex], {root: true})
 }

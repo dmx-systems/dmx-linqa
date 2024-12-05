@@ -1,5 +1,5 @@
 <template>
-  <el-dialog custom-class="lq-about-dialog" :visible="visible" @open="fetchText" @close="close">
+  <el-dialog class="lq-about-dialog" :model-value="visible" @open="fetchText" @close="close">
     <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
     <div class="version">
       <span>2.0-SNAPSHOT</span>

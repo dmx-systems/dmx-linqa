@@ -21,10 +21,12 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <el-dialog :visible.sync="profileVisibility" width="400px" v-loading="loading">
-      <div slot="title">
-        <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
-      </div>
+    <el-dialog v-model="profileVisibility" width="400px" v-loading="loading">
+      <template #header>
+        <div>
+          <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
+        </div>
+      </template>
       <el-collapse v-model="profilePane" accordion>
         <el-collapse-item name="privacy">
           <lq-string slot="title">label.privacy</lq-string>

@@ -1,6 +1,6 @@
 <template>
-  <el-dialog custom-class="lq-upload-dialog" :visible="visible" :modal="false" width="400px"
-      @open="clearError" @close="close">
+  <el-dialog class="lq-upload-dialog" :model-value="visible" :modal="false" width="400px" @open="clearError"
+      @close="close">
     <el-upload drag :action="action" :accept="accept" :on-success="onSuccess" :on-error="onError" ref="upload">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">Drop file here or <em>click to upload</em></div>

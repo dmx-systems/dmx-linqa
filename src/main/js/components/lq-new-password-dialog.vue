@@ -1,6 +1,8 @@
 <template>
-  <el-dialog custom-class="lq-new-password-dialog" :visible="visible" width="350px" @close="callLoginRoute">
-    <lq-string slot="title">label.reset_password</lq-string>
+  <el-dialog class="lq-new-password-dialog" :model-value="visible" width="350px" @close="callLoginRoute">
+    <template #header>
+      <lq-string>label.reset_password</lq-string>
+    </template>
     <div class="field">
       <div class="field-label"><lq-string :value="emailAddress">label.new_password</lq-string></div>
       <el-input v-model="password" type="password"></el-input>

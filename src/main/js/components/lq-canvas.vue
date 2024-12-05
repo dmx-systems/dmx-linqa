@@ -313,7 +313,7 @@ export default {
     'lq-canvas-item': require('./lq-canvas-item').default,
     'lq-canvas-toolbar': require('./lq-canvas-toolbar').default,
     'lq-line-handles': require('./lq-line-handles').default,
-    'vue-selecto': require('vue-selecto').default
+    'vue-selecto': require('vue3-selecto').default
   }
 }
 </script>

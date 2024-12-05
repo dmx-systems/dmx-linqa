@@ -1,6 +1,6 @@
 import { ElLoading, ElMessageBox, ElNotification } from 'element-plus'
 // import locale from 'element-plus/lib/locale'   // TODO
-import DialogDraggable from 'vue-element-dialog-draggable'  // TODO
+// import DialogDraggable from 'vue-element-dialog-draggable'  // TODO
 import app from './app'
 
 // set locale                                     // TODO

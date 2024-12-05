@@ -29,7 +29,9 @@
       </template>
       <el-collapse v-model="profilePane" accordion>
         <el-collapse-item name="privacy">
-          <lq-string slot="title">label.privacy</lq-string>
+          <template #title>
+            <lq-string>label.privacy</lq-string>
+          </template>
           <div class="field">
             <div class="field-label"><lq-string>label.display_name</lq-string></div>
             <el-input v-model="displayName"></el-input>
@@ -44,7 +46,9 @@
           </div>
         </el-collapse-item>
         <el-collapse-item name="notifications">
-          <lq-string slot="title">label.notifications</lq-string>
+          <template #title>
+            <lq-string>label.notifications</lq-string>
+          </template>
           <el-radio-group class="notification-level field" v-model="notificationLevel">
             <el-radio label="all">
               <lq-string>label.notifications.all</lq-string>
@@ -66,7 +70,9 @@
           </div>
         </el-collapse-item>
         <el-collapse-item name="password">
-          <lq-string slot="title">label.password</lq-string>
+          <template #title>
+            <lq-string>label.password</lq-string>
+          </template>
           <el-button type="primary" @click="changePassword">
             <lq-string>action.change_password</lq-string>
           </el-button>

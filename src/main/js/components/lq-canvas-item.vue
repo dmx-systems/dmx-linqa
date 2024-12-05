@@ -5,11 +5,13 @@
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
-      <el-button v-for="action in actions" v-if="isActionAvailable(action)" type="text" :style="buttonStyle"
-          :key="action.key" @click="action.handler" @mousedown.native.stop>
-        <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
-        <span v-else>{{actionLabel(action)}}</span>
-      </el-button>
+      <template v-for="action in actions">
+        <el-button v-if="isActionAvailable(action)" type="text" :style="buttonStyle" :key="action.key"
+            @click="action.handler" @mousedown.native.stop>
+          <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
+          <span v-else>{{actionLabel(action)}}</span>
+        </el-button>
+      </template>
     </div>
     <div class="reactions">
       <el-button v-for="(usernames, emoji) in reactions" :key="emoji" :title="displayNames(usernames)" type="info" plain

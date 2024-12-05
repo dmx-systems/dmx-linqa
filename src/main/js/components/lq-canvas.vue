@@ -15,10 +15,12 @@
       <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
-        <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
-          :title="actionLabel(action)" :icon="actionIcon(action)" :style="iconStyle" :key="action.key"
-          @click="action.handler" @mousedown.native.stop>
-        </el-button>
+        <template v-for="action in groupActions">
+          <el-button v-if="isActionAvailable(action)" type="text" :title="actionLabel(action)"
+            :icon="actionIcon(action)" :style="iconStyle" :key="action.key" @click="action.handler"
+            @mousedown.native.stop>
+          </el-button>
+        </template>
       </div>
     </div>
     <vue-selecto ref="selecto" :selectable-targets="['.lq-canvas-item']" :selectFromInside="false" hitRate="0"

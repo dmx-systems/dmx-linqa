@@ -135,7 +135,7 @@ const actions = {
     router.push({
       name: 'workspace',
       params: {workspaceId: id},
-      query: router.currentRoute.query
+      query: router.currentRoute.value.query
     })
   },
 
@@ -144,7 +144,7 @@ const actions = {
   },
 
   callLoginRoute () {
-    // const query = router.currentRoute.query     // TODO: pass worspaceId when password reset
+    // const query = router.currentRoute.value.query     // TODO: pass worspaceId when password reset
     router.push({name: 'login' /*, query */})
   },
 
@@ -174,7 +174,7 @@ const actions = {
    */
   getInitialWorkspaceId () {
     // 1) take from URL (query param)
-    let workspaceId = id(router.currentRoute.query.workspaceId)
+    let workspaceId = id(router.currentRoute.value.query.workspaceId)
     if (isValidWorkspaceId(workspaceId, 'query param')) {
       return workspaceId
     }

@@ -36,7 +36,7 @@ export default {
     fetchText () {
       if (!this.text[this.lang]) {
         http.get(`/systems.dmx.linqa/about/about.${this.lang}.html`).then(response => {
-          this.$set(this.text, this.lang, response.data)
+          this.text[this.lang] = response.data
         })
       }
     },

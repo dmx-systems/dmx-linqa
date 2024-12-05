@@ -24,8 +24,8 @@ export default {
       },
       set (color) {
         // update client state
-        this.topic.setViewProp('linqa.color', color)                    // for storage
-        this.$set(this.topic.children, 'linqa.color', {value: color})   // for rendering
+        this.topic.setViewProp('linqa.color', color)            // for storage
+        this.topic.children['linqa.color'] = {value: color}     // for rendering
         // update server state
         this.$store.dispatch('updateColor', this.topic)
       }

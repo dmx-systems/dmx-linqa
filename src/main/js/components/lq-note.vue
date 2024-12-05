@@ -164,7 +164,7 @@ export default {
     setNote (lang) {
       // Note: in an untranslatable note "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.note_text#linqa.lang2']) {
-        this.$set(this.topic.children, 'linqa.note_text#linqa.lang2', {})
+        this.topic.children['linqa.note_text#linqa.lang2'] = {}
       }
       //
       const compDefUri = 'linqa.note_text#linqa.' + lang

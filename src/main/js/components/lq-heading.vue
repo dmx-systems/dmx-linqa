@@ -137,7 +137,7 @@ export default {
     setText (lang) {
       // Note: in an untranslatable heading "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.heading_text#linqa.lang2']) {
-        this.$set(this.topic.children, 'linqa.heading_text#linqa.lang2', {})
+        this.topic.children['linqa.heading_text#linqa.lang2'] = {}
       }
       //
       const compDefUri = 'linqa.heading_text#linqa.' + lang

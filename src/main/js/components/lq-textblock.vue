@@ -166,7 +166,7 @@ export default {
     setText (lang) {
       // Note: in an untranslatable textblock "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.textblock_text#linqa.lang2']) {
-        this.$set(this.topic.children, 'linqa.textblock_text#linqa.lang2', {})
+        this.topic.children['linqa.textblock_text#linqa.lang2'] = {}
       }
       //
       const compDefUri = 'linqa.textblock_text#linqa.' + lang

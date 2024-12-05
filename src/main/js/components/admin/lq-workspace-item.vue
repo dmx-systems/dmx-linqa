@@ -6,23 +6,25 @@
       <div class="owner"><span class="fa fa-fw fa-user"></span> {{owner}}</div>
       <el-dropdown size="medium" trigger="click" @command="handle" @click.native.stop>
         <el-button type="text" class="fa fa-fw fa-ellipsis-v"></el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="show">
-            <i class="fa fa-fw fa-eye"></i><lq-string>action.show_workspace</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="edit">
-            <i class="fa fa-fw fa-pencil"></i><lq-string>action.edit_workspace</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="duplicate">
-            <i class="fa fa-fw fa-files-o"></i><lq-string>action.duplicate_workspace</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="delete">
-            <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_workspace</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="editMemberships" divided>
-            <i class="fa fa-fw fa-users"></i><lq-string>action.edit_memberships</lq-string>
-          </el-dropdown-item>
-        </el-dropdown-menu>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="show">
+              <i class="fa fa-fw fa-eye"></i><lq-string>action.show_workspace</lq-string>
+            </el-dropdown-item>
+            <el-dropdown-item command="edit">
+              <i class="fa fa-fw fa-pencil"></i><lq-string>action.edit_workspace</lq-string>
+            </el-dropdown-item>
+            <el-dropdown-item command="duplicate">
+              <i class="fa fa-fw fa-files-o"></i><lq-string>action.duplicate_workspace</lq-string>
+            </el-dropdown-item>
+            <el-dropdown-item command="delete">
+              <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_workspace</lq-string>
+            </el-dropdown-item>
+            <el-dropdown-item command="editMemberships" divided>
+              <i class="fa fa-fw fa-users"></i><lq-string>action.edit_memberships</lq-string>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </div>
     <div v-for="(username, i) in workspace.memberships">

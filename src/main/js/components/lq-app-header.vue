@@ -10,14 +10,16 @@
           <el-button type="text" :title="selectTooltip">
             <span class="name">{{workspaceName}}</span><span class="el-icon-arrow-down el-icon--right"></span>
           </el-button>
-          <el-dropdown-menu class="lq-workspace-selector" slot="dropdown">
-            <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
-              <div>{{getWorkspaceName(workspace)}}</div>
-            </el-dropdown-item>
-            <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
-              <div>{{getWorkspaceName(linqaAdminWs)}}</div>
-            </el-dropdown-item>
-          </el-dropdown-menu>
+          <template #dropdown>
+            <el-dropdown-menu class="lq-workspace-selector">
+              <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
+                <div>{{getWorkspaceName(workspace)}}</div>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
+                <div>{{getWorkspaceName(linqaAdminWs)}}</div>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
         </el-dropdown>
       </template>
     </div>
@@ -27,12 +29,14 @@
       <el-button class="fa fa-info-circle" type="text">
         <span class="el-icon-arrow-down el-icon--right"></span>
       </el-button>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="openHelp"><lq-string>label.help</lq-string></el-dropdown-item>
-        <el-dropdown-item command="openAbout" divided><lq-string>label.about</lq-string></el-dropdown-item>
-        <el-dropdown-item command="openImprint"><lq-string>label.imprint</lq-string></el-dropdown-item>
-        <el-dropdown-item command="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-dropdown-item>
-      </el-dropdown-menu>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="openHelp"><lq-string>label.help</lq-string></el-dropdown-item>
+          <el-dropdown-item command="openAbout" divided><lq-string>label.about</lq-string></el-dropdown-item>
+          <el-dropdown-item command="openImprint"><lq-string>label.imprint</lq-string></el-dropdown-item>
+          <el-dropdown-item command="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
     <lq-language-switch></lq-language-switch>
     <lq-user-menu></lq-user-menu>

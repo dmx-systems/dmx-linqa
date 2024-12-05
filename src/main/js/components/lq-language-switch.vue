@@ -3,10 +3,12 @@
     <el-button type="text" :title="selectTooltip">
       <span>{{model.toUpperCase()}}</span><span class="el-icon-arrow-down el-icon--right"></span>
     </el-button>
-    <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item :command="lang1">{{lang1.toUpperCase()}}</el-dropdown-item>
-      <el-dropdown-item :command="lang2">{{lang2.toUpperCase()}}</el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item :command="lang1">{{lang1.toUpperCase()}}</el-dropdown-item>
+        <el-dropdown-item :command="lang2">{{lang2.toUpperCase()}}</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 

@@ -1,11 +1,13 @@
 <template>
   <el-dropdown class="lq-color-menu" size="medium" trigger="click" @command="setColor">
     <span ref="trigger"></span>
-    <el-dropdown-menu class="lq-color-dropdown" slot="dropdown">
-      <el-dropdown-item v-for="color in colors" :command="color" :key="color">
-        <div :class="colorBoxClass(color)" :style="{'background-color': color}"></div>
-      </el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu class="lq-color-dropdown">
+        <el-dropdown-item v-for="color in colors" :command="color" :key="color">
+          <div :class="colorBoxClass(color)" :style="{'background-color': color}"></div>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 

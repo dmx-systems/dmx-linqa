@@ -4,20 +4,22 @@
       <el-button type="text" class="fa fa-user-circle">
         <span class="el-icon-arrow-down el-icon--right"></span>
       </el-button>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item disabled>
-          <b>{{username}}</b>
-        </el-dropdown-item>
-        <el-dropdown-item command="openUserProfile">
-          <lq-string>label.user_profile</lq-string>
-        </el-dropdown-item>
-        <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" :icon="icon" divided>
-          <lq-string>label.presentation_mode</lq-string>
-        </el-dropdown-item>
-        <el-dropdown-item command="logout" divided>
-          Logout
-        </el-dropdown-item>
-      </el-dropdown-menu>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item disabled>
+            <b>{{username}}</b>
+          </el-dropdown-item>
+          <el-dropdown-item command="openUserProfile">
+            <lq-string>label.user_profile</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" :icon="icon" divided>
+            <lq-string>label.presentation_mode</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="logout" divided>
+            Logout
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
     <el-dialog :visible.sync="profileVisibility" width="400px" v-loading="loading">
       <div slot="title">

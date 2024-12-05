@@ -1,20 +1,22 @@
 <template>
   <el-dropdown class="lq-shape-menu" size="medium" trigger="click" @command="setShape">
     <span ref="trigger"></span>
-    <el-dropdown-menu class="lq-shape-dropdown" slot="dropdown">
-      <el-dropdown-item command="rectangle">
-        <div class="rectangle" :style="backgroundColor"></div>
-      </el-dropdown-item>
-      <el-dropdown-item command="ellipse">
-        <div class="ellipse" :style="backgroundColor"></div>
-      </el-dropdown-item>
-      <el-dropdown-item command="rectangle-outline" divided>
-        <div class="rectangle-outline" :style="borderColor"></div>
-      </el-dropdown-item>
-      <el-dropdown-item command="ellipse-outline">
-        <div class="ellipse-outline" :style="borderColor"></div>
-      </el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu class="lq-shape-dropdown">
+        <el-dropdown-item command="rectangle">
+          <div class="rectangle" :style="backgroundColor"></div>
+        </el-dropdown-item>
+        <el-dropdown-item command="ellipse">
+          <div class="ellipse" :style="backgroundColor"></div>
+        </el-dropdown-item>
+        <el-dropdown-item command="rectangle-outline" divided>
+          <div class="rectangle-outline" :style="borderColor"></div>
+        </el-dropdown-item>
+        <el-dropdown-item command="ellipse-outline">
+          <div class="ellipse-outline" :style="borderColor"></div>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 

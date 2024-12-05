@@ -2,14 +2,16 @@
   <div class="lq-canvas-toolbar">
     <el-dropdown v-if="isAddButtonVisibile" trigger="click" @command="handle">
       <el-button type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
-        <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
-      </el-dropdown-menu>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
     <div class="view-controls">
       <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>

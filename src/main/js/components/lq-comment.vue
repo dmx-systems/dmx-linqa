@@ -13,10 +13,12 @@
         <el-button class="fa fa-reply" type="text" :title="replyTooltip" @click="reply"></el-button>
         <el-dropdown v-if="commentIsWritable" size="medium" trigger="click" @command="handle">
           <el-button type="text" class="fa fa-fw fa-ellipsis-v"></el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="edit"><lq-string>action.edit</lq-string></el-dropdown-item>
-            <el-dropdown-item command="deleteComment" divided><lq-string>action.delete</lq-string></el-dropdown-item>
-          </el-dropdown-menu>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="edit"><lq-string>action.edit</lq-string></el-dropdown-item>
+              <el-dropdown-item command="deleteComment" divided><lq-string>action.delete</lq-string></el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
         </el-dropdown>
       </div>
     </div>

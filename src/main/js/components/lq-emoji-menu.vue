@@ -1,11 +1,13 @@
 <template>
   <el-dropdown class="lq-emoji-menu" size="medium" trigger="click" @command="setEmoji">
     <span ref="trigger"></span>
-    <el-dropdown-menu class="lq-emoji-dropdown" slot="dropdown">
-      <el-dropdown-item v-for="emoji in emojis" :command="emoji" :key="emoji">
-        <div>{{emoji}}</div>
-      </el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu class="lq-emoji-dropdown">
+        <el-dropdown-item v-for="emoji in emojis" :command="emoji" :key="emoji">
+          <div>{{emoji}}</div>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 

@@ -1,4 +1,4 @@
-import { ElLoading, ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessageBox, ElNotification } from 'element-plus'
 import {
   CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound,
   Close, Paperclip, Promotion,
@@ -10,8 +10,6 @@ import app from './app'
 
 // set locale                                     // TODO
 // locale.use(require('element-plus/lib/locale/lang/en').default)
-
-// Vue.use(ElLoading.directive)   // TODO
 
 app.config.globalProperties = {
   $msgbox:  ElMessageBox,

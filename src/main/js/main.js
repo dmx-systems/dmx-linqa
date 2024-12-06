@@ -4,7 +4,7 @@ import router from './router'
 import onHttpError from './error-handler'
 import messageHandler from './message-handler'
 import app from './app'
-import './element-ui'
+import './element-plus'
 import './country-flag-polyfill'
 
 console.log('[Linqa] 2024/12/04')
@@ -37,6 +37,8 @@ app.component('lq-pdf-viewer',      require('./components/lq-pdf-viewer').defaul
 app.component('lq-about-dialog',    require('./components/lq-about-dialog').default)
 app.component('vue-moveable',       require('vue3-moveable').default)
 app.component('quill',              require('vue-quill-minimum').default)
+
 app.use(store)
 app.use(router)
+
 app.mount('body')

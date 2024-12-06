@@ -1,7 +1,7 @@
 <template>
   <div class="lq-canvas-toolbar">
     <el-dropdown v-if="isAddButtonVisibile" trigger="click" @command="handle">
-      <el-button type="text" icon="el-icon-circle-plus" :title="addTooltip"></el-button>
+      <el-button type="primary" link :icon="CirclePlusFilled" :title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
@@ -14,21 +14,25 @@
       </template>
     </el-dropdown>
     <div class="view-controls">
-      <el-button type="text" icon="el-icon-s-home" :title="homeTooltip" @click="home"></el-button>
-      <el-button type="text" icon="el-icon-full-screen" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
+      <el-button type="primary" link :icon="HomeFilled" :title="homeTooltip" @click="home"></el-button>
+      <el-button type="primary" link :icon="FullScreen" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
         @click="zoomToFit">
       </el-button>
-      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-in" :title="zoomInTooltip" @click="zoomIn">
+      <el-button v-if="isBigScreen" type="primary" link :icon="ZoomIn" :title="zoomInTooltip" @click="zoomIn">
       </el-button>
-      <el-button v-if="isBigScreen" type="text" icon="el-icon-zoom-out" :title="zoomOutTooltip" @click="zoomOut">
+      <el-button v-if="isBigScreen" type="primary" link :icon="ZoomOut" :title="zoomOutTooltip" @click="zoomOut">
       </el-button>
       <lq-canvas-search></lq-canvas-search>
     </div>
-    <el-button class="discussion-button" v-if="!panelVisibility" type="text" icon="el-icon-chat-line-round"
+    <el-button class="discussion-button" v-if="!panelVisibility" type="primary" link :icon="ChatLineRound"
       :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
   </div>
 </template>
+
+<script setup>
+  import { CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound } from '@element-plus/icons-vue'
+</script>
 
 <script>
 import dmx from 'dmx-api'

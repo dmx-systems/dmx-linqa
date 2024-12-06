@@ -1,6 +1,9 @@
 import { ElLoading, ElMessageBox, ElNotification } from 'element-plus'
 import {
-  CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound, Close, Paperclip, Promotion
+  CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound,
+  Close, Paperclip, Promotion,
+  Edit, DocumentCopy, Lock, Unlock, DeleteFilled,
+  Download, Setting, BrushFilled, Flag
 } from '@element-plus/icons-vue'
 // import locale from 'element-plus/lib/locale'   // TODO
 import app from './app'
@@ -27,3 +30,12 @@ app.component('ChatLineRound', ChatLineRound)
 app.component('Close', Close)
 app.component('Paperclip', Paperclip)
 app.component('Promotion', Promotion)
+app.component('Edit', Edit)
+app.component('DocumentCopy', DocumentCopy)
+app.component('Lock', Lock)
+app.component('Unlock', Unlock)
+app.component('DeleteFilled', DeleteFilled)
+app.component('Download', Download)
+app.component('Setting', Setting)
+app.component('BrushFilled', BrushFilled)
+app.component('Flag', Flag)

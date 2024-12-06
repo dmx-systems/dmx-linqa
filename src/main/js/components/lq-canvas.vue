@@ -15,10 +15,9 @@
       <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
-        <template v-for="action in groupActions">
+        <template v-for="action in groupActions" :key="action.key">
           <el-button v-if="isActionAvailable(action)" type="text" :title="actionLabel(action)"
-            :icon="actionIcon(action)" :style="iconStyle" :key="action.key" @click="action.handler"
-            @mousedown.native.stop>
+            :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.native.stop>
           </el-button>
         </template>
       </div>

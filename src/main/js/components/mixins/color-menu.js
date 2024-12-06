@@ -12,7 +12,7 @@ export default {
   created () {
     this.$emit('action', {
       key: 'action.color',
-      icon: 'el-icon-s-open',
+      icon: 'BrushFilled',
       handler: this.openColorMenu
     })
   },

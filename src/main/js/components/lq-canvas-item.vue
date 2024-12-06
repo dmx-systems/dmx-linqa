@@ -5,10 +5,12 @@
     </component>
     <div class="lock-icon el-icon-lock" v-if="showLock"></div>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
-      <template v-for="action in actions">
-        <el-button v-if="isActionAvailable(action)" type="text" :style="buttonStyle" :key="action.key"
-            @click="action.handler" @mousedown.native.stop>
-          <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
+      <template v-for="action in actions" :key="action.key">
+        <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle"  @click="action.handler"
+            @mousedown.native.stop>
+          <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
+            <component :is="actionIcon(action)"></component>
+          </el-icon>
           <span v-else>{{actionLabel(action)}}</span>
         </el-button>
       </template>
@@ -57,10 +59,10 @@ export default {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       actions: [                // Actions appearing in the item toolbar
-        {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
-        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate,  enabledForEditor: true},
-        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock, enabledForAdmin: true},
-        {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
+        {key: 'action.edit',      icon: 'Edit',         handler: this.edit},
+        {key: 'action.duplicate', icon: 'DocumentCopy', handler: this.duplicate,  enabledForEditor: true},
+        {key: 'action.lock',      icon: 'Lock',         handler: this.toggleLock, enabledForAdmin: true},
+        {key: 'action.delete',    icon: 'DeleteFilled', handler: this.deleteItem}
       ]
     }
   },
@@ -214,9 +216,11 @@ export default {
 
     // TODO: refactor, attach logic to action instead?
     actionIcon (action) {
-      const icon = action.key === 'action.lock' && this.locked ? 'el-icon-unlock' : action.icon
+      const icon = action.key === 'action.lock' && this.locked ? 'Unlock' : action.icon
       return icon
     },
+
+    // 3 event handlers
 
     addAction (action) {
       this.actions.unshift(action)
@@ -229,6 +233,8 @@ export default {
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
     },
+
+    //
 
     displayNames (usernames) {
       return usernames.map(username => lq.getDisplayName(username)).join(', ')

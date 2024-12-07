@@ -20,10 +20,10 @@
       </table>
     </div>
     <div>
-      <el-button class="submit-button" type="primary" size="medium" @click="updateMemberships">
+      <el-button class="submit-button" type="primary" @click="updateMemberships">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </div>

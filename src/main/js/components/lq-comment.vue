@@ -51,10 +51,10 @@
       <lq-attachment v-for="file in attachments" :file="file" :enabled="true" :key="file.id"></lq-attachment>
     </div>
     <template v-if="formMode">
-      <el-button class="save-button" type="primary" size="medium" @click="save">
+      <el-button class="save-button" type="primary" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>

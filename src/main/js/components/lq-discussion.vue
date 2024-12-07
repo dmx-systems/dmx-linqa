@@ -43,7 +43,7 @@
           </lq-attachment>
         </div>
       </div>
-      <el-button class="submit-button" type="primary" link icon="Promotion" size="medium" :title="submitTooltip"
+      <el-button class="submit-button" type="primary" link icon="Promotion" :title="submitTooltip"
         @click="createComment">
       </el-button>
     </div>

@@ -11,7 +11,7 @@
         </el-collapse>
       </div>
     </template>
-    <el-button class="add-button" size="medium" icon="el-icon-plus" @click="newWorkspace">
+    <el-button class="add-button" icon="el-icon-plus" @click="newWorkspace">
       <lq-string>action.add_workspace</lq-string>
     </el-button>
   </div>

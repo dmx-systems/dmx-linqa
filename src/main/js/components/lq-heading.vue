@@ -19,10 +19,10 @@
         <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
       </div>
     </template>
-    <el-button class="save-button" type="primary" size="medium" @click="save">
+    <el-button class="save-button" type="primary" @click="save">
       <lq-string>action.submit</lq-string>
     </el-button>
-    <el-button size="medium" @click="cancel">
+    <el-button @click="cancel">
       <lq-string>action.cancel</lq-string>
     </el-button>
   </div>

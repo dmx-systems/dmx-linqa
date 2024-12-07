@@ -13,10 +13,10 @@
       <div class="field-label"><lq-string>label.default_language</lq-string></div>
       <lq-language-switch v-model="model.defaultLanguage"></lq-language-switch>
     </div>
-    <el-button class="submit-button" type="primary" size="medium" :disabled="isIncomplete" @click="submit">
+    <el-button class="submit-button" type="primary" :disabled="isIncomplete" @click="submit">
       <lq-string>action.submit</lq-string>
     </el-button>
-    <el-button size="medium" @click="cancel">
+    <el-button @click="cancel">
       <lq-string>action.cancel</lq-string>
     </el-button>
   </div>

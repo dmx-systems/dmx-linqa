@@ -42,10 +42,10 @@
         <div class="error">{{error[lang2nd]}}</div>
         <el-input v-model="docModel.paths[lang2nd].value"></el-input>
       </div>
-      <el-button class="save-button" type="primary" size="medium" :disabled="saveButtonDisabled" @click="save">
+      <el-button class="save-button" type="primary" :disabled="saveButtonDisabled" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>

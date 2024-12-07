@@ -18,7 +18,7 @@ export default {
 
   props: {
 
-    value: {                  // not used at the moment (for v-model)
+    modelValue: {             // not used at the moment (for v-model)
       type: String,
       required: true
     },
@@ -44,7 +44,7 @@ export default {
   methods: {
 
     setColor (color) {
-      this.$emit('input', color)
+      this.$emit('update:modelValue', color)
     },
 
     colorBoxClass (color) {

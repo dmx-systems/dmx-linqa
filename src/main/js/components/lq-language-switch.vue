@@ -18,14 +18,14 @@ import lq from '../lq-globals'
 export default {
 
   props: {
-    value: String
+    modelValue: String
   },
 
   computed: {
 
     model () {
-      if (this.value) {       // v-model support is optional
-        return this.value
+      if (this.modelValue) {      // v-model support is optional, only used by lq-user-form
+        return this.modelValue
       } else {
         return this.lang
       }
@@ -50,8 +50,8 @@ export default {
 
   methods: {
     setLang (lang) {
-      if (this.value) {       // v-model support is optional
-        this.$emit('input', lang)
+      if (this.modelValue) {      // v-model support is optional
+        this.$emit('update:modelValue', lang)
       } else {
         this.$store.dispatch('setLang', lang)
       }

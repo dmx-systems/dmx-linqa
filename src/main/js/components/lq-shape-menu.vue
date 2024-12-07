@@ -31,7 +31,7 @@ export default {
 
   props: {
 
-    value: {                    // not used at the moment (for v-model)
+    modelValue: {               // not used at the moment (for v-model)
       type: String,
       required: true
     },
@@ -45,7 +45,7 @@ export default {
   methods: {
 
     setShape (shape) {
-      this.$emit('input', shape)
+      this.$emit('update:modelValue', shape)
     },
 
     open () {

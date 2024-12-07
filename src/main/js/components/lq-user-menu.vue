@@ -21,6 +21,8 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <!-- v-loading does not work on el-dialog. So we put it on a child element. -->
+    <!-- https://github.com/element-plus/element-plus/issues/6706 -->
     <el-dialog v-model="profileVisibility" width="400px">
       <template #header>
         <div>

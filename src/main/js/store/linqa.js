@@ -26,6 +26,8 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
 
+let selecto                       // canvas vue-selecto instance, has its own state, regarded part of app state
+
 loadCustomCSS('custom.css')
 loadCustomCSS('help/help.css')
 
@@ -74,6 +76,7 @@ const store = createStore({
       lang1: {},                  // key: document topic ID, value: pageNr (Number)
       lang2: {}                   // key: document topic ID, value: pageNr (Number)
     },
+    groupToolbarPos: {x: 0, y: 0},
 
     // Discussion Panel
     panelVisibility,              // discussion panel visibility (Boolean)
@@ -86,6 +89,10 @@ const store = createStore({
   },
 
   actions: {
+
+    initStore (_, viewState) {
+      selecto = viewState.selecto
+    },
 
     login ({state, dispatch}, credentials) {
       const authMethod = DEV || credentials.username === 'admin' ? 'Basic' : 'LDAP'
@@ -176,12 +183,17 @@ const store = createStore({
       }
     },
 
+    // 3 selection actions
+
     /**
      * Updates the application's selection state according to an *interactive* selection.
      */
     updateSelection ({state}, {addTopics, removeTopicIds}) {
       state.selection = state.selection.filter(topic => !removeTopicIds.includes(topic.id))
       state.selection.push(...addTopics)
+      setTimeout(() => {    // Vue.nextTick() does not work here
+        positionGroupToolbar(state)
+      }, 100)
     },
 
     /**
@@ -192,25 +204,27 @@ const store = createStore({
      */
     select ({state, dispatch}, topics) {
       state.selection = topics
-      // update "Selecto" component's internal selection state
+      // update selecto state
       const targets = topics.map(topic => {
         return document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
       })
-      document.querySelector('.lq-canvas .selecto-selection').__vue__.setSelectedTargets(targets)
+      selecto.setSelectedTargets(targets)
+      //
       setTimeout(() => {    // Vue.nextTick() does not work here
-        document.querySelector('.lq-canvas').__vue__.positionGroupToolbar()
+        positionGroupToolbar(state)
       }, 100)
     },
 
     /**
      * Removes the selection *programmatically*.
-     * Note: *interactive* (de)selection is handled by "Selecto" component, resulting in `updateSelection()`.
+     * Note: *interactive* (de)selection is handled by selecto component, resulting in `updateSelection()`.
      */
     deselect ({state}) {
       state.selection = []
-      // update "Selecto" component's internal selection state
-      // Note: while app initialization components are not yet available, `deselect()` is dispacthed by `setWorkspace()`
-      document.querySelector('.lq-canvas .selecto-selection')?.__vue__.setSelectedTargets([])
+      // update selecto state
+      // Note: while app initialization components are not yet available, `deselect()` is dispatched by `setWorkspace()`
+      // console.log('##### deselect', 'selecto available', !!selecto)    // TODO: rethink
+      selecto?.setSelectedTargets([])
     },
 
     // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types. ### FIXDOC
@@ -708,6 +722,10 @@ const store = createStore({
       })
     },
 
+    positionGroupToolbar ({state}) {
+      positionGroupToolbar(state)
+    },
+
     openAboutDialog ({state}) {
       state.aboutVisibility = true
     },
@@ -982,6 +1000,17 @@ function addTopicToTopicmap (state, viewTopic, topic) {
   nextTick(() => {
     store.dispatch('select', [viewTopic])     // programmatic selection
   })
+}
+
+function positionGroupToolbar (state) {
+  const selector = '.lq-canvas .content-layer .moveable-control-box'
+  const moveableArea = document.querySelector(`${selector} .moveable-area`)
+  if (moveableArea) {
+    const controlBox = document.querySelector(selector)
+    const match = controlBox.style.transform.match(/translate3d\((-?[0-9.]+)px, (-?[0-9.]+)px, 0px\)/)
+    state.groupToolbarPos.x = Number(match[1])
+    state.groupToolbarPos.y = Number(match[2]) + moveableArea.clientHeight
+  }
 }
 
 function removeEditActive (state, topic) {

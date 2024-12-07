@@ -56,6 +56,10 @@ export default {
     context.config = this.config
   },
 
+  mounted () {
+    this.$store.dispatch('initStore', {selecto: this.$refs.selecto})
+  },
+
   data () {
     return {
       DEFAULT: {
@@ -96,7 +100,6 @@ export default {
         }
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
-      groupToolbarPos: {x: 0, y: 0},    // object with x/y props
       groupHover: false,                // true while group is hovered
       startZoom: undefined              // used while pinching (number)
     }
@@ -123,6 +126,10 @@ export default {
         'background-position': `${this.bgPos.x}px ${this.bgPos.y}px`,
         'background-size': `${lq.CANVAS_GRID * this.zoom}px`
       }
+    },
+
+    groupToolbarPos () {
+      return this.$store.state.groupToolbarPos
     },
 
     groupToolbarStyle () {
@@ -286,17 +293,6 @@ export default {
       // update view
       target.style.width = `${width}px`
       target.style.height = `${height}${height !== 'auto' ? 'px' : ''}`
-    },
-
-    positionGroupToolbar () {
-      const selector = '.lq-canvas .content-layer .moveable-control-box'
-      const moveableArea = document.querySelector(`${selector} .moveable-area`)
-      if (moveableArea) {
-        const controlBox = document.querySelector(selector)
-        const match = controlBox.style.transform.match(/translate3d\((-?[0-9.]+)px, (-?[0-9.]+)px, 0px\)/)
-        this.groupToolbarPos.x = Number(match[1])
-        this.groupToolbarPos.y = Number(match[2]) + moveableArea.clientHeight
-      }
     },
 
     findTopic (el) {

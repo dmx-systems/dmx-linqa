@@ -67,12 +67,9 @@ export default {
     onSelect (e) {
       // LOG && console.log('onSelect()')
       this.$store.dispatch('updateSelection', {
-        addTopics: e.added.map(el => el.__vue__.topic),
+        addTopics: e.added.map(el => this.$store.state.topicmap.getTopic(el.dataset.id)),
         removeTopicIds: e.removed.map(el => Number(el.dataset.id))
       })
-      setTimeout(() => {    // Vue.nextTick() does not work here
-        this.positionGroupToolbar()
-      }, 100)
     },
 
     onSelectEnd (e) {
@@ -151,7 +148,7 @@ export default {
       e.targets.forEach(el => {
         const topic = this.findTopic(el)
         this.config('moveHandler', topic)(topic, e.dist[0], e.dist[1])
-        this.positionGroupToolbar()
+        this.$store.dispatch('positionGroupToolbar')
       })
     },
 

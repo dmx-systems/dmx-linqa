@@ -3,7 +3,8 @@ import {
   CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound,
   Close, Paperclip, Promotion,
   Edit, DocumentCopy, Lock, Unlock, DeleteFilled,
-  Download, Setting, BrushFilled, Flag
+  Download, Setting, BrushFilled, Flag,
+  ArrowLeft, ArrowRight, ArrowDownBold, Check
 } from '@element-plus/icons-vue'
 // import locale from 'element-plus/lib/locale'   // TODO
 import app from './app'
@@ -37,3 +38,7 @@ app.component('Download', Download)
 app.component('Setting', Setting)
 app.component('BrushFilled', BrushFilled)
 app.component('Flag', Flag)
+app.component('ArrowLeft', ArrowLeft)
+app.component('ArrowRight', ArrowRight)
+app.component('ArrowDownBold', ArrowDownBold)
+app.component('Check', Check)

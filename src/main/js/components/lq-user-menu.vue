@@ -1,8 +1,8 @@
 <template>
   <div class="lq-user-menu">
     <el-dropdown size="medium" trigger="click" @command="handle">
-      <el-button type="text" class="fa fa-user-circle">
-        <span class="el-icon-arrow-down el-icon--right"></span>
+      <el-button type="primary" link class="fa fa-user-circle">
+        <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
@@ -141,7 +141,7 @@ export default {
     },
 
     icon () {
-      return this.presentationMode ? 'el-icon-check' : ''     // el-dropdown-item strictly expects string
+      return this.presentationMode ? 'check' : ''     // el-dropdown-item strictly expects string (or component)
     }
   },
 

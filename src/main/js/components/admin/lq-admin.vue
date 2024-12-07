@@ -1,10 +1,11 @@
 <template>
   <div class="lq-admin">
     <div class="nav-bar">
-      <el-button :class="['fa', 'fa-list', {'lq-selected': area1}]" type="text" @click="goArea1"></el-button>
-      <el-button :class="['fa', 'fa-users', {'lq-selected': area2}]" type="text" @click="goArea2"></el-button>
+      <el-button :class="['fa', 'fa-list', {'lq-selected': area1}]" type="primary" link @click="goArea1"></el-button>
+      <el-button :class="['fa', 'fa-users', {'lq-selected': area2}]" type="primary" link @click="goArea2"></el-button>
       <div class="gap"></div>
-      <el-button class="close-button fa fa-times-circle-o" v-if="showClose" type="text" @click="close"></el-button>
+      <el-button class="close-button fa fa-times-circle-o" v-if="showClose" type="primary" link @click="close">
+      </el-button>
     </div>
     <component class="primary-panel" :is="primaryPanel" v-loading="loading1"></component>
     <component class="secondary-panel" :is="secondaryPanel" v-loading="loading2"></component>

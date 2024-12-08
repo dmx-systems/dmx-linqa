@@ -7,7 +7,7 @@
         <div class="text" v-html="textblock[lang2nd]"></div>
       </div>
       <div class="discussion-button" :style="backgroundColor">
-        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
     <template v-else>
@@ -20,7 +20,7 @@
           <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang1}})</div>
           <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
         </div>
-        <el-button class="translate" type="text" icon="el-icon-right" :title="translateTooltip" @click="doTranslate">
+        <el-button class="translate" type="primary" link icon="right" :title="translateTooltip" @click="doTranslate">
         </el-button>
         <div class="text">
           <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang2}})</div>

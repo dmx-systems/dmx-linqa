@@ -19,15 +19,15 @@
       </div>
       <div class="password-reset">
         <lq-string class="label">label.forgot_password</lq-string>
-        <el-button type="text" @click="openDialog"><lq-string>action.reset_password</lq-string></el-button>
+        <el-button type="primary" link @click="openDialog"><lq-string>action.reset_password</lq-string></el-button>
       </div>
       <el-button class="login-button" type="primary" @click="login">Login</el-button>
       <span class="message">{{message}}</span>
     </div>
     <div class="footer">
-      <el-button type="text" @click="openAbout"><lq-string>label.about</lq-string></el-button>
-      <el-button type="text" @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
-      <el-button type="text" @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
+      <el-button type="primary" link @click="openAbout"><lq-string>label.about</lq-string></el-button>
+      <el-button type="primary" link @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
+      <el-button type="primary" link @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
     </div>
     <router-view></router-view>
     <lq-about-dialog></lq-about-dialog>

@@ -4,12 +4,12 @@ import {
   Close, Paperclip, Promotion,
   Edit, DocumentCopy, Lock, Unlock, DeleteFilled,
   Download, Setting, BrushFilled, Flag,
-  ArrowLeft, ArrowRight, ArrowDownBold, Check
+  ArrowLeft, ArrowRight, ArrowDownBold, Right, Bottom, Check
 } from '@element-plus/icons-vue'
-// import locale from 'element-plus/lib/locale'   // TODO
 import app from './app'
 
-// set locale                                     // TODO
+// set locale     // TODO?
+// import locale from 'element-plus/lib/locale'
 // locale.use(require('element-plus/lib/locale/lang/en').default)
 
 app.config.globalProperties = {
@@ -41,4 +41,6 @@ app.component('Flag', Flag)
 app.component('ArrowLeft', ArrowLeft)
 app.component('ArrowRight', ArrowRight)
 app.component('ArrowDownBold', ArrowDownBold)
+app.component('Right', Right)
+app.component('Bottom', Bottom)
 app.component('Check', Check)

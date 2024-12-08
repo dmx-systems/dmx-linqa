@@ -11,7 +11,7 @@
         <el-input v-model="model[lang1st].value" ref="input"></el-input>
       </div>
       <div class="translate">
-        <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
+        <el-button type="primary" link icon="bottom" :title="translateTooltip" @click="translate"></el-button>
       </div>
       <div class="field">
         <div class="field-label"><lq-string>item.heading</lq-string> ({{lang2}})</div>

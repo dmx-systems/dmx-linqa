@@ -2,7 +2,7 @@
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
       <div class="discussion-button">
-        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
       <lq-document-renderer :topic="topic" @loading="loading" @complete="complete"></lq-document-renderer>
@@ -14,7 +14,7 @@
       </div>
       <template v-if="!isNew">
         <div class="translate">
-          <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
+          <el-button type="primary" link icon="bottom" :title="translateTooltip" @click="translate"></el-button>
         </div>
         <div class="field">
           <div class="field-label"><lq-string>label.document_name</lq-string> <span>({{lang2}})</span></div>

@@ -27,6 +27,7 @@ export default {
   },
 
   mounted () {
+    this.$store.dispatch('setViewComps', {resizer: this})
     this.resize()
   },
 

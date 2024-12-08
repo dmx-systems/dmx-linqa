@@ -57,7 +57,7 @@ export default {
   },
 
   mounted () {
-    this.$store.dispatch('initStore', {
+    this.$store.dispatch('setViewComps', {
       selecto: this.$refs.selecto,
       moveable: this.$refs.moveable
     })

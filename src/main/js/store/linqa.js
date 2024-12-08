@@ -26,8 +26,11 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
   `(${width}px ${isSmallScreen ? '<=' : '>'} ${lq.SMALL_SCREEN_WIDTH}px)`
 )
 
-let selecto                       // canvas vue-selecto instance, has its own state, regarded part of app state
-let moveable                      // canvas content layer vue-moveable instance
+// Sometimes the store needs to call component API. viewComp will have 3 properties:
+//   selecto  - canvas `vue-selecto` instance                -> setSelectedTargets(...)
+//   moveable - canvas content layer `vue-moveable` instance -> updateTarget()
+//   resizer  - workspace split panel `lq-resizer` instance  -> resize()
+let viewComp = {}
 
 loadCustomCSS('custom.css')
 loadCustomCSS('help/help.css')
@@ -91,9 +94,8 @@ const store = createStore({
 
   actions: {
 
-    initStore (_, viewState) {
-      selecto = viewState.selecto
-      moveable = viewState.moveable
+    setViewComps (_, viewComps) {
+      viewComp = {...viewComp, ...viewComps}
     },
 
     login ({state, dispatch}, credentials) {
@@ -210,7 +212,7 @@ const store = createStore({
       const targets = topics.map(topic => {
         return document.querySelector(`.lq-canvas-item[data-id="${topic.id}"]`)
       })
-      selecto.setSelectedTargets(targets)
+      viewComp.selecto.setSelectedTargets(targets)
       //
       setTimeout(() => {    // Vue.nextTick() does not work here
         positionGroupToolbar(state)
@@ -226,7 +228,7 @@ const store = createStore({
       // update selecto state
       // Note: while app initialization components are not yet available, `deselect()` is dispatched by `setWorkspace()`
       // console.log('##### deselect', 'selecto available', !!selecto)    // TODO: rethink
-      selecto?.setSelectedTargets([])
+      viewComp.selecto?.setSelectedTargets([])
     },
 
     // 1 newTopic() action to show a create form on the canvas. Used for all 6 canvas item types. ### FIXDOC
@@ -461,8 +463,8 @@ const store = createStore({
       state.fullscreen = fullscreen
       if (!fullscreen) {
         nextTick(() => {
-          document.querySelector('.lq-resizer')?.__vue__.resize()   // Note: resizer does not exist for mobile layout
-          dispatch('select', [state.selection[0]])                  // sync Selecto model/view with app state
+          viewComp.resizer?.resize()                    // Note: resizer does not exist for mobile layout
+          dispatch('select', [state.selection[0]])      // sync Selecto model/view with app state
         })
       }
     },
@@ -720,7 +722,7 @@ const store = createStore({
       // next event cycle (setTimeout).
       // Note: Vue.nextTick() instead shows strange result
       setTimeout(() => {
-        moveable.updateTarget()
+        viewComp.moveable.updateTarget()
       })
     },
 

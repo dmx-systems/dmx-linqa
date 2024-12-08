@@ -319,10 +319,12 @@ export default {
     },
 
     onEnter () {
+      // console.log('onEnter')
       this.groupHover = true
     },
 
     onLeave () {
+      // console.log('onLeave')
       this.groupHover = false
     }
   }

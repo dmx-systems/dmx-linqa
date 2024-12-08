@@ -3,7 +3,7 @@
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
       @action="addAction" @actions="setActions" @removeAction="removeAction">
     </component>
-    <div class="lock-icon el-icon-lock" v-if="showLock"></div>
+    <el-icon class="lock-icon" v-if="showLock"><lock></lock></el-icon>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
       <template v-for="action in actions" :key="action.key">
         <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle"  @click="action.handler"
@@ -59,10 +59,10 @@ export default {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       actions: [                // Actions appearing in the item toolbar
-        {key: 'action.edit',      icon: 'Edit',         handler: this.edit},
-        {key: 'action.duplicate', icon: 'DocumentCopy', handler: this.duplicate,  enabledForEditor: true},
-        {key: 'action.lock',      icon: 'Lock',         handler: this.toggleLock, enabledForAdmin: true},
-        {key: 'action.delete',    icon: 'DeleteFilled', handler: this.deleteItem}
+        {key: 'action.edit',      icon: 'edit',          handler: this.edit},
+        {key: 'action.duplicate', icon: 'document-copy', handler: this.duplicate,  enabledForEditor: true},
+        {key: 'action.lock',      icon: 'lock',          handler: this.toggleLock, enabledForAdmin: true},
+        {key: 'action.delete',    icon: 'delete-filled', handler: this.deleteItem}
       ]
     }
   },
@@ -216,7 +216,7 @@ export default {
 
     // TODO: refactor, attach logic to action instead?
     actionIcon (action) {
-      const icon = action.key === 'action.lock' && this.locked ? 'Unlock' : action.icon
+      const icon = action.key === 'action.lock' && this.locked ? 'unlock' : action.icon
       return icon
     },
 

@@ -1010,6 +1010,7 @@ function positionGroupToolbar (state) {
     const match = controlBox.style.transform.match(/translate3d\((-?[0-9.]+)px, (-?[0-9.]+)px, 0px\)/)
     state.groupToolbarPos.x = Number(match[1])
     state.groupToolbarPos.y = Number(match[2]) + moveableArea.clientHeight
+    console.log('positionGroupToolbar', state.groupToolbarPos)
   }
 }
 

@@ -35,7 +35,7 @@ export default {
     this.$emit('removeAction', 'action.edit')
     this.$emit('action', {
       key: 'action.line_style',
-      icon: 'Setting',
+      icon: 'setting',
       handler: this.openLineMenu
     })
   },

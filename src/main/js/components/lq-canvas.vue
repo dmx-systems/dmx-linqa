@@ -12,11 +12,11 @@
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
         @mouseenter.native="onEnter" @mouseleave.native="onLeave">
       </vue-moveable>
-      <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
+      <div class="group-toolbar" v-show="isGroupToolbarVisibile" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
         <template v-for="action in groupActions" :key="action.key">
-          <el-button v-if="isActionAvailable(action)" type="text" :title="actionLabel(action)"
+          <el-button v-if="isActionAvailable(action)" type="primary" link :title="actionLabel(action)"
             :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.native.stop>
           </el-button>
         </template>
@@ -107,17 +107,22 @@ export default {
 
   computed: {
 
+    isGroupToolbarVisibile () {
+      // console.log('isGroupToolbarVisibile', this.isMultiSelection, this.groupHover, this.isAuthor)
+      return this.isMultiSelection && this.groupHover && this.isAuthor
+    },
+
     groupActions () {
       return [{
         key: 'action.duplicate_multi', value: this.readableCount,
-        icon: 'el-icon-document-copy', handler: this.duplicateMulti
+        icon: 'document-copy', handler: this.duplicateMulti
       }, {
         key: 'action.lock_multi', value: this.writableCount,
-        icon: 'el-icon-lock', handler: this.toggleLockMulti,
+        icon: 'lock', handler: this.toggleLockMulti,
         only: this.isLinqaAdmin         // lock/unlock action is available only for admins
       }, {
         key: 'action.delete_multi', value: this.writableCount,
-        icon: 'el-icon-delete-solid', handler: this.deleteMulti
+        icon: 'delete-filled', handler: this.deleteMulti
       }]
     },
 
@@ -232,7 +237,7 @@ export default {
     },
 
     actionIcon (action) {
-      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'el-icon-unlock' : action.icon
+      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'unlock' : action.icon
       return icon
     },
 

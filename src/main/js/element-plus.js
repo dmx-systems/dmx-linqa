@@ -4,7 +4,7 @@ import {
   Close, Paperclip, Promotion,
   Edit, DocumentCopy, Lock, Unlock, DeleteFilled,
   Download, Setting, BrushFilled, Flag,
-  ArrowLeft, ArrowRight, ArrowDownBold, Right, Bottom, Check
+  ArrowLeft, ArrowRight, ArrowDownBold, Right, Bottom, TopRight, BottomLeft, Check
 } from '@element-plus/icons-vue'
 import app from './app'
 
@@ -43,4 +43,6 @@ app.component('ArrowRight', ArrowRight)
 app.component('ArrowDownBold', ArrowDownBold)
 app.component('Right', Right)
 app.component('Bottom', Bottom)
+app.component('TopRight', TopRight)
+app.component('BottomLeft', BottomLeft)
 app.component('Check', Check)

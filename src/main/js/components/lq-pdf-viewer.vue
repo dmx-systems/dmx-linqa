@@ -4,12 +4,13 @@
       <canvas ref="canvas"></canvas>
     </div>
     <div class="toolbar upper" :style="toolbarStyle">
-      <el-button type="text" :icon="fullscreenIcon" :title="fullscreenTooltip" @click="toggleFullscreen"></el-button>
+      <el-button type="primary" link :icon="fullscreenIcon" :title="fullscreenTooltip" @click="toggleFullscreen">
+      </el-button>
     </div>
     <div class="toolbar lower" v-if="pagerVisibility" :style="toolbarStyle">
-      <el-button type="text" icon="el-icon-arrow-left" @click="prevPage"></el-button>
+      <el-button type="primary" link icon="arrow-left" @click="prevPage"></el-button>
       <span>{{pageNr}} / {{numPages}}</span>
-      <el-button type="text" icon="el-icon-arrow-right" @click="nextPage"></el-button>
+      <el-button type="primary" link icon="arrow-right" @click="nextPage"></el-button>
     </div>
   </div>
 </template>
@@ -90,7 +91,7 @@ export default {
     },
 
     fullscreenIcon () {
-      return this.fullscreen ? 'el-icon-bottom-left' : 'el-icon-top-right'
+      return this.fullscreen ? 'bottom-left' : 'top-right'
     },
 
     fullscreenTooltip () {

@@ -4,16 +4,16 @@
     <template #dropdown>
       <el-dropdown-menu class="lq-line-dropdown">
         <el-dropdown-item command="arrowheads.none">
-          <lq-svg-arrow arrowheads="none"></lq-svg-arrow>
+          <lq-arrow-menu-item arrowheads="none"></lq-arrow-menu-item>
         </el-dropdown-item>
         <el-dropdown-item command="arrowheads.start">
-          <lq-svg-arrow arrowheads="start"></lq-svg-arrow>
+          <lq-arrow-menu-item arrowheads="start"></lq-arrow-menu-item>
         </el-dropdown-item>
         <el-dropdown-item command="arrowheads.end">
-          <lq-svg-arrow arrowheads="end"></lq-svg-arrow>
+          <lq-arrow-menu-item arrowheads="end"></lq-arrow-menu-item>
         </el-dropdown-item>
         <el-dropdown-item command="arrowheads.start-end">
-          <lq-svg-arrow arrowheads="start-end"></lq-svg-arrow>
+          <lq-arrow-menu-item arrowheads="start-end"></lq-arrow-menu-item>
         </el-dropdown-item>
         <el-dropdown-item command="line-style.none" divided><div class="style none"></div></el-dropdown-item>
         <el-dropdown-item command="line-style.dotted"><div class="style dotted"></div></el-dropdown-item>
@@ -39,7 +39,7 @@ export default {
   },
 
   components: {
-    'lq-svg-arrow': require('./lq-svg-arrow').default
+    'lq-arrow-menu-item': require('./lq-arrow-menu-item').default
   }
 }
 </script>
@@ -50,11 +50,11 @@ export default {
   line-height: unset !important;
 }
 
-.lq-line-dropdown .el-dropdown-menu__item:hover .lq-svg-arrow line {
+.lq-line-dropdown .el-dropdown-menu__item:hover .lq-arrow-menu-item line {
   stroke: var(--highlight-color-2);
 }
 
-.lq-line-dropdown .el-dropdown-menu__item:hover .lq-svg-arrow polygon  {
+.lq-line-dropdown .el-dropdown-menu__item:hover .lq-arrow-menu-item polygon  {
   fill: var(--highlight-color-2);
 }
 

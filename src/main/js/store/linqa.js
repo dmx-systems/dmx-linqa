@@ -27,7 +27,7 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
 )
 
 let selecto                       // canvas vue-selecto instance, has its own state, regarded part of app state
-let moveable
+let moveable                      // canvas content layer vue-moveable instance
 
 loadCustomCSS('custom.css')
 loadCustomCSS('help/help.css')

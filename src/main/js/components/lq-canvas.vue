@@ -25,7 +25,7 @@
     <vue-selecto ref="selecto" :selectable-targets="['.lq-canvas-item']" :selectFromInside="false" hitRate="0"
       toggle-continue-select="shift" @dragStart="onDragSelectStart" @select="onSelect" @selectEnd="onSelectEnd">
     </vue-selecto>
-    <lq-line-handles></lq-line-handles>
+    <lq-line-handles ref="lineHandles"></lq-line-handles>
     <!-- Canvas panning -->
     <vue-moveable target=".lq-canvas" :draggable="true" @dragStart="onPanStart" @drag="onPan" @dragEnd="onPanEnd">
     </vue-moveable>
@@ -271,7 +271,7 @@ export default {
 
     moveHandler (topic, dx, dy) {
       const p = this.dragStartPos[topic.id]
-      topic.setPosition({                                                 // update model
+      topic.setPosition({                   // update model
         x: p.x + lq.snapToGrid(dx),
         y: p.y + lq.snapToGrid(dy)
       })
@@ -279,9 +279,9 @@ export default {
 
     lineMoveHandler (topic, dx, dy) {
       this.moveHandler(topic, dx, dy)
-      const vm = document.querySelector('.lq-line-handles').__vue__       // update view
-      if (vm.visible) {
-        vm.updateHandles()
+      const lh = this.$refs.lineHandles     // update view
+      if (lh.visible) {
+        lh.updateHandles()
       }
     },
 

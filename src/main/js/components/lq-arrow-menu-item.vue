@@ -1,5 +1,5 @@
 <template>
-  <svg class="lq-svg-arrow" :viewBox="viewBox">
+  <svg class="lq-arrow-menu-item" :viewBox="viewBox">
     <defs>
       <marker :id="arrowheadId" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto-start-reverse">
         <polygon points="0 0, 5 2, 0 4" :fill="color" />
@@ -11,10 +11,12 @@
 </template>
 
 <script>
+let id = 0      // marker def ID generator
+
 export default {
 
+
   mounted () {
-    this.arrowheadId = 'arrowhead-' + this.$el.__vue__._uid     // TODO: DOM-global marker defs instead synthetic IDs
     this.markerUrl = `url(#${this.arrowheadId})`
   },
 
@@ -27,7 +29,7 @@ export default {
       width: 50,          /* is lq-line-menu item width */
       height: 30,         /* is lq-line-menu item height */
       color: '#606266',   /* is .el-dropdown-menu__item color (--menu-item-color) */
-      arrowheadId: undefined,
+      arrowheadId: `arrowhead-${++id}`,
       markerUrl: undefined
     }
   },
@@ -50,7 +52,7 @@ export default {
 </script>
 
 <style>
-.lq-svg-arrow {
+.lq-arrow-menu-item {
   overflow: visible;
 }
 </style>

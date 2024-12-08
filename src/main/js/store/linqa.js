@@ -27,6 +27,7 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
 )
 
 let selecto                       // canvas vue-selecto instance, has its own state, regarded part of app state
+let moveable
 
 loadCustomCSS('custom.css')
 loadCustomCSS('help/help.css')
@@ -92,6 +93,7 @@ const store = createStore({
 
     initStore (_, viewState) {
       selecto = viewState.selecto
+      moveable = viewState.moveable
     },
 
     login ({state, dispatch}, credentials) {
@@ -718,7 +720,7 @@ const store = createStore({
       // next event cycle (setTimeout).
       // Note: Vue.nextTick() instead shows strange result
       setTimeout(() => {
-        document.querySelector('.lq-canvas .content-layer .moveable-control-box').__vue__.updateTarget()
+        moveable.updateTarget()
       })
     },
 

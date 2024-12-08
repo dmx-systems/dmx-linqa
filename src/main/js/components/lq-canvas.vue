@@ -57,7 +57,10 @@ export default {
   },
 
   mounted () {
-    this.$store.dispatch('initStore', {selecto: this.$refs.selecto})
+    this.$store.dispatch('initStore', {
+      selecto: this.$refs.selecto,
+      moveable: this.$refs.moveable
+    })
   },
 
   data () {

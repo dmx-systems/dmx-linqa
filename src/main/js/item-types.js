@@ -9,23 +9,20 @@ export default {
 function getViewModel (topic, rootState) {
   switch (topic.typeUri) {
   case 'linqa.document':
-    // TODO
-    return
+    return documentViewModel(topic, rootState)
   case 'linqa.note':
     return noteViewModel(topic, rootState)
   case 'linqa.textblock':
     return textblockViewModel(topic)
   case 'linqa.heading':
-    // TODO
-    return
+    return headingViewModel(topic, rootState)
   }
 }
 
 function getSearchableText (topic, rootState) {
   switch (topic.typeUri) {
   case 'linqa.document':
-    // TODO
-    return
+    return documentViewModel(topic, rootState)
   case 'linqa.note':
     return dmx.utils.stripHtml(noteViewModel(topic, rootState))
   case 'linqa.textblock':
@@ -33,8 +30,27 @@ function getSearchableText (topic, rootState) {
     return dmx.utils.stripHtml(vm.lang1st) +
            dmx.utils.stripHtml(vm.lang2nd)
   case 'linqa.heading':
-    // TODO
-    return
+    return headingViewModel(topic, rootState)
+  }
+}
+
+// Note -- Basically copied from lq-document.vue
+
+function documentViewModel (topic, state) {
+  const docNames = {
+    lang1: topic.children['linqa.document_name#linqa.lang1']?.value,
+    lang2: topic.children['linqa.document_name#linqa.lang2']?.value
+  }
+  return docNames[docLang(docNames, state)]
+
+  function docLang (docNames, state) {
+    if (docNames.lang1 && docNames.lang2) {
+      return lq.langSuffix(state.lang)
+    } else if (docNames.lang1) {
+      return 'lang1'
+    } else if (docNames.lang2) {
+      return 'lang2'
+    }
   }
 }
 
@@ -90,6 +106,26 @@ function textblockViewModel (topic) {
     const html = topic.children['linqa.textblock_text#linqa.' + lang]?.value
     if (html !== '<p><br></p>') {
       return html
+    }
+  }
+}
+
+// Heading -- Basically copied from lq-heading.vue
+
+function headingViewModel (topic, state) {
+  const heading = {
+    lang1: topic.children['linqa.heading_text#linqa.lang1']?.value,
+    lang2: topic.children['linqa.heading_text#linqa.lang2']?.value
+  }
+  return heading[headingLang(heading, state)]
+
+  function headingLang (heading, state) {
+    if (heading.lang1 && heading.lang2) {
+      return lq.langSuffix(state.lang)
+    } else if (heading.lang1) {
+      return 'lang1'
+    } else if (heading.lang2) {
+      return 'lang2'
     }
   }
 }

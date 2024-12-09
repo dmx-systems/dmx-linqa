@@ -1,5 +1,6 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
+import it from '../item-types'
 
 export default {
 
@@ -20,7 +21,7 @@ export default {
       if (state.searchTerm) {
         // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
         rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
-          const text = itemText(topic)
+          const text = it.getSearchableText(topic)
           if (text) {
             // TODO: locale lower case?
             const i = text.toLowerCase().indexOf(state.searchTerm.toLowerCase())
@@ -48,6 +49,7 @@ export default {
   }
 }
 
+// TODO: drop it, not used
 function itemText (topic) {
   // TODO: refactor
   const vm = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"] .item-content`).__vue__

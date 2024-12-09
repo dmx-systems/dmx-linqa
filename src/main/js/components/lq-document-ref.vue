@@ -2,7 +2,7 @@
   <div :class="['lq-document-ref', 'lq-comment-target-ref', {closable}]" v-if="document" @click="reveal">
     <span class="icon fa fa-fw fa-file-o"></span>
     <span class="doc-name label">{{docName}}</span>
-    <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" :title="resetTooltip"
+    <el-button class="close-button" v-if="closable" type="primary" link icon="close" :title="resetTooltip"
       @click.stop="close">
     </el-button>
   </div>

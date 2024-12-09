@@ -10,9 +10,9 @@
         </span>
       </div>
       <div class="button-panel" v-if="buttonPanelVisibility">
-        <el-button class="fa fa-reply" type="text" :title="replyTooltip" @click="reply"></el-button>
+        <el-button class="fa fa-reply" type="primary" link :title="replyTooltip" @click="reply"></el-button>
         <el-dropdown v-if="commentIsWritable" size="medium" trigger="click" @command="handle">
-          <el-button type="text" class="fa fa-fw fa-ellipsis-v"></el-button>
+          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v"></el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="edit"><lq-string>action.edit</lq-string></el-dropdown-item>
@@ -37,7 +37,7 @@
           <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill">
           </quill>
         </div>
-        <el-button class="translate-button" type="text" icon="el-icon-right" :title="translateTooltip"
+        <el-button class="translate-button" type="primary" link icon="right" :title="translateTooltip"
           @click="doTranslate">
         </el-button>
         <div class="dmx-html-field text2">

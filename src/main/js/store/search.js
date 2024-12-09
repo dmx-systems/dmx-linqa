@@ -21,7 +21,7 @@ export default {
       if (state.searchTerm) {
         // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
         rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
-          const text = it.getSearchableText(topic)
+          const text = it.getSearchableText(topic, rootState)
           if (text) {
             // TODO: locale lower case?
             const i = text.toLowerCase().indexOf(state.searchTerm.toLowerCase())

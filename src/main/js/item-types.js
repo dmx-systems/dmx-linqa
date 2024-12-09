@@ -6,14 +6,13 @@ export default {
   getSearchableText
 }
 
-function getViewModel (topic) {
+function getViewModel (topic, rootState) {
   switch (topic.typeUri) {
   case 'linqa.document':
     // TODO
     return
   case 'linqa.note':
-    // TODO
-    return
+    return noteViewModel(topic, rootState)
   case 'linqa.textblock':
     return textblockViewModel(topic)
   case 'linqa.heading':
@@ -22,21 +21,51 @@ function getViewModel (topic) {
   }
 }
 
-function getSearchableText (topic) {
+function getSearchableText (topic, rootState) {
   switch (topic.typeUri) {
   case 'linqa.document':
     // TODO
     return
   case 'linqa.note':
-    // TODO
-    return
+    return dmx.utils.stripHtml(noteViewModel(topic, rootState))
   case 'linqa.textblock':
-    const vm = textblockViewModel (topic)
+    const vm = textblockViewModel(topic)
     return dmx.utils.stripHtml(vm.lang1st) +
            dmx.utils.stripHtml(vm.lang2nd)
   case 'linqa.heading':
     // TODO
     return
+  }
+}
+
+// Note -- Basically copied from lq-note.vue
+
+function noteViewModel (topic, state) {
+  const note = {
+    lang1: html('lang1'),
+    lang2: html('lang2')
+  }
+  return note[noteLang(note, state)]
+
+  /**
+   * @param   lang    URI suffix
+   */
+  function html (lang) {
+    // Note: in an untranslatable note "lang2" is not defined
+    const html = topic.children['linqa.note_text#linqa.' + lang]?.value
+    if (html !== '<p><br></p>') {
+      return html
+    }
+  }
+
+  function noteLang (note, state) {
+    if (note.lang1 && note.lang2) {
+      return lq.langSuffix(state.lang)
+    } else if (note.lang1) {
+      return 'lang1'
+    } else if (note.lang2) {
+      return 'lang2'
+    }
   }
 }
 

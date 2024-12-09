@@ -18,7 +18,6 @@
 <script>
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
-import pdfs from '../pdf-pool'
 import * as pdfjs from 'pdfjs-dist'
 pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.mjs'
 
@@ -111,7 +110,7 @@ export default {
         url: this.src,
         cMapUrl: 'cmaps/'
       }).promise.then(pdf => {
-        pdfs[this.src] = pdf
+        this.pdf = pdf    // Note: pdf must be non-reactive state, pdfjs doesn't work with JS Proxy object
         this.numPages = pdf.numPages
         this.$store.dispatch('initPageNr', this.topic.id)
       })
@@ -125,7 +124,7 @@ export default {
         return
       }
       this.$emit('loading')
-      pdfs[this.src].getPage(this.pageNr).then(page => {
+      this.pdf.getPage(this.pageNr).then(page => {
         let viewport = page.getViewport({scale: 1})
         if (this.fullscreen) {
           const width = this.isSmallScreen ? this.$el.clientWidth : this.panelPos

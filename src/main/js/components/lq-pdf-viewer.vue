@@ -18,6 +18,7 @@
 <script>
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
+import pdfs from '../pdf-pool'
 import * as pdfjs from 'pdfjs-dist'
 pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.mjs'
 
@@ -32,7 +33,7 @@ export default {
   },
 
   props: {
-    topic: {                // the underlying Document topic (dmx.ViewTopic)
+    topic: {          // the underlying Document topic (dmx.ViewTopic)
       type: dmx.ViewTopic,
       required: true
     },
@@ -44,7 +45,7 @@ export default {
 
   data () {
     return {
-      pdf: undefined        // inited by fetchPDF()
+      numPages: 0     // inited by fetchPDF()
     }
   },
 
@@ -52,10 +53,6 @@ export default {
 
     pageNr () {
       return this.$store.state.pageNr[lq.langSuffix(this.lang)][this.topic.id]
-    },
-
-    numPages () {
-      return this.pdf?.numPages
     },
 
     multipage () {
@@ -114,7 +111,8 @@ export default {
         url: this.src,
         cMapUrl: 'cmaps/'
       }).promise.then(pdf => {
-        this.pdf = pdf
+        pdfs[this.src] = pdf
+        this.numPages = pdf.numPages
         this.$store.dispatch('initPageNr', this.topic.id)
       })
     },
@@ -127,7 +125,7 @@ export default {
         return
       }
       this.$emit('loading')
-      this.pdf.getPage(this.pageNr).then(page => {
+      pdfs[this.src].getPage(this.pageNr).then(page => {
         let viewport = page.getViewport({scale: 1})
         if (this.fullscreen) {
           const width = this.isSmallScreen ? this.$el.clientWidth : this.panelPos

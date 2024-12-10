@@ -132,6 +132,10 @@ input, button {
   height: unset !important;           /* Element Plus default is 32px */
 }
 
+.el-dropdown {
+  vertical-align: unset !important;   /* Element Plus default is "middle" */
+}
+
 .el-loading-mask {
   background-color: rgba(255, 255, 255, .7) !important;       /* Element UI default alpha is 0.9 */
 }

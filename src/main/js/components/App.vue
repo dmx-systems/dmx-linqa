@@ -127,8 +127,9 @@ input, button {
 }
 
 /* Element UI Overrides */
-.el-button--text {
-  padding: 0 !important;
+.el-button {
+  vertical-align: unset !important;   /* Element Plus default is "middle" */
+  height: unset !important;           /* Element Plus default is 32px */
 }
 
 .el-loading-mask {

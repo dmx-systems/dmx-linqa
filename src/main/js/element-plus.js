@@ -6,19 +6,16 @@ import {
   Download, Setting, BrushFilled, Flag,
   ArrowLeft, ArrowRight, ArrowDownBold, Right, Bottom, TopRight, BottomLeft, Check
 } from '@element-plus/icons-vue'
+import 'element-plus/theme-chalk/el-message-box.css'
+import 'element-plus/theme-chalk/el-notification.css'
 import app from './app'
 
 // set locale     // TODO?
 // import locale from 'element-plus/lib/locale'
 // locale.use(require('element-plus/lib/locale/lang/en').default)
 
-app.config.globalProperties = {
-  $msgbox:  ElMessageBox,
-  $alert:   ElMessageBox.alert,
-  $confirm: ElMessageBox.confirm,
-  $prompt:  ElMessageBox.prompt,
-  $notify:  ElNotification
-}
+app.use(ElMessageBox)
+app.use(ElNotification)
 
 app.component('CirclePlusFilled', CirclePlusFilled)
 app.component('HomeFilled', HomeFilled)

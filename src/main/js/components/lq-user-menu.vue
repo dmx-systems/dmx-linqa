@@ -52,15 +52,15 @@
             <lq-string>label.notifications</lq-string>
           </template>
           <el-radio-group class="notification-level field" v-model="notificationLevel">
-            <el-radio label="all">
+            <el-radio value="all">
               <lq-string>label.notifications.all</lq-string>
               <lq-string class="label">label.notifications.all.info</lq-string>
             </el-radio>
-            <el-radio label="mentioned">
+            <el-radio value="mentioned">
               <lq-string>label.notifications.mentioned</lq-string>
               <lq-string class="label">label.notifications.mentioned.info</lq-string>
             </el-radio>
-            <el-radio label="none">
+            <el-radio value="none">
               <lq-string>label.notifications.none</lq-string>
               <lq-string class="label">label.notifications.none.info</lq-string>
             </el-radio>
@@ -194,14 +194,20 @@ export default {
 </script>
 
 <style>
+.lq-user-menu .el-dialog .el-radio {
+  line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
+  height: unset;          /* Element Plus default for el-radio is 32px */
+  align-items: unset;     /* Element Plus default for el-radio is "center" */
+  white-space: unset;     /* Element Plus default for el-radio is "nowrap" */
+}
+
 .lq-user-menu .el-dialog .el-radio + .el-radio {
-  margin-top: 15px;
+  margin-top: var(--field-spacing);
 }
 
 .lq-user-menu .el-dialog .el-radio .label {
   display: block;
-  margin-left: 24px;
-  white-space: normal;    /* el-radio sets nowrap */
-  word-break: normal;     /* el-dialog__body sets break-all */
+  margin-top: 6px;
+  line-height: 1.2;
 }
 </style>

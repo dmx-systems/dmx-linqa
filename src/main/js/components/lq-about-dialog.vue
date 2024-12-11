@@ -49,15 +49,13 @@ export default {
 </script>
 
 <style>
-.lq-about-dialog .el-dialog__header {
-  padding: 0;           /* Element UI default is "20px 20px 10px" */
+.lq-about-dialog {
+  background-color: var(--background-color);
 }
 
 .lq-about-dialog .el-dialog__body {
-  background-color: var(--background-color);
   font-size: var(--secondary-font-size);
   color: var(--secondary-color);
-  word-break: unset;    /* Element UI default is "break-all" */
 }
 
 .lq-about-dialog .linqa-logo {

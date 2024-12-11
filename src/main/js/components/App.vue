@@ -137,7 +137,7 @@ input, button {
 }
 
 .el-loading-mask {
-  background-color: rgba(255, 255, 255, .7) !important;       /* Element UI default alpha is 0.9 */
+  background-color: rgba(255, 255, 255, .7) !important;       /* Element Plus default alpha is 0.9 */
 }
 
 .el-message-box {

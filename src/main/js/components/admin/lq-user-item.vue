@@ -4,8 +4,8 @@
       <div class="user">
         <div class="name"><span class="fa fa-fw fa-user"></span> {{displayName}} ({{user.value}})</div>
         <div class="active"><span :class="['fa', active ? 'fa-check' : 'fa-minus']"></span></div>
-        <el-dropdown size="medium" trigger="click" @command="handle" @click.native.stop>
-          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v"></el-button>
+        <el-dropdown size="medium" trigger="click" @command="handle">
+          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v" @click.stop></el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="edit">

@@ -11,11 +11,11 @@
       </div>
       <div class="field">
         <div class="field-label"><lq-string>label.email_address</lq-string></div>
-        <el-input v-model="credentials.username" ref="username" @keyup.native.enter="advance"></el-input>
+        <el-input v-model="credentials.username" ref="username" @keyup.enter="advance"></el-input>
       </div>
       <div class="field">
         <div class="field-label"><lq-string>label.password</lq-string></div>
-        <el-input v-model="credentials.password" ref="password" @keyup.native.enter="login" type="password"></el-input>
+        <el-input v-model="credentials.password" ref="password" @keyup.enter="login" type="password"></el-input>
       </div>
       <div class="password-reset">
         <lq-string class="label">label.forgot_password</lq-string>

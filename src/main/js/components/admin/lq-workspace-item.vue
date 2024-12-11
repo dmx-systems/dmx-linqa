@@ -5,8 +5,8 @@
       <div class="workspace">
         <div class="name"><span class="fa fa-fw fa-list"></span> {{workspaceName}}</div>
         <div class="owner"><span class="fa fa-fw fa-user"></span> {{owner}}</div>
-        <el-dropdown size="medium" trigger="click" @command="handle" @click.native.stop>
-          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v"></el-button>
+        <el-dropdown size="medium" trigger="click" @command="handle">
+          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v" @click.stop></el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="show">

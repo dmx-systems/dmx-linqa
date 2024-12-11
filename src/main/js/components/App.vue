@@ -160,6 +160,10 @@ input, button {
   margin-top: 1em !important;
 }
 
+.el-collapse-item__header {
+  text-align: start;      /* A Element Plus item__header is a <button>, browser style default is text-align "center" */
+}
+
 .el-collapse-item__header,
 .el-collapse-item__content {
   font-size: unset !important;

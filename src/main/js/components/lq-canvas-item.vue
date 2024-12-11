@@ -7,7 +7,7 @@
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
       <template v-for="action in actions" :key="action.key">
         <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle"  @click="action.handler"
-            @mousedown.native.stop>
+            @mousedown.stop>
           <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
             <component :is="actionIcon(action)"></component>
           </el-icon>
@@ -17,7 +17,7 @@
     </div>
     <div class="reactions">
       <el-button v-for="(usernames, emoji) in reactions" :key="emoji" :title="displayNames(usernames)" type="info" plain
-          @click="reactWithEmoji(emoji)" @mousedown.native.stop>
+          @click="reactWithEmoji(emoji)" @mousedown.stop>
         {{emoji}} <span class="label">{{usernames.length}}</span>
       </el-button>
     </div>

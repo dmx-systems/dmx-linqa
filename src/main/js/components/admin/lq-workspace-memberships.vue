@@ -113,6 +113,11 @@ export default {
   padding-right: 0 !important;
 }
 
+.lq-workspace-memberships .el-scrollbar {
+  height: unset;        /* Element Plus default of 100% attaches OK/Cancel-buttons to window bottom. */
+                        /* We want OK/Cancel-buttons always be attached to workspace list. */
+}
+
 .lq-workspace-memberships table {
   width: 100%;
 }

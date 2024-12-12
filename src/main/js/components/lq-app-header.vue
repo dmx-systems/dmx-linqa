@@ -6,7 +6,7 @@
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
         <span class="selector-label"><lq-string>label.shared_workspace</lq-string>:</span>
-        <el-dropdown size="medium" trigger="click" @command="setWorkspace">
+        <el-dropdown size="medium" trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
           <el-button type="primary" link :title="selectTooltip">
             <span class="name">{{workspaceName}}</span>
             <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
@@ -188,20 +188,5 @@ export default {
 .lq-app-header .info-menu,
 .lq-app-header .lq-language-switch {
   margin-right: 12px;
-}
-
-/* the actual dropdown menus are body mounted */
-.el-dropdown-menu.lq-workspace-selector {
-  overflow: auto;                   /* make workspace selector scroll */
-  max-height: calc(100% - 68px);    /* use screen height to show as much workspaces as possible */
-}
-
-.el-dropdown-menu.lq-workspace-selector .el-dropdown-menu__item {
-  line-height: unset;
-}
-
-.el-dropdown-menu.lq-workspace-selector .el-dropdown-menu__item > div {
-  padding-top: 6px;
-  padding-bottom: 6px;
 }
 </style>

@@ -1,9 +1,7 @@
 import { ElMessageBox, ElNotification } from 'element-plus'
 import {
-  CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound,
-  Close, Paperclip, Promotion,
-  Edit, DocumentCopy, Lock, Unlock, DeleteFilled,
-  Download, Setting, BrushFilled, Flag,
+  CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound, Close, Paperclip, Promotion,
+  Edit, DocumentCopy, Lock, Unlock, DeleteFilled, Download, Setting, BrushFilled, Flag,
   ArrowLeft, ArrowRight, ArrowDownBold, Right, Bottom, TopRight, BottomLeft, Check
 } from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/el-message-box.css'

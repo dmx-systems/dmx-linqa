@@ -2,11 +2,11 @@
   <div class="lq-user-list">
     <div class="heading"><lq-string>label.admin_users</lq-string></div>
     <div class="active"><lq-string>label.active</lq-string></div>
-    <div class="scroll-container">
+    <el-scrollbar :always="true">
       <el-collapse v-model="expandedUsernames">
         <lq-user-item v-for="user in users" :user="user" :key="user.id"></lq-user-item>
       </el-collapse>
-    </div>
+    </el-scrollbar>
     <el-button class="add-button" icon="el-icon-plus" @click="newUser">
       <lq-string>action.add_user</lq-string>
     </el-button>
@@ -52,5 +52,9 @@ export default {
 .lq-user-list > .active {
   margin-left: calc(92% - 114px);
   margin-bottom: 6px;
+}
+
+.lq-user-list .el-collapse {
+  margin-right: 8px;    /* make room for el-scrollbar */
 }
 </style>

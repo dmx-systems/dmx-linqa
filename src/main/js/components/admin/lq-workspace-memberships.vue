@@ -1,7 +1,7 @@
 <template>
   <div class="lq-workspace-memberships">
     <div class="heading"><lq-string>label.edit_memberships</lq-string></div>
-    <div class="scroll-container">
+    <el-scrollbar :always="true">
       <table>
         <thead>
           <tr>
@@ -18,7 +18,7 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </el-scrollbar>
     <div>
       <el-button class="submit-button" type="primary" @click="updateMemberships">
         <lq-string>action.submit</lq-string>
@@ -111,11 +111,6 @@ export default {
   display: flex;
   flex-direction: column;
   padding-right: 0 !important;
-}
-
-.lq-workspace-memberships .scroll-container {
-  overflow: auto;
-  flex-grow: 1;
 }
 
 .lq-workspace-memberships table {

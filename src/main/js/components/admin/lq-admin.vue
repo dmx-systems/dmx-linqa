@@ -126,10 +126,6 @@ export default {
   margin-bottom: 28px;
 }
 
-.lq-admin .primary-panel .scroll-container {
-  overflow: auto;
-}
-
 .lq-admin .primary-panel .add-button {
   margin-top: 34px;
   align-self: flex-start;

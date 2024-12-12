@@ -4,12 +4,12 @@
     <div v-if="noWorkspaces" class="secondary"><lq-string>label.no_workspaces</lq-string></div>
     <template v-else>
       <div class="owner" key="owner"><lq-string>label.owner</lq-string></div>
-      <div class="scroll-container">
+      <el-scrollbar :always="true">
         <el-collapse v-model="expandedIds">
           <lq-workspace-item v-for="workspace in workspaces" :workspace="workspace" :key="workspace.id">
           </lq-workspace-item>
         </el-collapse>
-      </div>
+      </el-scrollbar>
     </template>
     <el-button class="add-button" icon="el-icon-plus" @click="newWorkspace">
       <lq-string>action.add_workspace</lq-string>
@@ -60,5 +60,9 @@ export default {
 .lq-workspace-list > .owner {
   margin-left: calc(60% - 30px);
   margin-bottom: 6px;
+}
+
+.lq-workspace-list .el-collapse {
+  margin-right: 8px;    /* make room for el-scrollbar */
 }
 </style>

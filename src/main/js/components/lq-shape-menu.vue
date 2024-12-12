@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="lq-shape-menu" size="medium" trigger="click" @command="setShape">
+  <el-dropdown class="lq-shape-menu" trigger="click" @command="setShape">
     <span ref="trigger"></span>
     <template #dropdown>
       <el-dropdown-menu class="lq-shape-dropdown">
@@ -57,9 +57,6 @@ export default {
 
 <style>
 /* the actual dropdown menus are body mounted */
-.lq-shape-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 9px;
-}
 
 .lq-shape-dropdown .rectangle,
 .lq-shape-dropdown .rectangle-outline {

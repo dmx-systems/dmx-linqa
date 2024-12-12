@@ -1,6 +1,6 @@
 <template>
-  <div class="lq-user-menu">
-    <el-dropdown size="medium" trigger="click" @command="handle">
+  <div class="lq-account-menu">
+    <el-dropdown trigger="click" @command="handle">
       <el-button type="primary" link class="fa fa-user-circle">
         <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
       </el-button>
@@ -194,18 +194,18 @@ export default {
 </script>
 
 <style>
-.lq-user-menu .el-dialog .el-radio {
+.lq-account-menu .el-dialog .el-radio {
   line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
   height: unset;          /* Element Plus default for el-radio is 32px */
   align-items: unset;     /* Element Plus default for el-radio is "center" */
   white-space: unset;     /* Element Plus default for el-radio is "nowrap" */
 }
 
-.lq-user-menu .el-dialog .el-radio + .el-radio {
+.lq-account-menu .el-dialog .el-radio + .el-radio {
   margin-top: var(--field-spacing);
 }
 
-.lq-user-menu .el-dialog .el-radio .label {
+.lq-account-menu .el-dialog .el-radio .label {
   display: block;
   margin-top: 6px;
   line-height: 1.2;

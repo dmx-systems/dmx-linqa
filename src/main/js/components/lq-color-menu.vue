@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="lq-color-menu" size="medium" trigger="click" @command="setColor">
+  <el-dropdown class="lq-color-menu" trigger="click" @command="setColor">
     <span ref="trigger"></span>
     <template #dropdown>
       <el-dropdown-menu class="lq-color-dropdown">
@@ -68,9 +68,6 @@ export default {
 }
 
 /* the actual dropdown menus are body mounted */
-.lq-color-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 9px;
-}
 
 .lq-color-dropdown .color-box {
   width: 40px;

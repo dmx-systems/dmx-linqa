@@ -6,7 +6,7 @@
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
         <span class="selector-label"><lq-string>label.shared_workspace</lq-string>:</span>
-        <el-dropdown size="medium" trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
+        <el-dropdown trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
           <el-button type="primary" link :title="selectTooltip">
             <span class="name">{{workspaceName}}</span>
             <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
@@ -16,7 +16,8 @@
               <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
                 <div>{{getWorkspaceName(workspace)}}</div>
               </el-dropdown-item>
-              <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id" :divided="workspacesExist">
+              <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
+                  :divided="workspacesExist">
                 <div>{{getWorkspaceName(linqaAdminWs)}}</div>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -27,7 +28,7 @@
     <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="primary" link :title="adminTooltip"
       @click="admin">
     </el-button>
-    <el-dropdown class="info-menu" v-if="isBigScreen" size="medium" trigger="click" @command="openInfo">
+    <el-dropdown class="info-menu" v-if="isBigScreen" trigger="click" @command="openInfo">
       <el-button class="fa fa-info-circle" type="primary" link>
         <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
       </el-button>
@@ -41,7 +42,7 @@
       </template>
     </el-dropdown>
     <lq-language-switch></lq-language-switch>
-    <lq-user-menu></lq-user-menu>
+    <lq-account-menu></lq-account-menu>
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
     <lq-about-dialog></lq-about-dialog>
   </div>
@@ -145,7 +146,7 @@ export default {
   },
 
   components: {
-    'lq-user-menu': require('./lq-user-menu').default,
+    'lq-account-menu': require('./lq-account-menu').default,
     'lq-help-dialog': require('./lq-help-dialog').default
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="lq-emoji-menu" size="medium" trigger="click" @command="setEmoji">
+  <el-dropdown class="lq-emoji-menu" trigger="click" @command="setEmoji">
     <span ref="trigger"></span>
     <template #dropdown>
       <el-dropdown-menu class="lq-emoji-dropdown">
@@ -42,10 +42,10 @@ export default {
 /* the actual dropdown menus are body mounted */
 
 .lq-emoji-dropdown .el-dropdown-menu__item {
-  font-size: 18px !important;
+  font-size: 16px !important;
 }
 
 .lq-emoji-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 4px;
+  margin-top: 2px;
 }
 </style>

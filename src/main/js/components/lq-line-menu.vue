@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="lq-line-menu" size="medium" trigger="click" @command="handle">
+  <el-dropdown class="lq-line-menu" trigger="click" @command="handle">
     <span ref="trigger"></span>
     <template #dropdown>
       <el-dropdown-menu class="lq-line-dropdown">
@@ -46,9 +46,6 @@ export default {
 
 <style>
 /* the actual dropdown menus are body mounted */
-.lq-line-dropdown .el-dropdown-menu__item {
-  line-height: unset !important;
-}
 
 .lq-line-dropdown .el-dropdown-menu__item:hover .lq-arrow-menu-item line {
   stroke: var(--highlight-color-2);
@@ -56,10 +53,6 @@ export default {
 
 .lq-line-dropdown .el-dropdown-menu__item:hover .lq-arrow-menu-item polygon  {
   fill: var(--highlight-color-2);
-}
-
-.lq-line-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 9px;
 }
 
 .lq-line-dropdown .style {

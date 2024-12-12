@@ -11,7 +11,7 @@
       </div>
       <div class="button-panel" v-if="buttonPanelVisibility">
         <el-button class="fa fa-reply" type="primary" link :title="replyTooltip" @click="reply"></el-button>
-        <el-dropdown v-if="commentIsWritable" size="medium" trigger="click" @command="handle">
+        <el-dropdown v-if="commentIsWritable" trigger="click" @command="handle">
           <el-button type="primary" link class="fa fa-fw fa-ellipsis-v"></el-button>
           <template #dropdown>
             <el-dropdown-menu>

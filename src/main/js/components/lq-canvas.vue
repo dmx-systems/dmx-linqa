@@ -10,14 +10,14 @@
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
         @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
-        @mouseenter.native="onEnter" @mouseleave.native="onLeave">
+        @mouseenter="onEnter" @mouseleave="onLeave">
       </vue-moveable>
       <div class="group-toolbar" v-show="isGroupToolbarVisibile" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
         <template v-for="action in groupActions" :key="action.key">
           <el-button v-if="isActionAvailable(action)" type="primary" link :title="actionLabel(action)"
-            :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.native.stop>
+            :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.stop>
           </el-button>
         </template>
       </div>

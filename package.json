@@ -27,7 +27,7 @@
     "vue": "3.5.13",
     "vue-quill-minimum": "2.x",
     "vue-router": "4.5.0",
-    "vue3-moveable": "0.28.0",
+    "vue3-moveable": "0.20.0",
     "vue3-selecto": "1.12.3",
     "vuex": "4.1.0"
   },

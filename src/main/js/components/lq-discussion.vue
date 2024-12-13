@@ -19,11 +19,11 @@
     </div>
     <!-- Comments -->
     <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
-    <div v-else class="comments" v-loading="discussionLoading">
+    <el-scrollbar v-else class="comments" ref="scrollbar" :always="true" v-loading="discussionLoading">
       <lq-comment v-for="comment in filteredDiscussion" :topic="comment" :key="comment.id" @reply="reply"
         @comment-ref-click="jumpTo">
       </lq-comment>
-    </div>
+    </el-scrollbar>
     <!-- New comment -->
     <div class="new-comment-container" v-if="isWritable" v-loading="submitting">
       <div class="new-comment">
@@ -221,8 +221,8 @@ export default {
     scrollDown () {
       if (this.panelVisibility) {
         this.$nextTick(() => {
-          // Note: if there are no comments the "comments" element does not exist
-          document.querySelector('.lq-discussion .comments')?.scroll({
+          // Note: if there are no comments there is no scrollbar
+          this.$refs.scrollbar?.scrollTo({
             top: 100000,
             behavior: 'smooth'
           })
@@ -320,8 +320,8 @@ export default {
 }
 
 .lq-discussion .comments {
-  overflow: auto;
-  position: relative;     /* scroll absolute positioned childs along, e.g. the "Translate" button */
+  height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
+                        /* window bottom. We want new-comment panel always be attached to comments. */
 }
 
 .lq-discussion .comments .lq-comment {

@@ -1,8 +1,8 @@
 <template>
   <div :class="['lq-pdf-viewer', {fullscreen}]">
-    <div class="scroll-container">
+    <el-scrollbar :always="true">
       <canvas ref="canvas"></canvas>
-    </div>
+    </el-scrollbar>
     <div class="toolbar upper" :style="toolbarStyle">
       <el-button type="primary" link :icon="fullscreenIcon" :title="fullscreenTooltip" @click="toggleFullscreen">
       </el-button>
@@ -65,7 +65,7 @@ export default {
     toolbarStyle () {
       if (!this.fullscreen) {
         return {
-          'font-size': `${20 / this.zoom}px`
+          'font-size': `${20 / this.zoom}px`    /* copied from viewport.js mixin's iconStyle() */
         }
       }
     },
@@ -165,16 +165,11 @@ export default {
 
 <style>
 .lq-pdf-viewer {
-  flex-grow: 1;     /* occupy its space if discussion panel is closed */
-  position: relative;
+  flex-grow: 1;         /* occupy its space if discussion panel is closed */
+  position: relative;   /* position toolbars relative to pdf-viewer */
 }
 
-.lq-pdf-viewer.fullscreen .scroll-container {
-  height: 100%;
-  overflow: auto;
-}
-
-.lq-pdf-viewer .scroll-container canvas {
+.lq-pdf-viewer canvas {
   width: 100%;
 }
 
@@ -191,7 +186,7 @@ export default {
 }
 
 .lq-pdf-viewer.fullscreen .toolbar.upper {
-  right: 16px;    /* scrollbar pad */
+  right: 4px;     /* scrollbar pad */
 }
 
 .lq-pdf-viewer.fullscreen .toolbar.upper .el-button {
@@ -204,7 +199,7 @@ export default {
 }
 
 .lq-pdf-viewer.fullscreen .toolbar.lower {
-  right: 20px;    /* scrollbar pad */
+  right: 8px;     /* scrollbar pad */
 }
 
 .lq-pdf-viewer:hover .toolbar {
@@ -212,6 +207,6 @@ export default {
 }
 
 .lq-pdf-viewer .toolbar .el-button {
-  font-size: inherit;
+  font-size: inherit;     /* inherit button size from toolbar */
 }
 </style>

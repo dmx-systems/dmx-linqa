@@ -142,12 +142,15 @@ export default {
   margin-bottom: 22px;
 }
 
+.lq-admin .secondary-panel .el-checkbox {
+  height: 24px;           /* Element Plus el-checkbox default height is 32px */
+}
+
 .lq-admin .secondary-panel .submit-button {
   margin-top: 26px;
 }
 
-/* override Element UI style */
 .lq-admin .el-collapse-item__content {
-  margin-left: 24px;
+  margin-left: 24px;      /* Indent item content */
 }
 </style>

@@ -132,6 +132,10 @@ input, button {
   height: unset !important;           /* Element Plus default is 32px */
 }
 
+.el-button.is-link {
+  padding: 0 !important;              /* Element Plus default for link buttons is 2px */
+}
+
 .el-dropdown {
   vertical-align: unset !important;   /* Element Plus default is "middle" */
 }

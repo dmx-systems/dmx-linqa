@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "country-flag-emoji-polyfill": "0.1.5",
-    "dmx-api": "3.0.1",
+    "dmx-api": "git+https://git.dmx.systems/nodejs-modules/dmx-api.git",
     "element-ui": "2.13.2",
     "fuse.js": "3.6.1",
     "hammerjs": "2.0.8",

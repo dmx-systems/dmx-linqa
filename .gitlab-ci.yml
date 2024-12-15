@@ -3,8 +3,8 @@ include:
     file:
       - '/.global.yml'
       - '/.stages.yml'
-      - '/.node20-build.yml'
-      - '/.sonarqube-check.yml'
+      - '/.node20-maven-build.yml'
+      - '/.node20-sonarqube-check.yml'
       - '/.publish.yml'
       - '/.deploy.yml'
       - '/.install.yml'

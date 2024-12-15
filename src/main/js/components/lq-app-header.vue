@@ -5,7 +5,7 @@
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
-        <span class="selector-label"><lq-string>label.shared_workspace</lq-string>:</span>
+        <span class="selector-label"><lq-string>label.shared_workspace</lq-string>: </span>
         <el-dropdown trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
           <el-button type="primary" link :title="selectTooltip">
             <span class="name">{{workspaceName}}</span>

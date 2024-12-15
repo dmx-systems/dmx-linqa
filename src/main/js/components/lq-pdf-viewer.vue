@@ -19,7 +19,7 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
 import * as pdfjs from 'pdfjs-dist'
-pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.mjs'
+pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.js'
 
 export default {
 

@@ -42,6 +42,7 @@
   --paragraph-spacing: 10px;
   --field-spacing: 16px;                      /* vertical spacing between data fields */
   --button-spacing: 14px;                     /* horizontal spacing between toolbar buttons */
+  --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
   --header-color: black;
   --background-color: #e6e6e6;                /* used for panels and forms */
@@ -255,7 +256,7 @@ input, button {
 
 .ql-container .ql-editor {
   line-height: inherit;                                   /* Quill default is 1.42; inherit from dmx-html-field */
-  padding: 6px 24px 6px 8px;                              /* Quill default is 12px 15px; right pad for emoji button */
+  padding: 6px var(--emoji-button-padding) 6px 8px;       /* Quill default is 12px 15px; right pad for emoji button */
   background-color: white;
 }
 

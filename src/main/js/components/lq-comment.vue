@@ -340,11 +340,11 @@ export default {
 }
 
 .lq-comment .columns > .text1 .ql-editor {
-  padding: 0 15px 0 0 !important;
+  padding: 0 var(--emoji-button-padding) 0 0 !important;
 }
 
 .lq-comment .columns > .text2 .ql-editor {
-  padding: 0 0 0 15px !important;
+  padding: 0 var(--emoji-button-padding) 0 15px !important;
 }
 
 .lq-comment .columns > .translate-button {

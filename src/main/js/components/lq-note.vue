@@ -12,7 +12,7 @@
           <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
         </div>
         <div class="translate">
-          <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="doTranslate"></el-button>
+          <el-button type="primary" link icon="bottom" :title="translateTooltip" @click="doTranslate"></el-button>
         </div>
         <div class="field">
           <div class="field-label"><lq-string>item.note</lq-string> ({{lang2}})</div>
@@ -21,10 +21,10 @@
           <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
         </div>
       </template>
-      <el-button class="save-button" type="primary" size="medium" @click="save">
+      <el-button class="save-button" type="primary" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
@@ -164,19 +164,12 @@ export default {
     setNote (lang) {
       // Note: in an untranslatable note "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.note_text#linqa.lang2']) {
-        this.$set(this.topic.children, 'linqa.note_text#linqa.lang2', {})
+        this.topic.children['linqa.note_text#linqa.lang2'] = {}
       }
       //
       const compDefUri = 'linqa.note_text#linqa.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
-  },
-
-  components: {
-    quill: () => ({
-      component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
-      loading: require('./lq-spinner')
-    })
   }
 }
 </script>

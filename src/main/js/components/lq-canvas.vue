@@ -10,21 +10,22 @@
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
         @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
         @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
-        @mouseenter.native="onEnter" @mouseleave.native="onLeave">
+        @mouseenter="onEnter" @mouseleave="onLeave">
       </vue-moveable>
-      <div class="group-toolbar" v-show="isMultiSelection && groupHover && isAuthor" :style="groupToolbarStyle"
+      <div class="group-toolbar" v-show="isGroupToolbarVisibile" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
-        <el-button v-for="action in groupActions" v-if="isActionAvailable(action)" type="text"
-          :title="actionLabel(action)" :icon="actionIcon(action)" :style="iconStyle" :key="action.key"
-          @click="action.handler" @mousedown.native.stop>
-        </el-button>
+        <template v-for="action in groupActions" :key="action.key">
+          <el-button v-if="isActionAvailable(action)" type="primary" link :title="actionLabel(action)"
+            :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.stop>
+          </el-button>
+        </template>
       </div>
     </div>
     <vue-selecto ref="selecto" :selectable-targets="['.lq-canvas-item']" :selectFromInside="false" hitRate="0"
       toggle-continue-select="shift" @dragStart="onDragSelectStart" @select="onSelect" @selectEnd="onSelectEnd">
     </vue-selecto>
-    <lq-line-handles></lq-line-handles>
+    <lq-line-handles ref="lineHandles"></lq-line-handles>
     <!-- Canvas panning -->
     <vue-moveable target=".lq-canvas" :draggable="true" @dragStart="onPanStart" @drag="onPan" @dragEnd="onPanEnd">
     </vue-moveable>
@@ -53,6 +54,13 @@ export default {
 
   created () {
     context.config = this.config
+  },
+
+  mounted () {
+    this.$store.dispatch('setViewComps', {
+      selecto: this.$refs.selecto,
+      moveable: this.$refs.moveable
+    })
   },
 
   data () {
@@ -95,7 +103,6 @@ export default {
         }
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
-      groupToolbarPos: {x: 0, y: 0},    // object with x/y props
       groupHover: false,                // true while group is hovered
       startZoom: undefined              // used while pinching (number)
     }
@@ -103,17 +110,22 @@ export default {
 
   computed: {
 
+    isGroupToolbarVisibile () {
+      // console.log('isGroupToolbarVisibile', this.isMultiSelection, this.groupHover, this.isAuthor)
+      return this.isMultiSelection && this.groupHover && this.isAuthor
+    },
+
     groupActions () {
       return [{
         key: 'action.duplicate_multi', value: this.readableCount,
-        icon: 'el-icon-document-copy', handler: this.duplicateMulti
+        icon: 'document-copy', handler: this.duplicateMulti
       }, {
         key: 'action.lock_multi', value: this.writableCount,
-        icon: 'el-icon-lock', handler: this.toggleLockMulti,
+        icon: 'lock', handler: this.toggleLockMulti,
         only: this.isLinqaAdmin         // lock/unlock action is available only for admins
       }, {
         key: 'action.delete_multi', value: this.writableCount,
-        icon: 'el-icon-delete-solid', handler: this.deleteMulti
+        icon: 'delete-filled', handler: this.deleteMulti
       }]
     },
 
@@ -122,6 +134,10 @@ export default {
         'background-position': `${this.bgPos.x}px ${this.bgPos.y}px`,
         'background-size': `${lq.CANVAS_GRID * this.zoom}px`
       }
+    },
+
+    groupToolbarPos () {
+      return this.$store.state.groupToolbarPos
     },
 
     groupToolbarStyle () {
@@ -224,7 +240,7 @@ export default {
     },
 
     actionIcon (action) {
-      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'el-icon-unlock' : action.icon
+      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'unlock' : action.icon
       return icon
     },
 
@@ -255,7 +271,7 @@ export default {
 
     moveHandler (topic, dx, dy) {
       const p = this.dragStartPos[topic.id]
-      topic.setPosition({                                                 // update model
+      topic.setPosition({                   // update model
         x: p.x + lq.snapToGrid(dx),
         y: p.y + lq.snapToGrid(dy)
       })
@@ -263,9 +279,9 @@ export default {
 
     lineMoveHandler (topic, dx, dy) {
       this.moveHandler(topic, dx, dy)
-      const vm = document.querySelector('.lq-line-handles').__vue__       // update view
-      if (vm.visible) {
-        vm.updateHandles()
+      const lh = this.$refs.lineHandles     // update view
+      if (lh.visible) {
+        lh.updateHandles()
       }
     },
 
@@ -287,17 +303,6 @@ export default {
       target.style.height = `${height}${height !== 'auto' ? 'px' : ''}`
     },
 
-    positionGroupToolbar () {
-      const selector = '.lq-canvas .content-layer .moveable-control-box'
-      const moveableArea = document.querySelector(`${selector} .moveable-area`)
-      if (moveableArea) {
-        const controlBox = document.querySelector(selector)
-        const match = controlBox.style.transform.match(/translate3d\((-?[0-9.]+)px, (-?[0-9.]+)px, 0px\)/)
-        this.groupToolbarPos.x = Number(match[1])
-        this.groupToolbarPos.y = Number(match[2]) + moveableArea.clientHeight
-      }
-    },
-
     findTopic (el) {
       return this.selection.find(topic => topic.id == el.dataset.id)      // Note: dataset values are strings
     },
@@ -313,7 +318,7 @@ export default {
     'lq-canvas-item': require('./lq-canvas-item').default,
     'lq-canvas-toolbar': require('./lq-canvas-toolbar').default,
     'lq-line-handles': require('./lq-line-handles').default,
-    'vue-selecto': require('vue-selecto').default
+    'vue-selecto': require('vue3-selecto').default
   }
 }
 </script>

@@ -42,6 +42,7 @@
   --paragraph-spacing: 10px;
   --field-spacing: 16px;                      /* vertical spacing between data fields */
   --button-spacing: 14px;                     /* horizontal spacing between toolbar buttons */
+  --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
   --header-color: black;
   --background-color: #e6e6e6;                /* used for panels and forms */
@@ -127,12 +128,21 @@ input, button {
 }
 
 /* Element UI Overrides */
-.el-button--text {
-  padding: 0 !important;
+.el-button {
+  vertical-align: unset !important;   /* Element Plus default is "middle" */
+  height: unset !important;           /* Element Plus default is 32px */
+}
+
+.el-button.is-link {
+  padding: 0 !important;              /* Element Plus default for link buttons is 2px */
+}
+
+.el-dropdown {
+  vertical-align: unset !important;   /* Element Plus default is "middle" */
 }
 
 .el-loading-mask {
-  background-color: rgba(255, 255, 255, .7) !important;       /* Element UI default alpha is 0.9 */
+  background-color: rgba(255, 255, 255, .7) !important;       /* Element Plus default alpha is 0.9 */
 }
 
 .el-message-box {
@@ -153,6 +163,10 @@ input, button {
 
 .el-notification__content p {
   margin-top: 1em !important;
+}
+
+.el-collapse-item__header {
+  text-align: start;      /* A Element Plus item__header is a <button>, browser style default is text-align "center" */
 }
 
 .el-collapse-item__header,
@@ -242,7 +256,7 @@ input, button {
 
 .ql-container .ql-editor {
   line-height: inherit;                                   /* Quill default is 1.42; inherit from dmx-html-field */
-  padding: 6px 24px 6px 8px;                              /* Quill default is 12px 15px; right pad for emoji button */
+  padding: 6px var(--emoji-button-padding) 6px 8px;       /* Quill default is 12px 15px; right pad for emoji button */
   background-color: white;
 }
 

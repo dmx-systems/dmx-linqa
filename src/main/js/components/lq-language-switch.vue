@@ -1,12 +1,15 @@
 <template>
-  <el-dropdown class="lq-language-switch" size="medium" trigger="click" @command="setLang">
-    <el-button type="text" :title="selectTooltip">
-      <span>{{model.toUpperCase()}}</span><span class="el-icon-arrow-down el-icon--right"></span>
+  <el-dropdown class="lq-language-switch" trigger="click" @command="setLang">
+    <el-button type="primary" link :title="selectTooltip">
+      <span>{{model.toUpperCase()}}</span>
+      <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
     </el-button>
-    <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item :command="lang1">{{lang1.toUpperCase()}}</el-dropdown-item>
-      <el-dropdown-item :command="lang2">{{lang2.toUpperCase()}}</el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item :command="lang1">{{lang1.toUpperCase()}}</el-dropdown-item>
+        <el-dropdown-item :command="lang2">{{lang2.toUpperCase()}}</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 
@@ -16,14 +19,14 @@ import lq from '../lq-globals'
 export default {
 
   props: {
-    value: String
+    modelValue: String
   },
 
   computed: {
 
     model () {
-      if (this.value) {       // v-model support is optional
-        return this.value
+      if (this.modelValue) {      // v-model support is optional, only used by lq-user-form
+        return this.modelValue
       } else {
         return this.lang
       }
@@ -48,8 +51,8 @@ export default {
 
   methods: {
     setLang (lang) {
-      if (this.value) {       // v-model support is optional
-        this.$emit('input', lang)
+      if (this.modelValue) {      // v-model support is optional
+        this.$emit('update:modelValue', lang)
       } else {
         this.$store.dispatch('setLang', lang)
       }

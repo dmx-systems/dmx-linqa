@@ -1,25 +1,29 @@
 <template>
   <div class="lq-workspace-memberships">
     <div class="heading"><lq-string>label.edit_memberships</lq-string></div>
-    <div class="scroll-container">
+    <el-scrollbar :always="true">
       <table>
-        <tr>
-          <th><lq-string>label.user</lq-string></th>
-          <th><lq-string>label.member</lq-string></th>
-          <th><lq-string>label.editor</lq-string></th>
-        </tr>
-        <tr v-for="(user, i) in users">
-          <td>{{user.value}}</td>
-          <td><el-checkbox v-model="model1[i]"></el-checkbox></td>
-          <td><el-checkbox v-model="model2[i]" :disabled="!model1[i]"></el-checkbox></td>
-        </tr>
+        <thead>
+          <tr>
+            <th><lq-string>label.user</lq-string></th>
+            <th><lq-string>label.member</lq-string></th>
+            <th><lq-string>label.editor</lq-string></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, i) in users">
+            <td>{{user.value}}</td>
+            <td><el-checkbox v-model="model1[i]"></el-checkbox></td>
+            <td><el-checkbox v-model="model2[i]" :disabled="!model1[i]"></el-checkbox></td>
+          </tr>
+        </tbody>
       </table>
-    </div>
+    </el-scrollbar>
     <div>
-      <el-button class="submit-button" type="primary" size="medium" @click="updateMemberships">
+      <el-button class="submit-button" type="primary" @click="updateMemberships">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </div>
@@ -109,22 +113,22 @@ export default {
   padding-right: 0 !important;
 }
 
-.lq-workspace-memberships .scroll-container {
-  overflow: auto;
-  flex-grow: 1;
+.lq-workspace-memberships .el-scrollbar {
+  height: unset;        /* Element Plus default of 100% attaches OK/Cancel-buttons to window bottom. */
+                        /* We want OK/Cancel-buttons always be attached to workspace list. */
 }
 
 .lq-workspace-memberships table {
   width: 100%;
 }
 
-.lq-workspace-memberships table > tr > th {
+.lq-workspace-memberships table th {
   text-align: unset;        /* browser style is "center" */
   padding-bottom: 5px;
   padding-right: 20px;
 }
 
-.lq-workspace-memberships table > tr > td {
+.lq-workspace-memberships table td {
   word-break: break-all;    /* break long usernames */
   padding-right: 20px;
 }

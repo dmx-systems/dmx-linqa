@@ -2,8 +2,7 @@
  * The router: when URL changes adapt app state accordingly.
  */
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from './components/lq-login'
 import PasswordResetDialog from './components/lq-password-reset-dialog'
 import NewPasswordDialog from './components/lq-new-password-dialog'
@@ -11,15 +10,15 @@ import Legal from './components/lq-legal'
 import Webclient from './components/lq-webclient'
 import Workspace from './components/lq-workspace'
 import Admin from './components/admin/lq-admin'
+import app from './app'
 import store from './store/linqa'
 import lq from './lq-globals'
 import dmx from 'dmx-api'
 
 let initialNavigation = true
 
-Vue.use(VueRouter)
-
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -111,7 +110,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   }).catch(error => {
-    Vue.prototype.$alert(error.message, {
+    app.config.globalProperties.$alert(error.message, {
       type: 'error',
       showClose: false
     }).then(() =>
@@ -136,7 +135,7 @@ const actions = {
     router.push({
       name: 'workspace',
       params: {workspaceId: id},
-      query: router.currentRoute.query
+      query: router.currentRoute.value.query
     })
   },
 
@@ -145,7 +144,7 @@ const actions = {
   },
 
   callLoginRoute () {
-    // const query = router.currentRoute.query     // TODO: pass worspaceId when password reset
+    // const query = router.currentRoute.value.query     // TODO: pass worspaceId when password reset
     router.push({name: 'login' /*, query */})
   },
 
@@ -175,7 +174,7 @@ const actions = {
    */
   getInitialWorkspaceId () {
     // 1) take from URL (query param)
-    let workspaceId = id(router.currentRoute.query.workspaceId)
+    let workspaceId = id(router.currentRoute.value.query.workspaceId)
     if (isValidWorkspaceId(workspaceId, 'query param')) {
       return workspaceId
     }

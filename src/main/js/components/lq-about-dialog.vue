@@ -1,9 +1,9 @@
 <template>
-  <el-dialog custom-class="lq-about-dialog" :visible="visible" @open="fetchText" @close="close">
+  <el-dialog class="lq-about-dialog" :model-value="visible" @open="fetchText" @close="close">
     <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
     <div class="version">
       <span>2.0-SNAPSHOT</span>
-      <span class="date">Dec 4, 2024</span>
+      <span class="date">Dec 16, 2024</span>
     </div>
     <div class="dmx-html-field" v-html="text[lang]"></div>
   </el-dialog>
@@ -36,7 +36,7 @@ export default {
     fetchText () {
       if (!this.text[this.lang]) {
         http.get(`/systems.dmx.linqa/about/about.${this.lang}.html`).then(response => {
-          this.$set(this.text, this.lang, response.data)
+          this.text[this.lang] = response.data
         })
       }
     },
@@ -49,15 +49,13 @@ export default {
 </script>
 
 <style>
-.lq-about-dialog .el-dialog__header {
-  padding: 0;           /* Element UI default is "20px 20px 10px" */
+.lq-about-dialog {
+  background-color: var(--background-color);
 }
 
 .lq-about-dialog .el-dialog__body {
-  background-color: var(--background-color);
   font-size: var(--secondary-font-size);
   color: var(--secondary-color);
-  word-break: unset;    /* Element UI default is "break-all" */
 }
 
 .lq-about-dialog .linqa-logo {

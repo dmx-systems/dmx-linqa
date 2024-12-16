@@ -7,7 +7,7 @@
         <div class="text" v-html="textblock[lang2nd]"></div>
       </div>
       <div class="discussion-button" :style="backgroundColor">
-        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
     <template v-else>
@@ -20,7 +20,7 @@
           <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang1}})</div>
           <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill"></quill>
         </div>
-        <el-button class="translate" type="text" icon="el-icon-right" :title="translateTooltip" @click="doTranslate">
+        <el-button class="translate" type="primary" link icon="right" :title="translateTooltip" @click="doTranslate">
         </el-button>
         <div class="text">
           <div class="field-label"><lq-string>item.textblock</lq-string> ({{lang2}})</div>
@@ -31,10 +31,10 @@
           </div>
         </div>
       </div>
-      <el-button class="save-button" type="primary" size="medium" @click="save">
+      <el-button class="save-button" type="primary" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
@@ -166,19 +166,12 @@ export default {
     setText (lang) {
       // Note: in an untranslatable textblock "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.textblock_text#linqa.lang2']) {
-        this.$set(this.topic.children, 'linqa.textblock_text#linqa.lang2', {})
+        this.topic.children['linqa.textblock_text#linqa.lang2'] = {}
       }
       //
       const compDefUri = 'linqa.textblock_text#linqa.' + lang
       this.topic.children[compDefUri].value = this.model[lang].value
     }
-  },
-
-  components: {
-    quill: () => ({
-      component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
-      loading: require('./lq-spinner')
-    })
   }
 }
 </script>

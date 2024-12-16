@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-legal', routeName, {'small-screen': isSmallScreen}]">
     <lq-language-switch></lq-language-switch>
-    <el-button class="home-button" type="text" @click="home">
+    <el-button class="home-button" type="primary" link @click="home">
       <img class="logo" :src="logo()">
     </el-button>
     <lq-string class="heading">{{heading}}</lq-string>

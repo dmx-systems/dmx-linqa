@@ -1,15 +1,16 @@
 <template>
   <div :class="['lq-pdf-viewer', {fullscreen}]">
-    <div class="scroll-container">
+    <el-scrollbar :always="true">
       <canvas ref="canvas"></canvas>
-    </div>
+    </el-scrollbar>
     <div class="toolbar upper" :style="toolbarStyle">
-      <el-button type="text" :icon="fullscreenIcon" :title="fullscreenTooltip" @click="toggleFullscreen"></el-button>
+      <el-button type="primary" link :icon="fullscreenIcon" :title="fullscreenTooltip" @click="toggleFullscreen">
+      </el-button>
     </div>
     <div class="toolbar lower" v-if="pagerVisibility" :style="toolbarStyle">
-      <el-button type="text" icon="el-icon-arrow-left" @click="prevPage"></el-button>
+      <el-button type="primary" link icon="arrow-left" @click="prevPage"></el-button>
       <span>{{pageNr}} / {{numPages}}</span>
-      <el-button type="text" icon="el-icon-arrow-right" @click="nextPage"></el-button>
+      <el-button type="primary" link icon="arrow-right" @click="nextPage"></el-button>
     </div>
   </div>
 </template>
@@ -17,7 +18,7 @@
 <script>
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
-import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.js'
+import * as pdfjs from 'pdfjs-dist'
 pdfjs.GlobalWorkerOptions.workerSrc = '/systems.dmx.linqa/pdfjs/pdf.worker.js'
 
 export default {
@@ -31,7 +32,7 @@ export default {
   },
 
   props: {
-    topic: {                // the underlying Document topic (dmx.ViewTopic)
+    topic: {          // the underlying Document topic (dmx.ViewTopic)
       type: dmx.ViewTopic,
       required: true
     },
@@ -43,7 +44,7 @@ export default {
 
   data () {
     return {
-      pdf: undefined        // inited by fetchPDF()
+      numPages: 0     // inited by fetchPDF()
     }
   },
 
@@ -51,10 +52,6 @@ export default {
 
     pageNr () {
       return this.$store.state.pageNr[lq.langSuffix(this.lang)][this.topic.id]
-    },
-
-    numPages () {
-      return this.pdf?.numPages
     },
 
     multipage () {
@@ -68,7 +65,7 @@ export default {
     toolbarStyle () {
       if (!this.fullscreen) {
         return {
-          'font-size': `${20 / this.zoom}px`
+          'font-size': `${20 / this.zoom}px`    /* copied from viewport.js mixin's iconStyle() */
         }
       }
     },
@@ -90,7 +87,7 @@ export default {
     },
 
     fullscreenIcon () {
-      return this.fullscreen ? 'el-icon-bottom-left' : 'el-icon-top-right'
+      return this.fullscreen ? 'bottom-left' : 'top-right'
     },
 
     fullscreenTooltip () {
@@ -113,7 +110,8 @@ export default {
         url: this.src,
         cMapUrl: 'cmaps/'
       }).promise.then(pdf => {
-        this.pdf = pdf
+        this.pdf = pdf    // Note: pdf must be non-reactive state, pdfjs doesn't work with JS Proxy object
+        this.numPages = pdf.numPages
         this.$store.dispatch('initPageNr', this.topic.id)
       })
     },
@@ -167,16 +165,11 @@ export default {
 
 <style>
 .lq-pdf-viewer {
-  flex-grow: 1;     /* occupy its space if discussion panel is closed */
-  position: relative;
+  flex-grow: 1;         /* occupy its space if discussion panel is closed */
+  position: relative;   /* position toolbars relative to pdf-viewer */
 }
 
-.lq-pdf-viewer.fullscreen .scroll-container {
-  height: 100%;
-  overflow: auto;
-}
-
-.lq-pdf-viewer .scroll-container canvas {
+.lq-pdf-viewer canvas {
   width: 100%;
 }
 
@@ -193,7 +186,7 @@ export default {
 }
 
 .lq-pdf-viewer.fullscreen .toolbar.upper {
-  right: 16px;    /* scrollbar pad */
+  right: 4px;     /* scrollbar pad */
 }
 
 .lq-pdf-viewer.fullscreen .toolbar.upper .el-button {
@@ -206,7 +199,7 @@ export default {
 }
 
 .lq-pdf-viewer.fullscreen .toolbar.lower {
-  right: 20px;    /* scrollbar pad */
+  right: 8px;     /* scrollbar pad */
 }
 
 .lq-pdf-viewer:hover .toolbar {
@@ -214,6 +207,6 @@ export default {
 }
 
 .lq-pdf-viewer .toolbar .el-button {
-  font-size: inherit;
+  font-size: inherit;     /* inherit button size from toolbar */
 }
 </style>

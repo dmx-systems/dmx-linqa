@@ -3,17 +3,21 @@
     <component class="item-content" :is="topic.typeUri" :topic="topic" :topic-buffer="topicBuffer" :mode="mode"
       @action="addAction" @actions="setActions" @removeAction="removeAction">
     </component>
-    <div class="lock-icon el-icon-lock" v-if="showLock"></div>
+    <el-icon class="lock-icon" v-if="showLock"><lock></lock></el-icon>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
-      <el-button v-for="action in actions" v-if="isActionAvailable(action)" type="text" :style="buttonStyle"
-          :key="action.key" @click="action.handler" @mousedown.native.stop>
-        <i v-if="action.icon" :class="actionIcon(action)" :title="actionLabel(action)" :style="iconStyle"></i>
-        <span v-else>{{actionLabel(action)}}</span>
-      </el-button>
+      <template v-for="action in actions" :key="action.key">
+        <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle"  @click="action.handler"
+            @mousedown.stop>
+          <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
+            <component :is="actionIcon(action)"></component>
+          </el-icon>
+          <span v-else>{{actionLabel(action)}}</span>
+        </el-button>
+      </template>
     </div>
     <div class="reactions">
       <el-button v-for="(usernames, emoji) in reactions" :key="emoji" :title="displayNames(usernames)" type="info" plain
-          @click="reactWithEmoji(emoji)" @mousedown.native.stop>
+          @click="reactWithEmoji(emoji)" @mousedown.stop>
         {{emoji}} <span class="label">{{usernames.length}}</span>
       </el-button>
     </div>
@@ -55,10 +59,10 @@ export default {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       actions: [                // Actions appearing in the item toolbar
-        {key: 'action.edit',      icon: 'el-icon-edit-outline',  handler: this.edit},
-        {key: 'action.duplicate', icon: 'el-icon-document-copy', handler: this.duplicate,  enabledForEditor: true},
-        {key: 'action.lock',      icon: 'el-icon-lock',          handler: this.toggleLock, enabledForAdmin: true},
-        {key: 'action.delete',    icon: 'el-icon-delete-solid',  handler: this.deleteItem}
+        {key: 'action.edit',      icon: 'edit',          handler: this.edit},
+        {key: 'action.duplicate', icon: 'document-copy', handler: this.duplicate,  enabledForEditor: true},
+        {key: 'action.lock',      icon: 'lock',          handler: this.toggleLock, enabledForAdmin: true},
+        {key: 'action.delete',    icon: 'delete-filled', handler: this.deleteItem}
       ]
     }
   },
@@ -212,9 +216,11 @@ export default {
 
     // TODO: refactor, attach logic to action instead?
     actionIcon (action) {
-      const icon = action.key === 'action.lock' && this.locked ? 'el-icon-unlock' : action.icon
+      const icon = action.key === 'action.lock' && this.locked ? 'unlock' : action.icon
       return icon
     },
+
+    // 3 event handlers
 
     addAction (action) {
       this.actions.unshift(action)
@@ -227,6 +233,8 @@ export default {
     removeAction (actionKey) {
       this.actions = this.actions.filter(action => action.key !== actionKey)
     },
+
+    //
 
     displayNames (usernames) {
       return usernames.map(username => lq.getDisplayName(username)).join(', ')

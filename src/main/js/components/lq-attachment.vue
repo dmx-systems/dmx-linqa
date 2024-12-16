@@ -1,8 +1,8 @@
 <template>
-  <el-button class="lq-attachment" type="text" :disabled="!enabled" @click="download">
+  <el-button class="lq-attachment" type="primary" link :disabled="!enabled" @click="download">
     <span class="icon fa fa-paperclip"></span>
     <span class="file-name">{{fileName}}</span>
-    <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" @click="remove"></el-button>
+    <el-button class="close-button" v-if="closable" type="primary" link icon="close" @click="remove"></el-button>
   </el-button>
 </template>
 

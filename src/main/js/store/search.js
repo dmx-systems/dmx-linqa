@@ -1,54 +1,55 @@
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
+import it from '../item-types'
 
-const state = {
-  searchTerm: '',
-  matches: [],        // search result (array of plain topics)
-  matchIndex: 0       // current match (Number)
-}
+export default {
 
-const actions = {
+  namespaced: true,
 
-  search ({rootState, dispatch}, searchTerm) {
-    state.searchTerm = searchTerm
-    state.matches = []
-    state.matchIndex = 0
-    if (state.searchTerm) {
-      // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
-      rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
-        const text = itemText(topic)
-        if (text) {
-          // TODO: locale lower case?
-          const i = text.toLowerCase().indexOf(state.searchTerm.toLowerCase())
-          if (i >= 0) {
-            state.matches.push(topic)
+  state: {
+    searchTerm: '',
+    matches: [],        // search result (array of plain topics)
+    matchIndex: 0       // current match (Number)
+  },
+
+  actions: {
+
+    search ({state, rootState, dispatch}, searchTerm) {
+      state.searchTerm = searchTerm
+      state.matches = []
+      state.matchIndex = 0
+      if (state.searchTerm) {
+        // Note: the filter is needed as arbitrary topics could be revealed via DMX Webclient
+        rootState.topicmap.topics.filter(lq.canvasFilter).forEach(topic => {
+          const text = it.getSearchableText(topic, rootState)
+          if (text) {
+            // TODO: locale lower case?
+            const i = text.toLowerCase().indexOf(state.searchTerm.toLowerCase())
+            if (i >= 0) {
+              state.matches.push(topic)
+            }
           }
+        })
+        // console.log('search', state.searchTerm, state.matches.length)
+        if (state.matches.length) {
+          showMatch(state, dispatch)
         }
-      })
-      // console.log('search', state.searchTerm, state.matches.length)
-      if (state.matches.length) {
-        showMatch(dispatch)
       }
+    },
+
+    prevMatch ({state, dispatch}) {
+      state.matchIndex--
+      showMatch(state, dispatch)
+    },
+
+    nextMatch ({state, dispatch}) {
+      state.matchIndex++
+      showMatch(state, dispatch)
     }
-  },
-
-  prevMatch ({dispatch}) {
-    state.matchIndex--
-    showMatch(dispatch)
-  },
-
-  nextMatch ({dispatch}) {
-    state.matchIndex++
-    showMatch(dispatch)
   }
 }
 
-export default {
-  namespaced: true,
-  state,
-  actions
-}
-
+// TODO: drop it, not used
 function itemText (topic) {
   // TODO: refactor
   const vm = document.querySelector(`.lq-canvas-item[data-id="${topic.id}"] .item-content`).__vue__
@@ -65,6 +66,6 @@ function itemText (topic) {
   }
 }
 
-function showMatch (dispatch) {
+function showMatch (state, dispatch) {
   dispatch('revealTopic', state.matches[state.matchIndex], {root: true})
 }

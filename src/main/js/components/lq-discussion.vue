@@ -1,29 +1,29 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
-    <el-button class="close-button" type="text" icon="el-icon-close" :title="closeTooltip" @click="close"></el-button>
+    <el-button class="close-button" type="primary" link icon="close" :title="closeTooltip" @click="close"></el-button>
     <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
     <div class="filter-container" v-if="documentFilter || textblockFilter">
       <div class="filter" v-if="documentFilter" key="document-filter">
         <lq-string>label.document_filter</lq-string>
-        <el-button class="close-button" type="text" icon="el-icon-close" :title="resetTooltip"
+        <el-button class="close-button" type="primary" link icon="close" :title="resetTooltip"
           @click="resetDocumentFilter">
         </el-button>
       </div>
       <div class="filter" v-if="textblockFilter" key="textblock-filter">
         <lq-string>label.textblock_filter</lq-string>
-        <el-button class="close-button" type="text" icon="el-icon-close" :title="resetTooltip"
+        <el-button class="close-button" type="primary" link icon="close" :title="resetTooltip"
           @click="resetTextblockFilter">
         </el-button>
       </div>
     </div>
     <!-- Comments -->
     <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
-    <div v-else class="comments" v-loading="discussionLoading">
+    <el-scrollbar v-else class="comments" ref="scrollbar" :always="true" v-loading="discussionLoading">
       <lq-comment v-for="comment in filteredDiscussion" :topic="comment" :key="comment.id" @reply="reply"
         @comment-ref-click="jumpTo">
       </lq-comment>
-    </div>
+    </el-scrollbar>
     <!-- New comment -->
     <div class="new-comment-container" v-if="isWritable" v-loading="submitting">
       <div class="new-comment">
@@ -33,7 +33,7 @@
         <lq-textblock-ref :topic="textblockFilter" :closable="true"></lq-textblock-ref>
         <div class="editor-container dmx-html-field">
           <quill v-model="newComment" :options="quillOptions" ref="newComment" @quill-ready="focus"></quill>
-          <el-button class="attach-button" type="text" icon="el-icon-paperclip" :title="attachTooltip"
+          <el-button class="attach-button" type="primary" link icon="paperclip" :title="attachTooltip"
             @click="openUploadDialog">
           </el-button>
         </div>
@@ -43,7 +43,7 @@
           </lq-attachment>
         </div>
       </div>
-      <el-button class="submit-button" type="text" icon="el-icon-s-promotion" size="medium" :title="submitTooltip"
+      <el-button class="submit-button" type="primary" link icon="promotion" :title="submitTooltip"
         @click="createComment">
       </el-button>
     </div>
@@ -221,8 +221,8 @@ export default {
     scrollDown () {
       if (this.panelVisibility) {
         this.$nextTick(() => {
-          // Note: if there are no comments the "comments" element does not exist
-          document.querySelector('.lq-discussion .comments')?.scroll({
+          // Note: if there are no comments there is no scrollbar
+          this.$refs.scrollbar?.scrollTo({
             top: 100000,
             behavior: 'smooth'
           })
@@ -265,11 +265,7 @@ export default {
 
   components: {
     'lq-comment':       require('./lq-comment').default,
-    'lq-upload-dialog': require('./lq-upload-dialog').default,
-    quill: () => ({
-      component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
-      loading: require('./lq-spinner')
-    })
+    'lq-upload-dialog': require('./lq-upload-dialog').default
   }
 }
 </script>
@@ -324,8 +320,8 @@ export default {
 }
 
 .lq-discussion .comments {
-  overflow: auto;
-  position: relative;     /* scroll absolute positioned childs along, e.g. the "Translate" button */
+  height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
+                        /* window bottom. We want new-comment panel always be attached to comments. */
 }
 
 .lq-discussion .comments .lq-comment {

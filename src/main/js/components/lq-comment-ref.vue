@@ -2,7 +2,7 @@
   <div class="lq-comment-ref lq-comment-target-ref" v-if="comment" @click="click">
     <div class="creator label">{{displayName}}</div>
     <lq-truncate class="comment label" :html="commentHtml"></lq-truncate>
-    <el-button class="close-button" v-if="closable" type="text" icon="el-icon-close" @click.stop="remove"></el-button>
+    <el-button class="close-button" v-if="closable" type="primary" link icon="close" @click.stop="remove"></el-button>
   </div>
 </template>
 

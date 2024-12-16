@@ -1,23 +1,27 @@
 <template>
   <el-collapse-item :class="['lq-user-item', {'lq-selected': selected}]" :name="user.value" :data-id="user.id">
-    <div class="user" slot="title">
-      <div class="name"><span class="fa fa-fw fa-user"></span> {{displayName}} ({{user.value}})</div>
-      <div class="active"><span :class="['fa', active ? 'fa-check' : 'fa-minus']"></span></div>
-      <el-dropdown size="medium" trigger="click" @command="handle" @click.native.stop>
-        <el-button type="text" class="fa fa-fw fa-ellipsis-v"></el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="edit">
-            <i class="fa fa-fw fa-pencil"></i><lq-string>action.edit_user</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="delete">
-            <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_user</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="editMemberships" divided>
-            <i class="fa fa-fw fa-list"></i><lq-string>action.edit_affiliations</lq-string>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
+    <template #title>
+      <div class="user">
+        <div class="name"><span class="fa fa-fw fa-user"></span> {{displayName}} ({{user.value}})</div>
+        <div class="active"><span :class="['fa', active ? 'fa-check' : 'fa-minus']"></span></div>
+        <el-dropdown trigger="click" @command="handle">
+          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v" @click.stop></el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="edit">
+                <i class="fa fa-fw fa-pencil"></i><lq-string>action.edit_user</lq-string>
+              </el-dropdown-item>
+              <el-dropdown-item command="delete">
+                <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_user</lq-string>
+              </el-dropdown-item>
+              <el-dropdown-item command="editMemberships" divided>
+                <i class="fa fa-fw fa-list"></i><lq-string>action.edit_affiliations</lq-string>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </template>
     <div v-for="workspace in memberships">
       <span class="fa fa-fw fa-list"></span>
       {{getWorkspaceName(workspace)}}

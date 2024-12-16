@@ -2,7 +2,7 @@
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
       <div class="discussion-button">
-        <el-button type="text" icon="el-icon-chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
       <lq-document-renderer :topic="topic" @loading="loading" @complete="complete"></lq-document-renderer>
@@ -14,7 +14,7 @@
       </div>
       <template v-if="!isNew">
         <div class="translate">
-          <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
+          <el-button type="primary" link icon="bottom" :title="translateTooltip" @click="translate"></el-button>
         </div>
         <div class="field">
           <div class="field-label"><lq-string>label.document_name</lq-string> <span>({{lang2}})</span></div>
@@ -42,10 +42,10 @@
         <div class="error">{{error[lang2nd]}}</div>
         <el-input v-model="docModel.paths[lang2nd].value"></el-input>
       </div>
-      <el-button class="save-button" type="primary" size="medium" :disabled="saveButtonDisabled" @click="save">
+      <el-button class="save-button" type="primary" :disabled="saveButtonDisabled" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import dmx from 'dmx-api'
 import lq from '../lq-globals'
 
@@ -72,7 +71,7 @@ export default {
     // console.log('lq-document', this.topic, this.topicBuffer, this.isNew)
     this.$emit('action', {
       key: 'action.download',
-      icon: 'el-icon-download',
+      icon: 'download',
       handler: this.download,
       enabledForUser: true
     })
@@ -201,8 +200,8 @@ export default {
         arg = this.topic
         // transfer edit buffer to topic model
         this.topic.children['linqa.translation_edited'] = {value: this.editedFlag}
-        Vue.set(this.topic.children, 'linqa.document_name#linqa.lang1', this.docModel.names.lang1)
-        Vue.set(this.topic.children, 'linqa.document_name#linqa.lang2', this.docModel.names.lang2)
+        this.topic.children['linqa.document_name#linqa.lang1'] = this.docModel.names.lang1
+        this.topic.children['linqa.document_name#linqa.lang2'] = this.docModel.names.lang2
         this.topic.children['dmx.files.file#linqa.lang1'] = this.docModel.paths.lang1.value ? this.docModel.files.lang1
           : undefined
         this.topic.children['dmx.files.file#linqa.lang2'] = this.docModel.paths.lang2.value ? this.docModel.files.lang2

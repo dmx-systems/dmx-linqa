@@ -1,5 +1,5 @@
 import Quill from 'quill'
-import 'quill-mention/dist/autoregister'
+import 'quill-mention/autoregister'
 import 'quill-mention/dist/quill.mention.css'
 import './quill-emoji/quill-emoji.js'
 import store from './store/linqa'

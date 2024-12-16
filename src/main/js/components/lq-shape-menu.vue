@@ -1,20 +1,22 @@
 <template>
-  <el-dropdown class="lq-shape-menu" size="medium" trigger="click" @command="setShape">
+  <el-dropdown class="lq-shape-menu" trigger="click" @command="setShape">
     <span ref="trigger"></span>
-    <el-dropdown-menu class="lq-shape-dropdown" slot="dropdown">
-      <el-dropdown-item command="rectangle">
-        <div class="rectangle" :style="backgroundColor"></div>
-      </el-dropdown-item>
-      <el-dropdown-item command="ellipse">
-        <div class="ellipse" :style="backgroundColor"></div>
-      </el-dropdown-item>
-      <el-dropdown-item command="rectangle-outline" divided>
-        <div class="rectangle-outline" :style="borderColor"></div>
-      </el-dropdown-item>
-      <el-dropdown-item command="ellipse-outline">
-        <div class="ellipse-outline" :style="borderColor"></div>
-      </el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu class="lq-shape-dropdown">
+        <el-dropdown-item command="rectangle">
+          <div class="rectangle" :style="backgroundColor"></div>
+        </el-dropdown-item>
+        <el-dropdown-item command="ellipse">
+          <div class="ellipse" :style="backgroundColor"></div>
+        </el-dropdown-item>
+        <el-dropdown-item command="rectangle-outline" divided>
+          <div class="rectangle-outline" :style="borderColor"></div>
+        </el-dropdown-item>
+        <el-dropdown-item command="ellipse-outline">
+          <div class="ellipse-outline" :style="borderColor"></div>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 
@@ -29,7 +31,7 @@ export default {
 
   props: {
 
-    value: {                    // not used at the moment (for v-model)
+    modelValue: {               // not used at the moment (for v-model)
       type: String,
       required: true
     },
@@ -43,7 +45,7 @@ export default {
   methods: {
 
     setShape (shape) {
-      this.$emit('input', shape)
+      this.$emit('update:modelValue', shape)
     },
 
     open () {
@@ -55,9 +57,6 @@ export default {
 
 <style>
 /* the actual dropdown menus are body mounted */
-.lq-shape-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 9px;
-}
 
 .lq-shape-dropdown .rectangle,
 .lq-shape-dropdown .rectangle-outline {

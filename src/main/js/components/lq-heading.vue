@@ -11,7 +11,7 @@
         <el-input v-model="model[lang1st].value" ref="input"></el-input>
       </div>
       <div class="translate">
-        <el-button type="text" icon="el-icon-bottom" :title="translateTooltip" @click="translate"></el-button>
+        <el-button type="primary" link icon="bottom" :title="translateTooltip" @click="translate"></el-button>
       </div>
       <div class="field">
         <div class="field-label"><lq-string>item.heading</lq-string> ({{lang2}})</div>
@@ -19,10 +19,10 @@
         <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
       </div>
     </template>
-    <el-button class="save-button" type="primary" size="medium" @click="save">
+    <el-button class="save-button" type="primary" @click="save">
       <lq-string>action.submit</lq-string>
     </el-button>
-    <el-button size="medium" @click="cancel">
+    <el-button @click="cancel">
       <lq-string>action.cancel</lq-string>
     </el-button>
   </div>
@@ -137,7 +137,7 @@ export default {
     setText (lang) {
       // Note: in an untranslatable heading "lang2" is not defined     // TODO: simplify
       if (!this.topic.children['linqa.heading_text#linqa.lang2']) {
-        this.$set(this.topic.children, 'linqa.heading_text#linqa.lang2', {})
+        this.topic.children['linqa.heading_text#linqa.lang2'] = {}
       }
       //
       const compDefUri = 'linqa.heading_text#linqa.' + lang

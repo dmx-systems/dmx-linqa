@@ -10,13 +10,15 @@
         </span>
       </div>
       <div class="button-panel" v-if="buttonPanelVisibility">
-        <el-button class="fa fa-reply" type="text" :title="replyTooltip" @click="reply"></el-button>
-        <el-dropdown v-if="commentIsWritable" size="medium" trigger="click" @command="handle">
-          <el-button type="text" class="fa fa-fw fa-ellipsis-v"></el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="edit"><lq-string>action.edit</lq-string></el-dropdown-item>
-            <el-dropdown-item command="deleteComment" divided><lq-string>action.delete</lq-string></el-dropdown-item>
-          </el-dropdown-menu>
+        <el-button class="fa fa-reply" type="primary" link :title="replyTooltip" @click="reply"></el-button>
+        <el-dropdown v-if="commentIsWritable" trigger="click" @command="handle">
+          <el-button type="primary" link class="fa fa-fw fa-ellipsis-v"></el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="edit"><lq-string>action.edit</lq-string></el-dropdown-item>
+              <el-dropdown-item command="deleteComment" divided><lq-string>action.delete</lq-string></el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
         </el-dropdown>
       </div>
     </div>
@@ -35,7 +37,7 @@
           <quill v-model="model[lang1st].value" :options="quillOptions" @quill-ready="focus" ref="quill">
           </quill>
         </div>
-        <el-button class="translate-button" type="text" icon="el-icon-right" :title="translateTooltip"
+        <el-button class="translate-button" type="primary" link icon="right" :title="translateTooltip"
           @click="doTranslate">
         </el-button>
         <div class="dmx-html-field text2">
@@ -49,10 +51,10 @@
       <lq-attachment v-for="file in attachments" :file="file" :enabled="true" :key="file.id"></lq-attachment>
     </div>
     <template v-if="formMode">
-      <el-button class="save-button" type="primary" size="medium" @click="save">
+      <el-button class="save-button" type="primary" @click="save">
         <lq-string>action.submit</lq-string>
       </el-button>
-      <el-button size="medium" @click="cancel">
+      <el-button @click="cancel">
         <lq-string>action.cancel</lq-string>
       </el-button>
     </template>
@@ -60,7 +62,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import lq from '../lq-globals'
 
 export default {
@@ -225,9 +226,8 @@ export default {
       this.topicBuffer = this.topic.clone()
       // Note 1: in an untranslatable comment "lang2" is not defined. We need it as editor model.
       // Note 2: we can't use newFormModel() as Comment is a recursive type definition.
-      // Note 3: we need Vue.set() as topic clone is put into state already.
       if (!this.topicBuffer.children['linqa.comment_text#linqa.lang2']) {
-        Vue.set(this.topicBuffer.children, 'linqa.comment_text#linqa.lang2', {value: ''})
+        this.topicBuffer.children['linqa.comment_text#linqa.lang2'] = {value: ''}
       }
       this.$nextTick(() => {
         this.$store.dispatch('jumpToComment', {
@@ -255,13 +255,6 @@ export default {
     commentRefClick (comment) {
       this.$emit('comment-ref-click', comment)
     }
-  },
-
-  components: {
-    quill: () => ({
-      component: import('vue-quill-minimum' /* webpackChunkName: "vue-quill-minimum" */),
-      loading: require('./lq-spinner')
-    })
   }
 }
 </script>
@@ -347,11 +340,11 @@ export default {
 }
 
 .lq-comment .columns > .text1 .ql-editor {
-  padding: 0 15px 0 0 !important;
+  padding: 0 var(--emoji-button-padding) 0 0 !important;
 }
 
 .lq-comment .columns > .text2 .ql-editor {
-  padding: 0 0 0 15px !important;
+  padding: 0 var(--emoji-button-padding) 0 15px !important;
 }
 
 .lq-comment .columns > .translate-button {

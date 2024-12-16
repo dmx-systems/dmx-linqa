@@ -1,11 +1,13 @@
 <template>
-  <el-dropdown class="lq-color-menu" size="medium" trigger="click" @command="setColor">
+  <el-dropdown class="lq-color-menu" trigger="click" @command="setColor">
     <span ref="trigger"></span>
-    <el-dropdown-menu class="lq-color-dropdown" slot="dropdown">
-      <el-dropdown-item v-for="color in colors" :command="color" :key="color">
-        <div :class="colorBoxClass(color)" :style="{'background-color': color}"></div>
-      </el-dropdown-item>
-    </el-dropdown-menu>
+    <template #dropdown>
+      <el-dropdown-menu class="lq-color-dropdown">
+        <el-dropdown-item v-for="color in colors" :command="color" :key="color">
+          <div :class="colorBoxClass(color)" :style="{'background-color': color}"></div>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
   </el-dropdown>
 </template>
 
@@ -16,7 +18,7 @@ export default {
 
   props: {
 
-    value: {                  // not used at the moment (for v-model)
+    modelValue: {             // not used at the moment (for v-model)
       type: String,
       required: true
     },
@@ -42,7 +44,7 @@ export default {
   methods: {
 
     setColor (color) {
-      this.$emit('input', color)
+      this.$emit('update:modelValue', color)
     },
 
     colorBoxClass (color) {
@@ -66,9 +68,6 @@ export default {
 }
 
 /* the actual dropdown menus are body mounted */
-.lq-color-dropdown .el-dropdown-menu__item + .el-dropdown-menu__item {
-  margin-top: 9px;
-}
 
 .lq-color-dropdown .color-box {
   width: 40px;

@@ -9,10 +9,10 @@
       <div class="field-label"><lq-string>label.workspace_name</lq-string> ({{$store.state.lang2}})</div>
       <el-input v-model="lang2.value"></el-input>
     </div>
-    <el-button class="submit-button" type="primary" size="medium" @click="submit">
+    <el-button class="submit-button" type="primary" @click="submit">
       <lq-string>action.submit</lq-string>
     </el-button>
-    <el-button size="medium" @click="cancel">
+    <el-button @click="cancel">
       <lq-string>action.cancel</lq-string>
     </el-button>
   </div>

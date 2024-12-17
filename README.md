@@ -179,32 +179,45 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 **2.0** -- unreleased
 
 * Features:
-    * UI adapted for mobile devices
-    * New canvas objects:
+    * UI adapted for mobile touch devices
+    * Reactions:
+        * Users can add emoji-reactions to content objects e.g. thumb up/down
+        * Reactions are counted per-user, allowing quick votes
+    * Mentions:
+        * In comments and content objects users can @mention other users
+        * Typing `@` brings up a menu showing all users of the current workspace, plus `all` option
+        * In her user profile one can set the notification level to control what to include in the daily notification mails
+    * In-editor emoji support
+        * Typing `:` brings up an emoji-menu allowing to filter emojis by name (continuing typing)
+        * An in-editor emoji-button brings up a visual palette offering all available emojis, grouped by category
+    * New decorative canvas object types:
         * Rectangles, ellipses, outlines
         * Lines (solid, dotted, dashed)
-        * Arrows  (double headed)
+        * Arrows (single or double headed)
     * New command for canvas objects: Duplicate, Multi-duplicate
+    * Admin Area: new command Duplicate-Workspace
     * Presentation mode: temporarily hide all editing functions
     * Menus for canvas object direct manipulation (color, line type, arrow type, ...)
     * Alternative "Track Point"-like canvas panning mechanism
-    * Online help
-        * New Help-button in app header
-        * Opens automatically on 1st login
+    * New info-menu in app header:
+        * In-app help texts with screenshots, opens automatically on 1st login
+        * Also in-app texts About Linqa, Impressum, and Privacy Statement
 * Improvements:
     * Performance improvements (loading workspaces)
+        * Start loading videos only when Play is pressed, before a poster frame is shown
         * Quill editor: handle images as separate resources (instead of embedding as data-URL)
         * Scale down uploaded images
-    * Discussion panel size:
-        * Initial size is smaller
-        * Manual size set by user is persistent
+    * New text editor styles: text color, strike through
+    * Discussion panel: initial panel size is smaller, and size set by user is remembered
     * Read-only users can pan canvas everywhere
     * Show canvas object commands as icons (instead labels)
-        * Commands to not line wrap
+        * Commands do not line wrap
     * Multi-lock/unlock for canvas objects
+        * Lock function is also effective for Linqa admins
     * Manual vertical resize for notes and textblocks
         * Auto-height is still supported
     * Textblocks: make both texts equal width
+    * Documents: uploaded office documents are shown with their icon and file name (.doc, .xls, .ppt, Libre Office)
     * 3 revised color palettes: foreground, background, text marker
     * Configurability:
         * Help resources (HTML, CSS, images)
@@ -214,7 +227,10 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 * Continuous integration:
     * Automatic tests for both Java and Javascript
     * Measure test coverage
-* Compatible with DMX 5.3.5-SNAPSHOT and DMX Sign-Up 3.2-SNAPSHOT
+* Chore:
+    * Update front end libraries: Quill 2, Vue 3, Element Plus, PDF.js 3
+    * Update build system: Webpack 5, Babel 7
+* Compatible with DMX 5.3.5-SNAPSHOT and DMX Sign-Up 3.3-SNAPSHOT
 
 **1.7.1** -- Feb 23, 2024
 

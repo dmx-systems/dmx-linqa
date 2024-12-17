@@ -191,24 +191,30 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
         * Typing `:` brings up an emoji-menu allowing to filter emojis by name (continuing typing)
         * An in-editor emoji-button brings up a visual palette offering all available emojis, grouped by category
     * New decorative canvas object types:
-        * Rectangles, ellipses, outlines
+        * Shapes (rectangles, ellipses, outlines)
         * Lines (solid, dotted, dashed)
         * Arrows (single or double headed)
     * New command for canvas objects: Duplicate, Multi-duplicate
     * Admin Area: new command Duplicate-Workspace
     * Presentation mode: temporarily hide all editing functions
-    * Menus for canvas object direct manipulation (color, line type, arrow type, ...)
+    * Menus for canvas object direct manipulation (color, shape, line style, arrow heads)
+        * When rotating an object the toolbar flips to not appear upside down
     * Alternative "Track Point"-like canvas panning mechanism
     * New info-menu in app header:
         * In-app help texts with screenshots, opens automatically on 1st login
         * Also in-app texts About Linqa, Impressum, and Privacy Statement
 * Improvements:
+    * Improved notification emails:
+        * Now HTML (formerly plain text), styled with CSS, images inside comments are included
+        * Customizable style and header/footer text via resources
+        * Configurable mail subject and time schedule for sending
     * Performance improvements (loading workspaces)
         * Start loading videos only when Play is pressed, before a poster frame is shown
         * Quill editor: handle images as separate resources (instead of embedding as data-URL)
         * Scale down uploaded images
     * New text editor styles: text color, strike through
-    * Discussion panel: initial panel size is smaller, and size set by user is remembered
+    * Discussion panel: initial panel size is smaller
+        * Size set by user is remembered
     * Read-only users can pan canvas everywhere
     * Show canvas object commands as icons (instead labels)
         * Commands do not line wrap
@@ -219,10 +225,10 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
     * Textblocks: make both texts equal width
     * Documents: uploaded office documents are shown with their icon and file name (.doc, .xls, .ppt, Libre Office)
     * 3 revised color palettes: foreground, background, text marker
+    * Support for one additional language (now 9): Polish
     * Configurability:
         * Help resources (HTML, CSS, images)
-        * Mail texts as config resources
-        * Subject of digest emails is configurable
+        * Password related mail texts are configurable through resources
     * Check password complexity, display password requirements
 * Continuous integration:
     * Automatic tests for both Java and Javascript

@@ -196,15 +196,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     public void preSendTopic(Topic topic) {
         String typeUri = topic.getTypeUri();
         if (typeUri.equals(COMMENT)) {
-            acs.enrichWithUserInfo(topic);
-            Topic refComment = topic.getChildTopics().getTopicOrNull(COMMENT);
-            if (refComment != null) {
-                acs.enrichWithUserInfo(refComment);
-            }
-            Topic refTextblock = topic.getChildTopics().getTopicOrNull(TEXTBLOCK);
-            if (refTextblock != null) {
-                enrichWithColor(refTextblock);
-            }
+            enrichComment(topic);
         } else if (typeUri.equals(WORKSPACE)) {
             acs.enrichWithOwnerInfo(topic);
         } else if (typeUri.equals(USERNAME)) {
@@ -853,11 +845,11 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
             }
         }
         //
-        Topic commentTopic = dmx.createTopic(commentModel);
-        acs.enrichWithUserInfo(commentTopic);
-        timestamps.enrichWithTimestamps(commentTopic);
-        me.addComment(workspaceId(), commentTopic);
-        return commentTopic;
+        Topic comment = dmx.createTopic(commentModel);
+        enrichComment(comment);
+        timestamps.enrichWithTimestamps(comment);      // Needed for websocket message
+        me.addComment(workspaceId(), comment);
+        return comment;
     }
 
     private List<ViewTopic> duplicateTopics(Stream<? extends Topic> topics, long srcTopicmapId, long destTopicmapId,
@@ -917,6 +909,24 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
         }
         if (topicTypeUri.equals(VIEWPORT)) {
             viewProps.set(ZOOM, assoc.getProperty(ZOOM));   // a viewport's "zoom" value is mandatory
+        }
+    }
+
+    /**
+     * Enriches the given comment by
+     * 1. "creator"
+     * 2. Comment-Ref by "creator" (if present)
+     * 3. Textblock-Ref by "color" (if present)
+     */
+    private void enrichComment(Topic comment) {
+        acs.enrichWithUserInfo(comment);
+        Topic refComment = comment.getChildTopics().getTopicOrNull(COMMENT);
+        if (refComment != null) {
+            acs.enrichWithUserInfo(refComment);
+        }
+        Topic refTextblock = comment.getChildTopics().getTopicOrNull(TEXTBLOCK);
+        if (refTextblock != null) {
+            enrichWithColor(refTextblock);
         }
     }
 

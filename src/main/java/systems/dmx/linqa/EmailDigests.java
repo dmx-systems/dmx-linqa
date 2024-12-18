@@ -184,13 +184,13 @@ public class EmailDigests {
     }
 
     private boolean commentFilter(Topic comment, Topic username, NotificationLevel notificationLevel) {
-        logger.info("### comment " + comment.getId());
+        logger.fine("### comment " + comment.getId());
         switch (notificationLevel) {
         case ALL:
-            logger.info("   ALL --> true");
+            logger.fine("   ALL --> true");
             return true;
         case NONE:
-            logger.info("   NONE --> false");
+            logger.fine("   NONE --> false");
             return false;
         case MENTIONED:
             String html = comment.getSimpleValue().toString();
@@ -199,7 +199,7 @@ public class EmailDigests {
             for (Element mention : mentions) {
                 long id = Long.parseLong(mention.dataset().get("id"));
                 boolean match = id == username.getId() || id == -1;      // -1 is "all"
-                logger.info("   --> mention username " + id + ", match=" + match);
+                logger.fine("   --> mention username " + id + ", match=" + match);
                 if (match) {
                     return true;
                 }

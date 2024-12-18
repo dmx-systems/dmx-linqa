@@ -176,7 +176,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**2.0** -- unreleased
+**2.0** -- Dec 18, 2024
 
 * Features:
     * Adapted for mobile devices and touch screens

@@ -180,59 +180,59 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 * Features:
     * Adapted for mobile devices and touch screens
-    * New decorative canvas objects:
+    * Additional decorative canvas objects:
         * Shapes (rectangles, ellipses, outlines)
         * Lines (solid, dotted, dashed)
         * Arrows (single or double headed)
     * Reactions:
         * Users can add emoji-reactions to content objects e.g. thumb up/down
-        * Reactions are counted per-user, allowing quick votes
+        * Reactions are counted on a per-user basis, allowing for ad-hoc votes
     * Mentions:
         * In comments and content objects users can @mention other users
-        * Typing `@` brings up a menu showing all users of the current workspace, plus `all` option
-        * In her user profile one can set the notification level to control what comments to include in the daily notification mails
+        * Typing `@` brings up a menu showing all members of the current workspace, plus `all` option
+        * In your user profile you can set the notification level to control what comments you'd like to receive in the daily notification mail
     * In-editor emoji support:
-        * Typing `:` brings up an emoji-menu allowing to filter emojis by name (continuing typing)
-        * An in-editor emoji-button brings up a visual palette offering all available emojis, grouped by category
+        * Typing `:` brings up an emoji-menu allowing to filter emojis by their names (by continuing typing)
+        * An in-editor emoji-button brings up a palette showing all available emojis, grouped by category
     * Online help:
-        * In-app help texts with screenshots, opens automatically on 1st login
+        * In-app help texts about the Linqa UI, with screenshots; opens automatically on 1st login
         * Customizable via external resources (HTML, CSS, images)
     * Presentation mode:
         * Temporarily hides all editing functions
     * Canvas object handling:
-        * New command for canvas objects: Duplicate, Multi-duplicate
-        * Menus for canvas object direct manipulation (color, shape, line style, arrow heads)
-    * Admin Area: new command Duplicate-Workspace
+        * New command: Duplicate; works also for a multi-selection
+    * Admin area: new command Duplicate-Workspace, allowing for "workspace templates"
 * Improvements:
     * Improved notification emails:
         * Now HTML (formerly plain text), styled with CSS, images inside comments are included
         * Customizable style and header/footer text via external resources
-        * Configurable mail subject and time schedule for sending
-    * Performance improvements (loading workspaces)
-        * Start loading videos only when Play is pressed, before a poster frame is shown
+        * Customizable mail subject and time schedule for daily sending
+    * Performance improvements (when loading a workspace)
+        * Start loading videos only when Play button is pressed; before a poster frame is shown
         * Quill editor: handle images as separate resource files (instead of embedding as data-URL)
-        * Scale down uploaded images
+        * Scale down uploaded large images (from mobile camera) to 1024 pixel; original images are kept
     * Discussion panel:
-        * Initial panel size is smaller, size set by user is remembered
+        * Initial panel size is smaller; size manually set by user is remembered between sessions
     * Canvas:
-        * Alternative "Track Point"-like panning gesture to support long-distance panning
+        * Alternative "Track Point"-like panning gesture to facilitate long-distance panning
         * Read-only users can initiate panning anywhere on canvas
     * Canvas objects:
-        * Multi-lock/unlock for canvas objects
+        * Lock/unlock command works also for a multi-selection
         * Lock function is also effective for Linqa admins
-        * Notes and textblocks: Manual vertical resize, auto-height is still supported
-        * Textblocks: make both texts equal width
-        * Documents: uploaded office documents are shown with their icon and file name (.doc, .xls, .ppt, Libre Office)
+        * Object direct manipulation by the means of menus for color, shape, line style, arrow heads (instead of modal dialog)
+        * Notes and textblocks: manual vertical resizing; auto-height is still supported
+        * Textblocks: both texts always have equal width
+        * Documents: uploaded office documents (.doc, .xls, .ppt, Libre Office) are shown with their icon and file name
     * Canvas object Toolbar:
-        * Show commands as icons (formerly as labels), commands do not line wrap
+        * Commands are shown as icons (formerly as text labels); commands do not line wrap
         * When rotating an object the toolbar flips to not appear upside down
     * Global improvements:
-        * New text editor styles: text color, strike through
+        * New text editor styles: text color (additional to background color), strike through
         * 3 revised color palettes: foreground, background, text marker
         * Password related mail texts are customizable via external resources
-        * Password complexity check, display password requirements
+        * Password complexity check; password requirements are displayed if due
         * Read Impressum and Privacy Statement in-app; new item: About Linqa
-    * Support for one additional language: Polish (now 9 languages)
+    * Support for an additional language: Polish (now 9 languages)
 * Continuous integration:
     * Automatic tests for both Java and Javascript
     * Measure test coverage

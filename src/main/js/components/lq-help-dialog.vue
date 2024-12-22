@@ -72,19 +72,11 @@ export default {
 </script>
 
 <style>
-.lq-help-dialog .el-dialog__header {
-  padding: 0;           /* Element UI default is "20px 20px 10px" */
-}
-
-.lq-help-dialog .el-dialog__body {
-  word-break: unset;    /* Element UI default is "break-all" */
-}
-
 .lq-help-dialog .el-carousel__arrow {
   transition: unset;
   top: unset;
   left: unset;
-  bottom: -45px;
+  bottom: -18px;
   color: unset;
 }
 

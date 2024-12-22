@@ -83,7 +83,6 @@ export default {
 
 <style>
 .lq-new-password-dialog .requirements {
-  word-break: normal;     /* el-dialog__body default is "break-all" */
   overflow: hidden;       /* reveal text while transition */
 }
 

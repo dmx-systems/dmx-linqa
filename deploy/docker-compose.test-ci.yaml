@@ -5,13 +5,13 @@ volumes:
     driver_opts:
       type: overlay2
       o: bind
-      device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-filedir"
+      device: "/home/gitlab-runner/persist/${CI_PROJECT_NAME}-${TIER}/dmx-filedir"
   dmx-db: 
     driver: local
     driver_opts:
       type: overlay2
       o: bind
-      device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/dmx-db"
+      device: "/home/gitlab-runner/persist/${CI_PROJECT_NAME}-${TIER}/dmx-db"
   dmx-logs:
   dmx-conf:
   dmx-bundle-deploy:
@@ -20,13 +20,13 @@ volumes:
     driver_opts:
       type: overlay2
       o: bind
-      device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/ldap-cfg"
+      device: "/home/gitlab-runner/persist/${CI_PROJECT_NAME}-${TIER}/ldap-cfg"
   ldap-db:
     driver: local
     driver_opts:
       type: overlay2
       o: bind
-      device: "${HOME}/persist/${CI_PROJECT_NAME}-${TIER}/ldap-db"
+      device: "/home/gitlab-runner/persist/${CI_PROJECT_NAME}-${TIER}/ldap-db"
 
 
 services:

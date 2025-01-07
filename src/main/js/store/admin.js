@@ -208,31 +208,24 @@ export default {
      */
     createUser ({state, rootState}, userModel) {
       state.loading2 = true
-      let p
-      // update server state
-      if (DEV) {
-        // Note: in development mode display name is ignored and password is fixed to '123'
-        p = dmx.rpc.createUserAccount(userModel.emailAddress, '123')
-      } else {
-        const emailAddress = userModel.emailAddress
-        p = http.get(`/sign-up/username/${emailAddress}/taken`).then(response => {
-          console.log('isUsernameTaken', response.data)
-          if (response.data.value) {
-            return Promise.reject(new Error(`Username "${emailAddress}" is already taken.`))
-          } else {
-            return emailAddress
-          }
-        }).then(emailAddress => {
-          const displayName = userModel.displayName     // urlencode? Or done already by axios?
-          const language = userModel.defaultLanguage
-          return http.post(`/linqa/admin/user/${emailAddress}/${displayName}/${language}`)
-            .then(response => response.data)            // Note: in Linqa username *is* email address
-        })
-      }
-      // update client state
-      return p.then(user => {
+      // 1) update server state
+      const emailAddress = userModel.emailAddress
+      return http.get(`/sign-up/username/${emailAddress}/taken`).then(response => {
+        console.log('isUsernameTaken', response.data)
+        if (response.data.value) {
+          return Promise.reject(new Error(`Username "${emailAddress}" is already taken.`))
+        } else {
+          return emailAddress
+        }
+      }).then(emailAddress => {
+        const displayName = userModel.displayName     // urlencode? Or done already by axios?
+        const language = userModel.defaultLanguage
+        return http.post(`/linqa/admin/user/${emailAddress}/${displayName}/${language}`)
+          .then(response => response.data)            // Note: in Linqa username *is* email address
+      }).then(user => {
+        // 2) update client state
         rootState.users.push(user)
-        rootState.users.sort(lq.topicSort)              // TODO: sort by display name (email address at the moment)
+        rootState.users.sort(lq.topicSort)            // TODO: sort by display name (email address at the moment)
         state.selectedUser = user
         state.secondaryPanel = undefined
         scrollIntoView('lq-user-item', user.id)

@@ -82,11 +82,11 @@ export default {
     },
 
     isFiltered () {
-      return this.textblockFilter?.id === this.topic.id
+      return this.discussionFilter?.id === this.topic.id
     },
 
-    textblockFilter () {
-      return this.$store.state.textblockFilter
+    discussionFilter () {
+      return this.$store.state.discussionFilter
     },
 
     quillOptions () {
@@ -105,7 +105,7 @@ export default {
     },
 
     setFilter () {
-      this.$store.dispatch('setTextblockFilter', this.topic)
+      this.$store.dispatch('setDiscussionFilter', this.topic)
     },
 
     save () {

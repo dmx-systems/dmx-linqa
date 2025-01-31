@@ -50,11 +50,11 @@ export default {
   methods: {
 
     reveal () {
-      this.$store.dispatch('revealDocument', this.document)
+      this.$store.dispatch('revealTopicAndSetFilter', this.document)
     },
 
     close () {
-      this.$store.dispatch('setDocumentFilter', undefined)
+      this.$store.dispatch('setDiscussionFilter', undefined)
     }
   }
 }

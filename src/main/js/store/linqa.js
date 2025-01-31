@@ -86,10 +86,8 @@ const store = createStore({
     panelVisibility,              // discussion panel visibility (Boolean)
     panelPos,                     // x coordinate of the discussion panel, regardless if open/closed, in pixel (Number)
     discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
-    discussionLoading: false,     // true while a discussion is loading
-    documentFilter: undefined,    // discussion is filtered by this document (a Document topic, plain object)
-    textblockFilter: undefined    // discussion is filtered by this textblock (a Textblock topic, plain object)
-                                  // Either one of both is set, or none. TODO: unify these 2
+    discussionFilter: undefined,  // a Document/Note/Textblock topic (plain object), or undefined if no filter is active
+    discussionLoading: false      // true while a discussion is loading
   },
 
   actions: {
@@ -157,8 +155,7 @@ const store = createStore({
         throw Error(`${workspaceId} is not a workspace ID`)
       }
       dispatch('deselect')                        // reset selection
-      dispatch('setDocumentFilter', undefined)    // reset document-filter
-      dispatch('setTextblockFilter', undefined)   // reset textblock-filter
+      dispatch('setDiscussionFilter', undefined)  // reset discussion-filter
       dispatch('search/search', '')               // reset search
       dmx.rpc.getTopic(workspaceId, true).then(workspace => {           // includeChildren=true
         if (workspace.typeUri !== 'dmx.workspaces.workspace') {
@@ -408,6 +405,9 @@ const store = createStore({
       })
     },
 
+    /**
+     * @param   topic   a dmx.ViewTopic
+     */
     revealTopic ({state, dispatch}, topic) {
       dispatch('select', [topic])     // programmatic selection
       dispatch('setViewport', {
@@ -578,54 +578,34 @@ const store = createStore({
     },
 
     /**
-     * @param   doc     a Document topic (plain object)
+     * @param   topic     a Document/Note/Textblock topic (plain object)
      */
-    revealDocument ({state, dispatch}, doc) {
-      dispatch('revealTopic', state.topicmap.getTopic(doc.id))
-      dispatch('setDocumentFilter', doc)
+    revealTopicAndSetFilter ({state, dispatch}, topic) {
+      dispatch('revealTopic', state.topicmap.getTopic(topic.id))
+      dispatch('setDiscussionFilter', topic)
     },
 
     /**
-     * @param   doc     a Textblock topic (plain object)
+     * @param   topic   optional: a Document/Note/Textblock topic (plain object), undefined to deactivate filter
      */
-    revealTextblock ({state, dispatch}, textblock) {
-      dispatch('revealTopic', state.topicmap.getTopic(textblock.id))
-      dispatch('setTextblockFilter', textblock)
-    },
-
-    /**
-     * @param   doc     optional: a Document topic (plain object)
-     */
-    setDocumentFilter ({state, dispatch}, doc) {
-      state.documentFilter = doc
-      if (doc) {
-        state.textblockFilter = undefined
-        dispatch('setPanelVisibility', true)
-      }
-      dispatch('updatePlaceholder')
-    },
-
-    /**
-     * @param   textblock     optional: a Textblock topic (plain object)
-     */
-    setTextblockFilter ({state, dispatch}, textblock) {
-      state.textblockFilter = textblock
-      if (textblock) {
-        state.documentFilter = undefined
+    setDiscussionFilter ({state, dispatch}, topic) {
+      state.discussionFilter = topic
+      if (topic) {
         dispatch('setPanelVisibility', true)
       }
       dispatch('updatePlaceholder')
     },
 
     updatePlaceholder ({state}) {
-        const editor = document.querySelector('.lq-discussion .new-comment .ql-editor')
-        // editor is not available
-        // 1) while app launch, updatePlaceholder() is called by setWorkspace()     // TODO: revise
-        // 2) when discussion panel is closed
-        if (editor) {
-          const suffix = state.documentFilter ? '_document' : state.textblockFilter ? '_textblock' : ''
-          editor.dataset.placeholder = lq.getString('label.new_comment' + suffix)
-        }
+      const editor = document.querySelector('.lq-discussion .new-comment .ql-editor')
+      // editor is not available
+      // 1) while app launch, updatePlaceholder() is called by setWorkspace()     // TODO: refactor
+      // 2) when discussion panel is closed
+      if (editor) {
+        // compute key from type URI, good idea?
+        const suffix = state.discussionFilter ? '_' + state.discussionFilter.typeUri.split('.')[1] : ''
+        editor.dataset.placeholder = lq.getString('label.new_comment' + suffix)
+      }
     },
 
     // 4 actions dispatched from canvas-item toolbar

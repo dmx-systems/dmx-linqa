@@ -67,11 +67,11 @@ export default {
     },
 
     reveal () {
-      this.$store.dispatch('revealTextblock', this.topic)
+      this.$store.dispatch('revealTopicAndSetFilter', this.topic)
     },
 
     close () {
-      this.$store.dispatch('setTextblockFilter', undefined)
+      this.$store.dispatch('setDiscussionFilter', undefined)
     }
   }
 }

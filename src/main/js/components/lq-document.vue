@@ -170,11 +170,11 @@ export default {
     },
 
     isFiltered () {
-      return this.documentFilter?.id === this.topic.id
+      return this.discussionFilter?.id === this.topic.id
     },
 
-    documentFilter () {
-      return this.$store.state.documentFilter
+    discussionFilter () {
+      return this.$store.state.discussionFilter
     },
 
     discussTooltip () {
@@ -185,7 +185,7 @@ export default {
   methods: {
 
     setFilter () {
-      this.$store.dispatch('setDocumentFilter', this.topic)
+      this.$store.dispatch('setDiscussionFilter', this.topic)
     },
 
     save () {

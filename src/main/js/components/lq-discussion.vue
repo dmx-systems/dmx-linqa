@@ -3,17 +3,11 @@
     <el-button class="close-button" type="primary" link icon="close" :title="closeTooltip" @click="close"></el-button>
     <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
-    <div class="filter-container" v-if="documentFilter || textblockFilter">
-      <div class="filter" v-if="documentFilter" key="document-filter">
-        <lq-string>label.document_filter</lq-string>
+    <div class="filter-wrapper" v-if="discussionFilter">
+      <div class="filter">
+        <lq-string>{{filterLabelKey}}</lq-string>
         <el-button class="close-button" type="primary" link icon="close" :title="resetTooltip"
-          @click="resetDocumentFilter">
-        </el-button>
-      </div>
-      <div class="filter" v-if="textblockFilter" key="textblock-filter">
-        <lq-string>label.textblock_filter</lq-string>
-        <el-button class="close-button" type="primary" link icon="close" :title="resetTooltip"
-          @click="resetTextblockFilter">
+          @click="resetDiscussionFilter">
         </el-button>
       </div>
     </div>
@@ -95,8 +89,7 @@ export default {
 
     filteredDiscussion () {
       return this.discussion?.filter(
-        comment => (!this.documentFilter  || this.getDocumentId(comment)  === this.documentFilter.id) &&
-                   (!this.textblockFilter || this.getTextblockId(comment) === this.textblockFilter.id)
+        comment => !this.discussionFilter || this.getRefTopicId(comment) === this.discussionFilter.id
       )
     },
 
@@ -107,17 +100,29 @@ export default {
     refTopicIds () {
       const ids = []
       this.refComment && ids.push(this.refComment.id)
-      this.documentFilter  && ids.push(this.documentFilter.id)
-      this.textblockFilter && ids.push(this.textblockFilter.id)
+      this.discussionFilter && ids.push(this.discussionFilter.id)
       return ids
     },
 
+    discussionFilter () {
+      return this.$store.state.discussionFilter
+    },
+
     documentFilter () {
-      return this.$store.state.documentFilter
+      if (this.discussionFilter?.typeUri === 'linqa.document') {
+        return this.discussionFilter
+      }
     },
 
     textblockFilter () {
-      return this.$store.state.textblockFilter
+      if (this.discussionFilter?.typeUri === 'linqa.textblock') {
+        return this.discussionFilter
+      }
+    },
+
+    filterLabelKey () {
+      // compute key from type URI, good idea?
+      return 'label.' + this.discussionFilter.typeUri.split('.')[1] + '_filter'
     },
 
     lang () {
@@ -151,10 +156,9 @@ export default {
       this.$store.dispatch('updatePlaceholder')
     },
 
-    panelVisibility () {this.scrollDown()},
-    discussion ()      {this.scrollDown()},
-    documentFilter ()  {this.scrollDown()},
-    textblockFilter () {this.scrollDown()}
+    panelVisibility ()  {this.scrollDown()},
+    discussion ()       {this.scrollDown()},
+    discussionFilter () {this.scrollDown()}
   },
 
   methods: {
@@ -163,12 +167,8 @@ export default {
       this.$store.dispatch('setPanelVisibility', false)
     },
 
-    resetDocumentFilter () {
-      this.$store.dispatch('setDocumentFilter', undefined)
-    },
-
-    resetTextblockFilter () {
-      this.$store.dispatch('setTextblockFilter', undefined)
+    resetDiscussionFilter () {
+      this.$store.dispatch('setDiscussionFilter', undefined)
     },
 
     createComment () {
@@ -254,12 +254,9 @@ export default {
       this.uploadDialogVisible = false
     },
 
-    getDocumentId (comment) {
-      return comment.children['linqa.document']?.id
-    },
-
-    getTextblockId (comment) {
-      return comment.children['linqa.textblock']?.id
+    getRefTopicId (comment) {
+      const typeUri = this.discussionFilter.typeUri
+      return comment.children[typeUri]?.id
     }
   },
 
@@ -295,7 +292,7 @@ export default {
   margin-bottom: 20px;
 }
 
-.lq-discussion .filter-container {
+.lq-discussion .filter-wrapper {
   margin-bottom: 32px;
   margin-right: 10px;
 }

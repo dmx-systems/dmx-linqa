@@ -831,7 +831,7 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     private Topic _createComment(TopicModel commentModel, IdList refTopicIds, IdList fileTopicIds) {
-        // add comment/document ref
+        // add Comment/Document/Note/Textblock refs
         if (refTopicIds != null) {
             for (long refTopicId : refTopicIds) {
                 String compDefUri = dmx.getTopic(refTopicId).getTypeUri();

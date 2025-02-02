@@ -24,6 +24,7 @@
         <lq-comment-ref :comment="refComment" :closable="true" @click="jumpTo" @remove="removeCommentRef">
         </lq-comment-ref>
         <lq-document-ref :document="documentFilter" :closable="true"></lq-document-ref>
+        <lq-note-ref :topic="noteFilter" :closable="true"></lq-note-ref>
         <lq-textblock-ref :topic="textblockFilter" :closable="true"></lq-textblock-ref>
         <div class="editor-container dmx-html-field">
           <quill v-model="newComment" :options="quillOptions" ref="newComment" @quill-ready="focus"></quill>
@@ -110,6 +111,12 @@ export default {
 
     documentFilter () {
       if (this.discussionFilter?.typeUri === 'linqa.document') {
+        return this.discussionFilter
+      }
+    },
+
+    noteFilter () {
+      if (this.discussionFilter?.typeUri === 'linqa.note') {
         return this.discussionFilter
       }
     },

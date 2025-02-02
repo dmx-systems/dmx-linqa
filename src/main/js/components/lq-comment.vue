@@ -25,6 +25,7 @@
     <!-- Refs -->
     <lq-comment-ref :comment="refComment" @click="commentRefClick"></lq-comment-ref>
     <lq-document-ref :document="refDocument"></lq-document-ref>
+    <lq-note-ref :topic="refNote"></lq-note-ref>
     <lq-textblock-ref :topic="refTextblock"></lq-textblock-ref>
     <!-- Content -->
     <div class="columns">
@@ -110,6 +111,10 @@ export default {
 
     refDocument () {
       return this.topic.children['linqa.document']
+    },
+
+    refNote () {
+      return this.topic.children['linqa.note']
     },
 
     refTextblock () {

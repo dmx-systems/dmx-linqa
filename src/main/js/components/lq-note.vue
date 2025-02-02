@@ -1,6 +1,11 @@
 <template>
-  <div :class="['lq-note', 'dmx-html-field', mode]" v-loading="saving" :style="backgroundColor">
-    <div v-if="infoMode" v-html="noteHtml"></div>
+  <div :class="['lq-note', 'dmx-html-field', {'filter': isFiltered}, mode]" v-loading="saving" :style="backgroundColor">
+    <template v-if="infoMode">
+      <div v-html="noteHtml"></div>
+      <div class="discussion-button" :style="backgroundColor">
+        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+      </div>
+    </template>
     <template v-else>
       <div class="field" v-if="isNew">
         <div class="field-label"><lq-string>label.new_note</lq-string></div>
@@ -91,12 +96,24 @@ export default {
       return this.highlight(this.topic, this.note[this.noteLang], true)
     },
 
+    isFiltered () {
+      return this.discussionFilter?.id === this.topic.id
+    },
+
+    discussionFilter () {
+      return this.$store.state.discussionFilter
+    },
+
     lang () {
       return this.$store.state.lang
     },
 
     quillOptions () {
       return lq.quillOptions
+    },
+
+    discussTooltip () {
+      return lq.getString('tooltip.discuss')
     }
   },
 
@@ -104,6 +121,10 @@ export default {
 
     focus () {
       this.$refs.quill.focus()
+    },
+
+    setFilter () {
+      this.$store.dispatch('setDiscussionFilter', this.topic)
     },
 
     save () {
@@ -178,7 +199,8 @@ export default {
 .lq-note {
   box-sizing: border-box;
   height: 100%;
-  padding: 12px;
+  padding: 6px;
+  border: var(--filter-border);
 }
 
 .lq-note.info {
@@ -200,5 +222,31 @@ export default {
 
 .lq-note.form .save-button {
   margin-top: var(--field-spacing);
+}
+
+.lq-note.filter {
+  border-color: var(--primary-color);
+}
+
+.lq-note.filter .discussion-button {
+  border-color: var(--primary-color);
+}
+
+/* discussion button */
+
+.lq-note .discussion-button {
+  position: absolute;
+  top: 0;
+  right: -34px;
+  padding: 2px 2px 2px 12px;
+  border-top-right-radius: 19px;
+  border-bottom-right-radius: 19px;
+  border-top: var(--filter-border);
+  border-right: var(--filter-border);
+  border-bottom: var(--filter-border);
+}
+
+.lq-note .discussion-button .el-button {
+  font-size: 18px;
 }
 </style>

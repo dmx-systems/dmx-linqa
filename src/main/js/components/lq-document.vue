@@ -301,14 +301,14 @@ export default {
   position: absolute;
   top: 0;
   right: -28px;
-  padding: 4px;
+  padding: 4px 4px 2px 4px;
   background-color: var(--background-color);
   border-top-right-radius: 14px;
   border-bottom-right-radius: 14px;
 }
 
 .lq-document .discussion-button .el-button {
-  font-size: 18px;
+  font-size: 18px;      /* Element Plus default is 14px (--el-font-size-base) */
 }
 
 .lq-document > pre {

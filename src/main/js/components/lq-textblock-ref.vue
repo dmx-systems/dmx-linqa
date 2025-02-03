@@ -1,9 +1,10 @@
 <template>
-  <div :class="['lq-textblock-ref', 'lq-comment-target-ref', {closable}]" v-if="topic" :style="style" @click="reveal">
-    <span class="icon fa fa-fw fa-align-left secondary"></span>
+  <div class="lq-textblock-ref lq-comment-target-ref" v-if="topic" :style="style" @click="reveal">
+    <span class="icon fa fa-align-left secondary"></span>
     <lq-truncate class="textblock label" :html="textblockHtml"></lq-truncate>
     <el-button class="close-button" v-if="closable" type="primary" link icon="close" :title="resetTooltip"
-      @click.stop="close"></el-button>
+      @click.stop="close">
+    </el-button>
   </div>
 </template>
 
@@ -84,17 +85,13 @@ export default {
   cursor: pointer;
 }
 
-.lq-textblock-ref.closable .icon,
-.lq-textblock-ref.closable .textblock {
-  color: black !important;
+.lq-textblock-ref .icon {
+  margin-right: 6px;
 }
 
 .lq-textblock-ref .close-button {
   font-size: 18px;
-  margin-left: 6px;
-}
-
-.lq-textblock-ref .close-button > i {
-  vertical-align: text-bottom;
+  vertical-align: top !important;
+  margin-left: 8px;
 }
 </style>

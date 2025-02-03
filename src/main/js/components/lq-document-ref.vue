@@ -1,6 +1,6 @@
 <template>
-  <div :class="['lq-document-ref', 'lq-comment-target-ref', {closable}]" v-if="document" @click="reveal">
-    <span class="icon fa fa-fw fa-file-o"></span>
+  <div class="lq-document-ref lq-comment-target-ref" v-if="document" @click="reveal">
+    <span class="icon fa fa-file-o secondary"></span>
     <span class="doc-name label">{{docName}}</span>
     <el-button class="close-button" v-if="closable" type="primary" link icon="close" :title="resetTooltip"
       @click.stop="close">
@@ -68,25 +68,13 @@ export default {
   cursor: pointer;
 }
 
-.lq-document-ref.closable {
-  background-color: var(--primary-color);
-}
-
 .lq-document-ref .icon {
-  color: var(--primary-color);
-}
-
-.lq-document-ref.closable .icon,
-.lq-document-ref.closable .doc-name {
-  color: black !important;
+  margin-right: 6px;
 }
 
 .lq-document-ref .close-button {
   font-size: 18px;
-  margin-left: 6px;
-}
-
-.lq-document-ref .close-button > i {
-  vertical-align: text-bottom;
+  vertical-align: top !important;
+  margin-left: 8px;
 }
 </style>

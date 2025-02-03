@@ -305,22 +305,15 @@ export default {
 }
 
 .lq-discussion .filter {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   background-color: var(--primary-color);
   padding: 5px 8px;
-}
-
-.lq-discussion .filter .lq-string {
-  font-size: 15px;
 }
 
 .lq-discussion .filter .close-button {
   font-size: 20px;
   margin-left: 6px;
-}
-
-.lq-discussion .filter .close-button > i {
-  vertical-align: text-bottom;
 }
 
 .lq-discussion .comments {

@@ -916,15 +916,21 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
      * Enriches the given comment by
      * 1. "creator"
      * 2. Comment-Ref by "creator" (if present)
-     * 3. Textblock-Ref by "color" (if present)
+     * 3. Note-Ref by "color" (if present)
+     * 4. Textblock-Ref by "color" (if present)
      */
     private void enrichComment(Topic comment) {
         acs.enrichWithUserInfo(comment);
-        Topic refComment = comment.getChildTopics().getTopicOrNull(COMMENT);
+        ChildTopics children = comment.getChildTopics();
+        Topic refComment = children.getTopicOrNull(COMMENT);
         if (refComment != null) {
             acs.enrichWithUserInfo(refComment);
         }
-        Topic refTextblock = comment.getChildTopics().getTopicOrNull(TEXTBLOCK);
+        Topic refNote = children.getTopicOrNull(LINQA_NOTE);
+        if (refNote != null) {
+            enrichWithColor(refNote);
+        }
+        Topic refTextblock = children.getTopicOrNull(TEXTBLOCK);
         if (refTextblock != null) {
             enrichWithColor(refTextblock);
         }

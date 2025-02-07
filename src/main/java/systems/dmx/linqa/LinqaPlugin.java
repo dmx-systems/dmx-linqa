@@ -539,6 +539,16 @@ public class LinqaPlugin extends PluginActivator implements LinqaService, Topicm
     }
 
     @PUT
+    @Path("/topic/{topicId}")
+    @Transactional
+    @Override
+    public void setViewProps(@PathParam("topicId") long topicId, ViewProps viewProps) {
+        long topicmapId = topicmapId();
+        tms.setTopicViewProps(topicmapId, topicId, viewProps);
+        // TODO: messaging
+    }
+
+    @PUT
     @Path("/user_profile")
     @Transactional
     @Override

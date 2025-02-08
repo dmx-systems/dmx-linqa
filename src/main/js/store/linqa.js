@@ -320,7 +320,7 @@ const store = createStore({
       })
     },
 
-    // 5 update-actions
+    // update content/positions
 
     /**
      * Dispatched when "OK" is pressed in a Document/Note/Textblock/Heading update-form.
@@ -336,37 +336,6 @@ const store = createStore({
       return dmx.rpc.updateTopic(topic).then(topic => removeEditActive(state, topic))
     },
 
-    // TODO: unify these 4, rename to "store"
-
-    updateColor ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.color': topic.viewProps['linqa.color']
-      })
-    },
-
-    updateShapeType ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.shape_type': topic.viewProps['linqa.shape_type']
-      })
-    },
-
-    updateArrowheads ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
-      })
-    },
-
-    updateLineStyle ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.line_style': topic.viewProps['linqa.line_style']
-      })
-    },
-
-    // TODO: receive array of propURIs and construct viewProps object
-    /* setTopicViewProps (_, {topicId, viewProps}) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topicId, viewProps)
-    }, */
-
     storeTopicPos ({state}, topic) {
       if (topic.id >= 0) {
         dmx.rpc.setTopicPosition(state.topicmap.id, topic.id, topic.pos)      // update server state
@@ -375,6 +344,45 @@ const store = createStore({
 
     storeTopicCoords ({state}, topicCoords) {
       dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
+    },
+
+    // update view props
+
+    updateColor ({state}, {topic, color}) {
+      // update client state
+      topic.setViewProp('linqa.color', color)            // for storage, TODO: still needed?
+      topic.children['linqa.color'] = {value: color}     // for rendering
+      // update server state
+      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        'linqa.color': color
+      })
+    },
+
+    updateShapeType ({state}, {topic, shape}) {
+      // update client state
+      topic.setViewProp('linqa.shape_type', shape)
+      // update server state
+      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        'linqa.shape_type': shape
+      })
+    },
+
+    updateArrowheads ({state}, {topic, arrowheads}) {
+      // update client state
+      topic.setViewProp('linqa.arrowheads', arrowheads)
+      // update server state
+      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        'linqa.arrowheads': arrowheads
+      })
+    },
+
+    updateLineStyle ({state}, {topic, lineStyle}) {
+      // update client state
+      topic.setViewProp('linqa.line_style', lineStyle)
+      // update server state
+      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        'linqa.line_style': lineStyle
+      })
     },
 
     storeTopicSize ({state}, topic) {
@@ -404,6 +412,8 @@ const store = createStore({
         'linqa.angle':  topic.viewProps['linqa.angle']
       })
     },
+
+    //
 
     /**
      * @param   topic   a dmx.ViewTopic

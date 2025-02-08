@@ -47,8 +47,7 @@ export default {
         return this.topic.viewProps['linqa.arrowheads'] || 'none'
       },
       set (arrowheads) {
-        this.topic.setViewProp('linqa.arrowheads', arrowheads)      // update client state
-        this.$store.dispatch('updateArrowheads', this.topic)        // update server state
+        this.$store.dispatch('updateArrowheads', {topic: this.topic, arrowheads})
       }
     },
 
@@ -57,8 +56,7 @@ export default {
         return this.topic.viewProps['linqa.line_style'] || 'none'
       },
       set (lineStyle) {
-        this.topic.setViewProp('linqa.line_style', lineStyle)       // update client state
-        this.$store.dispatch('updateLineStyle', this.topic)         // update server state
+        this.$store.dispatch('updateLineStyle', {topic: this.topic, lineStyle})
       }
     },
 

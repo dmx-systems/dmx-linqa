@@ -15,16 +15,34 @@ export default message => {
     }
     break
   case 'addTopicToTopicmap':
-    if (topicmap && topicmap.id === message.args.topicmapId) {
+    if (topicmap?.id === message.args.topicmapId) {
       topicmap.addTopic(new dmx.ViewTopic(message.args.viewTopic))
     }
     break
   case 'setTopicPosition':
-    if (topicmap && topicmap.id === message.args.topicmapId) {
+    if (topicmap?.id === message.args.topicmapId) {
       const topic = topicmap.getTopicIfExists(message.args.topicId)
       if (topic) {
         topic.setPosition(message.args.pos)
         store.dispatch('updateControlBox')
+      }
+    }
+    break
+  case 'setViewProps':
+    if (topicmap?.id === message.args.topicmapId) {
+      const topic = topicmap.getTopicIfExists(message.args.topicId)
+      if (topic) {
+        const viewProps = message.args.viewProps
+        for (const prop in viewProps) {
+          const value = viewProps[prop]
+          if (prop === 'linqa.color') {
+            // Note: in contrast to other view props "color" is represented at client-side as a synthetic child value.
+            // See comment in customizeTopic() in LinqaPlugin.java
+            topic.children['linqa.color'] = {value}
+          } else {
+            topic.setViewProp(prop, value)
+          }
+        }
       }
     }
     break

@@ -385,11 +385,19 @@ const store = createStore({
       })
     },
 
-    storeTopicSize ({state}, topic) {
+    /**
+     * @param   width     in pixel (Number)
+     * @param   height    in pixel (Number), or 'auto' (String)
+     */
+    updateTopicSize ({state}, {topic, width, height}) {
+      // update client state
+      topic.setViewProp('dmx.topicmaps.width', width)
+      topic.setViewProp('dmx.topicmaps.height', height)
+      // update server state
       if (topic.id >= 0) {
         dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
-          'dmx.topicmaps.height': topic.viewProps['dmx.topicmaps.height']
+          'dmx.topicmaps.width': width,
+          'dmx.topicmaps.height': height
         })
       }
     },

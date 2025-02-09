@@ -191,14 +191,19 @@ export default {
       }
     },
 
-    onRotate ({target, rotate}) {
-      const angle = Math.round(rotate / 5) * 5          // rotate in 5 deg steps
-      target.style.transform = `rotate(${angle}deg)`;   // view update not strictly required but improves rendering
-      this.findTopic(target).setViewProp('linqa.angle', angle)     // update model
+    onRotate (e) {
+      // update view
+      const angle = snapToAngle(e.rotate)
+      e.target.style.transform = `rotate(${angle}deg)`
     },
 
     onRotateEnd (e) {
-      this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
+      if (e.isDrag) {     // "lastEvent" is available only if mouse actually moved between mousedown and mouseup
+        // update view model + server state
+        const topic = this.findTopic(e.target)
+        const angle = snapToAngle(e.lastEvent.rotate)
+        this.$store.dispatch('updateTopicAngle', {topic, angle})
+      }
     },
 
     // 3 vue-moveable event handlers (canvas panning)
@@ -348,7 +353,11 @@ export default {
  * @param   width     in pixel (Number)
  * @param   height    in pixel (Number), or 'auto' (String)
  */
-function setSizeDOM(element, width, height) {
+function setSizeDOM (element, width, height) {
   element.style.width = `${width}px`
   element.style.height = `${height}${height !== 'auto' ? 'px' : ''}`
+}
+
+function snapToAngle (angle) {
+  return Math.round(angle / lq.ROTATE_GRID) * lq.ROTATE_GRID
 }

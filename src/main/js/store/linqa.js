@@ -346,7 +346,7 @@ const store = createStore({
       dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
     },
 
-    // update view props
+    // 7 update view prop actions
 
     updateColor ({state}, {topic, color}) {
       // update client state
@@ -402,10 +402,13 @@ const store = createStore({
       }
     },
 
-    storeTopicAngle ({state}, topic) {
+    updateTopicAngle ({state}, {topic, angle}) {
+      // update client state
+      topic.setViewProp('linqa.angle', angle)
+      // update server state
       if (topic.id >= 0) {
         dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'linqa.angle': topic.viewProps['linqa.angle']
+          'linqa.angle': angle
         })
       }
     },

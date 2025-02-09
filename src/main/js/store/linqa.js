@@ -348,75 +348,65 @@ const store = createStore({
 
     // 7 update view prop actions
 
-    updateColor ({state}, {topic, color}) {
+    updateColor (_, {topic, color}) {
       // update client state
       topic.setViewProp('linqa.color', color)            // for storage, TODO: still needed?
       topic.children['linqa.color'] = {value: color}     // for rendering
       // update server state
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.color': color
-      })
+      storeViewPops(topic.id, {'linqa.color': color})
     },
 
-    updateShapeType ({state}, {topic, shape}) {
+    updateShapeType (_, {topic, shape}) {
       // update client state
       topic.setViewProp('linqa.shape_type', shape)
       // update server state
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.shape_type': shape
-      })
+      storeViewPops(topic.id, {'linqa.shape_type': shape})
     },
 
-    updateArrowheads ({state}, {topic, arrowheads}) {
+    updateArrowheads (_, {topic, arrowheads}) {
       // update client state
       topic.setViewProp('linqa.arrowheads', arrowheads)
       // update server state
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.arrowheads': arrowheads
-      })
+      storeViewPops(topic.id, {'linqa.arrowheads': arrowheads})
     },
 
-    updateLineStyle ({state}, {topic, lineStyle}) {
+    updateLineStyle (_, {topic, lineStyle}) {
       // update client state
       topic.setViewProp('linqa.line_style', lineStyle)
       // update server state
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.line_style': lineStyle
-      })
+      storeViewPops(topic.id, {'linqa.line_style': lineStyle})
     },
 
     /**
      * @param   width     in pixel (Number)
      * @param   height    in pixel (Number), or 'auto' (String)
      */
-    updateTopicSize ({state}, {topic, width, height}) {
+    updateTopicSize (_, {topic, width, height}) {
       // update client state
       topic.setViewProp('dmx.topicmaps.width', width)
       topic.setViewProp('dmx.topicmaps.height', height)
       // update server state
       if (topic.id >= 0) {
-        dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+        storeViewPops(topic.id, {
           'dmx.topicmaps.width': width,
           'dmx.topicmaps.height': height
         })
       }
     },
 
-    updateTopicAngle ({state}, {topic, angle}) {
+    updateTopicAngle (_, {topic, angle}) {
       // update client state
       topic.setViewProp('linqa.angle', angle)
       // update server state
       if (topic.id >= 0) {
-        dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'linqa.angle': angle
-        })
+        storeViewPops(topic.id, {'linqa.angle': angle})
       }
     },
 
-    storeLineHandles ({state}, topic) {
+    storeLineGeometry (_, topic) {
       // Note: the server would store doubles but can't retrieve doubles but integers (ClassCastException)!
       // So we better do the rounding here.
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      storeViewPops(topic.id, {
         'dmx.topicmaps.x':     Math.round(topic.viewProps['dmx.topicmaps.x']),
         'dmx.topicmaps.y':     Math.round(topic.viewProps['dmx.topicmaps.y']),
         'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
@@ -972,6 +962,10 @@ function fetchDiscussion (state) {
 function fetchTopicmap () {
   const topicmapId = dmx.utils.getCookie('dmx_topicmap_id')
   return dmx.rpc.getTopicmap(topicmapId, true)      // includeChildren=true
+}
+
+function storeViewPops (topicId, viewProps) {
+  http.put(`/linqa/topic/${topicId}`, viewProps)
 }
 
 // TODO: display name logic copied from admin.js updateUser()

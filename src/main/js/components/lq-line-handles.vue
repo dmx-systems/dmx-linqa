@@ -84,7 +84,7 @@ export default {
 
     onDragEnd () {
       // console.log('lq-line-handles onDragEnd()')
-      this.$store.dispatch('storeLineHandles', this.topic)
+      this.$store.dispatch('storeLineGeometry', this.topic)
       this.dragStop()
     },
 

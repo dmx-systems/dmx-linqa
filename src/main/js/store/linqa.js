@@ -350,9 +350,7 @@ const store = createStore({
 
     updateColor (_, {topic, color}) {
       // update client state
-      // Note: in contrast to other view props "color" is represented at client-side as a synthetic child value.
-      // See comment in customizeTopic() in LinqaPlugin.java
-      topic.children['linqa.color'] = {value: color}
+      topic.setViewProp('linqa.color', color)
       // update server state
       storeViewPops(topic.id, {'linqa.color': color})
     },

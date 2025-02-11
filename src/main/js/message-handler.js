@@ -34,14 +34,7 @@ export default message => {
       if (topic) {
         const viewProps = message.args.viewProps
         for (const prop in viewProps) {
-          const value = viewProps[prop]
-          if (prop === 'linqa.color') {
-            // Note: in contrast to other view props "color" is represented at client-side as a synthetic child value.
-            // See comment in customizeTopic() in LinqaPlugin.java
-            topic.children['linqa.color'] = {value}
-          } else {
-            topic.setViewProp(prop, value)
-          }
+          topic.setViewProp(prop, viewProps[prop])
         }
       }
     }

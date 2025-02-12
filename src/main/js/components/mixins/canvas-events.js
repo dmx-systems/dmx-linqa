@@ -168,30 +168,42 @@ export default {
 
     onResize (e) {
       LOG && console.log('onResize', e.direction)
-      this.setSize(e.target, e.width, this.autoHeight(e, e.height))
+      // update view
+      // Note: for measurement "moveable" relies on immediately updated *view*.
+      // The view updated by Vue.js (as based on *model*) is only up-to-date at next tick.
+      const width = e.width
+      const height = this.autoHeight(e, e.height)
+      setSizeDOM(e.target, width, height)
     },
 
     onResizeEnd (e) {
       LOG && console.log('onResizeEnd', e.isDrag, e.lastEvent?.direction, e.lastEvent?.dist)
-      if (e.isDrag) {     // mouse actually moved between mousedown and mouseup, only then "lastEvent" is available
+      if (e.isDrag) {     // "lastEvent" is available only if mouse actually moved between mousedown and mouseup
+        // update view
+        // Note: we only snap-to-grid on resize-end. While resize is in progress it does not work properly (the mouse
+        // is no longer over the component when width is changed programmatically?).
+        const width = lq.snapToGrid(e.lastEvent.width)
+        const height = this.autoHeight(e.lastEvent, lq.snapToGrid(e.lastEvent.height))
+        setSizeDOM(e.target, width, height)
+        // update view model + server state
         const topic = this.findTopic(e.target)
-        // We only snap-to-grid on resize-end. While resize is in progress it does not work properly (the mouse is
-        // no longer over the component when width is changed programmatically?).
-        const width = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.width'))
-        const height = lq.snapToGrid(topic.getViewProp('dmx.topicmaps.height'))
-        this.setSize(e.target, width, this.autoHeight(e.lastEvent, height))
-        this.$store.dispatch('storeTopicSize', topic)
+        this.$store.dispatch('updateTopicSize', {topic, width, height})
       }
     },
 
-    onRotate ({target, rotate}) {
-      const angle = Math.round(rotate / 5) * 5          // rotate in 5 deg steps
-      target.style.transform = `rotate(${angle}deg)`;   // view update not strictly required but improves rendering
-      this.findTopic(target).setViewProp('linqa.angle', angle)     // update model
+    onRotate (e) {
+      // update view
+      const angle = snapToAngle(e.rotate)
+      e.target.style.transform = `rotate(${angle}deg)`
     },
 
     onRotateEnd (e) {
-      this.$store.dispatch('storeTopicAngle', this.findTopic(e.target))
+      if (e.isDrag) {     // "lastEvent" is available only if mouse actually moved between mousedown and mouseup
+        // update view model + server state
+        const topic = this.findTopic(e.target)
+        const angle = snapToAngle(e.lastEvent.rotate)
+        this.$store.dispatch('updateTopicAngle', {topic, angle})
+      }
     },
 
     // 3 vue-moveable event handlers (canvas panning)
@@ -310,6 +322,13 @@ export default {
       this.dragStart('track-pan')
     },
 
+    findTopic (el) {
+      return this.selection.find(topic => topic.id == el.dataset.id)      // Note: dataset values are strings
+    },
+
+    /**
+     * @return    the given height (Number) or 'auto' (String) depending on what resize-handler was used
+     */
     autoHeight (e, height) {
       return e.direction[1] === 0 && this.config('autoHeight') ? 'auto' : height    // detect "east"-handler
     },
@@ -328,4 +347,17 @@ export default {
       this.groupHover = false
     }
   }
+}
+
+/**
+ * @param   width     in pixel (Number)
+ * @param   height    in pixel (Number), or 'auto' (String)
+ */
+function setSizeDOM (element, width, height) {
+  element.style.width = `${width}px`
+  element.style.height = `${height}${height !== 'auto' ? 'px' : ''}`
+}
+
+function snapToAngle (angle) {
+  return Math.round(angle / lq.ROTATE_GRID) * lq.ROTATE_GRID
 }

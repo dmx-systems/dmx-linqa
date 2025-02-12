@@ -320,7 +320,7 @@ const store = createStore({
       })
     },
 
-    // 5 update-actions
+    // update content/positions
 
     /**
      * Dispatched when "OK" is pressed in a Document/Note/Textblock/Heading update-form.
@@ -336,37 +336,6 @@ const store = createStore({
       return dmx.rpc.updateTopic(topic).then(topic => removeEditActive(state, topic))
     },
 
-    // TODO: unify these 4, rename to "store"
-
-    updateColor ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.color': topic.viewProps['linqa.color']
-      })
-    },
-
-    updateShapeType ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.shape_type': topic.viewProps['linqa.shape_type']
-      })
-    },
-
-    updateArrowheads ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
-      })
-    },
-
-    updateLineStyle ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.line_style': topic.viewProps['linqa.line_style']
-      })
-    },
-
-    // TODO: receive array of propURIs and construct viewProps object
-    /* setTopicViewProps (_, {topicId, viewProps}) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topicId, viewProps)
-    }, */
-
     storeTopicPos ({state}, topic) {
       if (topic.id >= 0) {
         dmx.rpc.setTopicPosition(state.topicmap.id, topic.id, topic.pos)      // update server state
@@ -377,33 +346,74 @@ const store = createStore({
       dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
     },
 
-    storeTopicSize ({state}, topic) {
+    // 7 update view prop actions
+
+    updateColor (_, {topic, color}) {
+      // update client state
+      topic.setViewProp('linqa.color', color)
+      // update server state
+      storeViewPops(topic.id, {'linqa.color': color})
+    },
+
+    updateShapeType (_, {topic, shape}) {
+      // update client state
+      topic.setViewProp('linqa.shape_type', shape)
+      // update server state
+      storeViewPops(topic.id, {'linqa.shape_type': shape})
+    },
+
+    updateArrowheads (_, {topic, arrowheads}) {
+      // update client state
+      topic.setViewProp('linqa.arrowheads', arrowheads)
+      // update server state
+      storeViewPops(topic.id, {'linqa.arrowheads': arrowheads})
+    },
+
+    updateLineStyle (_, {topic, lineStyle}) {
+      // update client state
+      topic.setViewProp('linqa.line_style', lineStyle)
+      // update server state
+      storeViewPops(topic.id, {'linqa.line_style': lineStyle})
+    },
+
+    /**
+     * @param   width     in pixel (Number)
+     * @param   height    in pixel (Number), or 'auto' (String)
+     */
+    updateTopicSize (_, {topic, width, height}) {
+      // update client state
+      topic.setViewProp('dmx.topicmaps.width', width)
+      topic.setViewProp('dmx.topicmaps.height', height)
+      // update server state
       if (topic.id >= 0) {
-        dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
-          'dmx.topicmaps.height': topic.viewProps['dmx.topicmaps.height']
+        storeViewPops(topic.id, {
+          'dmx.topicmaps.width': width,
+          'dmx.topicmaps.height': height
         })
       }
     },
 
-    storeTopicAngle ({state}, topic) {
+    updateTopicAngle (_, {topic, angle}) {
+      // update client state
+      topic.setViewProp('linqa.angle', angle)
+      // update server state
       if (topic.id >= 0) {
-        dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'linqa.angle': topic.viewProps['linqa.angle']
-        })
+        storeViewPops(topic.id, {'linqa.angle': angle})
       }
     },
 
-    storeLineHandles ({state}, topic) {
+    storeLineGeometry (_, topic) {
       // Note: the server would store doubles but can't retrieve doubles but integers (ClassCastException)!
       // So we better do the rounding here.
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      storeViewPops(topic.id, {
         'dmx.topicmaps.x':     Math.round(topic.viewProps['dmx.topicmaps.x']),
         'dmx.topicmaps.y':     Math.round(topic.viewProps['dmx.topicmaps.y']),
         'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
         'linqa.angle':  topic.viewProps['linqa.angle']
       })
     },
+
+    //
 
     /**
      * @param   topic   a dmx.ViewTopic
@@ -938,6 +948,7 @@ function findWorkspace (state, id) {
 }
 
 function fetchDiscussion (state) {
+  state.topicmap = undefined        // on workspace switch discussion refs must not refer to outdated topicmap items
   state.discussion = undefined      // trigger recalculation of "noComments" (lq-discussion.vue), load-spinner appears
   state.discussionLoading = true
   http.get('/linqa/discussion').then(response => {
@@ -951,6 +962,10 @@ function fetchDiscussion (state) {
 function fetchTopicmap () {
   const topicmapId = dmx.utils.getCookie('dmx_topicmap_id')
   return dmx.rpc.getTopicmap(topicmapId, true)      // includeChildren=true
+}
+
+function storeViewPops (topicId, viewProps) {
+  http.put(`/linqa/topic/${topicId}`, viewProps)
 }
 
 // TODO: display name logic copied from admin.js updateUser()

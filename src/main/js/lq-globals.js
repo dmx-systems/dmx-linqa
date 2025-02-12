@@ -5,6 +5,7 @@ import app from './app'
 import store from './store/linqa'
 
 const SMALL_SCREEN_WIDTH = 600  // Threshold for switching between small/big UI layout (in pixel)
+const ROTATE_GRID = 5           // Rotate items in 5 deg steps
 const CANVAS_GRID = 20          // 20x20 pixel = size of grid.png
 const CANVAS_BORDER = 40        // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
                                 // Should be a multiple of CANVAS_GRID.
@@ -27,6 +28,7 @@ console.log('[Linqa] isChrome:', isChrome)
 export default {
 
   SMALL_SCREEN_WIDTH,
+  ROTATE_GRID,
   CANVAS_GRID,
   CANVAS_BORDER,
   CANVAS_ZOOM_FACTOR,
@@ -177,7 +179,7 @@ function canvasFilter (topic) {
          topic.typeUri === 'linqa.viewport' && (store.state.isLinqaAdmin || store.state.isEditor)
 }
 
-function snapToGrid(value) {
+function snapToGrid (value) {
   return Math.round(value / CANVAS_GRID) * CANVAS_GRID
 }
 

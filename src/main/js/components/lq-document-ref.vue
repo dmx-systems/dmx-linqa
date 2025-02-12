@@ -21,9 +21,12 @@ export default {
   computed: {
 
     docNames () {
+      // Note: we read doc name from topicmap ViewTopic so when it changes the ref doc name changes as well
+      const topic = this.$store.state.topicmap?.getTopic(this.document.id)       // undefined if topicmap not yet loaded
       return {
-        lang1: this.document.children['linqa.document_name#linqa.lang1']?.value,
-        lang2: this.document.children['linqa.document_name#linqa.lang2']?.value
+        // in a monolingual doc name "lang2" is undefined
+        lang1: topic?.children['linqa.document_name#linqa.lang1']?.value,
+        lang2: topic?.children['linqa.document_name#linqa.lang2']?.value
       }
     },
 

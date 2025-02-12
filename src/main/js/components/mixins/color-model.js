@@ -11,9 +11,8 @@ export default {
     color: {
       get () {
         try {
-          const topicmap = this.$store.state.topicmap
-          const topic = topicmap.getTopic(this.topic.id)
-          const c = topic.viewProps['linqa.color']
+          const topicmap = this.$store.state.topicmap     // is undefined if not yet loaded
+          const c = topicmap?.getTopic(this.topic.id).viewProps['linqa.color']
           if (c) {
             return c
           }

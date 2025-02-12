@@ -60,11 +60,11 @@ export default {
   methods: {
 
     html (lang) {
-      // Note: in a monolingual note "lang2" is not defined
-      const html = this.topic.children['linqa.note_text#linqa.' + lang]?.value
-      if (html !== '<p><br></p>') {
-        return html
-      }
+      // Note: we read ref HTML from topicmap ViewTopic so when it changes the ref HTML changes as well
+      const topic = this.$store.state.topicmap?.getTopic(this.topic.id)       // undefined if topicmap not yet loaded
+      // in a monolingual note "lang2" is undefined
+      const html = topic?.children['linqa.note_text#linqa.' + lang]?.value
+      return html !== '<p><br></p>' && html
     },
 
     reveal () {

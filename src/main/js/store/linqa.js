@@ -948,6 +948,7 @@ function findWorkspace (state, id) {
 }
 
 function fetchDiscussion (state) {
+  state.topicmap = undefined        // on workspace switch discussion refs must not refer to outdated topicmap items
   state.discussion = undefined      // trigger recalculation of "noComments" (lq-discussion.vue), load-spinner appears
   state.discussionLoading = true
   http.get('/linqa/discussion').then(response => {

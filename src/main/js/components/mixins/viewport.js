@@ -37,7 +37,7 @@ export default {
   methods: {
     setZoom (zoom, cx, cy, transition) {
       // ignore if not in range
-      if (zoom < lq.CANVAS_ZOOM_MIN) {
+      if (zoom < lq.ZOOM_MIN) {
         return
       }
       const zoomChange = zoom - this.zoom

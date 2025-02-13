@@ -276,7 +276,7 @@ export default {
       if (e.deltaY == 0) {
         return
       }
-      const f = 1.1 * e.deltaY / e.deltaY
+      const f = lq.ZOOM_WHEEL_FACTOR * e.deltaY / e.deltaY
       let zoom
       if (e.deltaY > 0) {
         zoom = this.zoom / f

@@ -9,8 +9,9 @@ const ROTATE_GRID = 5           // Rotate items in 5 deg steps
 const CANVAS_GRID = 20          // 20x20 pixel = size of grid.png
 const CANVAS_BORDER = 40        // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).
                                 // Should be a multiple of CANVAS_GRID.
-const CANVAS_ZOOM_MIN = .02     // Zoom change is only applied if not smaller than this value
-const CANVAS_ZOOM_FACTOR = 1.2  // Factor for stepwise zoom-in/zoom-out
+const ZOOM_STEP_FACTOR = 1.2    // Factor for stepwise zoom-in/zoom-out
+const ZOOM_WHEEL_FACTOR = 1.04  // Factor for mouse wheel zoom-in/zoom-out
+const ZOOM_MIN = .02            // Zoom change is only applied if not smaller than this value
 const FORM_WIDTH = 384          // 360 = width of upload area, +24=2*12 pixel padding   // TODO: proper geometry
 const LINE_LENGTH = 200         // Should be a multiple of CANVAS_GRID
 const LINE_HEIGHT = 40          // Should be a multiple of CANVAS_GRID
@@ -31,8 +32,9 @@ export default {
   ROTATE_GRID,
   CANVAS_GRID,
   CANVAS_BORDER,
-  CANVAS_ZOOM_FACTOR,
-  CANVAS_ZOOM_MIN,
+  ZOOM_STEP_FACTOR,
+  ZOOM_WHEEL_FACTOR,
+  ZOOM_MIN,
 
   FORM_WIDTH,
   LINE_LENGTH,

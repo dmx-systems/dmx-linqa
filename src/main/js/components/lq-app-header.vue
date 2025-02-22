@@ -179,7 +179,7 @@ export default {
 
 .lq-app-header .workspace .name {
   font-weight: bold;
-  font-style: italic;
+/*  font-style: italic;*/
 }
 
 .lq-app-header .admin-button {

@@ -1,6 +1,7 @@
 package systems.dmx.linqa;
 
 import systems.dmx.core.Topic;
+import systems.dmx.core.model.topicmaps.ViewProps;
 import systems.dmx.core.service.websocket.WebSocketService;
 
 import org.codehaus.jettison.json.JSONObject;
@@ -28,7 +29,7 @@ class Messenger {
 
     void addComment(long workspaceId, Topic comment) {
         try {
-            sendToAllButOrigin(new JSONObject()
+            sendToAllButOrigin(new JSONObject()     // TODO: use sendToReadAllowed() instead?
                 .put("type", "addComment")
                 .put("args", new JSONObject()
                     .put("workspaceId", workspaceId)
@@ -37,6 +38,21 @@ class Messenger {
             );
         } catch (Exception e) {
             logger.log(Level.WARNING, "Error while sending a \"addComment\" message:", e);
+        }
+    }
+
+    void setViewProps(long topicmapId, long topicId, ViewProps viewProps) {
+        try {
+            sendToReadAllowed(new JSONObject()
+                .put("type", "setViewProps")
+                .put("args", new JSONObject()
+                    .put("topicmapId", topicmapId)
+                    .put("topicId", topicId)
+                    .put("viewProps", viewProps.toJSON())
+                ), topicId
+            );
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error while sending a \"setViewProps\" message:", e);
         }
     }
 

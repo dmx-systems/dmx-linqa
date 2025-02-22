@@ -287,26 +287,6 @@ export default {
 
     //
 
-    /**
-     * @param   width     in pixel (Number)
-     * @param   height    in pixel (Number), or 'auto' (String)
-     */
-    setSize (target, width, height) {
-      // Note: for measurement "moveable" relies on immediately updated *view*.
-      // The view updated by Vue.js (as based on *model*) is only up-to-date at next tick.
-      const topic = this.findTopic(target)
-      // update model
-      topic.setViewProp('dmx.topicmaps.width', width)
-      topic.setViewProp('dmx.topicmaps.height', height)
-      // update view
-      target.style.width = `${width}px`
-      target.style.height = `${height}${height !== 'auto' ? 'px' : ''}`
-    },
-
-    findTopic (el) {
-      return this.selection.find(topic => topic.id == el.dataset.id)      // Note: dataset values are strings
-    },
-
     config (prop, topic = this.selectedTopic) {
       const c = this.CONFIG[topic.typeUri]
       const config = c && c[prop]

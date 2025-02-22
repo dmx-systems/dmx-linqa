@@ -1,7 +1,7 @@
 <template>
-  <div class="lq-textblock-ref lq-comment-target-ref" v-if="topic" :style="style" @click="reveal">
-    <span class="icon fa fa-align-left secondary"></span>
-    <lq-truncate class="textblock label" :html="textblockHtml"></lq-truncate>
+  <div class="lq-note-ref lq-comment-target-ref" v-if="topic" :style="style" @click="reveal">
+    <span class="icon fa fa-sticky-note secondary"></span>
+    <lq-truncate class="note label" :html="noteHtml"></lq-truncate>
     <el-button class="close-button" v-if="closable" type="primary" link icon="close" :title="resetTooltip"
       @click.stop="close">
     </el-button>
@@ -18,7 +18,7 @@ export default {
   ],
 
   props: {
-    topic: Object,          // the referred-to Textblock, optional (plain Object, not a dmx.Topic)
+    topic: Object,          // the referred-to Note, optional (plain Object, not a dmx.Topic)
     closable: Boolean       // if true the close-button is rendered, optional
   },
 
@@ -31,7 +31,7 @@ export default {
       }
     },
 
-    textblockHtml () {
+    noteHtml () {
       const topicHtml = this.topicHtml
       if (topicHtml.lang1 && topicHtml.lang2) {
         return topicHtml[lq.langSuffix(this.lang)]
@@ -62,8 +62,8 @@ export default {
     html (lang) {
       // Note: we read ref HTML from topicmap ViewTopic so when it changes the ref HTML changes as well
       const topic = this.$store.state.topicmap?.getTopic(this.topic.id)       // undefined if topicmap not yet loaded
-      // in a monolingual textblock "lang2" is undefined
-      const html = topic?.children['linqa.textblock_text#linqa.' + lang]?.value
+      // in a monolingual note "lang2" is undefined
+      const html = topic?.children['linqa.note_text#linqa.' + lang]?.value
       return html !== '<p><br></p>' && html
     },
 
@@ -79,17 +79,17 @@ export default {
 </script>
 
 <style>
-.lq-textblock-ref {
+.lq-note-ref {
   display: inline-block;
   padding: 6px;
   cursor: pointer;
 }
 
-.lq-textblock-ref .icon {
+.lq-note-ref .icon {
   margin-right: 6px;
 }
 
-.lq-textblock-ref .close-button {
+.lq-note-ref .close-button {
   font-size: 18px;
   vertical-align: top !important;
   margin-left: 8px;

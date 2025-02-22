@@ -13,10 +13,7 @@ export default {
   },
 
   props: {
-    html: {
-      type: String,
-      required: true
-    }
+    html: String
   },
 
   data () {

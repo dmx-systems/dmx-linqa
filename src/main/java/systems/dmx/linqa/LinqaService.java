@@ -2,6 +2,7 @@ package systems.dmx.linqa;
 
 import systems.dmx.core.RelatedTopic;
 import systems.dmx.core.Topic;
+import systems.dmx.core.model.topicmaps.ViewProps;
 import systems.dmx.core.model.topicmaps.ViewTopic;
 import systems.dmx.core.util.IdList;
 import systems.dmx.deepl.Translation;
@@ -67,6 +68,8 @@ public interface LinqaService {
     List<ViewTopic> duplicateMulti(IdList topicIds, int xyOffset);
 
     void setLockedMulti(boolean locked, IdList topicIds);
+
+    void setViewProps(long topicId, ViewProps viewProps);
 
     /**
      * Updates the profile of the current user.

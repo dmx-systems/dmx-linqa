@@ -1,12 +1,5 @@
 include:
   - project: 'devops/ci-templates'
+    ref: node20
     file:
-      - '/.global.yml'
-      - '/.stages.yml'
-      - '/.node20-maven-build.yml'
-      - '/.node20-sonarqube-check.yml'
-      - '/.publish.yml'
-      - '/.deploy.yml'
-      - '/.install.yml'
-      - '/.present.yml'
-      - '/.preview.yml'
+      - '/.plugin-templates.yml'

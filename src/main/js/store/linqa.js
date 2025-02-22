@@ -86,10 +86,8 @@ const store = createStore({
     panelVisibility,              // discussion panel visibility (Boolean)
     panelPos,                     // x coordinate of the discussion panel, regardless if open/closed, in pixel (Number)
     discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
-    discussionLoading: false,     // true while a discussion is loading
-    documentFilter: undefined,    // discussion is filtered by this document (a Document topic, plain object)
-    textblockFilter: undefined    // discussion is filtered by this textblock (a Textblock topic, plain object)
-                                  // Either one of both is set, or none. TODO: unify these 2
+    discussionFilter: undefined,  // a Document/Note/Textblock topic (plain object), or undefined if no filter is active
+    discussionLoading: false      // true while a discussion is loading
   },
 
   actions: {
@@ -157,8 +155,7 @@ const store = createStore({
         throw Error(`${workspaceId} is not a workspace ID`)
       }
       dispatch('deselect')                        // reset selection
-      dispatch('setDocumentFilter', undefined)    // reset document-filter
-      dispatch('setTextblockFilter', undefined)   // reset textblock-filter
+      dispatch('setDiscussionFilter', undefined)  // reset discussion-filter
       dispatch('search/search', '')               // reset search
       dmx.rpc.getTopic(workspaceId, true).then(workspace => {           // includeChildren=true
         if (workspace.typeUri !== 'dmx.workspaces.workspace') {
@@ -323,7 +320,7 @@ const store = createStore({
       })
     },
 
-    // 5 update-actions
+    // update content/positions
 
     /**
      * Dispatched when "OK" is pressed in a Document/Note/Textblock/Heading update-form.
@@ -339,37 +336,6 @@ const store = createStore({
       return dmx.rpc.updateTopic(topic).then(topic => removeEditActive(state, topic))
     },
 
-    // TODO: unify these 4, rename to "store"
-
-    updateColor ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.color': topic.viewProps['linqa.color']
-      })
-    },
-
-    updateShapeType ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.shape_type': topic.viewProps['linqa.shape_type']
-      })
-    },
-
-    updateArrowheads ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.arrowheads': topic.viewProps['linqa.arrowheads']
-      })
-    },
-
-    updateLineStyle ({state}, topic) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-        'linqa.line_style': topic.viewProps['linqa.line_style']
-      })
-    },
-
-    // TODO: receive array of propURIs and construct viewProps object
-    /* setTopicViewProps (_, {topicId, viewProps}) {
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topicId, viewProps)
-    }, */
-
     storeTopicPos ({state}, topic) {
       if (topic.id >= 0) {
         dmx.rpc.setTopicPosition(state.topicmap.id, topic.id, topic.pos)      // update server state
@@ -380,27 +346,66 @@ const store = createStore({
       dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
     },
 
-    storeTopicSize ({state}, topic) {
+    // 7 update view prop actions
+
+    updateColor (_, {topic, color}) {
+      // update client state
+      topic.setViewProp('linqa.color', color)
+      // update server state
+      storeViewPops(topic.id, {'linqa.color': color})
+    },
+
+    updateShapeType (_, {topic, shape}) {
+      // update client state
+      topic.setViewProp('linqa.shape_type', shape)
+      // update server state
+      storeViewPops(topic.id, {'linqa.shape_type': shape})
+    },
+
+    updateArrowheads (_, {topic, arrowheads}) {
+      // update client state
+      topic.setViewProp('linqa.arrowheads', arrowheads)
+      // update server state
+      storeViewPops(topic.id, {'linqa.arrowheads': arrowheads})
+    },
+
+    updateLineStyle (_, {topic, lineStyle}) {
+      // update client state
+      topic.setViewProp('linqa.line_style', lineStyle)
+      // update server state
+      storeViewPops(topic.id, {'linqa.line_style': lineStyle})
+    },
+
+    /**
+     * @param   width     in pixel (Number)
+     * @param   height    in pixel (Number), or 'auto' (String)
+     */
+    updateTopicSize (_, {topic, width, height}) {
+      // update client state
+      topic.setViewProp('dmx.topicmaps.width', width)
+      topic.setViewProp('dmx.topicmaps.height', height)
+      // update server state
       if (topic.id >= 0) {
-        dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
-          'dmx.topicmaps.height': topic.viewProps['dmx.topicmaps.height']
+        storeViewPops(topic.id, {
+          'dmx.topicmaps.width': width,
+          'dmx.topicmaps.height': height
         })
       }
     },
 
-    storeTopicAngle ({state}, topic) {
+    updateTopicAngle (_, {topic, angle}) {
+      // update client state
+      topic.setViewProp('linqa.angle', angle)
+      // update server state
       if (topic.id >= 0) {
-        dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
-          'linqa.angle': topic.viewProps['linqa.angle']
-        })
+        storeViewPops(topic.id, {'linqa.angle': angle})
       }
     },
 
-    storeLineHandles ({state}, topic) {
+    storeLineGeometry (_, topic) {
       // Note: the server would store doubles but can't retrieve doubles but integers (ClassCastException)!
       // So we better do the rounding here.
-      dmx.rpc.setTopicViewProps(state.topicmap.id, topic.id, {
+      storeViewPops(topic.id, {
         'dmx.topicmaps.x':     Math.round(topic.viewProps['dmx.topicmaps.x']),
         'dmx.topicmaps.y':     Math.round(topic.viewProps['dmx.topicmaps.y']),
         'dmx.topicmaps.width': topic.viewProps['dmx.topicmaps.width'],
@@ -408,6 +413,11 @@ const store = createStore({
       })
     },
 
+    //
+
+    /**
+     * @param   topic   a dmx.ViewTopic
+     */
     revealTopic ({state, dispatch}, topic) {
       dispatch('select', [topic])     // programmatic selection
       dispatch('setViewport', {
@@ -578,54 +588,34 @@ const store = createStore({
     },
 
     /**
-     * @param   doc     a Document topic (plain object)
+     * @param   topic     a Document/Note/Textblock topic (plain object)
      */
-    revealDocument ({state, dispatch}, doc) {
-      dispatch('revealTopic', state.topicmap.getTopic(doc.id))
-      dispatch('setDocumentFilter', doc)
+    revealTopicAndSetFilter ({state, dispatch}, topic) {
+      dispatch('revealTopic', state.topicmap.getTopic(topic.id))
+      dispatch('setDiscussionFilter', topic)
     },
 
     /**
-     * @param   doc     a Textblock topic (plain object)
+     * @param   topic   optional: a Document/Note/Textblock topic (plain object), undefined to deactivate filter
      */
-    revealTextblock ({state, dispatch}, textblock) {
-      dispatch('revealTopic', state.topicmap.getTopic(textblock.id))
-      dispatch('setTextblockFilter', textblock)
-    },
-
-    /**
-     * @param   doc     optional: a Document topic (plain object)
-     */
-    setDocumentFilter ({state, dispatch}, doc) {
-      state.documentFilter = doc
-      if (doc) {
-        state.textblockFilter = undefined
-        dispatch('setPanelVisibility', true)
-      }
-      dispatch('updatePlaceholder')
-    },
-
-    /**
-     * @param   textblock     optional: a Textblock topic (plain object)
-     */
-    setTextblockFilter ({state, dispatch}, textblock) {
-      state.textblockFilter = textblock
-      if (textblock) {
-        state.documentFilter = undefined
+    setDiscussionFilter ({state, dispatch}, topic) {
+      state.discussionFilter = topic
+      if (topic) {
         dispatch('setPanelVisibility', true)
       }
       dispatch('updatePlaceholder')
     },
 
     updatePlaceholder ({state}) {
-        const editor = document.querySelector('.lq-discussion .new-comment .ql-editor')
-        // editor is not available
-        // 1) while app launch, updatePlaceholder() is called by setWorkspace()     // TODO: revise
-        // 2) when discussion panel is closed
-        if (editor) {
-          const suffix = state.documentFilter ? '_document' : state.textblockFilter ? '_textblock' : ''
-          editor.dataset.placeholder = lq.getString('label.new_comment' + suffix)
-        }
+      const editor = document.querySelector('.lq-discussion .new-comment .ql-editor')
+      // editor is not available
+      // 1) while app launch, updatePlaceholder() is called by setWorkspace()     // TODO: refactor
+      // 2) when discussion panel is closed
+      if (editor) {
+        // compute key from type URI, good idea?
+        const suffix = state.discussionFilter ? '_' + state.discussionFilter.typeUri.split('.')[1] : ''
+        editor.dataset.placeholder = lq.getString('label.new_comment' + suffix)
+      }
     },
 
     // 4 actions dispatched from canvas-item toolbar
@@ -958,6 +948,7 @@ function findWorkspace (state, id) {
 }
 
 function fetchDiscussion (state) {
+  state.topicmap = undefined        // on workspace switch discussion refs must not refer to outdated topicmap items
   state.discussion = undefined      // trigger recalculation of "noComments" (lq-discussion.vue), load-spinner appears
   state.discussionLoading = true
   http.get('/linqa/discussion').then(response => {
@@ -971,6 +962,10 @@ function fetchDiscussion (state) {
 function fetchTopicmap () {
   const topicmapId = dmx.utils.getCookie('dmx_topicmap_id')
   return dmx.rpc.getTopicmap(topicmapId, true)      // includeChildren=true
+}
+
+function storeViewPops (topicId, viewProps) {
+  http.put(`/linqa/topic/${topicId}`, viewProps)
 }
 
 // TODO: display name logic copied from admin.js updateUser()

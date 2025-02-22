@@ -82,11 +82,11 @@ export default {
     },
 
     isFiltered () {
-      return this.textblockFilter?.id === this.topic.id
+      return this.discussionFilter?.id === this.topic.id
     },
 
-    textblockFilter () {
-      return this.$store.state.textblockFilter
+    discussionFilter () {
+      return this.$store.state.discussionFilter
     },
 
     quillOptions () {
@@ -105,7 +105,7 @@ export default {
     },
 
     setFilter () {
-      this.$store.dispatch('setTextblockFilter', this.topic)
+      this.$store.dispatch('setDiscussionFilter', this.topic)
     },
 
     save () {
@@ -237,7 +237,7 @@ export default {
   position: absolute;
   top: 0;
   right: -34px;
-  padding: 2px 2px 2px 12px;
+  padding: 2px 3px 0px 11px;
   border-top-right-radius: 19px;
   border-bottom-right-radius: 19px;
   border-top: var(--filter-border);
@@ -246,6 +246,6 @@ export default {
 }
 
 .lq-textblock .discussion-button .el-button {
-  font-size: 18px;
+  font-size: 18px;      /* Element Plus default is 14px (--el-font-size-base) */
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div :class="['lq-document-ref', 'lq-comment-target-ref', {closable}]" v-if="document" @click="reveal">
-    <span class="icon fa fa-fw fa-file-o"></span>
+  <div class="lq-document-ref lq-comment-target-ref" v-if="document" :style="style" @click="reveal">
+    <span class="icon fa fa-file-o secondary"></span>
     <span class="doc-name label">{{docName}}</span>
     <el-button class="close-button" v-if="closable" type="primary" link icon="close" :title="resetTooltip"
       @click.stop="close">
@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import COLOR_PALETTE from '../lq-color-palette'
 import lq from '../lq-globals'
 
 export default {
@@ -21,9 +22,12 @@ export default {
   computed: {
 
     docNames () {
+      // Note: we read doc name from topicmap ViewTopic so when it changes the ref doc name changes as well
+      const topic = this.$store.state.topicmap?.getTopic(this.document.id)       // undefined if topicmap not yet loaded
       return {
-        lang1: this.document.children['linqa.document_name#linqa.lang1']?.value,
-        lang2: this.document.children['linqa.document_name#linqa.lang2']?.value
+        // in a monolingual doc name "lang2" is undefined
+        lang1: topic?.children['linqa.document_name#linqa.lang1']?.value,
+        lang2: topic?.children['linqa.document_name#linqa.lang2']?.value
       }
     },
 
@@ -35,6 +39,12 @@ export default {
         return docNames.lang1
       } else if (docNames.lang2) {
         return docNames.lang2
+      }
+    },
+
+    style () {
+      return {
+        'background-color': COLOR_PALETTE.background[1]
       }
     },
 
@@ -50,11 +60,11 @@ export default {
   methods: {
 
     reveal () {
-      this.$store.dispatch('revealDocument', this.document)
+      this.$store.dispatch('revealTopicAndSetFilter', this.document)
     },
 
     close () {
-      this.$store.dispatch('setDocumentFilter', undefined)
+      this.$store.dispatch('setDiscussionFilter', undefined)
     }
   }
 }
@@ -68,25 +78,13 @@ export default {
   cursor: pointer;
 }
 
-.lq-document-ref.closable {
-  background-color: var(--primary-color);
-}
-
 .lq-document-ref .icon {
-  color: var(--primary-color);
-}
-
-.lq-document-ref.closable .icon,
-.lq-document-ref.closable .doc-name {
-  color: black !important;
+  margin-right: 6px;
 }
 
 .lq-document-ref .close-button {
   font-size: 18px;
-  margin-left: 6px;
-}
-
-.lq-document-ref .close-button > i {
-  vertical-align: text-bottom;
+  vertical-align: top !important;
+  margin-left: 8px;
 }
 </style>

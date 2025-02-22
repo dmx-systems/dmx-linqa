@@ -37,8 +37,7 @@ export default {
         return this.topic.viewProps['linqa.shape_type'] || 'rectangle'
       },
       set (shape) {
-        this.topic.setViewProp('linqa.shape_type', shape)       // update client state
-        this.$store.dispatch('updateShapeType', this.topic)     // update server state
+        this.$store.dispatch('updateShapeType', {topic: this.topic, shape})
       }
     },
 

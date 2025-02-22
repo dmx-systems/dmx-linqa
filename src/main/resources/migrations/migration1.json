@@ -109,6 +109,62 @@
           }
         ]
       },
+      // Note
+      {
+        "value":       "Note Text",
+        "uri":         "linqa.note_text",
+        "dataTypeUri": "dmx.core.html"
+      },
+      {
+        "value":       "Note",
+        "uri":         "linqa.note",
+        "dataTypeUri": "dmx.core.entity",
+        "compDefs": [
+          {
+            "childTypeUri":        "linqa.note_text",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.lang1",
+            "includeInLabel":      true
+          },
+          {
+            "childTypeUri":        "linqa.note_text",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.lang2",
+            "includeInLabel":      true
+          },
+          {
+            "childTypeUri":        "linqa.language",
+            "childCardinalityUri": "dmx.core.one",
+            "customAssocTypeUri":  "linqa.original_language",
+            "viewConfigTopics": [
+              {
+                "typeUri": "dmx.webclient.view_config",
+                "children": {
+                  "dmx.webclient.widget": "ref_uri:dmx.webclient.select",
+                  "dmx.webclient.clearable": true
+                }
+              }
+            ]
+          },
+          {
+            "childTypeUri":        "linqa.translation_edited",
+            "childCardinalityUri": "dmx.core.one"
+          },
+          {
+            "childTypeUri":        "linqa.locked",
+            "childCardinalityUri": "dmx.core.one"
+          }
+        ],
+        "viewConfigTopics": [
+          {
+            "typeUri": "dmx.webclient.view_config",
+            "children": {
+              "dmx.webclient.icon": "\uf249",
+              "dmx.webclient.add_to_create_menu": true
+            }
+          }
+        ]
+      },
       // Textblock
       {
         "value":       "Textblock Text",
@@ -215,6 +271,10 @@
             "childCardinalityUri": "dmx.core.one"
           },
           {
+            "childTypeUri":        "linqa.note",
+            "childCardinalityUri": "dmx.core.one"
+          },
+          {
             "childTypeUri":        "linqa.textblock",
             "childCardinalityUri": "dmx.core.one"
           },
@@ -229,62 +289,6 @@
             "typeUri": "dmx.webclient.view_config",
             "children": {
               "dmx.webclient.icon": "\uf075",
-              "dmx.webclient.add_to_create_menu": true
-            }
-          }
-        ]
-      },
-      // Note
-      {
-        "value":       "Note Text",
-        "uri":         "linqa.note_text",
-        "dataTypeUri": "dmx.core.html"
-      },
-      {
-        "value":       "Note",
-        "uri":         "linqa.note",
-        "dataTypeUri": "dmx.core.entity",
-        "compDefs": [
-          {
-            "childTypeUri":        "linqa.note_text",
-            "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.lang1",
-            "includeInLabel":      true
-          },
-          {
-            "childTypeUri":        "linqa.note_text",
-            "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.lang2",
-            "includeInLabel":      true
-          },
-          {
-            "childTypeUri":        "linqa.language",
-            "childCardinalityUri": "dmx.core.one",
-            "customAssocTypeUri":  "linqa.original_language",
-            "viewConfigTopics": [
-              {
-                "typeUri": "dmx.webclient.view_config",
-                "children": {
-                  "dmx.webclient.widget": "ref_uri:dmx.webclient.select",
-                  "dmx.webclient.clearable": true
-                }
-              }
-            ]
-          },
-          {
-            "childTypeUri":        "linqa.translation_edited",
-            "childCardinalityUri": "dmx.core.one"
-          },
-          {
-            "childTypeUri":        "linqa.locked",
-            "childCardinalityUri": "dmx.core.one"
-          }
-        ],
-        "viewConfigTopics": [
-          {
-            "typeUri": "dmx.webclient.view_config",
-            "children": {
-              "dmx.webclient.icon": "\uf249",
               "dmx.webclient.add_to_create_menu": true
             }
           }

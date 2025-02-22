@@ -198,11 +198,11 @@ export default {
     },
 
     zoomIn () {
-      this.zoomTo(this.zoom * lq.CANVAS_ZOOM_FACTOR)
+      this.zoomTo(this.zoom * lq.ZOOM_STEP_FACTOR)
     },
 
     zoomOut () {
-      this.zoomTo(this.zoom / lq.CANVAS_ZOOM_FACTOR)
+      this.zoomTo(this.zoom / lq.ZOOM_STEP_FACTOR)
     },
 
     zoomTo (zoom) {

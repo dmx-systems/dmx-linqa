@@ -15,16 +15,27 @@ export default message => {
     }
     break
   case 'addTopicToTopicmap':
-    if (topicmap && topicmap.id === message.args.topicmapId) {
+    if (topicmap?.id === message.args.topicmapId) {
       topicmap.addTopic(new dmx.ViewTopic(message.args.viewTopic))
     }
     break
   case 'setTopicPosition':
-    if (topicmap && topicmap.id === message.args.topicmapId) {
+    if (topicmap?.id === message.args.topicmapId) {
       const topic = topicmap.getTopicIfExists(message.args.topicId)
       if (topic) {
         topic.setPosition(message.args.pos)
         store.dispatch('updateControlBox')
+      }
+    }
+    break
+  case 'setViewProps':
+    if (topicmap?.id === message.args.topicmapId) {
+      const topic = topicmap.getTopicIfExists(message.args.topicId)
+      if (topic) {
+        const viewProps = message.args.viewProps
+        for (const prop in viewProps) {
+          topic.setViewProp(prop, viewProps[prop])
+        }
       }
     }
     break

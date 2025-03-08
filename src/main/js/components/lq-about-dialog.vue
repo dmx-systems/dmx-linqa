@@ -3,7 +3,7 @@
     <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
     <div class="version">
       <span>2.1-SNAPSHOT</span>
-      <span class="date">Feb 13, 2025</span>
+      <span class="date">Mar 8, 2025</span>
     </div>
     <div class="dmx-html-field" v-html="text[lang]"></div>
   </el-dialog>

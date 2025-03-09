@@ -337,13 +337,15 @@ const store = createStore({
     },
 
     storeTopicPos ({state}, topic) {
+      // Note: new unsaved ("limbo") topics have negative IDs, these are skipped
       if (topic.id >= 0) {
         dmx.rpc.setTopicPosition(state.topicmap.id, topic.id, topic.pos)      // update server state
       }
     },
 
     storeTopicCoords ({state}, topicCoords) {
-      dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords)               // update server state
+      // Note: new unsaved ("limbo") topics have negative IDs, these are skipped
+      dmx.rpc.setTopicPositions(state.topicmap.id, topicCoords.filter(entry => entry.topicId >= 0))
     },
 
     // 7 update view prop actions

@@ -157,6 +157,7 @@ export default {
   display: flex;
   align-items: center;
   flex: none;
+  z-index: 1;           /* place header before resizer (disussion panel child) */
   padding: 2px 10px;
   background-color: var(--header-color);
 }

@@ -95,7 +95,7 @@ export default {
         e.stopDrag()
       } else {
         // clicking an input element does not inititate item drag
-        const INPUT = 'button, input, label[role="radio"], .ql-editor, div.emoji-picker-button'
+        const INPUT = 'button, input, label[role="radio"], .ql-editor, div.emoji-picker-button, div.el-upload'
         if (e.inputEvent.target.closest(INPUT)) {
           LOG && console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
           e.stopDrag()

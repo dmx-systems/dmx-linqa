@@ -157,7 +157,7 @@ export default {
   display: flex;
   align-items: center;
   flex: none;
-  z-index: 1;           /* place header before resizer (disussion panel child) */
+  z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */
   padding: 2px 10px;
   background-color: var(--header-color);
 }

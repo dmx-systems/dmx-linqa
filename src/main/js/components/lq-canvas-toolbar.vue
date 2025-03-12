@@ -232,7 +232,7 @@ function newSynId () {
   box-sizing: border-box;
   width: 100%;
   padding: 4px 8px;
-  z-index: 1;           /* place buttons above canvas items */
+  z-index: 1;           /* place toolbar before canvas items */
 }
 
 .lq-canvas-toolbar .el-button {

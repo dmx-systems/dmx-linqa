@@ -89,11 +89,11 @@ export default {
 
 <style>
 .lq-resizer {
-  position: absolute;
+  position: fixed;
+  top: 0;
   width: 16px;
   height: 100%;         /* we can't flex-grow (like lq-canvas and lq-discussion) because we're absolutely positioned */
   margin-left: -8px;    /* -width / 2 */
-  z-index: 2;           /* make it appear before discussion panel */
   cursor: col-resize;
   /* background-color: rgba(255, 0, 0, .3); */
 }

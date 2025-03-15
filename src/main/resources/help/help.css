@@ -33,17 +33,17 @@
   font-size: 48px;
 }
 
-.lq-help-dialog.page-7 {
+.lq-help-dialog.page-6 {
   background-color: #f7fcff;
 }
 
-.lq-help-dialog.page-7 #help-info {
+.lq-help-dialog.page-6 #help-info {
   width: 330px;
   margin-top: -10px;
   margin-left: auto;
   display: none;
 }
 
-.lq-help-dialog.page-7.first-login #help-info {
+.lq-help-dialog.page-6.first-login #help-info {
   display: block;
 }

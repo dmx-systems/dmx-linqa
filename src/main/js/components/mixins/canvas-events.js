@@ -94,8 +94,9 @@ export default {
         LOG && console.log('onDragStart() -> PREVENT ITEM DRAG (2 finger gesture)')
         e.stopDrag()
       } else {
-        const parent = e.inputEvent.target.closest('button, input, label[role="radio"], .ql-editor')
-        if (parent) {
+        // clicking an input element does not inititate item drag
+        const INPUT = 'button, input, label[role="radio"], .ql-editor, div.emoji-picker-button, div.el-upload'
+        if (e.inputEvent.target.closest(INPUT)) {
           LOG && console.log('onDragStart() -> PREVENT ITEM DRAG (clicked on input element)', e.target.dataset.id)
           e.stopDrag()
         } else {

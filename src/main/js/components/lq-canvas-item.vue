@@ -6,7 +6,7 @@
     <el-icon class="lock-icon" v-if="showLock"><lock></lock></el-icon>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
       <template v-for="action in actions" :key="action.key">
-        <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle"  @click="action.handler"
+        <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle" @click="action.handler"
             @mousedown.stop>
           <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
             <component :is="actionIcon(action)"></component>

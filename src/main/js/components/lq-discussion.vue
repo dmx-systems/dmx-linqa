@@ -1,6 +1,6 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
-
+    <lq-resizer></lq-resizer>
     <el-button class="close-button" type="primary" link icon="close" :title="closeTooltip" @click="close"></el-button>
     <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
@@ -269,6 +269,7 @@ export default {
   },
 
   components: {
+    'lq-resizer':       require('./lq-resizer').default,
     'lq-comment':       require('./lq-comment').default,
     'lq-upload-dialog': require('./lq-upload-dialog').default,
     'lq-app-header': require('./lq-app-header').default
@@ -284,15 +285,15 @@ export default {
   flex-grow: 1;
   position: relative;         /* place close-button relative to this element */
   box-sizing: border-box;
-  z-index: 1;
-  padding: 0 15px;
+  /*  z-index: 1; */ 
+  padding: 0 0 15px 15px;
+  /*  min-width to be discussed for better performance */ 
   min-width: 340px;
   /*  background-color: var(--background-color); */    
   background-color: rgb(247,247,247);
   box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -webkit-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -moz-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
-
 }
 
 .lq-discussion > .close-button {

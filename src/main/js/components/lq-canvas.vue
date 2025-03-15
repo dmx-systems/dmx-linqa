@@ -313,10 +313,6 @@ export default {
   overflow: hidden;
 }
 
-.lq-canvas .content-layer {
-  /* width: 10000px; */       /* avoid early line wrapping TODO: needed? */
-}
-
 .lq-canvas .content-layer.transition {
   transition: transform .5s;
 }

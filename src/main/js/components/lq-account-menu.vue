@@ -1,8 +1,8 @@
 <template>
   <div class="lq-account-menu">
     <el-dropdown trigger="click" @command="handle">
-      <el-button type="primary" link class="fa fa-user-circle">
-        <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
+      <el-button type="primary" link class="admin-button fa fa-user">
+        <!-- <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon> -->
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
@@ -194,6 +194,11 @@ export default {
 </script>
 
 <style>
+
+.lq-account-menu {
+  display: flex;
+}
+
 .lq-account-menu .el-dialog .el-radio {
   line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
   height: unset;          /* Element Plus default for el-radio is 32px */

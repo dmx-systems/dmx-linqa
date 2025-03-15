@@ -1,8 +1,8 @@
 <template>
   <div :class="['lq-canvas-search', {'small-screen': isSmallScreen}]">
     <el-input v-model="searchTerm" :placeholder="placeholder"></el-input>
-    <el-button type="primary" link icon="arrow-left" :disabled="disPrev" @click="prevMatch"></el-button>
-    <el-button type="primary" link icon="arrow-right" :disabled="disNext" @click="nextMatch"></el-button>
+    <el-button type="primary" link class="admin-button fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
+    <el-button type="primary" link class="admin-button fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
     <span :class="['match-info', {'no-match': noMatch}, 'secondary']">{{matchInfo}}</span>
   </div>
 </template>

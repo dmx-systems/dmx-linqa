@@ -233,7 +233,8 @@ function newSynId () {
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  z-index: 1;           /* place buttons above canvas items */
+  padding: 4px 8px;
+  z-index: 1;           /* place toolbar before canvas items */
 }
 
 .lq-canvas-toolbar .el-button {

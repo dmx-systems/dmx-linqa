@@ -189,7 +189,7 @@ export default {
   justify-content: space-between;
   flex-flow: row wrap;
   padding: 0px 10px;
-  z-index: 3;
+  z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */  
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);

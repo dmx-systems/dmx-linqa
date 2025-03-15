@@ -2,7 +2,6 @@
   <div class="lq-workspace">
     <lq-pdf-viewer class="left-panel" v-if="fullscreen" :topic="topic" :src="fileUrl"></lq-pdf-viewer>
     <lq-canvas class="left-panel" v-else></lq-canvas>
-    <lq-resizer></lq-resizer>
     <lq-discussion class="right-panel"></lq-discussion>
   </div>
 </template>
@@ -28,8 +27,7 @@ export default {
 
   components: {
     'lq-canvas':     require('./lq-canvas').default,
-    'lq-discussion': require('./lq-discussion').default,
-    'lq-resizer':    require('./lq-resizer').default
+    'lq-discussion': require('./lq-discussion').default
   }
 }
 </script>

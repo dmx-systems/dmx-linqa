@@ -1,7 +1,7 @@
 <template>
   <div class="lq-canvas-toolbar">
     <el-dropdown v-if="isAddButtonVisibile" trigger="click" @command="handle">
-      <el-button type="primary" link icon="circle-plus-filled" :title="addTooltip"></el-button>
+      <el-button type="primary" link class="admin-button fa fa-plus-circle":title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
@@ -14,17 +14,17 @@
       </template>
     </el-dropdown>
     <div class="view-controls">
-      <el-button type="primary" link icon="home-filled" :title="homeTooltip" @click="home"></el-button>
-      <el-button type="primary" link icon="full-screen" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
+      <el-button type="primary" link :title="homeTooltip" @click="home" class="admin-button fa fa-home"></el-button>
+      <el-button type="primary" link class="admin-button fa fa-crosshairs":title="fullscreenTooltip" :disabled="isTopicmapEmpty"
         @click="zoomToFit">
       </el-button>
-      <el-button v-if="isBigScreen" type="primary" link icon="zoom-in" :title="zoomInTooltip" @click="zoomIn">
+      <el-button v-if="isBigScreen" type="primary" link class="admin-button fa fa-search-plus" :title="zoomInTooltip" @click="zoomIn">
       </el-button>
-      <el-button v-if="isBigScreen" type="primary" link icon="zoom-out" :title="zoomOutTooltip" @click="zoomOut">
+      <el-button v-if="isBigScreen" type="primary" link class="admin-button fa fa-search-minus" :title="zoomOutTooltip" @click="zoomOut">
       </el-button>
-      <lq-canvas-search></lq-canvas-search>
+      <!-- <lq-canvas-search></lq-canvas-search> -->
     </div>
-    <el-button class="discussion-button" v-if="!panelVisibility" type="primary" link icon="chat-line-round"
+    <el-button class="discussion-button admin-button fa fa-commenting" v-if="!panelVisibility" type="primary" link 
       :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
   </div>
@@ -228,10 +228,11 @@ function newSynId () {
 .lq-canvas-toolbar {
   position: absolute;
   display: flex;
+  bottom:20px;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  padding: 4px 8px;
   z-index: 1;           /* place buttons above canvas items */
 }
 
@@ -241,7 +242,6 @@ function newSynId () {
 
 .lq-canvas-toolbar .view-controls {
   display: flex;
-  flex-grow: 1;
   justify-content: center;
   margin: 0 15px;
 }
@@ -251,10 +251,10 @@ function newSynId () {
 }
 
 .lq-canvas-toolbar .discussion-button {
-  background-color: var(--background-color) !important;
+/*  background-color: var(--background-color) !important;*/
   border-radius: 0;
-  margin-top: -4px;
-  margin-right: -8px;
-  padding: 4px !important;
+/*  margin-top: -4px;*/
+  margin-right: 20px;
+/*  padding: 4px !important;*/
 }
 </style>

@@ -1,15 +1,36 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
     <img class="logo" :src="logo(true)">
-    <!-- Workspace selector -->
+
+    <div style="display: flex;">
+    <lq-canvas-search></lq-canvas-search>
+
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
-        <span class="selector-label"><lq-string>label.shared_workspace</lq-string>: </span>
-        <el-dropdown trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
+          <div class="flex flex-wrap items-center">
+
+    <el-dropdown split-button trigger="hover" type="primary" @click="setWorkspace" @command="setWorkspace">
+      {{workspaceName}}
+      <template #dropdown>
+        <el-dropdown-menu>
+                     <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
+                <div>{{getWorkspaceName(workspace)}}</div>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
+                  :divided="workspacesExist">
+                <div>{{getWorkspaceName(linqaAdminWs)}}</div>
+              </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </div>
+
+        <!-- <span class="label"><lq-string>label.shared_workspace</lq-string>: </span> -->
+<!--         <el-dropdown trigger="hover"  split-button @command="setWorkspace">
           <el-button type="primary" link :title="selectTooltip">
             <span class="name">{{workspaceName}}</span>
-            <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
+
           </el-button>
           <template #dropdown>
             <el-dropdown-menu class="lq-workspace-selector">
@@ -22,15 +43,20 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
-        </el-dropdown>
+        </el-dropdown> -->
       </template>
     </div>
-    <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="primary" link :title="adminTooltip"
+</div>
+
+    <div style="display: flex;">
+    <lq-language-switch></lq-language-switch>
+
+    <el-button class="admin-button fa fa-cog" v-if="isLinqaAdmin" type="primary" link :title="adminTooltip"
       @click="admin">
     </el-button>
     <el-dropdown class="info-menu" v-if="isBigScreen" trigger="click" @command="openInfo">
-      <el-button class="fa fa-info-circle" type="primary" link>
-        <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
+      <el-button class="admin-button fa fa-info-circle" type="primary" link>
+        <!-- <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon> -->
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
@@ -41,10 +67,12 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <lq-language-switch></lq-language-switch>
     <lq-account-menu></lq-account-menu>
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
     <lq-about-dialog></lq-about-dialog>
+    <!-- Workspace selector -->
+    </div>
+
   </div>
 </template>
 
@@ -147,7 +175,8 @@ export default {
 
   components: {
     'lq-account-menu': require('./lq-account-menu').default,
-    'lq-help-dialog': require('./lq-help-dialog').default
+    'lq-help-dialog': require('./lq-help-dialog').default,
+    'lq-canvas-search': require('./lq-canvas-search').default
   }
 }
 </script>
@@ -155,22 +184,31 @@ export default {
 <style>
 .lq-app-header {
   display: flex;
-  align-items: center;
+  align-items: top;
   flex: none;
-  padding: 2px 10px;
-  background-color: var(--header-color);
+  justify-content: space-between;
+  flex-flow: row wrap;
+  padding: 0px 10px;
+  z-index: 3;
+  box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
+  -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
+  -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
+  /*  background-color: var(--header-color);*/
 }
 
 .lq-app-header img.logo {
-  height: 44px;
+  height: 70px;
+/*  margin-left: -10px !important;*/
 }
 
 .lq-app-header .workspace {
   flex-grow: 1;
-  overflow: hidden;     /* clip workspace selector in favor of other header buttons */
-  text-align: center;
-  color: white;
-  margin: 0 20px;       /* a padding would be overflown by content */
+/* overflow: hidden;     clip workspace selector in favor of other header buttons */
+  text-align: left;
+  max-width: 400px;
+  align-items: center;
+  display:flex;
+  justify-content: space-around;
 }
 
 .lq-app-header.small-screen .workspace .selector-label {
@@ -183,7 +221,8 @@ export default {
 }
 
 .lq-app-header .admin-button {
-  margin-right: 20px;
+  font-size:22px;
+  margin: 0 10px 0 0;
 }
 
 .lq-app-header .info-menu,

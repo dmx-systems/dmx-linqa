@@ -44,9 +44,12 @@
   --button-spacing: 14px;                     /* horizontal spacing between toolbar buttons */
   --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
-  --header-color: black;
+  --header-color: white;
   --background-color: #e6e6e6;                /* used for panels and forms */
-  --primary-color: #ffd100;                   /* used for doc-filter, comment-refs, login/legal pages (yellow) */
+  --primary-color: #254080;                   /* used for doc-filter, 
+  comment-refs, login/legal pages (yellow) */
+  --el-color-primary: #254080 !important;     /* linqa dark primary color */
+  --el-button-text-color: var(--el-color-primary);
   --primary-color-light: #fff6cc;             /* used for doc-filter, comment-refs, login/legal pages (light yellow) */
   --highlight-color: #409eff;                 /* matches Element UI --color-primary (blue), interactive elements */
   --highlight-color-2: #66b1ff;               /* matches Element UI --color-primary-light-2, hovered menu item */

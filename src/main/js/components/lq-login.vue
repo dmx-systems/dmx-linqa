@@ -1,6 +1,8 @@
 <template>
   <div :class="['lq-login', {'small-screen': isSmallScreen}]">
     <lq-language-switch></lq-language-switch>
+    <div style="display:flex">
+    <div style="background-color:whitesmoke; height:100%; padding:50px 20px;">
     <img class="logo" :src="logo()">
     <div class="login-form">
       <div class="welcome">
@@ -29,8 +31,11 @@
       <el-button type="primary" link @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
       <el-button type="primary" link @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
     </div>
+    </div>
+    <div style="background-color:#254080; width: 60%; padding:0px;"></div>
+   
     <router-view></router-view>
-    <lq-about-dialog></lq-about-dialog>
+    <lq-about-dialog></lq-about-dialog> </div>
   </div>
 </template>
 
@@ -108,8 +113,8 @@ export default {
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
-  background-color: black;
-  padding: 60px 0 18px 160px;
+  background-color: #254080; 
+/*  padding: 60px 0 18px 160px;*/
 }
 
 .lq-login.small-screen {
@@ -124,7 +129,7 @@ export default {
 
 .lq-login img.logo {
   align-self: flex-start;
-  height: 84px;
+  height: 110px;
 }
 
 .lq-login.small-screen img.logo {
@@ -134,6 +139,7 @@ export default {
 .lq-login .login-form {
   margin-top: 50px;
   margin-bottom: auto;
+  padding-left: 15px;
 }
 
 .lq-login.small-screen .login-form {

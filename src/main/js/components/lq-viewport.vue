@@ -46,13 +46,18 @@ export default {
 
 <style>
 .lq-viewport {
-  border-top: 3px solid black;
-  border-left: 3px solid black;
-  width: 50px;
-  height: 50px;
+/*  border-top: 3px solid black;*/
+/*  border-left: 3px solid black;*/
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(90deg, #c05c51 .05rem, transparent .05rem), linear-gradient(360deg, #c05c51 .05rem, transparent .05rem);
+  background-position: 1.225rem 1.3rem;
+
 }
 
 .lq-viewport .zoom {
-  margin-top: -20px;
+/*  margin-top: -20px;*/
+  color:#c05c51;
+  padding:2px 5px;
 }
 </style>

@@ -65,6 +65,7 @@
   --blue: #0366d6;
   --light-blue: #84a8cc;
   --light-gray: #ddd;
+  --moveable-color: #254080 !important;
 }
 
 html {

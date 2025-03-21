@@ -1,7 +1,7 @@
 <template>
   <div class="lq-canvas-toolbar">
     <el-dropdown v-if="isAddButtonVisibile" trigger="click" @command="handle">
-      <el-button type="primary" link class="admin-button fa fa-plus-circle":title="addTooltip"></el-button>
+      <el-button type="primary" link class="add-button admin-button fa fa-plus":title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
@@ -14,7 +14,7 @@
       </template>
     </el-dropdown>
     <div class="view-controls">
-      <el-button type="primary" link :title="homeTooltip" @click="home" class="admin-button fa fa-home"></el-button>
+      <el-button type="primary" link :title="homeTooltip" @click="home" class="admin-button fa fa-arrows"></el-button>
       <el-button type="primary" link class="admin-button fa fa-crosshairs":title="fullscreenTooltip" :disabled="isTopicmapEmpty"
         @click="zoomToFit">
       </el-button>
@@ -27,6 +27,7 @@
     <el-button class="discussion-button admin-button fa fa-commenting" v-if="!panelVisibility" type="primary" link 
       :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
+    <el-button v-else class="close-button admin-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
   </div>
 </template>
 
@@ -91,6 +92,10 @@ export default {
 
     handle (command) {
       this[command]()
+    },
+
+    close () {
+      this.$store.dispatch('setPanelVisibility', false)
     },
 
     // 6 methods called by dropdown menu
@@ -228,12 +233,11 @@ function newSynId () {
 .lq-canvas-toolbar {
   position: absolute;
   display: flex;
-  bottom:20px;
-  justify-content: center;
-  align-items: center;
+  bottom:0px;
+  justify-content: space-between;
   box-sizing: border-box;
   width: 100%;
-  padding: 4px 8px;
+  padding: 10px;
   z-index: 1;           /* place toolbar before canvas items */
 }
 
@@ -243,19 +247,27 @@ function newSynId () {
 
 .lq-canvas-toolbar .view-controls {
   display: flex;
-  justify-content: center;
-  margin: 0 15px;
+/*  margin: 0 15px; */  
+  padding: 12px !important;
+  background-color: white;
+  border-radius: 54px;
+  border:1px solid #fafafa;
 }
 
 .lq-canvas-toolbar .view-controls .lq-canvas-search {
   margin-left: 15px;
 }
 
+.lq-canvas-toolbar .add-button {
+  background-color: #fff481;
+  border-radius: 30px;
+  padding: 0px 15px !important;
+}
+
 .lq-canvas-toolbar .discussion-button {
 /*  background-color: var(--background-color) !important;*/
-  border-radius: 0;
-/*  margin-top: -4px;*/
-  margin-right: 20px;
-/*  padding: 4px !important;*/
+  background-color: #fff481;
+  border-radius: 54px;
+  padding: 12px !important;
 }
 </style>

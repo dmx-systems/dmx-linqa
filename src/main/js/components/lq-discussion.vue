@@ -298,8 +298,8 @@ export default {
 
 .lq-discussion > .close-button {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 20px;
+  right: 15px;
   font-size: 30px;
 }
 

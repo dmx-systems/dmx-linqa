@@ -270,6 +270,7 @@ export default {
   background-color: white;
   padding: 12px;
   border-radius: 10px;
+  margin:0 10px;
 }
 
 .lq-comment .heading {

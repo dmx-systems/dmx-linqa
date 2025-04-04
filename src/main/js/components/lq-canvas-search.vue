@@ -1,6 +1,12 @@
 <template>
   <div :class="['lq-canvas-search', {'small-screen': isSmallScreen}]">
-    <el-input v-model="searchTerm" :placeholder="placeholder"></el-input>
+    <el-input v-model="searchTerm" :placeholder="placeholder">
+      <template #suffix>
+        <el-icon v-if="!searchTerm" class="fa fa-search"><search /></el-icon>
+        <el-icon v-else class="lq-clickable fa fa-times" @click="clearSearch()"><search /></el-icon>
+      </template>
+    </el-input>
+    <!-- <el-input v-model="searchTerm" :placeholder="placeholder"></el-input> -->
     <el-button type="primary" link class="admin-button fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
     <el-button type="primary" link class="admin-button fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
     <span :class="['match-info', {'no-match': noMatch}, 'secondary']">{{matchInfo}}</span>
@@ -9,6 +15,7 @@
 
 <script>
 import lq from '../lq-globals'
+import { Calendar, Search } from '@element-plus/icons-vue'
 
 export default {
 
@@ -71,19 +78,28 @@ export default {
 
     nextMatch () {
       this.$store.dispatch('search/nextMatch')
+    },
+
+    clearSearch () {
+      return this.$store.dispatch('search/search', '')
     }
   }
 }
 </script>
 
 <style>
+
+.lq-clickable {
+  cursor: pointer;
+}
+
 .lq-canvas-search {
   display: flex;
   align-items: center;
 }
 
 .lq-canvas-search .el-input {
-  width: 180px;
+  min-width: 140px;
 }
 
 .lq-canvas-search.small-screen .el-input {

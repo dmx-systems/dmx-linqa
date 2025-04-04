@@ -3,7 +3,7 @@
     <template v-if="infoMode">
       <div v-html="noteHtml"></div>
       <div class="discussion-button" :style="backgroundColor">
-        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link class="admin-button fa fa-comments-o" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
     <template v-else>
@@ -201,6 +201,7 @@ export default {
   height: 100%;
   padding: 6px;
   border: var(--filter-border);
+  border-radius:4px !important;
 }
 
 .lq-note.info {

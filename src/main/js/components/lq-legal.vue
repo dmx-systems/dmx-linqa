@@ -75,7 +75,6 @@ export default {
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
-  background-color: black;
   padding: 60px 0 0 120px;
 }
 

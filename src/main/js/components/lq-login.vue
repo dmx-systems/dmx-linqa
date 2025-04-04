@@ -243,7 +243,6 @@ export default {
   .lq-login {
     flex-direction: column;
   }
-
 }
 
 .lq-info-container {
@@ -261,14 +260,10 @@ export default {
   z-index:0;
   width:100vh;
   position:relative;
-  top:0;
-  background-position: 50% 70%;
-  background-size: 160%;
-  background-image: url("../../resources-build/laptops8.jpg");
-  background-repeat: no-repeat;  
-  filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
--webkit-filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
--moz-filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
+  overflow: hidden;
+  background-size: cover;
+  background-image: url("../../resources-build/colaboracion-lq.jpg");
+  background-repeat: no-repeat; 
 }
 
 .lq-login .password-reset .el-button {

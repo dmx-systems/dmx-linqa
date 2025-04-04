@@ -4,10 +4,11 @@
     <template v-if="infoMode">
       <div class="texts">
         <div class="text" v-html="textblock[lang1st]"></div>
+        <div class="vl"></div> 
         <div class="text" v-html="textblock[lang2nd]"></div>
       </div>
       <div class="discussion-button" :style="backgroundColor">
-        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link class="fa fa-comments-o" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
     <template v-else>
@@ -182,6 +183,7 @@ export default {
   height: 100%;
   padding: 6px;
   border: var(--filter-border);
+  border-radius:4px !important;
 }
 
 .lq-textblock.info {
@@ -206,7 +208,7 @@ export default {
 
 .lq-textblock.info .texts .text:nth-child(1) {
   padding-right: 20px;
-  border-right: 2px dashed #f6f6f6;
+/*  border-right: 2px dashed #f6f6f6;*/
 }
 
 .lq-textblock.info .texts .text:nth-child(2) {
@@ -248,4 +250,15 @@ export default {
 .lq-textblock .discussion-button .el-button {
   font-size: 18px;      /* Element Plus default is 14px (--el-font-size-base) */
 }
+
+.vl {
+  position: absolute;
+  right: 50%;
+  top: 0px;
+  width: 2px;
+  box-sizing: border-box;
+  height: 100%;
+  border-right: 2px dotted rgba(255,255,255, 0.8);
+}
+
 </style>

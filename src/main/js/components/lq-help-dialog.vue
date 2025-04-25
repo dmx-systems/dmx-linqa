@@ -100,8 +100,13 @@ function makePages (html) {
   height: 100%;
 }
 
+.lq-help-dialog h1, .lq-help-dialog h2 {
+  color: var(--primary-color);
+}
+
 .lq-help-dialog .page {
-  overflow: auto;
+  overflow-y: auto;
   margin-left: 20px;
+  padding: 0 20px 20px 0px;
 }
 </style>

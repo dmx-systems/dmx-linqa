@@ -132,7 +132,6 @@ export default {
 }
 
 .lq-login .lq-language-switch span {
-  color:white;
 }
 
 .lq-login img.logo {
@@ -263,7 +262,10 @@ export default {
   overflow: hidden;
   background-size: cover;
   background-image: url("../../resources-build/colaboracion-lq.jpg");
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;  
+/*  filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
+-webkit-filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
+-moz-filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);*/
 }
 
 .lq-login .password-reset .el-button {

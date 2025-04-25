@@ -254,6 +254,7 @@ export default {
 </script>
 
 <style>
+
 .lq-canvas-item {
   position: absolute;
 }
@@ -266,8 +267,11 @@ export default {
   position: absolute;
   visibility: hidden;
   white-space: nowrap;
-  padding-top: 4px;
-  padding-bottom: 12px;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 20px;
+  padding: 8px;
+  border: 1px solid whitesmoke;
+  text-align: center;
 }
 
 .lq-canvas-item .item-toolbar.flipped {

@@ -288,7 +288,7 @@ export default {
   /*  z-index: 1; */ 
   /*  padding: 0 0 15px 15px; */ 
   /*  min-width to be discussed for better performance */ 
-  /*  min-width: 340px; */
+  min-width: 340px; 
   /*  background-color: var(--background-color); */    
   /*  background-color: rgba(255, 244, 129, 0.2); */
   background-color: #f7f7f7;
@@ -301,22 +301,20 @@ export default {
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 16px;
+  font-size: 22px;
 }
 
 .lq-discussion > .heading {
   font-size: 16px;
-  margin-bottom: 10px;
-  padding: 10px;
+  padding: 14px 14px 14px 22px;
   text-transform: uppercase;
-  border-bottom: 1px solid #fff481;
   color: var(--primary-color);
-  background-color: rgba(255, 244, 129, 0.8);
 }
 
 .lq-discussion .filter-wrapper {
   margin-bottom: 32px;
   margin-right: 10px;
+  padding-left: 20px;
 }
 
 .lq-discussion .filter {
@@ -335,6 +333,7 @@ export default {
 .lq-discussion .comments {
   height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
                         /* window bottom. We want new-comment panel always be attached to comments. */
+  margin-bottom: 75px;  /* For desktop? or global. */
 }
 
 .lq-discussion .comments .lq-comment {

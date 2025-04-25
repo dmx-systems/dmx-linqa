@@ -1,11 +1,13 @@
 <template>
   <el-dialog class="lq-about-dialog" :model-value="visible" @open="fetchText" @close="close">
     <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
-    <div class="version">
-      <span>2.1-SNAPSHOT</span>
-      <span class="date">Mar 16, 2025</span>
+    <div class="lq-about-content">
+      <div class="version">
+        <span>2.1-SNAPSHOT</span>
+        <span class="date">Mar 16, 2025</span>
+      </div>
+      <div class="dmx-html-field" v-html="text[lang]"></div>
     </div>
-    <div class="dmx-html-field" v-html="text[lang]"></div>
   </el-dialog>
 </template>
 
@@ -50,7 +52,7 @@ export default {
 
 <style>
 .lq-about-dialog {
-  background-color: var(--background-color);
+  background-color: var(--header-color);
 }
 
 .lq-about-dialog .el-dialog__body {
@@ -58,12 +60,22 @@ export default {
   color: var(--secondary-color);
 }
 
+.lq-about-dialog .lq-about-content {
+  margin:20px;
+}
+
+.lq-about-dialog .lq-about-content a {
+  color: var(--primary-color) !important;
+}
+
 .lq-about-dialog .linqa-logo {
-  height: 84px;
+  height: 120px;
 }
 
 .lq-about-dialog .version {
-  margin: 24px 0;
+  margin: 0px 24px 24px 0px;
+  color: var(--primary-color);
+  font-weight: bolder;
 }
 
 .lq-about-dialog .version .date {

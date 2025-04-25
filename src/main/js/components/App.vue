@@ -67,7 +67,7 @@
   --blue: #0366d6;
   --light-blue: #84a8cc;
   --light-gray: #ddd;
-  --moveable-color: #254080 !important;
+  --moveable-color: #c05c51 !important;
 }
 
 html {
@@ -93,9 +93,14 @@ body.fixed {
   color: var(--secondary-color);
 }
 
+.secondary .lq-string{
+  padding-left:22px;
+}
+
 .label {
-  font-size: var(--secondary-font-size) !important;
-  color: var(--secondary-color) !important;
+/*  font-size: var(--secondary-font-size) !important;
+  color: var(--secondary-color) !important;*/
+  font-variant-position: super;
 }
 
 .field-label {
@@ -325,4 +330,9 @@ input, button {
   background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
   color: var(--highlight-color);      /* quill-mention does not set any color, so it's black */
 }
+
+.moveable-control, .moveable-line {
+  background: #c05c51 !important;
+}
+
 </style>

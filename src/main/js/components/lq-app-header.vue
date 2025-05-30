@@ -4,7 +4,7 @@
     <img class="logo" :src="logo(true)">
 
     <div style="display: flex;">
-    <lq-canvas-search></lq-canvas-search>
+    <lq-canvas-search v-if="!isLinqaAdmin"></lq-canvas-search>
 
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>

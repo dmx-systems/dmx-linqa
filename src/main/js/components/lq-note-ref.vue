@@ -80,7 +80,7 @@ export default {
 
 <style>
 .lq-note-ref {
-  display: inline-block;
+  display: inline-flex;
   padding: 6px;
   cursor: pointer;
 }

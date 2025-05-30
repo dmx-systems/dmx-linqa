@@ -1,6 +1,6 @@
 <template>
-  <span v-if="truncated">{{truncated}}</span>
-  <span v-else v-html="html" ref="html"></span>
+  <small v-if="truncated">{{truncated}}</small>
+  <small v-else v-html="html" ref="html"></small>
 </template>
 
 <script>

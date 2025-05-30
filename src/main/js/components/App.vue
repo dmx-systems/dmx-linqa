@@ -98,9 +98,9 @@ body.fixed {
 }
 
 .label {
-/*  font-size: var(--secondary-font-size) !important;
-  color: var(--secondary-color) !important;*/
-  font-variant-position: super;
+/*  font-size: var(--secondary-font-size) !important;*/
+  /*  color: var(--secondary-color) !important;*/
+  /*  font-variant-position: super;*/
 }
 
 .field-label {
@@ -334,5 +334,14 @@ input, button {
 .moveable-control, .moveable-line {
   background: #c05c51 !important;
 }
+
+.moveable-rotation .moveable-rotation-control {
+  border-color: #c05c51 !important;
+}
+
+.el-button.is-link:hover {
+  color: var(--el-color-primary) !important;
+}
+
 
 </style>

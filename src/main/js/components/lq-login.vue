@@ -13,7 +13,7 @@
           <el-input size="large" v-model="credentials.password" ref="password" @keyup.enter="login" type="password"></el-input>
         </div>
         <div class="password-reset">
-          <lq-string class="label">label.forgot_password</lq-string>
+          <lq-string>label.forgot_password</lq-string>
           <el-button type="primary" link @click="openDialog"><lq-string>action.reset_password</lq-string></el-button>
         </div>
         <el-button size="large" class="login-button" type="primary" @click="login">Login</el-button>
@@ -141,7 +141,7 @@ export default {
 .lq-login .logo {
   margin-top:30px;
   align-self: flex-start;
-  width: fit-content;
+  /*width: fit-content;*/
 }
 
 .lq-login.small-screen img.logo {
@@ -204,7 +204,7 @@ export default {
 }
 
 .lq-login .password-reset .el-button {
-  font-size: var(--secondary-font-size);
+  font-size: var(--secondary-font-size) !important;
   margin-left: 2px;
 }
 

@@ -46,7 +46,7 @@
 
   --header-color: white;
   /* --background-color: #e6e6e6;                used for panels and forms */
-  --background-color: #fff481;                /* used for panels and forms */
+  --background-color: rgb(247,247,247);       /* used for panels and forms */
   --primary-color: #254080;                   /* used for doc-filter, 
   comment-refs, login/legal pages (yellow) */
   --el-color-primary: #254080 !important;     /* linqa dark primary color */
@@ -98,8 +98,8 @@ body.fixed {
 }
 
 .label {
-/*  font-size: var(--secondary-font-size) !important;*/
-  /*  color: var(--secondary-color) !important;*/
+  font-size: var(--secondary-font-size) !important;
+  color: var(--secondary-color) !important;
   /*  font-variant-position: super;*/
 }
 

@@ -13,7 +13,7 @@
           <el-input size="large" v-model="credentials.password" ref="password" @keyup.enter="login" type="password"></el-input>
         </div>
         <div class="password-reset">
-          <lq-string>label.forgot_password</lq-string>
+          <lq-string class="label">label.forgot_password</lq-string>
           <el-button type="primary" link @click="openDialog"><lq-string>action.reset_password</lq-string></el-button>
         </div>
         <el-button size="large" class="login-button" type="primary" @click="login">Login</el-button>

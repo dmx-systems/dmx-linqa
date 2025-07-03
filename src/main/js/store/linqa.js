@@ -539,6 +539,14 @@ const store = createStore({
      * @param   comment   a dmx.Topic
      */
     updateComment ({state}, comment) {
+      // Refs must not be included in core create/update request, otherwise the ref'd topics would be created again.
+      // Is it related to recent ValueIntegrator policy -- reuse topics only from same workspace?
+      delete comment.children['linqa.comment']
+      delete comment.children['linqa.document']
+      delete comment.children['linqa.note']
+      delete comment.children['linqa.textblock']
+      delete comment.children['dmx.files.file#linqa.attachment']
+      //
       dmx.rpc.updateTopic(comment).then(comment => replaceComment(state, comment))
     },
 

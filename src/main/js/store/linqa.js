@@ -70,7 +70,7 @@ const store = createStore({
     topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)
     topic: undefined,             // the selected topic (dmx.ViewTopic), undefined if nothing is selected  // TODO: drop
     selection: [],                // the selected topics (array of dmx.ViewTopic)
-    pan: {x: 0, y: 0},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
+    pan: {x: 4, y: 4},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
     zoom: 1,                      // canvas zoom (Number)                   // TODO: drop this, calculate instead?
     dragMode: '',                 // non-empty while dragging in progress (canvas pan, panel resize, line handle drag)
     transition: false,            // true while a canvas pan/zoom transition is in progress

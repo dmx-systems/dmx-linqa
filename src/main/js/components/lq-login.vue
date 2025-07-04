@@ -1,9 +1,10 @@
 <template>
   <div :class="['lq-login', {'small-screen': isSmallScreen}]">
+    <lq-language-switch></lq-language-switch>
+
     <div class="lq-form-container">
-      <lq-language-switch></lq-language-switch>
-      <img class="logo" :src="logo()">
       <div class="login-form">
+        <img class="logo" :src="logo()">
         <div class="field">
           <div class="field-label"><lq-string>label.email_address</lq-string></div>
           <el-input size="large" v-model="credentials.username" ref="username" @keyup.enter="advance"></el-input>
@@ -17,26 +18,25 @@
           <el-button type="primary" link @click="openDialog"><lq-string>action.reset_password</lq-string></el-button>
         </div>
         <el-button size="large" class="login-button" type="primary" @click="login">Login</el-button>
-        <span class="message">{{message}}</span>
+        <span class="message">{{message}}</span> 
       </div>
       <div class="footer">
         <el-button type="primary" link @click="openAbout"><lq-string>label.about</lq-string></el-button>
         <el-button type="primary" link @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
         <el-button type="primary" link @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
       </div>
+ 
       <router-view></router-view>
       <lq-about-dialog></lq-about-dialog> 
     </div>
 
     <div class="lq-info-container">
       <div class="welcome">
-        <lq-string>label.welcome</lq-string>
+          <lq-string>label.welcome</lq-string>
+        <div class="slogan">
+          <lq-string html>label.slogan</lq-string>
+        </div>
       </div>
-      <div class="slogan">
-        <lq-string html>label.slogan</lq-string>
-      </div>
-      <div class="lq-container-back"></div>
-
     </div>
    
   </div>
@@ -115,9 +115,7 @@ export default {
   display: flex;
 /*  flex-direction: column;*/
   height: 100%;
-  box-sizing: border-box;
-  background-color:rgb(9, 39, 109);
-  background: linear-gradient(90deg, rgba(25,45,96,1) 43%, rgba(37,64,128,1) 74%, rgba(40,78,166,1) 100%); 
+  width: 100%;
 }
 
 .lq-login.small-screen {
@@ -135,13 +133,14 @@ export default {
 }
 
 .lq-login img.logo {
-  height: 110px;
+  height: 100px;
 }
 
 .lq-login .logo {
-  margin-top:30px;
-  align-self: flex-start;
-  /*width: fit-content;*/
+  margin-top: 15vh;
+  margin-bottom: 30px;
+  /*  align-self: flex-start;
+  width: fit-content;*/
 }
 
 .lq-login.small-screen img.logo {
@@ -149,9 +148,15 @@ export default {
 }
 
 .lq-login .login-form {
-  margin-top: 50px;
-  margin-bottom: auto;
-  padding-left: 15px;
+  align-content: center;
+  margin: auto;
+  /*  margin-bottom: 20px;
+  padding-left: 15px; */
+}
+
+.lq-login .footer {
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .lq-login.small-screen .login-form {
@@ -170,9 +175,8 @@ export default {
   font-weight: lighter;
   text-transform: uppercase;
   z-index: 3;
-  padding-top:20px;
-  position: absolute;
-  bottom:160px;
+  align-self: flex-end;
+  margin: 5vw;
 }
 
 .lq-login .login {
@@ -185,12 +189,11 @@ export default {
 
 .lq-login .slogan {
   color: white;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: lighter;
   margin-top: 20px;
   z-index: 3;
-  position: absolute;
-  bottom:30px;
+  text-transform: initial;
 }
 
 .lq-login.small-screen .login {
@@ -215,25 +218,21 @@ export default {
 }
 
 .lq-login .login-button {
-  font-size: 16px;
   margin-top: 26px;
-  margin-bottom: 36px;
 }
 
 .lq-login .footer .el-button {
   font-size: var(--secondary-font-size);
-  margin-left: 15px;
 }
 
 .lq-login .footer .el-button + .el-button {
-  margin-left: 40px;
 }
 
 .lq-form-container {
   background-color:white; 
   height: 100%; 
   min-width: 45vw;
-  align-content: space-around;
+  align-content: space-between;
   justify-content: center;
   display: inline-grid;
 }
@@ -247,11 +246,11 @@ export default {
 .lq-info-container {
   height: 100%;
   align-content: flex-end;
-  justify-content: center; 
-}
-
-.lq-info-container > * {
-   padding: 0 60px 50px 50px;
+  background-size: cover;
+  background-image: url("../../resources-build/colaboracion-lq.jpg");
+  background-repeat: no-repeat; 
+  width: 100%;
+  display: inline-grid;
 }
 
 .lq-container-back {
@@ -260,12 +259,6 @@ export default {
   width:100vh;
   position:relative;
   overflow: hidden;
-  background-size: cover;
-  background-image: url("../../resources-build/colaboracion-lq.jpg");
-  background-repeat: no-repeat;  
-/*  filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
--webkit-filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);
--moz-filter: grayscale(50%) sepia(100%) brightness(45%) hue-rotate(180deg) saturate(163%) opacity(60%) contrast(147%);*/
 }
 
 .lq-login .password-reset .el-button {

@@ -116,6 +116,8 @@ export default {
 /*  flex-direction: column;*/
   height: 100%;
   width: 100%;
+    background-color: white;
+
 }
 
 .lq-login.small-screen {
@@ -235,11 +237,25 @@ export default {
   align-content: space-between;
   justify-content: center;
   display: inline-grid;
+  margin-left:20px;
 }
 
 @media screen and (max-width: 720px) {
   .lq-login {
     flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .lq-info-container {
+    min-height: 320px;
+  }
+
+  .lq-form-container {
+    min-height: 640px;
+  }
+
+  .lq-login .logo {
+    margin-top: 10vh;
   }
 }
 
@@ -253,16 +269,27 @@ export default {
   display: inline-grid;
 }
 
-.lq-container-back {
-  height: 100%;
-  z-index:0;
-  width:100vh;
-  position:relative;
-  overflow: hidden;
-}
-
 .lq-login .password-reset .el-button {
   color: #c05c51;
+}
+
+@media screen and (max-width: 720px) {
+  .lq-login {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .lq-info-container {
+    min-height: 320px;
+  }
+
+  .lq-form-container {
+    min-height: 540px;
+  }
+
+  .lq-login .logo {
+    margin-top: 10vh;
+  }
 }
 
 </style>

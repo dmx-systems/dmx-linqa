@@ -14,14 +14,14 @@ export default {
     // zoom compensation
     buttonStyle () {
       return {
-        'font-size': `${14 / this.zoom}px`      // "14" matches --primary-font-size (see App.vue)
+        'font-size': `${1.1 / this.zoom}rem`      // "14" matches --primary-font-size (see App.vue)
       }
     },
 
-    // zoom compensation
+    // zoom compensatio2
     iconStyle () {
       return {
-        'font-size': `${20 / this.zoom}px`      // icons need to be bigger than text    // TODO 18px, 24px for mobile
+        'font-size': `${1.5 / this.zoom}rem`      // icons need to be bigger than text    // TODO 18px, 24px for mobile
       }
     },
 

@@ -266,12 +266,20 @@ export default {
 .lq-canvas-item .item-toolbar {
   position: absolute;
   visibility: hidden;
-  white-space: nowrap;
   background-color: rgba(255,255,255,0.9);
-  border-radius: 20px;
-  padding: 8px;
-  border: 1px solid whitesmoke;
+  border-radius: 1rem;
+  padding: 0rem 0.2rem;
+  border: 0.05rem solid whitesmoke;
   text-align: center;
+  display: inline-flex;
+  justify-content: space-around;
+}
+
+.lq-canvas-item .item-toolbar .el-icon {
+}
+
+.lq-canvas-item .item-toolbar .el-button + .el-button {
+  margin: 0.2rem 0.05rem !important;
 }
 
 .lq-canvas-item .item-toolbar.flipped {
@@ -290,7 +298,7 @@ export default {
 }
 
 .lq-canvas-item .item-toolbar .el-button + .el-button {
-  margin-left: var(--button-spacing);
+  /*margin-left: var(--button-spacing);*/
 }
 
 .lq-canvas-item .reactions {

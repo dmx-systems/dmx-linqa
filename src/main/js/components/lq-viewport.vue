@@ -27,7 +27,7 @@ export default {
     },
 
     zoomRounded () {
-      return Math.round(100 * this.zoom) / 100
+      return Math.round(this.zoom * 100) + '%'
     }
   },
 
@@ -57,5 +57,6 @@ export default {
 /*  margin-top: -20px;*/
   color:#c05c51;
   padding:2px 5px;
+  font-size: 0.7em;
 }
 </style>

@@ -308,7 +308,6 @@ export default {
   position: relative;   /* the canvas toolbar is aligned to the *right* canvas border */
   flex-grow: 1;
     background: linear-gradient(90deg, whitesmoke .05rem, transparent .05rem), linear-gradient(360deg, whitesmoke .05rem, transparent .05rem);
-/*  background-image: url("../../resources-build/grid-linqa.svg");*/
   min-width: 0;
   overflow: hidden;
 }

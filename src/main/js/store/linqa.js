@@ -452,7 +452,15 @@ const store = createStore({
     },
 
     setPanelPos ({state}, x) {
-      state.panelPos = x
+      console.log ('panelPos', x)
+      const some = document.querySelector('.lq-workspace')
+      console.log ('some clientWidth', some.clientWidth)
+      const calcMinPosition = some.clientWidth - x
+      if (calcMinPosition < 320) {
+        state.panelPos = some.clientWidth - 320
+      } else {
+        state.panelPos = x
+      }
       dmx.utils.setCookie('linqa_panel_pos', Math.round(x))
     },
 
@@ -539,6 +547,14 @@ const store = createStore({
      * @param   comment   a dmx.Topic
      */
     updateComment ({state}, comment) {
+      // Refs must not be included in core create/update request, otherwise the ref'd topics would be created again.
+      // Is it related to recent ValueIntegrator policy -- reuse topics only from same workspace?
+      delete comment.children['linqa.comment']
+      delete comment.children['linqa.document']
+      delete comment.children['linqa.note']
+      delete comment.children['linqa.textblock']
+      delete comment.children['dmx.files.file#linqa.attachment']
+      //
       dmx.rpc.updateTopic(comment).then(comment => replaceComment(state, comment))
     },
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="lq-resizer" v-if="visible" :style="{left: panelPos + 'px'}"></div>
+  <div class="lq-resizer" v-show="visible" :style="{left: panelPos + 'px'}"></div>
   <vue-moveable target=".lq-resizer" :draggable="true" :origin="false" @dragStart="onDragStart" @drag="onDrag"
     @dragEnd="onDragEnd">
   </vue-moveable>

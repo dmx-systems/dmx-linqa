@@ -452,7 +452,15 @@ const store = createStore({
     },
 
     setPanelPos ({state}, x) {
-      state.panelPos = x
+      console.log ('panelPos', x)
+      const some = document.querySelector('.lq-workspace')
+      console.log ('some clientWidth', some.clientWidth)
+      const calcMinPosition = some.clientWidth - x
+      if (calcMinPosition < 320) {
+        state.panelPos = some.clientWidth - 320
+      } else {
+        state.panelPos = x
+      }
       dmx.utils.setCookie('linqa_panel_pos', Math.round(x))
     },
 

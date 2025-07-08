@@ -16,6 +16,8 @@ export default {
     closable: Boolean     // if true the close-button is rendered, optional
   },
 
+  emits: ['click', 'remove'],
+
   computed: {
 
     topicHtml () {

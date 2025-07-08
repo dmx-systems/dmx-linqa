@@ -4,7 +4,7 @@
     <div class="lq-about-content">
       <div class="version">
         <span>2.1-SNAPSHOT</span>
-        <span class="date">Mar 16, 2025</span>
+        <span class="date">Jul 8, 2025</span>
       </div>
       <div class="dmx-html-field" v-html="text[lang]"></div>
     </div>

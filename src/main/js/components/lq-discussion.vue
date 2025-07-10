@@ -288,7 +288,7 @@ export default {
   z-index: 1;
   /*  padding: 0 0 15px 15px; */ 
   /*  min-width to be discussed for better performance */ 
-  /*  min-width: 320px; */ 
+  min-width: 320px;
   /*  background-color: var(--background-color); */    
   /*  background-color: rgba(255, 244, 129, 0.2); */
   background-color: #f7f7f7;

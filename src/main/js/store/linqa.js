@@ -85,6 +85,7 @@ const store = createStore({
     // Discussion Panel
     panelVisibility,              // discussion panel visibility (Boolean)
     panelPos,                     // x coordinate of the discussion panel, regardless if open/closed, in pixel (Number)
+    panelMinWidth: 320,           // mininum width for example 1/6 of a desktop 1920 screen 
     discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
     discussionFilter: undefined,  // a Document/Note/Textblock topic (plain object), or undefined if no filter is active
     discussionLoading: false      // true while a discussion is loading
@@ -452,12 +453,10 @@ const store = createStore({
     },
 
     setPanelPos ({state}, x) {
-      console.log ('panelPos', x)
-      const some = document.querySelector('.lq-workspace')
-      console.log ('some clientWidth', some.clientWidth)
-      const calcMinPosition = some.clientWidth - x
-      if (calcMinPosition < 320) {
-        state.panelPos = some.clientWidth - 320
+      const currentScreen = document.querySelector('.lq-workspace')
+      const calcMinPosition = currentScreen.clientWidth - x
+      if (calcMinPosition < state.panelMinWidth) {
+        state.panelPos = currentScreen.clientWidth - state.panelMinWidth
       } else {
         state.panelPos = x
       }

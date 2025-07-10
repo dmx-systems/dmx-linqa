@@ -332,11 +332,11 @@ input, button {
 }
 
 .moveable-control, .moveable-line {
-  background: #c05c51 !important;
+  background: #254080 !important;
 }
 
 .moveable-rotation .moveable-rotation-control {
-  border-color: #c05c51 !important;
+  border-color: white !important;
 }
 
 .el-button.is-link:hover {

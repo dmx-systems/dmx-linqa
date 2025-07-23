@@ -5,6 +5,7 @@
       <span>2.1-SNAPSHOT</span>
       <span class="date">Jul 23, 2025</span>
     </div>
+    <div class="dmx-html-field" v-html="text[lang]"></div>
   </el-dialog>
 </template>
 

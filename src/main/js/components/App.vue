@@ -263,6 +263,7 @@ input, button {
 .ql-container {
   font-family: var(--primary-font-family) !important;     /* Quill default is "Helvetica, Arial, sans-serif" */
   font-size:   var(--primary-font-size)   !important;     /* Quill default is 13px */
+  -webkit-user-select: initial;                           /* Older Safari inherits "none" from lq-canvas */
 }
 
 .ql-container .ql-editor {

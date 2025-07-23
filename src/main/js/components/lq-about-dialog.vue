@@ -1,12 +1,9 @@
 <template>
   <el-dialog class="lq-about-dialog" :model-value="visible" @open="fetchText" @close="close">
     <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
-    <div class="lq-about-content">
-      <div class="version">
-        <span>2.1-SNAPSHOT</span>
-        <span class="date">Jul 8, 2025</span>
-      </div>
-      <div class="dmx-html-field" v-html="text[lang]"></div>
+    <div class="version">
+      <span>2.1-SNAPSHOT</span>
+      <span class="date">Jul 23, 2025</span>
     </div>
   </el-dialog>
 </template>

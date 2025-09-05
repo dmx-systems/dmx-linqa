@@ -176,10 +176,32 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**2.1** -- Sep ?, 2025
+**2.1** -- *unreleased*
 
-* TBD
-    * ...
+* Features:
+    * Note items have an individual discussion panel (like Documents and Textblocks)
+* Improvements:
+    * The PDF renderer is loaded on-demand, for faster application launches
+    * In-app Help pages:
+        * Updated modify-item illustration to include the react-with-emoji feature
+        * Menu navigation replaces the former carousel
+    * The scroll wheel's zoom sensitivity is slightly decreased
+* Fixes:
+    * Canvas:
+        * All canvas item's properties are client-synced: item size/color, rotation angle, line end points / style / arrow heads, shape type
+        * Creating a multi-selection by shift-click when there are unsaved canvas items
+        * Text editing of canvas items in older Safari versions (Mac)
+    * Discussion panel:
+        * Editing a comment which have "refs" (e.g. a related Note)
+        * Rendering refs for image-only items (e.g. a Note without text)
+        * Clicking the "ref" in a response comment jumps to original comment
+        * Resizing discussion panel after it was closed/reopened
+        * Picking from the emoji palette when next to discussion panel resizer
+    * Touch UI (tablet, mobile phone):
+        * Emoji button in canvas item forms
+        * File upload in canvas item forms
+        * Resizing discussion panel on tablet
+    * Bold text is rendered sharp (proper "Ubuntu" bold font is included)
 * Compatible with DMX 5.3.5 and DMX Sign-Up 3.3
 
 **2.0** -- Dec 18, 2024

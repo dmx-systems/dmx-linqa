@@ -176,6 +176,12 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
+**2.1** -- Sep ?, 2025
+
+* TBD
+    * ...
+* Compatible with DMX 5.3.5 and DMX Sign-Up 3.3
+
 **2.0** -- Dec 18, 2024
 
 * Features:

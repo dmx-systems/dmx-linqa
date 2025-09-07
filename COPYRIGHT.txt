@@ -2,7 +2,7 @@ Linqa is an online application for bilingual collaboration
 based on the DMX platform, originally developed for the
 French-German Forum for the Future <https://df-zukunftswerk.eu>.
 
-Copyright (C) 2021-2024 DMX Systems <https://dmx.systems>
+Copyright (C) 2021-2025 DMX Systems <https://dmx.systems>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as

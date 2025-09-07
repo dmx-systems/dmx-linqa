@@ -176,7 +176,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**2.1** -- *unreleased*
+**2.1** -- Sep 7, 2025
 
 * Features:
     * Note items have an individual discussion panel (like Documents and Textblocks)
@@ -190,7 +190,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
     * Canvas:
         * All canvas item's properties are client-synced: item size/color, rotation angle, line end points / style / arrow heads, shape type
         * Creating a multi-selection by shift-click when there are unsaved canvas items
-        * Text editing of canvas items in older Safari versions (Mac)
+        * Text editing of canvas items in older Safari browsers (Mac)
     * Discussion panel:
         * Editing a comment which have "refs" (e.g. a related Note)
         * Rendering refs for image-only items (e.g. a Note without text)

@@ -1,63 +1,111 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
+
     <img class="logo" :src="logo(true)">
-    <!-- Workspace selector -->
+
+    <div style="display: flex;">
+    <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
+
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <template v-else>
-        <span class="selector-label"><lq-string>label.shared_workspace</lq-string>: </span>
-        <el-dropdown trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
-          <el-button type="primary" link :title="selectTooltip">
-            <span class="name">{{workspaceName}}</span>
-            <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
+
+        <el-dropdown trigger="hover" @click="setWorkspace" @command="setWorkspace">
+          <el-button> {{workspaceName}}
+            <el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
           <template #dropdown>
-            <el-dropdown-menu class="lq-workspace-selector">
-              <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
-                <div>{{getWorkspaceName(workspace)}}</div>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="workspace in workspaces" 
+                  :command="workspace.id" :key="workspace.id">
+                 {{getWorkspaceName(workspace)}}
               </el-dropdown-item>
-              <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
-                  :divided="workspacesExist">
-                <div>{{getWorkspaceName(linqaAdminWs)}}</div>
+              <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" 
+                  :command="linqaAdminWs.id" :divided="workspacesExist">
+                  {{getWorkspaceName(linqaAdminWs)}}
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
+
       </template>
     </div>
-    <el-button class="admin-button fa fa-wrench" v-if="isLinqaAdmin" type="primary" link :title="adminTooltip"
-      @click="admin">
-    </el-button>
-    <el-dropdown class="info-menu" v-if="isBigScreen" trigger="click" @command="openInfo">
-      <el-button class="fa fa-info-circle" type="primary" link>
-        <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
-      </el-button>
+</div>
+
+    <div style="display: flex;">
+    <lq-language-switch></lq-language-switch>
+    <lq-account-menu></lq-account-menu>
+
+    <el-dropdown trigger="click" @command="handle">
+      <el-button class="admin-button fa fa-bars" type="primary" link
+          :title="adminTooltip">
+      </el-button>      
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="openHelp"><lq-string>label.help</lq-string></el-dropdown-item>
-          <el-dropdown-item command="openAbout" divided><lq-string>label.about</lq-string></el-dropdown-item>
-          <el-dropdown-item command="openImprint"><lq-string>label.imprint</lq-string></el-dropdown-item>
-          <el-dropdown-item command="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-dropdown-item>
+          <div class="el-dropdown-item">
+            <b style="padding:15px; font-size: 15px; color: #254080 !important;">{{username}}</b>
+          </div>
+          <el-dropdown-item command="openUserProfile" divided>
+            <el-icon size="large" class="fa fa-user"></el-icon>
+            <lq-string>label.user_profile</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="admin" v-if="isLinqaAdmin">
+            <el-icon size="large" class="fa fa-cog"></el-icon>
+            <lq-string>tooltip.admin</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="togglePresentationMode" 
+              v-if="isAuthor" divided>
+            <el-icon size="large" class="fa fa-laptop"></el-icon>
+            <lq-string>label.presentation_mode</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="openHelp" divided>
+            <el-icon size="large" class="fa fa-exclamation-circle"></el-icon>
+            <lq-string>label.help</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="openAbout" divided>
+            <el-icon size="large" class="fa fa-info"></el-icon>
+             <lq-string>label.about</lq-string>
+          </el-dropdown-item>   
+          <el-dropdown-item command="openImprint">
+            <el-icon size="large" class="fa fa-file-text"></el-icon>
+             <lq-string>label.imprint</lq-string>
+          </el-dropdown-item>  
+          <el-dropdown-item command="openPrivacyPolicy">
+            <el-icon size="large" class="fa fa-shield"></el-icon>
+             <lq-string>label.privacy_policy</lq-string>
+          </el-dropdown-item>  
+          <el-dropdown-item command="logout" divided>
+            <el-icon size="large" class="fa fa-sign-out"></el-icon>
+            Logout
+          </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <lq-language-switch></lq-language-switch>
-    <lq-account-menu></lq-account-menu>
+
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
     <lq-about-dialog></lq-about-dialog>
+    <!-- Workspace selector -->
+    </div>
+
   </div>
 </template>
 
 <script>
 import lq from '../lq-globals'
 import dmx from 'dmx-api'
+import { ref } from 'vue'
+
+const value = ref('')
+
 
 export default {
 
   mixins: [
     require('./mixins/logo').default,
     require('./mixins/workspace-name').default,
-    require('./mixins/screen').default
+    require('./mixins/screen').default,
+    require('./mixins/presentation-mode').default,
+    require('./mixins/roles').default
   ],
 
   data () {
@@ -72,6 +120,10 @@ export default {
   },
 
   computed: {
+
+    username () {
+      return this.$store.state.username
+    },
 
     workspacesExist () {
       return this.workspaces.length > 0
@@ -107,10 +159,23 @@ export default {
 
     adminTooltip () {
       return lq.getString('tooltip.admin')
-    }
+    },
+
+    profilePane: {
+      get () {
+        return this.$store.state.profilePane
+      },
+      set (profilePane) {
+        this.$store.dispatch('setRouteQuery', {profile: profilePane})
+      }
+    },
   },
 
   methods: {
+
+    handle (command) {
+      this[command]()
+    },
 
     setWorkspace (id) {
       this.$store.dispatch('callWorkspaceRoute', id)
@@ -142,12 +207,27 @@ export default {
 
     openPrivacyPolicy () {
       this.$store.dispatch('callRoute', 'privacy_policy')
-    }
+    },
+
+    togglePresentationMode () {
+      this.$store.dispatch('togglePresentationMode')
+    },
+
+    openUserProfile () {
+      this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
+    },
+
+    logout () {
+      this.$store.dispatch('logout').then(() =>
+        this.$store.dispatch('callRootRoute')
+      )
+    },
   },
 
   components: {
     'lq-account-menu': require('./lq-account-menu').default,
-    'lq-help-dialog': require('./lq-help-dialog').default
+    'lq-help-dialog': require('./lq-help-dialog').default,
+    'lq-canvas-search': require('./lq-canvas-search').default
   }
 }
 </script>
@@ -155,23 +235,31 @@ export default {
 <style>
 .lq-app-header {
   display: flex;
-  align-items: center;
+  align-items: top;
   flex: none;
-  z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */
-  padding: 2px 10px;
-  background-color: var(--header-color);
+  justify-content: space-between;
+  flex-flow: row wrap;
+  padding: 0px 10px;
+  z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */  
+  box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
+  -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
+  -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
+  /*  background-color: var(--header-color);*/
 }
 
 .lq-app-header img.logo {
-  height: 44px;
+  height: 70px;
+/*  margin-left: -10px !important;*/
 }
 
 .lq-app-header .workspace {
   flex-grow: 1;
-  overflow: hidden;     /* clip workspace selector in favor of other header buttons */
-  text-align: center;
-  color: white;
-  margin: 0 20px;       /* a padding would be overflown by content */
+/* overflow: hidden;     clip workspace selector in favor of other header buttons */
+  text-align: left;
+  max-width: 400px;
+  align-items: center;
+  display:flex;
+  justify-content: space-around;
 }
 
 .lq-app-header.small-screen .workspace .selector-label {
@@ -180,11 +268,12 @@ export default {
 
 .lq-app-header .workspace .name {
   font-weight: bold;
-  font-style: italic;
+/*  font-style: italic;*/
 }
 
 .lq-app-header .admin-button {
-  margin-right: 20px;
+  font-size:22px;
+  margin: 0 10px 0 0;
 }
 
 .lq-app-header .info-menu,

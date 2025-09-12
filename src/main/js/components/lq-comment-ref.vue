@@ -74,7 +74,7 @@ export default {
 
 <style>
 .lq-comment-ref {
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   background-color: var(--primary-color-light);
   border-left: 5px solid var(--primary-color);

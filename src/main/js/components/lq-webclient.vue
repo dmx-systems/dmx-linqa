@@ -1,6 +1,7 @@
 <template>
   <div :class="['lq-webclient', {dragging: dragMode}, dragMode]" @keyup.tab="tab">
-    <lq-app-header></lq-app-header>
+            <lq-app-header></lq-app-header>
+
     <router-view></router-view>
     <iframe class="lq-download-iframe"></iframe>
   </div>
@@ -43,6 +44,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: white;
 }
 
 .lq-webclient.dragging {

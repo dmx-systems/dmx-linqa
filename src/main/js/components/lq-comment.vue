@@ -3,11 +3,11 @@
     <!-- Heading -->
     <div class="heading">
       <div>
-        <span class="creator" :title="emailAddress">{{displayName}}</span>
-        <span class="date label">{{date}}</span>
-        <span :class="['translation-info', 'label', translationMode]">
+        <small class="creator" :title="emailAddress">{{displayName}}</small>
+        <small class="date label">{{date}}</small>
+        <small :class="['translation-info', 'label', translationMode]">
           (<lq-string>label.translation</lq-string>: {{translationInfo}})
-        </span>
+        </small>
       </div>
       <div class="button-panel" v-if="buttonPanelVisibility">
         <el-button class="fa fa-reply" type="primary" link :title="replyTooltip" @click="reply"></el-button>
@@ -270,11 +270,13 @@ export default {
   background-color: white;
   padding: 12px;
   border-radius: 10px;
+  margin:0 10px;
 }
 
 .lq-comment .heading {
   display: flex;
   margin-bottom: 10px;
+  color: var(--secondary-color);
 }
 
 .lq-comment .heading > div:first-child {

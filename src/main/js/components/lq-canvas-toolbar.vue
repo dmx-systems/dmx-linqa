@@ -1,32 +1,46 @@
 <template>
   <div class="lq-canvas-toolbar">
-    <el-dropdown v-if="isAddButtonVisibile" trigger="click" @command="handle">
-      <el-button type="primary" link icon="circle-plus-filled" :title="addTooltip"></el-button>
+         <el-dropdown class="add-button" v-if="isAddButtonVisibile" trigger="click" @command="handle">
+      <el-button type="primary" link class="admin-button fa fa-plus" :title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="newDocument"><lq-string>item.document</lq-string></el-dropdown-item>
-          <el-dropdown-item command="newNote"><lq-string>item.note</lq-string></el-dropdown-item>
-          <el-dropdown-item command="newTextblock"><lq-string>item.textblock</lq-string></el-dropdown-item>
-          <el-dropdown-item command="newHeading" divided><lq-string>item.heading</lq-string></el-dropdown-item>
-          <el-dropdown-item command="newShape"><lq-string>item.shape</lq-string></el-dropdown-item>
-          <el-dropdown-item command="newLine"><lq-string>item.line</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newDocument">
+            <el-icon size="large" class="fa fa-paperclip"></el-icon>
+            <lq-string>item.document</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newNote">
+            <el-icon size="large" class="fa fa-sticky-note"></el-icon>
+            <lq-string>item.note</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newTextblock">
+            <el-icon size="large" class="fa fa-file-text"></el-icon>
+            <lq-string>item.textblock</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newHeading" divided>
+            <el-icon size="large" class="fa fa-header"></el-icon>
+            <lq-string>item.heading</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newShape">
+            <el-icon size="large" class="fa fa-circle"></el-icon>
+            <lq-string>item.shape</lq-string></el-dropdown-item>
+          <el-dropdown-item command="newLine">
+            <el-icon size="large" class="fa fa-long-arrow-right"></el-icon>
+            <lq-string>item.line</lq-string></el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
     <div class="view-controls">
-      <el-button type="primary" link icon="home-filled" :title="homeTooltip" @click="home"></el-button>
-      <el-button type="primary" link icon="full-screen" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
+      <el-button type="primary" link :title="homeTooltip" @click="home" class="admin-button fa fa-arrows"></el-button>
+      <el-button type="primary" link class="admin-button fa fa-crosshairs":title="fullscreenTooltip" :disabled="isTopicmapEmpty"
         @click="zoomToFit">
       </el-button>
-      <el-button v-if="isBigScreen" type="primary" link icon="zoom-in" :title="zoomInTooltip" @click="zoomIn">
+      <el-button v-if="isBigScreen" type="primary" link class="admin-button fa fa-search-plus" :title="zoomInTooltip" @click="zoomIn">
       </el-button>
-      <el-button v-if="isBigScreen" type="primary" link icon="zoom-out" :title="zoomOutTooltip" @click="zoomOut">
+      <el-button v-if="isBigScreen" type="primary" link class="admin-button fa fa-search-minus" :title="zoomOutTooltip" @click="zoomOut">
       </el-button>
-      <lq-canvas-search></lq-canvas-search>
+ 
+      <!-- <lq-canvas-search></lq-canvas-search> -->
     </div>
-    <el-button class="discussion-button" v-if="!panelVisibility" type="primary" link icon="chat-line-round"
+    <el-button class="discussion-button admin-button fa fa-commenting" v-if="!panelVisibility" type="primary" link 
       :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
+    <!-- <el-button v-else class="close-button admin-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button> -->
   </div>
 </template>
 
@@ -91,6 +105,10 @@ export default {
 
     handle (command) {
       this[command]()
+    },
+
+    close () {
+      this.$store.dispatch('setPanelVisibility', false)
     },
 
     // 6 methods called by dropdown menu
@@ -226,12 +244,8 @@ function newSynId () {
 
 <style>
 .lq-canvas-toolbar {
-  position: absolute;
-  display: flex;
-  align-items: center;
   box-sizing: border-box;
   width: 100%;
-  padding: 4px 8px;
   z-index: 1;           /* place toolbar before canvas items */
 }
 
@@ -241,20 +255,40 @@ function newSynId () {
 
 .lq-canvas-toolbar .view-controls {
   display: flex;
-  flex-grow: 1;
-  justify-content: center;
-  margin: 0 15px;
+  position:absolute;
+/*  margin: 0 15px; */  
+  padding: 12px !important;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 54px;
+  border:1px solid #fafafa;
+  bottom: 5px;
+  left:45%;
+  z-index: 1; 
 }
 
 .lq-canvas-toolbar .view-controls .lq-canvas-search {
   margin-left: 15px;
 }
 
-.lq-canvas-toolbar .discussion-button {
-  background-color: var(--background-color) !important;
-  border-radius: 0;
-  margin-top: -4px;
-  margin-right: -8px;
-  padding: 4px !important;
+.lq-canvas-toolbar .add-button {
+  position:absolute;
+  background-color: #fff481;
+  border-radius: 54px;
+  padding: 10px;
+  bottom: 5px;
+  left: 5px;
+  z-index: 1;
 }
+
+.lq-canvas-toolbar .discussion-button {
+/*  background-color: var(--background-color) !important;*/
+  background-color: #fff481;
+  border-radius: 54px;
+  padding: 10px !important;
+  position:absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 1;
+}
+
 </style>

@@ -1,26 +1,5 @@
 <template>
   <div class="lq-account-menu">
-    <el-dropdown trigger="click" @command="handle">
-      <el-button type="primary" link class="fa fa-user-circle">
-        <el-icon class="el-icon--right"><arrow-down-bold></arrow-down-bold></el-icon>
-      </el-button>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item disabled>
-            <b>{{username}}</b>
-          </el-dropdown-item>
-          <el-dropdown-item command="openUserProfile">
-            <lq-string>label.user_profile</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" :icon="icon" divided>
-            <lq-string>label.presentation_mode</lq-string>
-          </el-dropdown-item>
-          <el-dropdown-item command="logout" divided>
-            Logout
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
     <!-- v-loading does not work on el-dialog. So we put it on a child element. -->
     <!-- https://github.com/element-plus/element-plus/issues/6706 -->
     <el-dialog v-model="profileVisibility" width="400px">
@@ -194,6 +173,11 @@ export default {
 </script>
 
 <style>
+
+.lq-account-menu {
+  display: flex;
+}
+
 .lq-account-menu .el-dialog .el-radio {
   line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
   height: unset;          /* Element Plus default for el-radio is 32px */

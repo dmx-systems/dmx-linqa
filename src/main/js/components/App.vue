@@ -44,9 +44,14 @@
   --button-spacing: 14px;                     /* horizontal spacing between toolbar buttons */
   --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
-  --header-color: black;
-  --background-color: #e6e6e6;                /* used for panels and forms */
-  --primary-color: #ffd100;                   /* used for doc-filter, comment-refs, login/legal pages (yellow) */
+  --header-color: white;
+  /* --background-color: #e6e6e6;                used for panels and forms */
+  --background-color: rgb(247,247,247);       /* used for panels and forms */
+  --primary-color: #254080;                   /* used for doc-filter, 
+  comment-refs, login/legal pages (yellow) */
+  --el-color-primary: #254080 !important;     /* linqa dark primary color */
+  --el-button-text-color: var(--el-color-primary);
+  --el-button-hover-link-text-color: red !important;
   --primary-color-light: #fff6cc;             /* used for doc-filter, comment-refs, login/legal pages (light yellow) */
   --highlight-color: #409eff;                 /* matches Element UI --color-primary (blue), interactive elements */
   --highlight-color-2: #66b1ff;               /* matches Element UI --color-primary-light-2, hovered menu item */
@@ -62,6 +67,7 @@
   --blue: #0366d6;
   --light-blue: #84a8cc;
   --light-gray: #ddd;
+  --moveable-color: #c05c51 !important;
 }
 
 html {
@@ -87,9 +93,14 @@ body.fixed {
   color: var(--secondary-color);
 }
 
+.secondary .lq-string{
+  padding-left:22px;
+}
+
 .label {
   font-size: var(--secondary-font-size) !important;
   color: var(--secondary-color) !important;
+  /*  font-variant-position: super;*/
 }
 
 .field-label {
@@ -320,4 +331,17 @@ input, button {
   background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
   color: var(--highlight-color);      /* quill-mention does not set any color, so it's black */
 }
+
+.moveable-control, .moveable-line {
+  background: #254080 !important;
+}
+
+.moveable-rotation .moveable-rotation-control {
+  border-color: white !important;
+}
+
+.el-button.is-link:hover {
+  color: var(--el-color-primary) !important;
+}
+
 </style>

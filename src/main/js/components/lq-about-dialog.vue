@@ -50,7 +50,7 @@ export default {
 
 <style>
 .lq-about-dialog {
-  background-color: var(--background-color);
+  background-color: var(--header-color);
 }
 
 .lq-about-dialog .el-dialog__body {
@@ -58,12 +58,22 @@ export default {
   color: var(--secondary-color);
 }
 
+.lq-about-dialog .lq-about-content {
+  margin:20px;
+}
+
+.lq-about-dialog .lq-about-content a {
+  color: var(--primary-color) !important;
+}
+
 .lq-about-dialog .linqa-logo {
-  height: 84px;
+  height: 120px;
 }
 
 .lq-about-dialog .version {
-  margin: 24px 0;
+  margin: 0px 24px 24px 0px;
+  color: var(--primary-color);
+  font-weight: bolder;
 }
 
 .lq-about-dialog .version .date {

@@ -1,13 +1,13 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
     <lq-resizer></lq-resizer>
-    <el-button class="close-button" type="primary" link icon="close" :title="closeTooltip" @click="close"></el-button>
+    <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
     <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
     <div class="filter-wrapper" v-if="discussionFilter">
       <div class="filter">
         <lq-string>{{filterLabelKey}}</lq-string>
-        <el-button class="close-button" type="primary" link icon="close" :title="resetTooltip"
+        <el-button class="close-button fa fa-times" type="primary" link :title="resetTooltip"
           @click="resetDiscussionFilter">
         </el-button>
       </div>
@@ -39,7 +39,7 @@
           </lq-attachment>
         </div>
       </div>
-      <el-button class="submit-button" type="primary" link icon="promotion" :title="submitTooltip"
+      <el-button class="submit-button fa fa-arrow-circle-up" type="primary" link :title="submitTooltip"
         @click="createComment">
       </el-button>
     </div>
@@ -271,7 +271,9 @@ export default {
   components: {
     'lq-resizer':       require('./lq-resizer').default,
     'lq-comment':       require('./lq-comment').default,
-    'lq-upload-dialog': require('./lq-upload-dialog').default
+    'lq-upload-dialog': require('./lq-upload-dialog').default,
+    'lq-app-header': require('./lq-app-header').default
+
   }
 }
 </script>
@@ -283,26 +285,36 @@ export default {
   flex-grow: 1;
   position: relative;         /* place close-button relative to this element */
   box-sizing: border-box;
-  padding: 10px 0 10px 10px;
-  background-color: var(--background-color);
+  z-index: 1;
+  /*  padding: 0 0 15px 15px; */ 
+  /*  min-width to be discussed for better performance */ 
+  min-width: 320px;
+  /*  background-color: var(--background-color); */    
+  /*  background-color: rgba(255, 244, 129, 0.2); */
+  background-color: #f7f7f7;
+  box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
+  -webkit-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
+  -moz-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
 }
 
 .lq-discussion > .close-button {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 30px;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
 }
 
 .lq-discussion > .heading {
-  font-size: 20px;
-  margin-top: 14px;
-  margin-bottom: 20px;
+  font-size: 16px;
+  padding: 14px 14px 14px 22px;
+  text-transform: uppercase;
+  color: var(--primary-color);
 }
 
 .lq-discussion .filter-wrapper {
   margin-bottom: 32px;
   margin-right: 10px;
+  padding-left: 20px;
 }
 
 .lq-discussion .filter {
@@ -310,16 +322,18 @@ export default {
   align-items: center;
   background-color: var(--primary-color);
   padding: 5px 8px;
+  color: white !important;
 }
 
 .lq-discussion .filter .close-button {
-  font-size: 20px;
   margin-left: 6px;
+  color: white !important;
 }
 
 .lq-discussion .comments {
   height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
                         /* window bottom. We want new-comment panel always be attached to comments. */
+  margin-bottom: 75px;  /* For desktop? or global. */
 }
 
 .lq-discussion .comments .lq-comment {
@@ -327,18 +341,23 @@ export default {
 }
 
 .lq-discussion .comments .lq-comment + .lq-comment {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .lq-discussion .new-comment-container {
   display: flex;
   align-items: flex-end;
   margin-top: 20px;
+  background-color: #fff481;
+  padding: 10px;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
 }
 
 .lq-discussion .new-comment-container .submit-button {
-  font-size: 30px;
-  margin: 0 10px 7px 10px;
+  font-size: 24px;
+  margin: 5px 20px 10px 10px;
 }
 
 .lq-discussion .new-comment {

@@ -70,7 +70,7 @@ const store = createStore({
     topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)
     topic: undefined,             // the selected topic (dmx.ViewTopic), undefined if nothing is selected  // TODO: drop
     selection: [],                // the selected topics (array of dmx.ViewTopic)
-    pan: {x: 0, y: 0},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
+    pan: {x: 4, y: 4},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
     zoom: 1,                      // canvas zoom (Number)                   // TODO: drop this, calculate instead?
     dragMode: '',                 // non-empty while dragging in progress (canvas pan, panel resize, line handle drag)
     transition: false,            // true while a canvas pan/zoom transition is in progress
@@ -85,6 +85,7 @@ const store = createStore({
     // Discussion Panel
     panelVisibility,              // discussion panel visibility (Boolean)
     panelPos,                     // x coordinate of the discussion panel, regardless if open/closed, in pixel (Number)
+    panelMinWidth: 320,           // mininum width for example 1/6 of a desktop 1920 screen 
     discussion: undefined,        // the comments displayed in discussion panel (array of dmx.RelatedTopic)
     discussionFilter: undefined,  // a Document/Note/Textblock topic (plain object), or undefined if no filter is active
     discussionLoading: false      // true while a discussion is loading
@@ -452,7 +453,13 @@ const store = createStore({
     },
 
     setPanelPos ({state}, x) {
-      state.panelPos = x
+      const currentScreen = document.querySelector('.lq-workspace')
+      const calcMinPosition = currentScreen.clientWidth - x
+      if (calcMinPosition < state.panelMinWidth) {
+        state.panelPos = currentScreen.clientWidth - state.panelMinWidth
+      } else {
+        state.panelPos = x
+      }
       dmx.utils.setCookie('linqa_panel_pos', Math.round(x))
     },
 

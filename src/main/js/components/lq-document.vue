@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
-      <div class="discussion-button">
+      <div class="discussion-button" :style="backgroundColor">
         <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
@@ -275,15 +275,16 @@ export default {
   box-sizing: border-box;
   height: 100%;
   padding: 8px;
-  background-color: var(--background-color);
+  border: var(--filter-border);
+  background-color: var(--header-color);
 }
 
 .lq-document.filter {
-  background-color: var(--primary-color);
+  border: var(--primary-color) 6px solid
 }
 
 .lq-document.filter .discussion-button {
-  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .lq-document.info {
@@ -300,11 +301,14 @@ export default {
 .lq-document .discussion-button {
   position: absolute;
   top: 0;
-  right: -28px;
-  padding: 4px 4px 2px 4px;
-  background-color: var(--background-color);
-  border-top-right-radius: 14px;
-  border-bottom-right-radius: 14px;
+  right: -34px;
+  padding: 2px 3px 0px 11px;
+  border-top-right-radius: 19px;
+  border-bottom-right-radius: 19px;
+  border-top: var(--filter-border);
+  border-right: var(--filter-border);
+  border-bottom: var(--filter-border);
+  background-color: var(--header-color);
 }
 
 .lq-document .discussion-button .el-button {

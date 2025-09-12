@@ -132,7 +132,7 @@ export default {
     style () {
       return {
         'background-position': `${this.bgPos.x}px ${this.bgPos.y}px`,
-        'background-size': `${lq.CANVAS_GRID * this.zoom}px`
+        'background-size': `${lq.CANVAS_GRID * this.zoom}px ${lq.CANVAS_GRID * this.zoom}px`
       }
     },
 
@@ -307,7 +307,7 @@ export default {
 .lq-canvas {
   position: relative;   /* the canvas toolbar is aligned to the *right* canvas border */
   flex-grow: 1;
-  background-image: url("../../resources-build/grid.png");
+    background: linear-gradient(90deg, whitesmoke .05rem, transparent .05rem), linear-gradient(360deg, whitesmoke .05rem, transparent .05rem);
   min-width: 0;
   overflow: hidden;
 }

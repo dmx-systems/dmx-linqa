@@ -27,7 +27,7 @@ export default {
     },
 
     zoomRounded () {
-      return Math.round(100 * this.zoom) / 100
+      return Math.round(this.zoom * 100) + '%'
     }
   },
 
@@ -46,13 +46,17 @@ export default {
 
 <style>
 .lq-viewport {
-  border-top: 3px solid black;
-  border-left: 3px solid black;
-  width: 50px;
-  height: 50px;
+  border-top: 1px solid #c05c51;
+  border-left: 1px solid #c05c51;
+  width: 2.44rem;
+  height: 2.44rem;
+/* background-position: 1.225rem 1.3rem; */
 }
 
 .lq-viewport .zoom {
-  margin-top: -20px;
+/*  margin-top: -20px;*/
+  color:#c05c51;
+  padding:2px 5px;
+  font-size: 0.7em;
 }
 </style>

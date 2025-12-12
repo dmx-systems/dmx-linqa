@@ -59,7 +59,13 @@ export default {
 }
 
 .lq-about-dialog .lq-about-content {
-  margin:20px;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+.lq-about-content .dmx-html-field a {
+  color: var(--primary-color) !important;
+  text-decoration: none !important;
 }
 
 .lq-about-dialog .lq-about-content a {
@@ -67,7 +73,7 @@ export default {
 }
 
 .lq-about-dialog .linqa-logo {
-  height: 120px;
+  height: 100px;
 }
 
 .lq-about-dialog .version {

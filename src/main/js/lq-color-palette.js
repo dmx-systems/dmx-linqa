@@ -11,12 +11,12 @@ export default {
   background: [
     'white',
     'hsl(0, 0%, 92%)',          // gray
-    'hsl(0, 82%, 89%)',         // red
+    'hsl(0, 81%, 94%)',         // red
     'hsl(36, 100%, 90%)',       // orange
     'hsl(58, 100%, 85%)',       // yellow
     'hsl(120, 37%, 85%)',       // green
-    'hsl(210, 66%, 88%)',       // blue
-    'hsl(270, 100%, 92%)',      // purple
+    'hsl(210, 66%, 89%)',       // blue
+    'hsl(268, 100%,97%)',       // purple
     'transparent'
   ],
   textBackground: [

@@ -74,10 +74,10 @@ export default {
 
 <style>
 .lq-comment-ref {
-  display: inline-flex;
+  /*display: inline-flex;*/
   position: relative;
   background-color: var(--primary-color-light);
-  border-left: 5px solid var(--primary-color);
+  border-left: 5px solid var(--light-color);
   padding: 6px 10px;
   cursor: pointer;
 }

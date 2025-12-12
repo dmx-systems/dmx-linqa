@@ -104,6 +104,10 @@ function makePages (html) {
   color: var(--primary-color);
 }
 
+.lq-help-dialog .hint {
+  background-color: var(--light-color);
+}
+
 .lq-help-dialog .page {
   overflow-y: auto;
   margin-left: 20px;

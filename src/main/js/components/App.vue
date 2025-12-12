@@ -52,8 +52,9 @@
   --el-color-primary: #254080 !important;     /* linqa dark primary color */
   --el-button-text-color: var(--el-color-primary);
   --el-button-hover-link-text-color: red !important;
-  --primary-color-light: #fff6cc;             /* used for doc-filter, comment-refs, login/legal pages (light yellow) */
-  --highlight-color: #409eff;                 /* matches Element UI --color-primary (blue), interactive elements */
+  --light-color: #fff481;                     /* original yellow */
+  --primary-color-light: #fffbe6;             /* light yellow for doc-filter, comment-refs, login/legal pages (light yellow) */
+  --highlight-color: #254080;                 /* matches Element UI --color-primary (blue), interactive elements */
   --highlight-color-2: #66b1ff;               /* matches Element UI --color-primary-light-2, hovered menu item */
   --highlight-color-9: #ecf5ff;               /* matches Element UI --color-primary-light-9, hovered menu item bg */
   --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item fg color, menus, dialogs */

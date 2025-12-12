@@ -8,7 +8,7 @@ import app from './app'
 import './element-plus'
 import './country-flag-polyfill'
 
-console.log('[Linqa] 2025/09/12')
+console.log('[Linqa] 2025/12/12-jri')
 
 // 1) Init DMX library
 dmx.init({

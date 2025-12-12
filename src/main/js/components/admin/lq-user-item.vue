@@ -15,7 +15,7 @@
                 <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_user</lq-string>
               </el-dropdown-item>
               <el-dropdown-item command="editMemberships" divided>
-                <i class="fa fa-fw fa-list"></i><lq-string>action.edit_affiliations</lq-string>
+                <i class="fa fa-fw fa-wrench"></i><lq-string>action.edit_affiliations</lq-string>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>

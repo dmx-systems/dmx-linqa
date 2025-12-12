@@ -3,7 +3,7 @@
       :data-id="workspace.id">
     <template #title>
       <div class="workspace">
-        <div class="name"><span class="fa fa-fw fa-list"></span> {{workspaceName}}</div>
+        <div class="name"><span class="fa fa-fw fa-th-list"></span> {{workspaceName}}</div>
         <div class="owner"><span class="fa fa-fw fa-user"></span> {{owner}}</div>
         <el-dropdown trigger="click" @command="handle">
           <el-button type="primary" link class="fa fa-fw fa-ellipsis-v" @click.stop></el-button>
@@ -22,7 +22,7 @@
                 <i class="fa fa-fw fa-trash"></i><lq-string>action.delete_workspace</lq-string>
               </el-dropdown-item>
               <el-dropdown-item command="editMemberships" divided>
-                <i class="fa fa-fw fa-users"></i><lq-string>action.edit_memberships</lq-string>
+                <i class="fa fa-fw fa-wrench"></i><lq-string>action.edit_memberships</lq-string>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>

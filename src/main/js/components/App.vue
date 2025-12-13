@@ -58,7 +58,7 @@
   --highlight-color-2: #66b1ff;               /* matches Element UI --color-primary-light-2, hovered menu item */
   --highlight-color-9: #ecf5ff;               /* matches Element UI --color-primary-light-9, hovered menu item bg */
   --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item fg color, menus, dialogs */
-  --color-danger: #f56c6c;                    /* matches Element UI --color-danger */
+  --color-danger: #c05c51;                    /* matches Element UI --color-danger */
   --border-color: #dcdfe6;                    /* matches Element UI --border-color-base */
   --border-color-lighter: #ebeef5;            /* matches Element UI --border-color-lighter */
   --filter-border: 6px solid transparent;
@@ -115,7 +115,8 @@ body.fixed {
 }
 
 .match {
-  border: 2px solid red;
+  border: 1px solid #c05c51;
+  background-color: var(--light-color);
 }
 
 .edited-indicator {

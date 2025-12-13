@@ -132,6 +132,12 @@ export default {
   display: flex;
 }
 
+@media only screen and (max-width: 420px) {
+  .lq-canvas-search {
+    flex-wrap: wrap;
+ }
+}
+
 .lq-canvas-search .lq-search-results .match-info .secondary{
   margin-top: -20px;
 }

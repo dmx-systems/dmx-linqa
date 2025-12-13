@@ -274,7 +274,7 @@ function newSynId () {
   position:absolute;
   background-color: #fff481;
   border-radius: 54px;
-  padding: 10px;
+  padding: 7px 10px;
   bottom: 5px;
   left: 5px;
   z-index: 1;

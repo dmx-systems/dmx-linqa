@@ -313,6 +313,8 @@ export default {
 .lq-burger-switch {
  display: inline-flex; 
  max-width:85px;
+ justify-content: space-around;
+
 }
 
 
@@ -335,7 +337,7 @@ export default {
 
   .lq-burger-switch {
     display: inline-flex; 
-    max-width:85px;
+    max-width:70px;
     flex-wrap: wrap-reverse;
     justify-content: flex-end;
   }

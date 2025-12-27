@@ -275,8 +275,6 @@ export default {
   justify-content: space-around;
 }
 
-.lq-canvas-item .item-toolbar .el-icon {
-}
 
 .lq-canvas-item .item-toolbar .el-button + .el-button {
   margin: 0.2rem 0.05rem !important;
@@ -298,7 +296,7 @@ export default {
 }
 
 .lq-canvas-item .item-toolbar .el-button + .el-button {
-  /*margin-left: var(--button-spacing);*/
+  /*padding-left: var(--button-spacing) !important;*/
 }
 
 .lq-canvas-item .reactions {

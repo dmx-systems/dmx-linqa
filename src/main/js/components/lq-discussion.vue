@@ -295,6 +295,7 @@ export default {
   box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -webkit-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -moz-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
+  justify-content: space-between;
 }
 
 .lq-discussion > .close-button {
@@ -309,6 +310,7 @@ export default {
   padding: 14px 14px 14px 22px;
   text-transform: uppercase;
   color: var(--primary-color);
+  max-height: 60px;
 }
 
 .lq-discussion .filter-wrapper {
@@ -333,7 +335,9 @@ export default {
 .lq-discussion .comments {
   height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
                         /* window bottom. We want new-comment panel always be attached to comments. */
-  margin-bottom: 75px;  /* For desktop? or global. */
+  /* margin-bottom: 75px;   For desktop? or global. */
+  padding-bottom: 10px;
+  min-height: 100px;    /* To show spinner while loading */
 }
 
 .lq-discussion .comments .lq-comment {
@@ -347,10 +351,9 @@ export default {
 .lq-discussion .new-comment-container {
   display: flex;
   align-items: flex-end;
-  margin-top: 20px;
   background-color: #fff481;
   padding: 10px;
-  position: absolute;
+  position: relative;
   width: 100%;
   bottom: 0px;
 }

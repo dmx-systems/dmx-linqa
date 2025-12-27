@@ -320,7 +320,7 @@ export default {
   position: absolute;
   white-space: nowrap;
   padding-top: 4px;
-  padding-bottom: 12px;
+  padding-bottom: 22px;
 }
 
 .lq-canvas .content-layer .group-toolbar .el-button {

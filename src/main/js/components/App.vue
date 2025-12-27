@@ -41,7 +41,7 @@
   --line-height: 1.5;
   --paragraph-spacing: 10px;
   --field-spacing: 16px;                      /* vertical spacing between data fields */
-  --button-spacing: 14px;                     /* horizontal spacing between toolbar buttons */
+  --button-spacing: 4px;             /* horizontal spacing between toolbar buttons */
   --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
   --header-color: white;

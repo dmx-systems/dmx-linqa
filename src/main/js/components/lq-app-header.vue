@@ -1,9 +1,8 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
-
     <img class="logo" :src="logo(true)">
     <div class="lq-app-header-menu">
-      <div class="lq-menu-middle">
+      <div v-if="!isSmallScreen" class="lq-menu-middle">
         <div class="workspace">
           <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
           <template v-else>
@@ -14,22 +13,52 @@
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="workspace in workspaces" 
-                      :command="workspace.id" :key="workspace.id">
-                     {{getWorkspaceName(workspace)}}
+                    :command="workspace.id" :key="workspace.id">
+                    {{getWorkspaceName(workspace)}}
                   </el-dropdown-item>
                   <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" 
-                      :command="linqaAdminWs.id" :divided="workspacesExist">
-                      {{getWorkspaceName(linqaAdminWs)}}
+                    :command="linqaAdminWs.id" :divided="workspacesExist">
+                    {{getWorkspaceName(linqaAdminWs)}}
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-
           </template>
         </div>
         <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
       </div>
+      <div v-else class="lq-menu-small-middle">
+        <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
+        <div class="lq-middle" v-else>
+          <div class="workspace">
+            <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
+            <template v-else>
+              <el-dropdown trigger="hover" @click="setWorkspace" @command="setWorkspace">
+                <span class="el-dropdown-link">{{workspaceName}}</span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item v-for="workspace in workspaces" 
+                      :command="workspace.id" :key="workspace.id">
+                      {{getWorkspaceName(workspace)}}
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" 
+                      :command="linqaAdminWs.id" :divided="workspacesExist">
+                      {{getWorkspaceName(linqaAdminWs)}}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
+          </div>
 
+          <button plain @click="dialogVisible = true" aria-disabled="false" type="button" class="el-button el-button--primary is-link discussion-button admin-button fa fa-search" title="Open discussion panel"></button>
+
+          <el-dialog top width="80%" v-model="dialogVisible"  @close="close">
+            <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
+          </el-dialog>
+        </div>
+      </div>
+ 
       <div class="lq-burger-switch">
         <lq-language-switch></lq-language-switch>
         <lq-account-menu></lq-account-menu>
@@ -95,6 +124,7 @@ import dmx from 'dmx-api'
 import { ref } from 'vue'
 
 const value = ref('')
+const dialogVisible = ref(false)
 
 
 export default {
@@ -114,8 +144,13 @@ export default {
     }
     return {
       helpVisible: !onboarded && this.isBigScreen,
-      firstLogin: !onboarded
+      firstLogin: !onboarded,
+      dialogVisible: false
     }
+  },
+
+  props: {
+    visible: Boolean
   },
 
   computed: {
@@ -228,6 +263,10 @@ export default {
       this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
     },
 
+    openDialog () {
+      console.log('openDialog')
+    },
+
     logout () {
       this.$store.dispatch('logout').then(() =>
         this.$store.dispatch('callRootRoute')
@@ -256,10 +295,12 @@ export default {
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   /*  background-color: var(--header-color);*/
+  align-items: center;
 }
 
 .lq-app-header img.logo {
   height: 70px;
+  margin-right: 10px;
 /*  margin-left: -10px !important;*/
 }
 
@@ -271,6 +312,24 @@ export default {
   display:flex;
   justify-content: space-around;
   padding:5px 20px 5px 0px;
+}
+
+.lq-menu-middle {
+  display: inline-flex; 
+  padding: 5px 0px 5px 10px; 
+  flex-wrap: wrap; 
+  align-self: center;
+}
+
+.lq-app-header .lq-menu-small-middle {
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.lq-middle {
+  display:inline-flex; 
+  justify-content: flex-start; 
+  margin-right: 10px;
 }
 
 .lq-app-header.small-screen .workspace .selector-label {
@@ -297,13 +356,6 @@ export default {
   justify-content: flex-end; 
 }
 
-.lq-menu-middle {
-  display: inline-flex; 
-  padding: 5px 0px 5px 10px; 
-  flex-wrap: wrap; 
-  align-self: center;
-}
-
 .lq-burger {
   margin: 15px;
   font-size: 15px; 
@@ -311,18 +363,28 @@ export default {
 }
 
 .lq-burger-switch {
- display: inline-flex; 
- max-width:85px;
- justify-content: space-around;
+  display: inline-flex; 
+  max-width:85px;
+  justify-content: space-around;
+}
 
+.lq-burger-switch button span {
+  background-color: var(--light-color); 
+  padding: 4px; 
+  border-radius: 5px;
+  font-weight: bolder;
+}
+
+.lq-menu-small-middle .el-dropdown button {
+  font-size: 20px;
+}
+
+.lq-menu-small-middle .el-dropdown span {
+  color: var(--primary-color);
 }
 
 
 @media only screen and (max-width: 420px) {
-  .lq-app-header img.logo {
-    height: 60px;
-    align-self: center;
-  }
 
   .lq-app-header .workspace .el-button > span {
     max-width:110px;
@@ -335,11 +397,6 @@ export default {
     flex-wrap: wrap-reverse;
   }
 
-  .lq-burger-switch {
-    display: inline-flex; 
-    max-width:70px;
-    flex-wrap: wrap-reverse;
-    justify-content: flex-end;
-  }
 }
+
 </style>

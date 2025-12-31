@@ -4,7 +4,7 @@ import dmx from 'dmx-api'
 import app from './app'
 import store from './store/linqa'
 
-const SMALL_SCREEN_WIDTH = 600  // Threshold for switching between small/big UI layout (in pixel)
+const SMALL_SCREEN_WIDTH = 690  // Threshold for switching between small/big UI layout (in pixel)
 const ROTATE_GRID = 5           // Rotate items in 5 deg steps
 const CANVAS_GRID = 20          // 20x20 pixel = size of grid.png
 const CANVAS_BORDER = 40        // Affects a) position of new items and document revelation, b) zoom-to-fit (in pixel).

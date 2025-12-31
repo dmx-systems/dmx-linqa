@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lq-canvas-search', {'small-screen': isSmallScreen}]">
+  <div class="lq-canvas-search">
     <el-input v-model="searchTerm" :placeholder="placeholder">
       <template #suffix>
         <el-icon v-if="!searchTerm" class="fa fa-search"><search /></el-icon>
@@ -135,6 +135,8 @@ export default {
 @media only screen and (max-width: 420px) {
   .lq-canvas-search {
     flex-wrap: wrap;
+    margin-right: unset;
+
  }
 }
 

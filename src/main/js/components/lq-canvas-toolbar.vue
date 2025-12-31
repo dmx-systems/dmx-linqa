@@ -286,9 +286,13 @@ function newSynId () {
   border-radius: 54px;
   padding: 10px !important;
   position:absolute;
-  top: 3px;
-  right: 3px;
+  top: 5px;
+  right: 5px;
   z-index: 1;
+}
+
+.lq-canvas-toolbar .discussion-button:hover {
+  background-color: #fff481 !important;
 }
 
 </style>

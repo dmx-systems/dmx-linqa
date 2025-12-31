@@ -365,7 +365,7 @@ export default {
 
 @keyframes glow {
   0% {
-    background-color: var(--highlight-color);
+    background-color: var(--highligth-glow);
   },
   100% {
     background-color: white;

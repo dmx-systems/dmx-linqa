@@ -6,7 +6,7 @@
     <el-icon class="lock-icon" v-if="showLock"><lock></lock></el-icon>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
       <template v-for="action in actions" :key="action.key">
-        <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle" @click="action.handler"
+        <el-button v-if="isActionAvailable(action)" type="primary" link @click="action.handler"
             @mousedown.stop>
           <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
             <component :is="actionIcon(action)"></component>
@@ -272,12 +272,21 @@ export default {
   border: 0.05rem solid whitesmoke;
   text-align: center;
   display: inline-flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+}
+
+.lq-canvas-item .item-toolbar .el-button {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.lq-canvas-item .item-toolbar .el-button .el-icon {
+  padding: 0 !important;
 }
 
 
 .lq-canvas-item .item-toolbar .el-button + .el-button {
-  margin: 0.2rem 0.05rem !important;
+  /*margin: 0.2rem 0.05rem !important;*/
 }
 
 .lq-canvas-item .item-toolbar.flipped {

@@ -1,8 +1,10 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
     <lq-resizer></lq-resizer>
-    <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
-    <lq-string class="heading">label.discussion</lq-string>
+    <div><div class="lq-discussion-header">
+      <lq-string class="heading">label.discussion</lq-string>
+      <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
+    </div>
     <!-- Filter -->
     <div class="filter-wrapper" v-if="discussionFilter">
       <div class="filter">
@@ -11,6 +13,7 @@
           @click="resetDiscussionFilter">
         </el-button>
       </div>
+    </div>
     </div>
     <!-- Comments -->
     <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
@@ -298,19 +301,22 @@ export default {
   justify-content: space-between;
 }
 
-.lq-discussion > .close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
+.lq-discussion .lq-discussion-header {
+  display:flex;
+  height:50px;
+  padding: 0 15px;
+  align-items: center;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.lq-discussion .lq-discussion-header > .close-button {
   font-size: 22px;
 }
 
 .lq-discussion > .heading {
-  font-size: 16px;
-  padding: 14px 14px 14px 22px;
-  text-transform: uppercase;
-  color: var(--primary-color);
-  max-height: 60px;
 }
 
 .lq-discussion .filter-wrapper {
@@ -333,7 +339,7 @@ export default {
 }
 
 .lq-discussion .comments {
-  height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
+  /* height: unset;        Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
                         /* window bottom. We want new-comment panel always be attached to comments. */
   /* margin-bottom: 75px;   For desktop? or global. */
   padding-bottom: 10px;

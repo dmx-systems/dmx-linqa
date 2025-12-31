@@ -1,6 +1,7 @@
 <template>
   <div class="lq-canvas-toolbar">
-         <el-dropdown class="add-button" v-if="isAddButtonVisibile" trigger="click" @command="handle">
+    <el-dropdown class="add-button" v-if="isAddButtonVisibile" trigger="click" 
+    @command="handle" placement="top-start">
       <el-button type="primary" link class="admin-button fa fa-plus" :title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu>
@@ -275,8 +276,8 @@ function newSynId () {
   background-color: #fff481;
   border-radius: 54px;
   padding: 7px 10px;
-  bottom: 5px;
-  left: 5px;
+  bottom: 10px;
+  left: 10px;
   z-index: 1;
 }
 

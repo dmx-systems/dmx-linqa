@@ -1,7 +1,7 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
     <lq-resizer></lq-resizer>
-    <div ><div class="lq-discussion-header">
+    <div><div class="lq-discussion-header">
       <lq-string class="heading">label.discussion</lq-string>
       <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
     </div>

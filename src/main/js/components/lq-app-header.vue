@@ -364,7 +364,7 @@ export default {
 
 .lq-burger-switch {
   display: inline-flex; 
-  max-width:85px;
+  min-width:95px;
   justify-content: space-around;
 }
 

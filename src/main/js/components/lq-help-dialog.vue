@@ -1,11 +1,8 @@
 <template>
   <el-dialog :class="customClass" :model-value="visible" @open="fetchPages" @close="close">
-    <el-menu :default-active="page" @select="select">
-      <el-menu-item v-for="(page, i) in pages[langSuffix]" :index="i.toString()" >
-        {{page.label}}
-      </el-menu-item>
-    </el-menu>
-    <div class="page dmx-html-field" v-html="pages[langSuffix][page]?.html"></div>
+       <el-tabs @select="select" v-model="page" tab-position="left">
+    <el-tab-pane v-for="(page, i) in pages[langSuffix]" :name="i.toString()" :label="page.label"><div class="page dmx-html-field" v-html="page?.html"></div></el-tab-pane>
+  </el-tabs>
   </el-dialog>
 </template>
 
@@ -112,5 +109,21 @@ function makePages (html) {
   overflow-y: auto;
   margin-left: 20px;
   padding: 0 20px 20px 0px;
+  height: 80vh;
+  display: block;
 }
+
+.lq-help-dialog .el-tabs__item {
+  font-size: 12px !important;
+  height: unset !important;
+  padding: 10px !important;
+}
+
+.lq-help-dialog .el-tabs__nav {
+  white-space: unset;
+  width: 15vw !important;
+  margin-left: 20px;
+}
+
+
 </style>

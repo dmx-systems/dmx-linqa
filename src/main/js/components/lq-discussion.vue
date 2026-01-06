@@ -1,10 +1,8 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
     <lq-resizer></lq-resizer>
-    <div><div class="lq-discussion-header">
-      <lq-string class="heading">label.discussion</lq-string>
-      <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
-    </div>
+    <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
+    <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
     <div class="filter-wrapper" v-if="discussionFilter">
       <div class="filter">
@@ -13,7 +11,6 @@
           @click="resetDiscussionFilter">
         </el-button>
       </div>
-    </div>
     </div>
     <!-- Comments -->
     <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
@@ -298,25 +295,20 @@ export default {
   box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -webkit-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -moz-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
-  justify-content: space-between;
 }
 
-.lq-discussion .lq-discussion-header {
-  display:flex;
-  height:50px;
-  padding: 0 15px;
-  align-items: center;
-  color: var(--primary-color);
-  text-transform: uppercase;
-  justify-content: space-between;
-  font-size: 16px;
-}
-
-.lq-discussion .lq-discussion-header > .close-button {
+.lq-discussion > .close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
   font-size: 22px;
 }
 
 .lq-discussion > .heading {
+  font-size: 16px;
+  padding: 14px 14px 14px 22px;
+  text-transform: uppercase;
+  color: var(--primary-color);
 }
 
 .lq-discussion .filter-wrapper {
@@ -339,11 +331,9 @@ export default {
 }
 
 .lq-discussion .comments {
-  /* height: unset;        Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
+  height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
                         /* window bottom. We want new-comment panel always be attached to comments. */
-  /* margin-bottom: 75px;   For desktop? or global. */
-  padding-bottom: 10px;
-  min-height: 100px;    /* To show spinner while loading */
+  margin-bottom: 75px;  /* For desktop? or global. */
 }
 
 .lq-discussion .comments .lq-comment {
@@ -357,9 +347,10 @@ export default {
 .lq-discussion .new-comment-container {
   display: flex;
   align-items: flex-end;
+  margin-top: 20px;
   background-color: #fff481;
   padding: 10px;
-  position: relative;
+  position: absolute;
   width: 100%;
   bottom: 0px;
 }

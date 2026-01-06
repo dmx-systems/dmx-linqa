@@ -23,7 +23,7 @@ export default {
     iconStyle () {
       return {
         'font-size': `${1.4 / this.zoom}rem`,     // icons need to be bigger than text    // TODO 18px, 24px for mobile
-        'margin': `${0.4 / this.zoom}vh ${0.9 / this.zoom}vw`,
+        'margin': `${0.4 / this.zoom}vh ${0.7 / this.zoom}vw`,
       }
     },
 

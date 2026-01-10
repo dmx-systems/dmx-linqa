@@ -7,9 +7,7 @@
           <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
           <template v-else>
             <el-dropdown trigger="hover" @click="setWorkspace" @command="setWorkspace">
-              <el-button> {{workspaceName}}
-                <el-icon class="el-icon--right"><arrow-down /></el-icon>
-              </el-button>
+              <el-button>{{workspaceName}}</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="workspace in workspaces" 

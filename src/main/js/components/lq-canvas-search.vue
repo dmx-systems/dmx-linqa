@@ -2,11 +2,10 @@
   <div class="lq-canvas-search">
     <el-input v-model="searchTerm" :placeholder="placeholder">
       <template #suffix>
-        <el-icon v-if="!searchTerm" class="fa fa-search"><search /></el-icon>
-        <el-icon v-else class="lq-clickable fa fa-times" @click="clearSearch()"><search /></el-icon>
+        <span v-if="!searchTerm" class="fa fa-search"></span>
+        <span v-else class="lq-clickable fa fa-times" @click="clearSearch"></span>
       </template>
     </el-input>
-    <!-- <el-input v-model="searchTerm" :placeholder="placeholder"></el-input> -->
     <div v-if="searchTerm" class="lq-search-results">
       <el-button type="primary" link class="admin-button fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
       <el-button type="primary" link class="admin-button fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>

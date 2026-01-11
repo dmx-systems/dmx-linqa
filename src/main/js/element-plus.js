@@ -41,4 +41,3 @@ app.component('Bottom', Bottom)
 app.component('TopRight', TopRight)
 app.component('BottomLeft', BottomLeft)
 app.component('Check', Check)
-

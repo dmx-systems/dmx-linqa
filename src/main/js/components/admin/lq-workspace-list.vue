@@ -11,7 +11,8 @@
         </el-collapse>
       </el-scrollbar>
     </template>
-    <el-button class="add-button" icon="el-icon-plus" @click="newWorkspace">
+    <el-button class="add-button" @click="newWorkspace">
+      <span class="fa fa-fw fa-plus"></span>
       <lq-string>action.add_workspace</lq-string>
     </el-button>
   </div>

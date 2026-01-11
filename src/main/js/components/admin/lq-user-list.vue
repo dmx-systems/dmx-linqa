@@ -7,7 +7,8 @@
         <lq-user-item v-for="user in users" :user="user" :key="user.id"></lq-user-item>
       </el-collapse>
     </el-scrollbar>
-    <el-button class="add-button" icon="el-icon-plus" @click="newUser">
+    <el-button class="add-button" @click="newUser">
+      <span class="fa fa-fw fa-plus"></span>
       <lq-string>action.add_user</lq-string>
     </el-button>
   </div>

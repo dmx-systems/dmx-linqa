@@ -1,5 +1,5 @@
 <template>
-  <svg class="lq-arrow-menu-item" :viewBox="viewBox">
+  <svg class="lq-arrow-menu-item" :viewBox="viewBox" :width="width" :height="height">
     <defs>
       <marker :id="arrowheadId" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto-start-reverse">
         <polygon points="0 0, 5 2, 0 4" :fill="color" />

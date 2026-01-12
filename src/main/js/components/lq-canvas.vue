@@ -4,7 +4,10 @@
     <lq-canvas-toolbar></lq-canvas-toolbar>
     <!-- Content layer -->
     <div :class="['content-layer', {transition}]" :style="viewportStyle" @transitionend="transitionend">
-      <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :key="topic.id"></lq-canvas-item>
+      <lq-canvas-item v-for="topic in topics" :topic="topic" :mode="mode(topic)" :is-active="isActive(topic)"
+        :key="topic.id" @pointerenter="onItemEnter($event, topic.id)" @pointerleave="onItemLeave"
+        @pointerdown="onItemDown($event, topic.id)">
+      </lq-canvas-item>
       <vue-moveable ref="moveable" view-container=".content-layer" :target="targets" :draggable="draggable"
         :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
@@ -103,6 +106,7 @@ export default {
         }
       },
       dragStartPos: undefined,          // object, key: topicId, value: object with x/y props
+      itemHoverId: undefined,           // ID of the item being hovered
       groupHover: false,                // true while group is hovered
       startZoom: undefined              // used while pinching (number)
     }
@@ -230,6 +234,10 @@ export default {
       return this.$store.state.isEditActive.includes(topic.id) ? 'form' : 'info'
     },
 
+    isActive (topic) {
+      return this.itemHoverId === topic.id
+    },
+
     isActionAvailable (action) {
       return action.only !== undefined ? action.only : true
     },
@@ -307,7 +315,8 @@ export default {
 .lq-canvas {
   position: relative;   /* the canvas toolbar is aligned to the *right* canvas border */
   flex-grow: 1;
-  background: linear-gradient(90deg, whitesmoke .05rem, transparent .05rem), linear-gradient(360deg, whitesmoke .05rem, transparent .05rem);
+  background: linear-gradient(90deg, whitesmoke .05rem, transparent .05rem),
+              linear-gradient(360deg, whitesmoke .05rem, transparent .05rem);
   min-width: 0;
   overflow: hidden;
 }

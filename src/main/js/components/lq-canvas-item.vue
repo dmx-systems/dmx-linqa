@@ -6,8 +6,7 @@
     <el-icon class="lock-icon" v-if="showLock"><lock></lock></el-icon>
     <div :class="['item-toolbar', {flipped}]" v-if="isToolbarVisibile">
       <template v-for="action in actions" :key="action.key">
-        <el-button v-if="isActionAvailable(action)" type="primary" link @click="action.handler"
-            @mousedown.stop>
+        <el-button v-if="isActionAvailable(action)" type="primary" link @click="action.handler" @mousedown.stop>
           <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
             <component :is="actionIcon(action)"></component>
           </el-icon>
@@ -51,6 +50,11 @@ export default {
     mode: {                     // 'info'/'form'
       type: String,
       default: 'info'
+    },
+
+    isActive: {                 // true if the user is interacting with this item in a way that should show the toolbar
+      type: Boolean,
+      default: false
     }
   },
 
@@ -126,7 +130,7 @@ export default {
     },
 
     isToolbarVisibile () {
-      return this.infoMode && !this.presentationMode
+      return this.isActive && this.infoMode && !this.presentationMode
     },
 
     /**
@@ -265,7 +269,6 @@ export default {
 
 .lq-canvas-item .item-toolbar {
   position: absolute;
-  visibility: hidden;
   background-color: rgba(255,255,255,0.9);
   border-radius: 1rem;
   padding: 0rem 0.2rem;
@@ -284,11 +287,6 @@ export default {
   padding: 0 !important;
 }
 
-
-.lq-canvas-item .item-toolbar .el-button + .el-button {
-  /*margin: 0.2rem 0.05rem !important;*/
-}
-
 .lq-canvas-item .item-toolbar.flipped {
   transform: rotate(180deg);
   top: -38px;     /* 38px is toolbar height */
@@ -298,14 +296,6 @@ export default {
 /* hide toolbar while dragging operation */
 .lq-webclient.dragging .lq-canvas-item .item-toolbar {
   visibility: hidden;
-}
-
-.lq-canvas-item:hover .item-toolbar {
-  visibility: visible;
-}
-
-.lq-canvas-item .item-toolbar .el-button + .el-button {
-  /*padding-left: var(--button-spacing) !important;*/
 }
 
 .lq-canvas-item .reactions {

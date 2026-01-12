@@ -338,6 +338,24 @@ export default {
       this.$store.dispatch('transitionEnd')
     },
 
+    onItemEnter (e, id) {
+      if (e.pointerType === 'mouse') {
+        this.itemHoverId = id
+      }
+    },
+
+    onItemLeave (e) {
+      if (e.pointerType === 'mouse') {
+        this.itemHoverId = undefined
+      }
+    },
+
+    onItemDown (e, id) {
+      if (e.pointerType === 'touch') {
+        this.itemHoverId = id
+      }
+    },
+
     onEnter () {
       // console.log('onEnter')
       this.groupHover = true

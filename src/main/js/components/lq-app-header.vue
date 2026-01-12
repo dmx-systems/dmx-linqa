@@ -3,10 +3,11 @@
     <img class="logo" :src="logo(true)">
     <div class="lq-app-header-menu">
       <div v-if="!isSmallScreen" class="lq-menu-middle">
+        <!-- Workspace selector -->
         <div class="workspace">
           <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
           <template v-else>
-            <el-dropdown trigger="hover" @click="setWorkspace" @command="setWorkspace">
+            <el-dropdown trigger="click" @command="setWorkspace">
               <el-button>{{workspaceName}}</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -28,10 +29,11 @@
       <div v-else class="lq-menu-small-middle">
         <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
         <div class="lq-middle" v-else>
+          <!-- Workspace selector -->
           <div class="workspace">
             <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
             <template v-else>
-              <el-dropdown trigger="hover" @click="setWorkspace" @command="setWorkspace">
+              <el-dropdown trigger="click" @command="setWorkspace">
                 <span class="el-dropdown-link">{{workspaceName}}</span>
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -48,15 +50,15 @@
               </el-dropdown>
             </template>
           </div>
-
-          <button plain @click="dialogVisible = true" aria-disabled="false" type="button" class="el-button el-button--primary is-link discussion-button admin-button fa fa-search" title="Open discussion panel"></button>
-
-          <el-dialog top width="80%" v-model="dialogVisible"  @close="close">
+          <button plain @click="dialogVisible = true" aria-disabled="false" type="button"
+            class="el-button el-button--primary is-link discussion-button admin-button fa fa-search"
+            title="Open discussion panel">
+          </button>
+          <el-dialog top width="80%" v-model="dialogVisible" @close="close">
             <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
           </el-dialog>
         </div>
       </div>
- 
       <div class="lq-burger-switch">
         <lq-language-switch></lq-language-switch>
         <lq-account-menu></lq-account-menu>
@@ -77,11 +79,11 @@
                 <el-icon size="large" class="fa fa-cog"></el-icon>
                 <lq-string>tooltip.admin</lq-string>
               </el-dropdown-item>
-              <el-dropdown-item command="togglePresentationMode" 
-                  v-if="isAuthor" divided>
-                <el-icon v-if="presentationMode" size="large" :style="presentationModeStyle"  class="fa fa-laptop"></el-icon>
+              <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" divided>
+                <el-icon v-if="presentationMode" size="large" :style="presentationModeStyle" class="fa fa-laptop">
+                </el-icon>
                 <el-icon v-else size="large" :style="presentationModeStyle" class="fa fa-eye"></el-icon>
-                 <lq-string :style="presentationModeStyle">label.presentation_mode</lq-string>
+                <lq-string :style="presentationModeStyle">label.presentation_mode</lq-string>
               </el-dropdown-item>
               <el-dropdown-item command="openHelp" divided>
                 <el-icon size="large" class="fa fa-exclamation-circle"></el-icon>
@@ -89,15 +91,15 @@
               </el-dropdown-item>
               <el-dropdown-item command="openAbout" divided>
                 <el-icon size="large" class="fa fa-info"></el-icon>
-                 <lq-string>label.about</lq-string>
+                <lq-string>label.about</lq-string>
               </el-dropdown-item>   
               <el-dropdown-item command="openImprint">
                 <el-icon size="large" class="fa fa-file-text"></el-icon>
-                 <lq-string>label.imprint</lq-string>
+                <lq-string>label.imprint</lq-string>
               </el-dropdown-item>  
               <el-dropdown-item command="openPrivacyPolicy">
                 <el-icon size="large" class="fa fa-shield"></el-icon>
-                 <lq-string>label.privacy_policy</lq-string>
+                <lq-string>label.privacy_policy</lq-string>
               </el-dropdown-item>  
               <el-dropdown-item command="logout" divided>
                 <el-icon size="large" class="fa fa-sign-out"></el-icon>
@@ -108,11 +110,9 @@
         </el-dropdown>
       </div>
     </div>
-
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp">
     </lq-help-dialog>
     <lq-about-dialog></lq-about-dialog>
-    <!-- Workspace selector -->
   </div>
 </template>
 

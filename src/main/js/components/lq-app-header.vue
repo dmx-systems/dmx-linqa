@@ -6,23 +6,20 @@
         <!-- Workspace selector -->
         <div class="workspace">
           <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
-          <template v-else>
-            <el-dropdown trigger="click" @command="setWorkspace">
-              <el-button>{{workspaceName}}</el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item v-for="workspace in workspaces" 
-                    :command="workspace.id" :key="workspace.id">
-                    {{getWorkspaceName(workspace)}}
-                  </el-dropdown-item>
-                  <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" 
-                    :command="linqaAdminWs.id" :divided="workspacesExist">
-                    {{getWorkspaceName(linqaAdminWs)}}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </template>
+          <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
+            <el-button>{{workspaceName}}</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
+                  {{getWorkspaceName(workspace)}}
+                </el-dropdown-item>
+                <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
+                    :divided="workspacesExist">
+                  {{getWorkspaceName(linqaAdminWs)}}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
         <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
       </div>
@@ -32,23 +29,20 @@
           <!-- Workspace selector -->
           <div class="workspace">
             <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
-            <template v-else>
-              <el-dropdown trigger="click" @command="setWorkspace">
-                <span class="el-dropdown-link">{{workspaceName}}</span>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item v-for="workspace in workspaces" 
-                      :command="workspace.id" :key="workspace.id">
-                      {{getWorkspaceName(workspace)}}
-                    </el-dropdown-item>
-                    <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" 
-                      :command="linqaAdminWs.id" :divided="workspacesExist">
-                      {{getWorkspaceName(linqaAdminWs)}}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </template>
+            <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
+              <span class="el-dropdown-link">{{workspaceName}}</span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
+                    {{getWorkspaceName(workspace)}}
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
+                      :divided="workspacesExist">
+                    {{getWorkspaceName(linqaAdminWs)}}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </div>
           <button plain @click="dialogVisible = true" aria-disabled="false" type="button"
             class="el-button el-button--primary is-link discussion-button admin-button fa fa-search"
@@ -286,25 +280,23 @@ export default {
   align-items: top;
   flex: none;
   justify-content: space-between;
-  /*flex-flow: row wrap;*/
   padding: 0px 10px;
   z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */  
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
-  /*  background-color: var(--header-color);*/
+  /* background-color: var(--header-color); */
   align-items: center;
 }
 
 .lq-app-header img.logo {
   height: 70px;
   margin-right: 10px;
-/*  margin-left: -10px !important;*/
 }
 
 .lq-app-header .workspace {
-  /*flex-grow: 1;*/
-/* overflow: hidden;     clip workspace selector in favor of other header buttons */
+  /* flex-grow: 1; */
+  /* overflow: hidden;     clip workspace selector in favor of other header buttons */
   text-align: left;
   align-items: center;
   display:flex;
@@ -325,8 +317,8 @@ export default {
 }
 
 .lq-middle {
-  display:inline-flex; 
-  justify-content: flex-start; 
+  display: inline-flex;
+  justify-content: flex-start;
   margin-right: 10px;
 }
 
@@ -336,11 +328,10 @@ export default {
 
 .lq-app-header .workspace .name {
   font-weight: bold;
-/*  font-style: italic;*/
 }
 
 .lq-app-header .admin-button {
-  font-size:22px;
+  font-size: 22px;
   margin: 0 10px 0 0;
 }
 

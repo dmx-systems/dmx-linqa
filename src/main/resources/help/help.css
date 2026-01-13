@@ -3,6 +3,10 @@
   margin-top: 0;
 }
 
+.lq-help-dialog h3{
+  display: none;
+}
+
 .lq-help-dialog .float-right {
   float: right;
   margin-left: 20px;

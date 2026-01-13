@@ -1,7 +1,9 @@
 <template>
   <el-dialog :class="customClass" :model-value="visible" @open="fetchPages" @close="close">
-       <el-tabs @select="select" v-model="page" tab-position="left">
-    <el-tab-pane v-for="(page, i) in pages[langSuffix]" :name="i.toString()" :label="page.label"><div class="page dmx-html-field" v-html="page?.html"></div></el-tab-pane>
+    <el-tabs @select="select" v-model="page" tab-position="left">
+      <el-tab-pane v-for="(page, i) in pages[langSuffix]" :name="i.toString()" :label="page.label">
+        <div class="page dmx-html-field" v-html="page?.html"></div>
+      </el-tab-pane>
   </el-tabs>
   </el-dialog>
 </template>

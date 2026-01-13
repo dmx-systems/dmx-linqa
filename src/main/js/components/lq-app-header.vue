@@ -7,7 +7,9 @@
         <div class="workspace">
           <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
           <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
-            <el-button>{{workspaceName}}</el-button>
+            <span class="el-dropdown-link">{{workspaceName}}
+              <el-icon size="large" class="fa fa-caret-down"></el-icon>
+            </span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
@@ -30,6 +32,9 @@
           <div class="workspace">
             <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
             <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
+              <span class="el-dropdown-link">{{workspaceName}}
+                <el-icon size="large" class="fa fa-caret-down"></el-icon>
+              </span>
               <span class="el-dropdown-link">{{workspaceName}}</span>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -302,6 +307,14 @@ export default {
   display:flex;
   justify-content: space-around;
   padding:5px 20px 5px 0px;
+}
+
+.lq-app-header .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
 }
 
 .lq-menu-middle {

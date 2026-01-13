@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="lq-language-switch" trigger="click" @command="setLang">
     <el-button link :title="selectTooltip">
-      <span>{{model.toUpperCase()}}</span>
+      <span class="lq-language-set">{{model.toUpperCase()}}</span>
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
@@ -59,3 +59,14 @@ export default {
   }
 }
 </script>
+
+<style>
+
+  .lq-language-set {
+    padding: 8px; 
+    border-radius: 5px;
+    font-weight: bolder;
+    background-color: var(--light-color); 
+  }
+
+</style>

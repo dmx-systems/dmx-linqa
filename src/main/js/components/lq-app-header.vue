@@ -370,13 +370,6 @@ export default {
   justify-content: space-around;
 }
 
-.lq-burger-switch button span {
-  background-color: var(--light-color); 
-  padding: 4px; 
-  border-radius: 5px;
-  font-weight: bolder;
-}
-
 .lq-menu-small-middle .el-dropdown button {
   font-size: 20px;
 }
@@ -384,7 +377,6 @@ export default {
 .lq-menu-small-middle .el-dropdown span {
   color: var(--primary-color);
 }
-
 
 @media only screen and (max-width: 420px) {
 

@@ -313,7 +313,7 @@ export default {
   cursor: pointer;
   color: var(--el-color-primary);
   font-weight: bolder;
-  display: flex;
+  display: inline;
   align-items: center;
 }
 
@@ -391,6 +391,11 @@ export default {
     flex-wrap: wrap-reverse;
   }
 
+  .lq-app-header .el-dropdown-link {
+    overflow:hidden;
+    text-overflow: ellipsis;
+    max-width:90px;
+  }
 }
 
 </style>

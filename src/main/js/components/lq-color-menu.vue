@@ -1,5 +1,6 @@
 <template>
-  <el-dropdown class="lq-color-menu" trigger="click" @command="setColor">
+  <!-- <el-color-picker trigger="click" v-model="color" @change="setColor(color)" show-alpha :predefine="predefineColors" /> -->
+  <el-dropdown class="lq-color-menu" teleported append-to="item-toobar" trigger="click" @command="setColor">
     <span ref="trigger"></span>
     <template #dropdown>
       <el-dropdown-menu class="lq-color-dropdown">
@@ -13,6 +14,7 @@
 
 <script>
 import COLOR_PALETTE from '../lq-color-palette'
+
 
 export default {
 
@@ -37,7 +39,16 @@ export default {
   data () {
     return {
       // colors shown in the menu
-      colors: COLOR_PALETTE[this.palette].filter(color => color !== 'transparent' || this.showTransparent)
+      colors: COLOR_PALETTE[this.palette].filter(color => color !== 'transparent' || this.showTransparent),
+      // color : 'rgba(255, 69, 0, 0.68)',
+      // predefineColors: [
+      //   'rgba(255, 69, 0, 0.68)',
+      //   'rgb(255, 120, 0)',
+      //   'hsv(51, 100, 98)',
+      //   'hsva(120, 40, 94, 0.5)',
+      //   'hsl(181, 100%, 37%)',
+      //   'hsla(209, 100%, 56%, 0.73)',
+      // ]
     }
   },
 

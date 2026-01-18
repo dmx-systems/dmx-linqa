@@ -1,7 +1,7 @@
 <template>
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
-      <div class="discussion-button" :style="backgroundColor">
+      <div class="discussion-button">
         <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
@@ -276,7 +276,7 @@ export default {
   height: 100%;
   padding: 8px;
   border: var(--filter-border);
-  background-color: var(--header-color);
+  background-color: var(--background-color);
 }
 
 .lq-document.filter {
@@ -308,7 +308,7 @@ export default {
   border-top: var(--filter-border);
   border-right: var(--filter-border);
   border-bottom: var(--filter-border);
-  background-color: var(--header-color);
+  background-color: var(--background-color);
 }
 
 .lq-document .discussion-button .el-button {

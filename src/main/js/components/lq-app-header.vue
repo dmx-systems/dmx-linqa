@@ -290,7 +290,7 @@ export default {
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
-  /* background-color: var(--header-color); */
+  background-color: var(--header-color);
   align-items: center;
 }
 

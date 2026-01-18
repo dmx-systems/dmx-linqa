@@ -286,11 +286,7 @@ export default {
   position: relative;         /* place close-button relative to this element */
   box-sizing: border-box;
   z-index: 1;
-  /*  padding: 0 0 15px 15px; */ 
-  /*  min-width to be discussed for better performance */ 
   min-width: 320px;
-  /*  background-color: var(--background-color); */    
-  /*  background-color: rgba(255, 244, 129, 0.2); */
   background-color: #f7f7f7;
   box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -webkit-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);

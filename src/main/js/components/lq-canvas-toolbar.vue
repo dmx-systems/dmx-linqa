@@ -257,7 +257,6 @@ function newSynId () {
 .lq-canvas-toolbar .view-controls {
   display: flex;
   position:absolute;
-/*  margin: 0 15px; */  
   padding: 12px !important;
   background-color: rgba(255,255,255,0.8);
   border-radius: 54px;
@@ -282,7 +281,6 @@ function newSynId () {
 }
 
 .lq-canvas-toolbar .discussion-button {
-/*  background-color: var(--background-color) !important;*/
   background-color: #fff481;
   border-radius: 54px;
   padding: 10px !important;
@@ -295,5 +293,4 @@ function newSynId () {
 .lq-canvas-toolbar .discussion-button:hover {
   background-color: #fff481 !important;
 }
-
 </style>

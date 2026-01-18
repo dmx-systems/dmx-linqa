@@ -45,17 +45,14 @@
   --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
   --header-color: white;
-  /* --background-color: #e6e6e6;                used for panels and forms */
-  --background-color: rgb(247,247,247);       /* used for panels and forms */
-  --primary-color: #254080;                   /* used for doc-filter, 
-  comment-refs, login/legal pages (yellow) */
+  --background-color: rgb(247, 247, 247);     /* used for panels and forms */
+  --primary-color: #254080;                   /* used for doc-filter, comment-refs, login/legal pages (yellow) */
   --el-color-primary: #254080 !important;     /* linqa dark primary color */
   --el-button-text-color: var(--el-color-primary);
   --el-button-hover-link-text-color: red !important;
   --light-color: #fff481;                     /* original yellow */
-  --primary-color-light: #fffbe6;             /* light yellow for doc-filter, comment-refs, login/legal pages (light yellow) */
-  --highlight-color: #254080;                 /* matches Element UI --color-primary (blue), 
-  interactive elements */
+  --primary-color-light: #fffbe6;             /* used for doc-filter, comment-refs, login/legal pages (light yellow) */
+  --highlight-color: #254080;                 /* matches Element UI --color-primary (blue), interactive elements */
   --highligth-glow: #fff481;                  /* matches Element UI --color-primary (blue) */
   --highlight-color-2: #66b1ff;               /* matches Element UI --light-color (yellow) */
   --highlight-color-9: #ecf5ff;               /* matches Element UI --color-primary-light-9, hovered menu item bg */

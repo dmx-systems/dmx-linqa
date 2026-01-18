@@ -50,10 +50,9 @@
             </el-dropdown>
           </div>
           <button plain @click="dialogVisible = true" aria-disabled="false" type="button"
-            class="el-button el-button--primary is-link discussion-button admin-button fa fa-search"
-            title="Open discussion panel">
+            class="el-button el-button--primary is-link admin-button fa fa-search" :title="searchTooltip">
           </button>
-          <el-dialog top width="80%" v-model="dialogVisible" @close="close">
+          <el-dialog top="50vh" width="80%" v-model="dialogVisible">
             <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
           </el-dialog>
         </div>
@@ -62,9 +61,7 @@
         <lq-language-switch></lq-language-switch>
         <lq-account-menu></lq-account-menu>
         <el-dropdown trigger="click" @command="handle">
-          <el-button class="admin-button fa fa-bars" type="primary" link
-              :title="adminTooltip">
-          </el-button>      
+          <el-button class="admin-button fa fa-bars" type="primary" link></el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <div class="el-dropdown-item lq-burger">
@@ -118,11 +115,6 @@
 <script>
 import lq from '../lq-globals'
 import dmx from 'dmx-api'
-import { ref } from 'vue'
-
-const value = ref('')
-const dialogVisible = ref(false)
-
 
 export default {
 
@@ -142,7 +134,7 @@ export default {
     return {
       helpVisible: !onboarded && this.isBigScreen,
       firstLogin: !onboarded,
-      dialogVisible: false
+      dialogVisible: false  // search dialog
     }
   },
 
@@ -190,6 +182,10 @@ export default {
 
     adminTooltip () {
       return lq.getString('tooltip.admin')
+    },
+
+    searchTooltip () {
+      return lq.getString('label.search')
     },
 
     presentationMode () {
@@ -260,10 +256,6 @@ export default {
       this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
     },
 
-    openDialog () {
-      console.log('openDialog')
-    },
-
     logout () {
       this.$store.dispatch('logout').then(() =>
         this.$store.dispatch('callRootRoute')
@@ -286,7 +278,7 @@ export default {
   flex: none;
   justify-content: space-between;
   padding: 0px 10px;
-  z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */  
+  z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);

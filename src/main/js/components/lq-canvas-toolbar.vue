@@ -256,9 +256,9 @@ function newSynId () {
 
 .lq-canvas-toolbar .view-controls {
   display: flex;
-  position:absolute;
+  position: absolute;
   padding: 12px !important;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 54px;
   border:1px solid #fafafa;
   bottom: 5px;
@@ -271,7 +271,7 @@ function newSynId () {
 }
 
 .lq-canvas-toolbar .add-button {
-  position:absolute;
+  position: absolute;
   background-color: #fff481;
   border-radius: 54px;
   padding: 7px 10px;
@@ -284,7 +284,7 @@ function newSynId () {
   background-color: #fff481;
   border-radius: 54px;
   padding: 10px !important;
-  position:absolute;
+  position: absolute;
   top: 5px;
   right: 5px;
   z-index: 1;

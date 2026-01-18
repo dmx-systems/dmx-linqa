@@ -356,6 +356,12 @@ export default {
       }
     },
 
+    resetHover (e) {
+      if (e.pointerType === 'touch') {
+        this.itemHoverId = undefined
+      }
+    },
+
     onEnter () {
       // console.log('onEnter')
       this.groupHover = true

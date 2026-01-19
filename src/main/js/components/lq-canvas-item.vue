@@ -258,7 +258,6 @@ export default {
 </script>
 
 <style>
-
 .lq-canvas-item {
   position: absolute;
 }

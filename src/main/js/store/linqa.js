@@ -704,14 +704,25 @@ const store = createStore({
 
     reactWithEmoji ({state}, {topic, emoji}) {
       const uri = 'dmx.accesscontrol.username#linqa.reaction'
-      const assocId = hasReaction(state, topic, emoji)
-      const model = assocId ? {
-        value: 'del_id:' + assocId,
-        assoc: {id: assocId}    // Needed by Core :-(
-      } : {
-        value: 'ref_id:' + lq.getUser(state.username).id,
-        assoc: {value: emoji}
-      }
+      const assoc = getReactionByUser(state, topic)
+      const userRef = 'ref_id:' + lq.getUser(state.username).id
+      const model = assoc ?
+        assoc.value === emoji ? {
+          // delete reaction
+          value: 'del_id:' + assoc.id,
+          assoc: {id: assoc.id}   // redundant, needed by Core though :-(
+        } : {
+          // update reaction
+          value: userRef,
+          assoc: {
+            id: assoc.id,         // causes overriding value instead creating new assoc
+            value: emoji
+          }
+        } : {
+          // create reaction
+          value: userRef,
+          assoc: {value: emoji}
+        }
       dmx.rpc.updateTopic({
         id: topic.id,
         children: {[uri]: [model]}
@@ -1064,9 +1075,9 @@ function filerepoUrl (repoPath) {
   return '/filerepo/' + encodeURIComponent(repoPath)
 }
 
-function hasReaction (state, topic, emoji) {
+function getReactionByUser (state, topic) {
   const r = topic.children['dmx.accesscontrol.username#linqa.reaction']?.find(reaction => {
-    return reaction.value === state.username && reaction.assoc.value === emoji
+    return reaction.value === state.username
   })
-  return r?.assoc.id
+  return r?.assoc
 }

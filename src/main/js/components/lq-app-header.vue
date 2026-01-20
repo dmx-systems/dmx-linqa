@@ -5,9 +5,10 @@
     <div class="workspace">
       <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
       <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
-        <span class="el-dropdown-link">{{workspaceName}}
-          <el-icon size="large" class="fa fa-caret-down"></el-icon>
-        </span>
+        <el-button type="primary" link :title="selectTooltip">
+          <span class="name">{{workspaceName}}</span>
+          <i class="fa fa-lg fa-fw fa-caret-down"></i>
+        </el-button>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
@@ -39,8 +40,8 @@
     <el-dropdown trigger="click" @command="handle">
       <el-button class="burger-button fa fa-bars" type="primary" link></el-button>
       <template #dropdown>
-        <el-dropdown-menu>
-          <div class="el-dropdown-item lq-burger">
+        <el-dropdown-menu class="lq-burger-dropdown">
+          <div class="username">
             <b>{{username}}</b>
           </div>
           <el-dropdown-item command="openUserProfile" divided>
@@ -251,7 +252,7 @@ export default {
   gap: 15px;
   flex: none;
   z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */
-  padding: 0px 10px;
+  padding: 0 10px;
   background-color: var(--header-color);
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
@@ -268,18 +269,6 @@ export default {
   text-align: left;
 }
 
-.lq-app-header .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  font-weight: bolder;
-  display: inline;
-  align-items: center;
-}
-
-.lq-app-header.small-screen .workspace .selector-label {
-  display: none;
-}
-
 .lq-app-header .workspace .name {
   font-weight: bold;
 }
@@ -292,38 +281,12 @@ export default {
   font-size: 22px;
 }
 
-.lq-burger {
-  margin: 15px;
-  font-size: 15px; 
+/* the actual dropdown menus are body mounted */
+
+.lq-burger-dropdown .username {
+  margin: 10px 15px 15px;
+  font-size: 15px;
   color: var(--primary-color);
+  white-space: nowrap;
 }
-
-.lq-menu-small-middle .el-dropdown button {
-  font-size: 20px;
-}
-
-.lq-menu-small-middle .el-dropdown span {
-  color: var(--primary-color);
-}
-
-@media only screen and (max-width: 420px) {
-
-  .lq-app-header .workspace .el-button > span {
-    max-width: 110px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-  }
-
-  .lq-app-header .workspace {
-    flex-wrap: wrap-reverse;
-  }
-
-  .lq-app-header .el-dropdown-link {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 90px;
-  }
-}
-
 </style>

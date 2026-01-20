@@ -2,7 +2,7 @@
   <div class="lq-canvas-toolbar">
     <el-dropdown class="add-button" v-if="isAddButtonVisibile" trigger="click" 
     @command="handle" placement="top-start">
-      <el-button type="primary" link class="admin-button fa fa-plus" :title="addTooltip"></el-button>
+      <el-button type="primary" link class="fa fa-plus" :title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="newDocument">
@@ -27,21 +27,20 @@
       </template>
     </el-dropdown>
     <div class="view-controls">
-      <el-button type="primary" link :title="homeTooltip" @click="home" class="admin-button fa fa-arrows"></el-button>
-      <el-button type="primary" link class="admin-button fa fa-crosshairs":title="fullscreenTooltip" :disabled="isTopicmapEmpty"
+      <el-button type="primary" link :title="homeTooltip" @click="home" class="fa fa-arrows"></el-button>
+      <el-button type="primary" link class="fa fa-crosshairs" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
         @click="zoomToFit">
       </el-button>
-      <el-button v-if="isBigScreen" type="primary" link class="admin-button fa fa-search-plus" :title="zoomInTooltip" @click="zoomIn">
+      <el-button v-if="isBigScreen" type="primary" link class="fa fa-search-plus" :title="zoomInTooltip"
+        @click="zoomIn">
       </el-button>
-      <el-button v-if="isBigScreen" type="primary" link class="admin-button fa fa-search-minus" :title="zoomOutTooltip" @click="zoomOut">
+      <el-button v-if="isBigScreen" type="primary" link class="fa fa-search-minus" :title="zoomOutTooltip"
+        @click="zoomOut">
       </el-button>
- 
-      <!-- <lq-canvas-search></lq-canvas-search> -->
     </div>
-    <el-button class="discussion-button admin-button fa fa-commenting" v-if="!panelVisibility" type="primary" link 
+    <el-button class="discussion-button fa fa-commenting" v-if="!panelVisibility" type="primary" link
       :title="openDiscussionTooltip" @click="openDiscussion">
     </el-button>
-    <!-- <el-button v-else class="close-button admin-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button> -->
   </div>
 </template>
 
@@ -260,9 +259,9 @@ function newSynId () {
   padding: 12px !important;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 54px;
-  border:1px solid #fafafa;
+  border: 1px solid #fafafa;
   bottom: 5px;
-  left:45%;
+  left: 45%;
   z-index: 1; 
 }
 

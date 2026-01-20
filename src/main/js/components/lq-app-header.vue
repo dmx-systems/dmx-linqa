@@ -1,113 +1,86 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
     <img class="logo" :src="logo(true)">
-    <div class="lq-app-header-menu">
-      <div v-if="!isSmallScreen" class="lq-menu-middle">
-        <!-- Workspace selector -->
-        <div class="workspace">
-          <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
-          <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
-            <span class="el-dropdown-link">{{workspaceName}}
-              <el-icon size="large" class="fa fa-caret-down"></el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
-                  {{getWorkspaceName(workspace)}}
-                </el-dropdown-item>
-                <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
-                    :divided="workspacesExist">
-                  {{getWorkspaceName(linqaAdminWs)}}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-        <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
-      </div>
-      <div v-else class="lq-menu-small-middle">
-        <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
-        <div class="lq-middle" v-else>
-          <!-- Workspace selector -->
-          <div class="workspace">
-            <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
-            <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
-              <span class="el-dropdown-link">{{workspaceName}}
-                <el-icon size="large" class="fa fa-caret-down"></el-icon>
-              </span>
-              <span class="el-dropdown-link">{{workspaceName}}</span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
-                    {{getWorkspaceName(workspace)}}
-                  </el-dropdown-item>
-                  <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
-                      :divided="workspacesExist">
-                    {{getWorkspaceName(linqaAdminWs)}}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </div>
-          <button plain @click="dialogVisible = true" aria-disabled="false" type="button"
-            class="el-button el-button--primary is-link admin-button fa fa-search" :title="searchTooltip">
-          </button>
-          <el-dialog top="50vh" width="80%" v-model="dialogVisible">
-            <lq-canvas-search v-if="!isAdminRoute"></lq-canvas-search>
-          </el-dialog>
-        </div>
-      </div>
-      <div class="lq-burger-switch">
-        <lq-language-switch></lq-language-switch>
-        <lq-account-menu></lq-account-menu>
-        <el-dropdown trigger="click" @command="handle">
-          <el-button class="admin-button fa fa-bars" type="primary" link></el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <div class="el-dropdown-item lq-burger">
-                <b>{{username}}</b>
-              </div>
-              <el-dropdown-item command="openUserProfile" divided>
-                <el-icon size="large" class="fa fa-user"></el-icon>
-                <lq-string>label.user_profile</lq-string>
-              </el-dropdown-item>
-              <el-dropdown-item command="admin" v-if="isLinqaAdmin">
-                <el-icon size="large" class="fa fa-cog"></el-icon>
-                <lq-string>tooltip.admin</lq-string>
-              </el-dropdown-item>
-              <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" divided>
-                <el-icon v-if="presentationMode" size="large" :style="presentationModeStyle" class="fa fa-laptop">
-                </el-icon>
-                <el-icon v-else size="large" :style="presentationModeStyle" class="fa fa-eye"></el-icon>
-                <lq-string :style="presentationModeStyle">label.presentation_mode</lq-string>
-              </el-dropdown-item>
-              <el-dropdown-item command="openHelp" divided>
-                <el-icon size="large" class="fa fa-exclamation-circle"></el-icon>
-                <lq-string>label.help</lq-string>
-              </el-dropdown-item>
-              <el-dropdown-item command="openAbout" divided>
-                <el-icon size="large" class="fa fa-info"></el-icon>
-                <lq-string>label.about</lq-string>
-              </el-dropdown-item>   
-              <el-dropdown-item command="openImprint">
-                <el-icon size="large" class="fa fa-file-text"></el-icon>
-                <lq-string>label.imprint</lq-string>
-              </el-dropdown-item>  
-              <el-dropdown-item command="openPrivacyPolicy">
-                <el-icon size="large" class="fa fa-shield"></el-icon>
-                <lq-string>label.privacy_policy</lq-string>
-              </el-dropdown-item>  
-              <el-dropdown-item command="logout" divided>
-                <el-icon size="large" class="fa fa-sign-out"></el-icon>
-                Logout
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
+    <!-- Workspace selector -->
+    <div class="workspace">
+      <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
+      <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
+        <span class="el-dropdown-link">{{workspaceName}}
+          <el-icon size="large" class="fa fa-caret-down"></el-icon>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="workspace in workspaces" :command="workspace.id" :key="workspace.id">
+              {{getWorkspaceName(workspace)}}
+            </el-dropdown-item>
+            <el-dropdown-item v-if="isLinqaAdmin && linqaAdminWs" :command="linqaAdminWs.id"
+                :divided="workspacesExist">
+              {{getWorkspaceName(linqaAdminWs)}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
-    <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp">
-    </lq-help-dialog>
+    <template v-if="!isAdminRoute">
+      <template v-if="isBigScreen">
+        <lq-canvas-search></lq-canvas-search>
+      </template>
+      <template v-else>
+        <el-button class="search-button fa fa-search" type="primary" link :title="searchTooltip"
+          @click="dialogVisible = true">
+        </el-button>
+        <el-dialog top="50vh" width="80%" v-model="dialogVisible">
+          <lq-canvas-search></lq-canvas-search>
+        </el-dialog>
+      </template>
+    </template>
+    <lq-language-switch></lq-language-switch>
+    <lq-account-menu></lq-account-menu>
+    <el-dropdown trigger="click" @command="handle">
+      <el-button class="burger-button fa fa-bars" type="primary" link></el-button>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <div class="el-dropdown-item lq-burger">
+            <b>{{username}}</b>
+          </div>
+          <el-dropdown-item command="openUserProfile" divided>
+            <el-icon size="large" class="fa fa-user"></el-icon>
+            <lq-string>label.user_profile</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="admin" v-if="isLinqaAdmin">
+            <el-icon size="large" class="fa fa-cog"></el-icon>
+            <lq-string>tooltip.admin</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" divided>
+            <el-icon v-if="presentationMode" size="large" :style="presentationModeStyle" class="fa fa-laptop">
+            </el-icon>
+            <el-icon v-else size="large" :style="presentationModeStyle" class="fa fa-eye"></el-icon>
+            <lq-string :style="presentationModeStyle">label.presentation_mode</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="openHelp" divided>
+            <el-icon size="large" class="fa fa-exclamation-circle"></el-icon>
+            <lq-string>label.help</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="openAbout" divided>
+            <el-icon size="large" class="fa fa-info"></el-icon>
+            <lq-string>label.about</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="openImprint">
+            <el-icon size="large" class="fa fa-file-text"></el-icon>
+            <lq-string>label.imprint</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="openPrivacyPolicy">
+            <el-icon size="large" class="fa fa-shield"></el-icon>
+            <lq-string>label.privacy_policy</lq-string>
+          </el-dropdown-item>
+          <el-dropdown-item command="logout" divided>
+            <el-icon size="large" class="fa fa-sign-out"></el-icon>
+            Logout
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
     <lq-about-dialog></lq-about-dialog>
   </div>
 </template>
@@ -273,32 +246,26 @@ export default {
 
 <style>
 .lq-app-header {
-  display: inline-flex;
-  align-items: top;
+  display: flex;
+  align-items: center;
+  gap: 15px;
   flex: none;
-  justify-content: space-between;
-  padding: 0px 10px;
   z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */
+  padding: 0px 10px;
+  background-color: var(--header-color);
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
-  background-color: var(--header-color);
-  align-items: center;
 }
 
 .lq-app-header img.logo {
   height: 70px;
-  margin-right: 10px;
 }
 
 .lq-app-header .workspace {
-  /* flex-grow: 1; */
-  /* overflow: hidden;     clip workspace selector in favor of other header buttons */
+  flex-grow: 1;
+  overflow: hidden;     /* clip workspace selector in favor of other header buttons */
   text-align: left;
-  align-items: center;
-  display:flex;
-  justify-content: space-around;
-  padding:5px 20px 5px 0px;
 }
 
 .lq-app-header .el-dropdown-link {
@@ -309,24 +276,6 @@ export default {
   align-items: center;
 }
 
-.lq-menu-middle {
-  display: inline-flex; 
-  padding: 5px 0px 5px 10px; 
-  flex-wrap: wrap; 
-  align-self: center;
-}
-
-.lq-app-header .lq-menu-small-middle {
-  display: inline-flex;
-  justify-content: flex-end;
-}
-
-.lq-middle {
-  display: inline-flex;
-  justify-content: flex-start;
-  margin-right: 10px;
-}
-
 .lq-app-header.small-screen .workspace .selector-label {
   display: none;
 }
@@ -335,31 +284,18 @@ export default {
   font-weight: bold;
 }
 
-.lq-app-header .admin-button {
+.lq-app-header .burger-button {
   font-size: 22px;
-  margin: 0 10px 0 0;
 }
 
-.lq-app-header .info-menu,
-.lq-app-header .lq-language-switch {
-  margin-right: 12px;
-}
-
-.lq-app-header-menu {
-  display: flex; 
-  justify-content: flex-end; 
+.lq-app-header .search-button {
+  font-size: 22px;
 }
 
 .lq-burger {
   margin: 15px;
   font-size: 15px; 
   color: var(--primary-color);
-}
-
-.lq-burger-switch {
-  display: inline-flex; 
-  min-width:95px;
-  justify-content: space-around;
 }
 
 .lq-menu-small-middle .el-dropdown button {
@@ -373,10 +309,10 @@ export default {
 @media only screen and (max-width: 420px) {
 
   .lq-app-header .workspace .el-button > span {
-    max-width:110px;
+    max-width: 110px;
     overflow: hidden;
     text-overflow: ellipsis;
-    display:block;
+    display: block;
   }
 
   .lq-app-header .workspace {
@@ -384,9 +320,9 @@ export default {
   }
 
   .lq-app-header .el-dropdown-link {
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
-    max-width:90px;
+    max-width: 90px;
   }
 }
 

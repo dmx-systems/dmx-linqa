@@ -2,7 +2,7 @@
   <div :class="['lq-document', {'filter': isFiltered}, mode]" v-loading="isLoading">
     <template v-if="infoMode">
       <div class="discussion-button">
-        <el-button type="primary" link icon="chat-line-round" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link class="fa fa-comments-o" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
       <div v-if="docName" class="doc-name" v-html="docName"></div>
       <lq-document-renderer :topic="topic" @loading="loading" @complete="complete"></lq-document-renderer>

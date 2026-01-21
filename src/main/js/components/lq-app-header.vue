@@ -1,13 +1,13 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
     <img class="logo" :src="logo(true)">
-    <div class="heading">
+    <div class="title">
       <lq-string v-if="isAdminRoute" class="text" key="admin">label.admin</lq-string>
       <!-- Workspace selector -->
       <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
         <el-button type="primary" link :title="selectTooltip">
           <span class="text">{{workspaceName}}</span>
-          <span class="fa fa-lg fa-fw fa-caret-down"></span>
+          <span class="fa fa-lg fa-caret-down"></span>
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
@@ -263,23 +263,26 @@ export default {
   height: 70px;
 }
 
-.lq-app-header .heading {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;     /* clip heading in favor of other header buttons */
+.lq-app-header .title {
+  flex-grow: 1;             /* take all available space, extend header to full screen width */
+  overflow: hidden;         /* reduce title in favor of other header items */
 }
 
-.lq-app-header .heading .el-button {
-  white-space: normal;  /* .el-button default is nowrap */
-  text-align: left;     /* .el-button default is center */
+.lq-app-header .title .el-button {
+  white-space: normal;      /* wrap button label if needed, .el-button default is nowrap */
+  text-align: left;         /* multi-lines are left aligned, .el-button default is center */
 }
 
-.lq-app-header .heading .el-button > span {
-  display: inline;      /* put caret in the text flow, default is inline-flex */
+.lq-app-header .title .el-button .fa {
+  flex: none;               /* don't shrink caret space */
+  margin-left: 0.5rem;      /* set caret a bit apart */
 }
 
-.lq-app-header .heading .text {
+.lq-app-header .title .text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;    /* show 2 lines max */
+  overflow-wrap: anywhere;  /* truncate in-mid word if word is longer than available space */
   font-weight: bold;
 }
 

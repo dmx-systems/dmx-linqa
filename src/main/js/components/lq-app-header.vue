@@ -1,13 +1,13 @@
 <template>
   <div :class="['lq-app-header', {'small-screen': isSmallScreen}]">
     <img class="logo" :src="logo(true)">
-    <!-- Workspace selector -->
-    <div class="workspace">
-      <lq-string v-if="isAdminRoute" class="name" key="admin">label.admin</lq-string>
+    <div class="heading">
+      <lq-string v-if="isAdminRoute" class="text" key="admin">label.admin</lq-string>
+      <!-- Workspace selector -->
       <el-dropdown v-else trigger="click" max-height="calc(100vh - 68px)" @command="setWorkspace">
         <el-button type="primary" link :title="selectTooltip">
-          <span class="name">{{workspaceName}}</span>
-          <i class="fa fa-lg fa-fw fa-caret-down"></i>
+          <span class="text">{{workspaceName}}</span>
+          <span class="fa fa-lg fa-fw fa-caret-down"></span>
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
@@ -263,13 +263,23 @@ export default {
   height: 70px;
 }
 
-.lq-app-header .workspace {
+.lq-app-header .heading {
   flex-grow: 1;
-  overflow: hidden;     /* clip workspace selector in favor of other header buttons */
-  text-align: left;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;     /* clip heading in favor of other header buttons */
 }
 
-.lq-app-header .workspace .name {
+.lq-app-header .heading .el-button {
+  white-space: normal;  /* .el-button default is nowrap */
+  text-align: left;     /* .el-button default is center */
+}
+
+.lq-app-header .heading .el-button > span {
+  display: inline;      /* put caret in the text flow, default is inline-flex */
+}
+
+.lq-app-header .heading .text {
   font-weight: bold;
 }
 

@@ -1,7 +1,7 @@
 <template>
-  <el-dropdown class="lq-language-switch" trigger="click" @command="setLang">
+  <el-dropdown :class="['lq-language-switch', {'small-screen': isSmallScreen}]" trigger="click" @command="setLang">
     <el-button link :title="selectTooltip">
-      <span class="lq-language-set">{{model.toUpperCase()}}</span>
+      <span class="language">{{model.toUpperCase()}}</span>
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
@@ -16,6 +16,10 @@
 import lq from '../lq-globals'
 
 export default {
+
+  mixins: [
+    require('./mixins/screen').default
+  ],
 
   props: {
     modelValue: String
@@ -61,12 +65,14 @@ export default {
 </script>
 
 <style>
+.lq-language-switch .language {
+  padding: 8px;
+  border-radius: 5px;
+  font-weight: bolder;
+  background-color: var(--light-color);
+}
 
-  .lq-language-set {
-    padding: 8px; 
-    border-radius: 5px;
-    font-weight: bolder;
-    background-color: var(--light-color); 
-  }
-
+.lq-language-switch.small-screen .language {
+  padding: 6px;       /* smaller labguage button on small-screen */
+}
 </style>

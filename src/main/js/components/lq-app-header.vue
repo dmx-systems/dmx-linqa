@@ -249,18 +249,27 @@ export default {
 .lq-app-header {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 18px;
   flex: none;
   z-index: 2;     /* place app header (help dialog) before resizer (disussion panel, 0) and before canvas toolbar (1) */
-  padding: 0 10px;
+  padding: 0 14px;
   background-color: var(--header-color);
   box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -webkit-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
   -moz-box-shadow: 1px 3px 6px -3px rgba(219,219,219,0.75);
 }
 
+.lq-app-header.small-screen {
+  gap: 14px;                /* more dense header items on small-screen */
+  padding: 0 8px;           /* less left/right padding on small-screen */
+}
+
 .lq-app-header img.logo {
   height: 70px;
+}
+
+.lq-app-header.small-screen img.logo {
+  height: 60px;             /* smaller logo on small-screen */
 }
 
 .lq-app-header .title {
@@ -278,6 +287,10 @@ export default {
   margin-left: 0.5rem;      /* set caret a bit apart */
 }
 
+.lq-app-header.small-screen .title .el-button .fa {
+  margin-left: 0.3rem;      /* smaller caret distance on small-screen */
+}
+
 .lq-app-header .title .text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -290,8 +303,16 @@ export default {
   font-size: 22px;
 }
 
+.lq-app-header.small-screen .burger-button {
+  font-size: 20px;          /* smaller burger button on small-screen */
+}
+
 .lq-app-header .search-button {
   font-size: 22px;
+}
+
+.lq-app-header.small-screen .search-button {
+  font-size: 20px;          /* smaller search button on small-screen */
 }
 
 /* the actual dropdown menus are body mounted */

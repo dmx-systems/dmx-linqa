@@ -1,66 +1,64 @@
 <template>
-  <div class="lq-account-menu">
-    <!-- v-loading does not work on el-dialog. So we put it on a child element. -->
-    <!-- https://github.com/element-plus/element-plus/issues/6706 -->
-    <el-dialog v-model="profileVisibility" width="400px">
-      <template #header>
-        <div>
-          <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
+  <!-- v-loading does not work on el-dialog. So we put it on a child element. -->
+  <!-- https://github.com/element-plus/element-plus/issues/6706 -->
+  <el-dialog class="lq-profile-dialog" v-model="profileVisibility" width="400px">
+    <template #header>
+      <div>
+        <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
+      </div>
+    </template>
+    <el-collapse accordion v-model="profilePane" v-loading="loading">
+      <el-collapse-item name="privacy">
+        <template #title>
+          <lq-string>label.privacy</lq-string>
+        </template>
+        <div class="field">
+          <div class="field-label"><lq-string>label.display_name</lq-string></div>
+          <el-input v-model="displayName"></el-input>
         </div>
-      </template>
-      <el-collapse accordion v-model="profilePane" v-loading="loading">
-        <el-collapse-item name="privacy">
-          <template #title>
-            <lq-string>label.privacy</lq-string>
-          </template>
-          <div class="field">
-            <div class="field-label"><lq-string>label.display_name</lq-string></div>
-            <el-input v-model="displayName"></el-input>
-          </div>
-          <el-checkbox class="field" v-model="showEmailAddress">
-            <lq-string>label.show_email_address</lq-string>
-          </el-checkbox>
-          <div class="field">
-            <el-button type="primary" @click="saveUserProfile">
-              <lq-string>action.submit</lq-string>
-            </el-button>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item name="notifications">
-          <template #title>
-            <lq-string>label.notifications</lq-string>
-          </template>
-          <el-radio-group class="notification-level field" v-model="notificationLevel">
-            <el-radio value="all">
-              <lq-string>label.notifications.all</lq-string>
-              <lq-string class="label">label.notifications.all.info</lq-string>
-            </el-radio>
-            <el-radio value="mentioned">
-              <lq-string>label.notifications.mentioned</lq-string>
-              <lq-string class="label">label.notifications.mentioned.info</lq-string>
-            </el-radio>
-            <el-radio value="none">
-              <lq-string>label.notifications.none</lq-string>
-              <lq-string class="label">label.notifications.none.info</lq-string>
-            </el-radio>
-          </el-radio-group>
-          <div class="field">
-            <el-button type="primary" @click="saveUserProfile">
-              <lq-string>action.submit</lq-string>
-            </el-button>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item name="password">
-          <template #title>
-            <lq-string>label.password</lq-string>
-          </template>
-          <el-button type="primary" @click="changePassword">
-            <lq-string>action.change_password</lq-string>
+        <el-checkbox class="field" v-model="showEmailAddress">
+          <lq-string>label.show_email_address</lq-string>
+        </el-checkbox>
+        <div class="field">
+          <el-button type="primary" @click="saveUserProfile">
+            <lq-string>action.submit</lq-string>
           </el-button>
-        </el-collapse-item>
-      </el-collapse>
-    </el-dialog>
-  </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="notifications">
+        <template #title>
+          <lq-string>label.notifications</lq-string>
+        </template>
+        <el-radio-group class="notification-level field" v-model="notificationLevel">
+          <el-radio value="all">
+            <lq-string>label.notifications.all</lq-string>
+            <lq-string class="label">label.notifications.all.info</lq-string>
+          </el-radio>
+          <el-radio value="mentioned">
+            <lq-string>label.notifications.mentioned</lq-string>
+            <lq-string class="label">label.notifications.mentioned.info</lq-string>
+          </el-radio>
+          <el-radio value="none">
+            <lq-string>label.notifications.none</lq-string>
+            <lq-string class="label">label.notifications.none.info</lq-string>
+          </el-radio>
+        </el-radio-group>
+        <div class="field">
+          <el-button type="primary" @click="saveUserProfile">
+            <lq-string>action.submit</lq-string>
+          </el-button>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="password">
+        <template #title>
+          <lq-string>label.password</lq-string>
+        </template>
+        <el-button type="primary" @click="changePassword">
+          <lq-string>action.change_password</lq-string>
+        </el-button>
+      </el-collapse-item>
+    </el-collapse>
+  </el-dialog>
 </template>
 
 <script>
@@ -173,23 +171,18 @@ export default {
 </script>
 
 <style>
-
-.lq-account-menu {
-  display: flex;
-}
-
-.lq-account-menu .el-dialog .el-radio {
+.lq-profile-dialog .el-dialog .el-radio {
   line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
   height: unset;          /* Element Plus default for el-radio is 32px */
   align-items: unset;     /* Element Plus default for el-radio is "center" */
   white-space: unset;     /* Element Plus default for el-radio is "nowrap" */
 }
 
-.lq-account-menu .el-dialog .el-radio + .el-radio {
+.lq-profile-dialog .el-dialog .el-radio + .el-radio {
   margin-top: var(--field-spacing);
 }
 
-.lq-account-menu .el-dialog .el-radio .label {
+.lq-profile-dialog .el-dialog .el-radio .label {
   display: block;
   margin-top: 6px;
   line-height: 1.2;

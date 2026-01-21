@@ -36,7 +36,6 @@
       </template>
     </template>
     <lq-language-switch></lq-language-switch>
-    <lq-account-menu></lq-account-menu>
     <el-dropdown trigger="click" @command="handle">
       <el-button class="burger-button fa fa-bars" type="primary" link></el-button>
       <template #dropdown>
@@ -81,6 +80,7 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <lq-profile-dialog></lq-profile-dialog>
     <lq-help-dialog :visible="helpVisible" :firstLogin="firstLogin" @close="closeHelp"></lq-help-dialog>
     <lq-about-dialog></lq-about-dialog>
   </div>
@@ -238,7 +238,7 @@ export default {
   },
 
   components: {
-    'lq-account-menu': require('./lq-account-menu').default,
+    'lq-profile-dialog': require('./lq-profile-dialog').default,
     'lq-help-dialog': require('./lq-help-dialog').default,
     'lq-canvas-search': require('./lq-canvas-search').default
   }

@@ -7,8 +7,8 @@
       </template>
     </el-input>
     <div v-if="searchTerm" class="lq-search-results">
-      <el-button type="primary" link class="admin-button fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
-      <el-button type="primary" link class="admin-button fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
+      <el-button type="primary" link class="fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
+      <el-button type="primary" link class="fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
       <span :class="['match-info', {'no-match': noMatch}, 'secondary']">{{matchInfo}}</span>
     </div>
   </div>
@@ -89,7 +89,6 @@ export default {
 </script>
 
 <style>
-
 .lq-clickable {
   cursor: pointer;
 }
@@ -97,7 +96,6 @@ export default {
 .lq-canvas-search {
   display: flex;
   align-items: center;
-  margin-right: 20px;
 }
 
 .lq-canvas-search .el-input {
@@ -112,6 +110,11 @@ export default {
   height: 32px;
 }
 
+.lq-canvas-search .el-button {
+  font-size: 22px;
+  margin-right: 10px;
+}
+
 .lq-canvas-search .el-button:nth-of-type(1) {
   margin-left: 5px;
 }
@@ -121,7 +124,6 @@ export default {
 }
 
 .lq-canvas-search .match-info {
-  margin-left: 0px;
   margin-top: 3px !important;
 }
 
@@ -135,16 +137,14 @@ export default {
   .lq-canvas-search {
     flex-wrap: wrap;
     margin-right: unset;
-
- }
+  }
 }
 
-.lq-canvas-search .lq-search-results .match-info .secondary{
+.lq-canvas-search .lq-search-results .match-info .secondary {
   margin-top: -20px;
 }
 
 .lq-canvas-search .match-info.no-match {
   color: var(--color-danger);
 }
-
 </style>

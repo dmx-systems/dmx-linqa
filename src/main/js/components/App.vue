@@ -93,14 +93,13 @@ body.fixed {
   color: var(--secondary-color);
 }
 
-.secondary .lq-string{
-  padding-left:22px;
+.secondary .lq-string {
+  padding-left: 22px;
 }
 
 .label {
   font-size: var(--secondary-font-size) !important;
   color: var(--secondary-color) !important;
-  /*  font-variant-position: super;*/
 }
 
 .field-label {

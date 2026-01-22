@@ -1,9 +1,9 @@
 <template>
-  <el-dialog class="lq-about-dialog" :model-value="visible" @open="fetchText" @close="close">
+  <el-dialog class="lq-about-dialog" :model-value="visible" width="95vw" @open="fetchText" @close="close">
     <img class="linqa-logo" src="/systems.dmx.linqa/linqa-logo.png">
     <div class="version">
       <span>2.2-SNAPSHOT</span>
-      <span class="date">Jan 19, 2026</span>
+      <span class="date">Jan 22, 2026</span>
     </div>
     <div class="dmx-html-field" v-html="text[lang]"></div>
   </el-dialog>
@@ -50,6 +50,7 @@ export default {
 
 <style>
 .lq-about-dialog {
+  max-width: 600px;
   background-color: var(--header-color);
 }
 

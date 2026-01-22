@@ -28,7 +28,7 @@
   "label.imprint": "Impressum",
   "label.privacy_policy": "Dataskydd",
   "label.shared_workspace": "Gemensam arbetsyta",
-  "label.admin": "Samarbetsplattform - Administrering",
+  "label.admin": "Administrering",
   "label.admin_workspaces": "Arbetsytor och medlemmar",
   "label.admin_users": "Användare och medlemskap",
   "label.no_workspaces": "Inga lediga arbetsytor",
@@ -128,7 +128,7 @@
   "tooltip.close_fullscreen": "Avstäng fullskärm",
   "tooltip.select_workspace": "Välj arbetsyta",
   "tooltip.select_language": "Välj språk",
-  "tooltip.admin": "Administration",
+  "tooltip.admin": "Administrering",
 
   "warning": "Varning",
   "warning.delete": "Du kommer att radera detta objekt",

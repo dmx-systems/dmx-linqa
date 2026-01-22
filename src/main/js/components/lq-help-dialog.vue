@@ -79,9 +79,10 @@ function makePages (html) {
 
 <style>
 .lq-help-dialog {
-  --el-dialog-width: 94%;         /* default is 50% */
+  --el-dialog-width: 95vw;        /* default is 50% */
   --el-dialog-margin-top: 5vh;    /* default is 15vh */
   --el-menu-item-height: 36px;    /* default is 56px */
+  max-width: 1024px;
   height: 90%;
   padding-left: 0;                /* padding is provided by el-menu already */
   padding-right: 0;               /* no padding right of content scrollbar */
@@ -126,6 +127,4 @@ function makePages (html) {
   width: 15vw !important;
   margin-left: 20px;
 }
-
-
 </style>

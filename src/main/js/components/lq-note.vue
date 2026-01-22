@@ -3,7 +3,7 @@
     <template v-if="infoMode">
       <div v-html="noteHtml"></div>
       <div class="discussion-button" :style="backgroundColor">
-        <el-button type="primary" link class="admin-button fa fa-comments-o" @click="setFilter" :title="discussTooltip"></el-button>
+        <el-button type="primary" link class="fa fa-comments-o" @click="setFilter" :title="discussTooltip"></el-button>
       </div>
     </template>
     <template v-else>

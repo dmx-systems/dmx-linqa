@@ -1,7 +1,7 @@
 <template>
   <!-- v-loading does not work on el-dialog. So we put it on a child element. -->
   <!-- https://github.com/element-plus/element-plus/issues/6706 -->
-  <el-dialog class="lq-profile-dialog" v-model="profileVisibility" :width="width">
+  <el-dialog class="lq-profile-dialog" v-model="profileVisibility" width="95vw">
     <template #header>
       <div>
         <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
@@ -66,10 +66,6 @@ import lq from '../lq-globals'
 
 export default {
 
-  mixins: [
-    require('./mixins/screen').default
-  ],
-
   created () {
     // init local state for user profile dialog
     this.displayName = lq.getDisplayName(this.username)
@@ -88,10 +84,6 @@ export default {
   },
 
   computed: {
-
-    width () {
-      return this.isBigScreen ? "400px" : "95vw"
-    },
 
     username () {
       return this.$store.state.username
@@ -152,6 +144,10 @@ export default {
 </script>
 
 <style>
+.lq-profile-dialog {
+  max-width: 400px;
+}
+
 .lq-profile-dialog .el-radio {
   line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
   height: unset;          /* Element Plus default for el-radio is 32px */

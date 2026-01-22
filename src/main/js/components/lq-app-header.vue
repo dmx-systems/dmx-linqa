@@ -28,9 +28,9 @@
       </template>
       <template v-else>
         <el-button class="search-button fa fa-search" type="primary" link :title="searchTooltip"
-          @click="dialogVisible = true">
+          @click="searchVisible = true">
         </el-button>
-        <el-dialog top="50vh" width="80%" v-model="dialogVisible">
+        <el-dialog top="50vh" width="80%" v-model="searchVisible">
           <lq-canvas-search></lq-canvas-search>
         </el-dialog>
       </template>
@@ -108,12 +108,8 @@ export default {
     return {
       helpVisible: !onboarded && this.isBigScreen,
       firstLogin: !onboarded,
-      dialogVisible: false  // search dialog
+      searchVisible: false
     }
-  },
-
-  props: {
-    visible: Boolean
   },
 
   computed: {
@@ -154,16 +150,8 @@ export default {
       return lq.getString('tooltip.select_workspace')
     },
 
-    adminTooltip () {
-      return lq.getString('tooltip.admin')
-    },
-
     searchTooltip () {
       return lq.getString('label.search')
-    },
-
-    presentationMode () {
-      return this.$store.state.presentationMode
     },
 
     presentationModeStyle () {
@@ -174,32 +162,31 @@ export default {
       }
     },
 
-    profilePane: {
-      get () {
-        return this.$store.state.profilePane
-      },
-      set (profilePane) {
-        this.$store.dispatch('setRouteQuery', {profile: profilePane})
-      }
-    },
+    profilePane () {
+      return this.$store.state.profilePane
+    }
   },
 
   methods: {
+
+    setWorkspace (id) {
+      this.$store.dispatch('callWorkspaceRoute', id)
+    },
 
     handle (command) {
       this[command]()
     },
 
-    setWorkspace (id) {
-      this.$store.dispatch('callWorkspaceRoute', id)
+    openUserProfile () {
+      this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
     },
 
     admin () {
       this.$store.dispatch('callAdminRoute')
     },
 
-    openInfo (info) {
-      this[info]()
+    togglePresentationMode () {
+      this.$store.dispatch('togglePresentationMode')
     },
 
     openHelp () {
@@ -222,19 +209,11 @@ export default {
       this.$store.dispatch('callRoute', 'privacy_policy')
     },
 
-    togglePresentationMode () {
-      this.$store.dispatch('togglePresentationMode')
-    },
-
-    openUserProfile () {
-      this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
-    },
-
     logout () {
       this.$store.dispatch('logout').then(() =>
         this.$store.dispatch('callRootRoute')
       )
-    },
+    }
   },
 
   components: {

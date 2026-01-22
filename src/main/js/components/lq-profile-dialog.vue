@@ -66,11 +66,6 @@ import lq from '../lq-globals'
 
 export default {
 
-  mixins: [
-    require('./mixins/presentation-mode').default,
-    require('./mixins/roles').default
-  ],
-
   created () {
     // init local state for user profile dialog
     this.displayName = lq.getDisplayName(this.username)
@@ -115,22 +110,10 @@ export default {
       set (profilePane) {
         this.$store.dispatch('setRouteQuery', {profile: profilePane})
       }
-    },
-
-    icon () {
-      return this.presentationMode ? 'check' : ''     // el-dropdown-item strictly expects string (or component)
     }
   },
 
   methods: {
-
-    handle (command) {
-      this[command]()
-    },
-
-    openUserProfile () {
-      this.$store.dispatch('setRouteQuery', {profile: this.profilePane})
-    },
 
     saveUserProfile () {
       this.loading = true
@@ -147,16 +130,6 @@ export default {
         this.loading = false
         this.profileVisibility = false
       })
-    },
-
-    togglePresentationMode () {
-      this.$store.dispatch('togglePresentationMode')
-    },
-
-    logout () {
-      this.$store.dispatch('logout').then(() =>
-        this.$store.dispatch('callRootRoute')
-      )
     },
 
     changePassword () {

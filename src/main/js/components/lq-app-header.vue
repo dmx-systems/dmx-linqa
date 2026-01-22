@@ -106,7 +106,7 @@ export default {
       dmx.utils.setCookie('linqa_onboarded', true)
     }
     return {
-      helpVisible: !onboarded && this.isBigScreen,
+      helpVisible: !onboarded,
       firstLogin: !onboarded,
       searchVisible: false
     }

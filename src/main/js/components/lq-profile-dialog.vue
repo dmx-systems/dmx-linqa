@@ -1,7 +1,7 @@
 <template>
   <!-- v-loading does not work on el-dialog. So we put it on a child element. -->
   <!-- https://github.com/element-plus/element-plus/issues/6706 -->
-  <el-dialog class="lq-profile-dialog" v-model="profileVisibility" width="400px">
+  <el-dialog class="lq-profile-dialog" v-model="profileVisibility" :width="width">
     <template #header>
       <div>
         <lq-string>label.user_profile</lq-string>:&nbsp;&nbsp;<b>{{username}}</b>
@@ -66,6 +66,10 @@ import lq from '../lq-globals'
 
 export default {
 
+  mixins: [
+    require('./mixins/screen').default
+  ],
+
   created () {
     // init local state for user profile dialog
     this.displayName = lq.getDisplayName(this.username)
@@ -84,6 +88,10 @@ export default {
   },
 
   computed: {
+
+    width () {
+      return this.isBigScreen ? "400px" : "95vw"
+    },
 
     username () {
       return this.$store.state.username
@@ -144,18 +152,18 @@ export default {
 </script>
 
 <style>
-.lq-profile-dialog .el-dialog .el-radio {
+.lq-profile-dialog .el-radio {
   line-height: 1;         /* Avoid inheriting 1.769 from .el-collapse-item__content */
   height: unset;          /* Element Plus default for el-radio is 32px */
   align-items: unset;     /* Element Plus default for el-radio is "center" */
   white-space: unset;     /* Element Plus default for el-radio is "nowrap" */
 }
 
-.lq-profile-dialog .el-dialog .el-radio + .el-radio {
+.lq-profile-dialog .el-radio + .el-radio {
   margin-top: var(--field-spacing);
 }
 
-.lq-profile-dialog .el-dialog .el-radio .label {
+.lq-profile-dialog .el-radio .label {
   display: block;
   margin-top: 6px;
   line-height: 1.2;

@@ -63,7 +63,7 @@
 }
 
 .ql-container #emoji-picker #tab-toolbar .emoji-tab.active {
-  border-bottom: 3px solid var(--highlight-color);
+  border-bottom: 3px solid var(--primary-color);
 }
 
 .ql-container #emoji-picker #tab-toolbar .emoji-tab > div {

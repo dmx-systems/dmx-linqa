@@ -46,20 +46,15 @@
 
   --header-color: white;
   --background-color: rgb(247, 247, 247);     /* used for panels and forms */
-  --primary-color: #254080;                   /* used for doc-filter, comment-refs, login/legal pages (yellow) */
-  --el-color-primary: #254080 !important;     /* linqa dark primary color */
-  --el-button-text-color: var(--el-color-primary);
-  --el-button-hover-link-text-color: red !important;
-  --light-color: #fff481;                     /* original yellow */
-  --primary-color-light: #fffbe6;             /* used for doc-filter, comment-refs, login/legal pages (light yellow) */
-  --highlight-color: #254080;                 /* matches Element UI --color-primary (blue), interactive elements */
-  --highligth-glow: #fff481;                  /* matches Element UI --color-primary (blue) */
-  --highlight-color-2: #66b1ff;               /* matches Element UI --light-color (yellow) */
-  --highlight-color-9: #ecf5ff;               /* matches Element UI --color-primary-light-9, hovered menu item bg */
-  --menu-item-color: #606266;                 /* matches Element UI .el-dropdown-menu__item fg color, menus, dialogs */
-  --color-danger: #c05c51;                    /* matches Element UI --color-danger */
-  --border-color: #dcdfe6;                    /* matches Element UI --border-color-base */
-  --border-color-lighter: #ebeef5;            /* matches Element UI --border-color-lighter */
+  --primary-color: #254080;                   /* 1st Linqa design color: dark blue, interactive elements */
+  --light-color: #fff481;                     /* 2nd Linqa design color: yellow */
+  --danger-color: #c05c51;                    /* 3rd Linqa design color: red */
+  --primary-color-light: #fffbe6;             /* used for e.g. document-refs/comment-refs background (light yellow) */
+  --highlight-color-2: #66b1ff;               /* ?matches Element UI --light-color (yellow) */
+  --highlight-color-9: #ecf5ff;               /* ?matches Element UI --color-primary-light-9, hovered menu item bg */
+  --menu-item-color: #606266;                 /* ?matches Element UI .el-dropdown-menu__item fg color, menus, dialogs */
+  --border-color: #dcdfe6;                    /* ?matches Element UI --border-color-base */
+  --border-color-lighter: #ebeef5;            /* ?matches Element UI --border-color-lighter */
   --filter-border: 6px solid transparent;
   --glow-duration: 3s;                        /* corresponds to jumpTo() in lq-discussion.vue */
 
@@ -67,7 +62,6 @@
   --blue: #0366d6;
   --light-blue: #84a8cc;
   --light-gray: #ddd;
-  --moveable-color: #c05c51 !important;
 }
 
 html {
@@ -78,7 +72,6 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;     /* never show body scrollbar caused by e.g. discussion panel */
-  /* overflow-wrap: break-word; */
   font-family: var(--primary-font-family);
   font-size: var(--primary-font-size);
 }
@@ -113,7 +106,7 @@ body.fixed {
 }
 
 .match {
-  border: 1px solid #c05c51;
+  border: 1px solid var(--danger-color);
   background-color: var(--light-color);
 }
 
@@ -138,7 +131,20 @@ input, button {
   font-size: unset;       /* Safari (Mac) default is 11px, Firefox (Mac) also reduces size */
 }
 
+/* Element UI Theme */
+
+:root {
+  --el-color-primary: var(--primary-color) !important;
+}
+
+.el-button {
+  --el-button-hover-bg-color: var(--el-button-active-color) !important;
+  --el-button-hover-border-color: var(--el-button-active-color) !important;
+  --el-button-hover-link-text-color: var(--el-button-active-color) !important;
+}
+
 /* Element UI Overrides */
+
 .el-button {
   vertical-align: unset !important;   /* Element Plus default is "middle" */
   height: unset !important;           /* Element Plus default is 32px */
@@ -210,7 +216,7 @@ input, button {
 }
 
 .dmx-html-field a {
-  color: var(--highlight-color);
+  color: var(--primary-color);
 }
 
 .dmx-html-field a:hover {
@@ -329,19 +335,16 @@ input, button {
 
 .mention {
   background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
-  color: var(--highlight-color);      /* quill-mention does not set any color, so it's black */
+  color: var(--primary-color);        /* quill-mention does not set any color, so it's black */
 }
 
+/* vue-moveable Overrides */
+
 .moveable-control, .moveable-line {
-  background: #254080 !important;
+  background: var(--primary-color) !important;
 }
 
 .moveable-rotation .moveable-rotation-control {
   border-color: white !important;
 }
-
-.el-button.is-link:hover {
-  color: var(--el-color-primary) !important;
-}
-
 </style>

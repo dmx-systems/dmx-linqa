@@ -59,7 +59,7 @@ export default {
 
 <style>
 .lq-upload-dialog .error {
-  color: var(--color-danger);
+  color: var(--danger-color);
   margin-top: var(--field-spacing);
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div :class="['lq-login', {'small-screen': isSmallScreen}]">
     <lq-language-switch></lq-language-switch>
-
     <div class="lq-form-container">
       <div class="login-form">
         <img class="logo" :src="logo()">
@@ -11,7 +10,8 @@
         </div>
         <div class="field">
           <div class="field-label"><lq-string>label.password</lq-string></div>
-          <el-input size="large" v-model="credentials.password" ref="password" @keyup.enter="login" type="password"></el-input>
+          <el-input size="large" v-model="credentials.password" ref="password" @keyup.enter="login" type="password">
+          </el-input>
         </div>
         <div class="password-reset">
           <lq-string class="label">label.forgot_password</lq-string>
@@ -23,13 +23,12 @@
       <div class="footer">
         <el-button type="primary" link @click="openAbout"><lq-string>label.about</lq-string></el-button>
         <el-button type="primary" link @click="openImprint"><lq-string>label.imprint</lq-string></el-button>
-        <el-button type="primary" link @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string></el-button>
+        <el-button type="primary" link @click="openPrivacyPolicy"><lq-string>label.privacy_policy</lq-string>
+        </el-button>
       </div>
- 
       <router-view></router-view>
       <lq-about-dialog></lq-about-dialog> 
     </div>
-
     <div class="lq-info-container">
       <div class="welcome">
           <lq-string>label.welcome</lq-string>
@@ -38,7 +37,6 @@
         </div>
       </div>
     </div>
-   
   </div>
 </template>
 
@@ -113,15 +111,9 @@ export default {
 <style>
 .lq-login {
   display: flex;
-/*  flex-direction: column;*/
   height: 100%;
   width: 100%;
-    background-color: white;
-
-}
-
-.lq-login.small-screen {
-/*  padding: 40px 0 18px 60px;*/
+  background-color: white;
 }
 
 .lq-login .lq-language-switch {
@@ -141,19 +133,11 @@ export default {
 .lq-login .logo {
   margin-top: 15vh;
   margin-bottom: 30px;
-  /*  align-self: flex-start;
-  width: fit-content;*/
-}
-
-.lq-login.small-screen img.logo {
-/*  height: 64px;*/
 }
 
 .lq-login .login-form {
   align-content: center;
   margin: auto;
-  /*  margin-bottom: 20px;
-  padding-left: 15px; */
 }
 
 .lq-login .footer {
@@ -171,8 +155,7 @@ export default {
 }
 
 .lq-login .welcome {
-/*  color: var(--primary-color);*/
-  color: #fff481;
+  color: var(--light-color);
   font-size: 16px;
   font-weight: lighter;
   text-transform: uppercase;
@@ -182,7 +165,7 @@ export default {
 }
 
 .lq-login .login {
-  color: #fff481;
+  color: var(--light-color);
   font-size: 36px;
   font-weight: lighter;
   margin-top: 10px;
@@ -270,7 +253,7 @@ export default {
 }
 
 .lq-login .password-reset .el-button {
-  color: #c05c51;
+  color: var(--danger-color);
 }
 
 @media screen and (max-width: 720px) {
@@ -291,5 +274,4 @@ export default {
     margin-top: 10vh;
   }
 }
-
 </style>

@@ -351,6 +351,6 @@ export default {
 }
 
 .lq-document .error {
-  color: var(--color-danger);
+  color: var(--danger-color);
 }
 </style>

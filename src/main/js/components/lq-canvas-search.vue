@@ -16,7 +16,6 @@
 
 <script>
 import lq from '../lq-globals'
-import { Calendar, Search } from '@element-plus/icons-vue'
 
 export default {
 
@@ -145,6 +144,6 @@ export default {
 }
 
 .lq-canvas-search .match-info.no-match {
-  color: var(--color-danger);
+  color: var(--danger-color);
 }
 </style>

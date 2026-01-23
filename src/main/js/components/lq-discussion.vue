@@ -344,7 +344,7 @@ export default {
   display: flex;
   align-items: flex-end;
   margin-top: 20px;
-  background-color: #fff481;
+  background-color: var(--light-color);
   padding: 10px;
   position: absolute;
   width: 100%;

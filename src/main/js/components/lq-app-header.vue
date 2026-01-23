@@ -156,7 +156,7 @@ export default {
 
     presentationModeStyle () {
       if (this.presentationMode) {
-        return 'color: #c05c51'
+        return 'color: var(--danger-color)'
       } else {
         return 'color: rgb(96, 98, 102)'
       }

@@ -271,7 +271,7 @@ function newSynId () {
 
 .lq-canvas-toolbar .add-button {
   position: absolute;
-  background-color: #fff481;
+  background-color: var(--light-color);
   border-radius: 54px;
   padding: 7px 10px;
   bottom: 10px;
@@ -280,7 +280,7 @@ function newSynId () {
 }
 
 .lq-canvas-toolbar .discussion-button {
-  background-color: #fff481;
+  background-color: var(--light-color);
   border-radius: 54px;
   padding: 10px !important;
   position: absolute;
@@ -290,6 +290,6 @@ function newSynId () {
 }
 
 .lq-canvas-toolbar .discussion-button:hover {
-  background-color: #fff481 !important;
+  background-color: var(--light-color) !important;
 }
 </style>

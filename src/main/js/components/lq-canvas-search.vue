@@ -3,13 +3,15 @@
     <el-input v-model="searchTerm" :placeholder="placeholder">
       <template #suffix>
         <span v-if="!searchTerm" class="fa fa-search"></span>
-        <span v-else class="lq-clickable fa fa-times" @click="clearSearch"></span>
+        <span v-else class="clickable fa fa-times" @click="clearSearch"></span>
       </template>
     </el-input>
-    <div v-if="searchTerm" class="lq-search-results">
-      <el-button type="primary" link class="fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
-      <el-button type="primary" link class="fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
-      <span :class="['match-info', {'no-match': noMatch}, 'secondary']">{{matchInfo}}</span>
+    <div class="browse">
+      <template v-if="searchTerm">
+        <el-button type="primary" link class="fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
+        <el-button type="primary" link class="fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
+        <span :class="['match-info', {'no-match': noMatch}, 'secondary']">{{matchInfo}}</span>
+      </template>
     </div>
   </div>
 </template>
@@ -30,13 +32,10 @@ export default {
     },
 
     matchInfo () {
-      // Note: match-info DOM is always rendered to reserve horizontal space
-      if (this.searchTerm) {
-        if (this.noMatch) {
-          return '0'
-        } else {
-          return `${this.matchIndex + 1} ${lq.getString('label.of')} ${this.matches.length}`
-        }
+      if (this.noMatch) {
+        return '0'
+      } else {
+        return `${this.matchIndex + 1} ${lq.getString('label.of')} ${this.matches.length}`
       }
     },
 
@@ -81,69 +80,47 @@ export default {
     },
 
     clearSearch () {
-      return this.$store.dispatch('search/search', '')
+      this.searchTerm = ''
     }
   }
 }
 </script>
 
 <style>
-.lq-clickable {
-  cursor: pointer;
-}
-
 .lq-canvas-search {
   display: flex;
   align-items: center;
 }
 
 .lq-canvas-search .el-input {
-  min-width: 140px;
+  min-width: 120px;
+  max-width: 160px;
+  height: 30px;
 }
 
-.lq-canvas-search.small-screen .el-input {
-  width: 78px;
-}
-
-.lq-canvas-search .el-input__inner {
-  height: 32px;
-}
-
-.lq-canvas-search .el-button {
-  font-size: 22px;
-  margin-right: 10px;
-}
-
-.lq-canvas-search .el-button:nth-of-type(1) {
-  margin-left: 5px;
-}
-
-.lq-canvas-search .el-button:nth-of-type(2) {
-  margin-left: 0px;
-}
-
-.lq-canvas-search .match-info {
-  margin-top: 3px !important;
-}
-
-.lq-canvas-search .lq-search-results {
-  min-width: 110px;
-  margin-right: 10px;
+/* always rendered to reserve horizontal space */
+.lq-canvas-search .browse {
+  width: 90px;
+  flex: none;
+  margin-left: 10px;
   display: flex;
+  align-items: center;
 }
 
-@media only screen and (max-width: 420px) {
-  .lq-canvas-search {
-    flex-wrap: wrap;
-    margin-right: unset;
-  }
+.lq-canvas-search .browse .el-button {
+  font-size: 22px;
 }
 
-.lq-canvas-search .lq-search-results .match-info .secondary {
-  margin-top: -20px;
+.lq-canvas-search .browse .match-info {
+  margin-left: 10px;
+  white-space: nowrap;
 }
 
-.lq-canvas-search .match-info.no-match {
+.lq-canvas-search .browse .match-info.no-match {
   color: var(--danger-color);
+}
+
+.lq-canvas-search .clickable {
+  cursor: pointer;
 }
 </style>

@@ -30,7 +30,7 @@
         <el-button class="search-button fa fa-search" type="primary" link :title="searchTooltip"
           @click="searchVisible = true">
         </el-button>
-        <el-dialog top="50vh" width="80%" v-model="searchVisible">
+        <el-dialog top="50vh" width="max-content" v-model="searchVisible">
           <lq-canvas-search></lq-canvas-search>
         </el-dialog>
       </template>

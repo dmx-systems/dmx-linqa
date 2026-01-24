@@ -134,13 +134,22 @@ input, button {
 /* Element UI Theme */
 
 :root {
-  --el-color-primary: var(--primary-color) !important;
+  --el-color-primary: var(--primary-color) !important;    /* #254080 = hsl(222, 55%, 32%) */
+  --el-color-primary-light-3: hsl(222, 55%, 55%) !important;
+  --el-color-primary-light-7: hsl(222, 55%, 82%) !important;
+  --el-color-primary-light-9: hsl(222, 55%, 96%) !important;
 }
 
-.el-button {
-  --el-button-hover-bg-color: var(--el-button-active-color) !important;
-  --el-button-hover-border-color: var(--el-button-active-color) !important;
-  --el-button-hover-link-text-color: var(--el-button-active-color) !important;
+.el-button--primary {
+  --el-color-primary-light-5: hsl(222, 55%, 82%);   /* disabled */
+}
+
+.el-button--primary.is-link {
+  --el-color-primary-light-5: hsl(222, 55%, 55%);   /* hover */
+}
+
+.el-button--primary.is-link.is-disabled {
+  color: var(--el-text-color-disabled) !important;
 }
 
 /* Element UI Overrides */

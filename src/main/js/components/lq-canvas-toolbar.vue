@@ -4,24 +4,24 @@
     @command="handle" placement="top-start">
       <el-button type="primary" link class="fa fa-plus" :title="addTooltip"></el-button>
       <template #dropdown>
-        <el-dropdown-menu>
+        <el-dropdown-menu class="lq-new-dropdown">
           <el-dropdown-item command="newDocument">
-            <el-icon size="large" class="fa fa-paperclip"></el-icon>
+            <span class="fa fa-paperclip"></span>
             <lq-string>item.document</lq-string></el-dropdown-item>
           <el-dropdown-item command="newNote">
-            <el-icon size="large" class="fa fa-sticky-note"></el-icon>
+            <span class="fa fa-sticky-note"></span>
             <lq-string>item.note</lq-string></el-dropdown-item>
           <el-dropdown-item command="newTextblock">
-            <el-icon size="large" class="fa fa-file-text"></el-icon>
+            <span class="fa fa-file-text"></span>
             <lq-string>item.textblock</lq-string></el-dropdown-item>
           <el-dropdown-item command="newHeading" divided>
-            <el-icon size="large" class="fa fa-header"></el-icon>
+            <span class="fa fa-header"></span>
             <lq-string>item.heading</lq-string></el-dropdown-item>
           <el-dropdown-item command="newShape">
-            <el-icon size="large" class="fa fa-circle"></el-icon>
+            <span class="fa fa-circle"></span>
             <lq-string>item.shape</lq-string></el-dropdown-item>
           <el-dropdown-item command="newLine">
-            <el-icon size="large" class="fa fa-long-arrow-right"></el-icon>
+            <span class="fa fa-long-arrow-right"></span>
             <lq-string>item.line</lq-string></el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -291,5 +291,15 @@ function newSynId () {
 
 .lq-canvas-toolbar .discussion-button:hover {
   background-color: var(--light-color) !important;
+}
+
+/* the actual dropdown menus are body mounted */
+
+/* Note: copy in lq-app-header.vue (burger menu) */
+.lq-new-dropdown .fa {
+  font-size: 1.15em;
+  width: 2.15em;
+  text-align: center;
+  margin-left: -0.55em;
 }
 </style>

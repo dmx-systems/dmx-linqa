@@ -301,6 +301,7 @@ export default {
   white-space: nowrap;
 }
 
+/* Note: copy in lq-canvas-toolbar.vue (create menu) */
 .lq-burger-dropdown .fa {
   font-size: 1.15em;
   width: 2.15em;

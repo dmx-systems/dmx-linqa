@@ -44,37 +44,35 @@
             <b>{{username}}</b>
           </div>
           <el-dropdown-item command="openUserProfile" divided>
-            <el-icon size="large" class="fa fa-user"></el-icon>
+            <span class="fa fa-user"></span>
             <lq-string>label.user_profile</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="admin" v-if="isLinqaAdmin">
-            <el-icon size="large" class="fa fa-cog"></el-icon>
+            <span class="fa fa-cog"></span>
             <lq-string>tooltip.admin</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="togglePresentationMode" v-if="isAuthor" divided>
-            <el-icon v-if="presentationMode" size="large" :style="presentationModeStyle" class="fa fa-laptop">
-            </el-icon>
-            <el-icon v-else size="large" :style="presentationModeStyle" class="fa fa-eye"></el-icon>
+            <span :style="presentationModeStyle" :class="presentationModeIcon"></span>
             <lq-string :style="presentationModeStyle">label.presentation_mode</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="openHelp" divided>
-            <el-icon size="large" class="fa fa-exclamation-circle"></el-icon>
+            <span class="fa fa-exclamation-circle"></span>
             <lq-string>label.help</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="openAbout" divided>
-            <el-icon size="large" class="fa fa-info"></el-icon>
+            <span class="fa fa-info"></span>
             <lq-string>label.about</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="openImprint">
-            <el-icon size="large" class="fa fa-file-text"></el-icon>
+            <span class="fa fa-file-text"></span>
             <lq-string>label.imprint</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="openPrivacyPolicy">
-            <el-icon size="large" class="fa fa-shield"></el-icon>
+            <span class="fa fa-shield"></span>
             <lq-string>label.privacy_policy</lq-string>
           </el-dropdown-item>
           <el-dropdown-item command="logout" divided>
-            <el-icon size="large" class="fa fa-sign-out"></el-icon>
+            <span class="fa fa-sign-out"></span>
             Logout
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -155,11 +153,11 @@ export default {
     },
 
     presentationModeStyle () {
-      if (this.presentationMode) {
-        return 'color: var(--danger-color)'
-      } else {
-        return 'color: rgb(96, 98, 102)'
-      }
+      return this.presentationMode ? 'color: var(--danger-color)' : ''
+    },
+
+    presentationModeIcon () {
+      return this.presentationMode ? 'fa fa-laptop' : 'fa fa-eye'
     },
 
     profilePane () {
@@ -301,5 +299,12 @@ export default {
   font-size: 15px;
   color: var(--primary-color);
   white-space: nowrap;
+}
+
+.lq-burger-dropdown .fa {
+  font-size: 1.15em;
+  width: 2.15em;
+  text-align: center;
+  margin-left: -0.55em;
 }
 </style>

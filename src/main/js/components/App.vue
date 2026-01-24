@@ -134,10 +134,11 @@ input, button {
 /* Element UI Theme */
 
 :root {
-  --el-color-primary: var(--primary-color) !important;    /* #254080 = hsl(222, 55%, 32%) */
+  --el-color-primary: var(--primary-color) !important;          /* #254080 = hsl(222, 55%, 32%) */
   --el-color-primary-light-3: hsl(222, 55%, 55%) !important;
   --el-color-primary-light-7: hsl(222, 55%, 82%) !important;
   --el-color-primary-light-9: hsl(222, 55%, 96%) !important;
+  --el-color-primary-dark-2:  hsl(222, 55%, 68%) !important;    /* primary button active */
 }
 
 .el-button--primary {

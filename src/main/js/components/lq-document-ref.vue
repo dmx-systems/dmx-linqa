@@ -73,7 +73,7 @@ export default {
 <style>
 .lq-document-ref {
   display: inline-block;
-  background-color: var(--primary-color-light);
+  background-color: var(--lighter-color);
   padding: 6px;
   cursor: pointer;
 }

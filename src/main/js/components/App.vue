@@ -48,10 +48,8 @@
   --background-color: #f7f7f7;                /* used for panels and forms */
   --primary-color: #254080;                   /* 1st Linqa design color: dark blue, interactive elements */
   --light-color: #fff481;                     /* 2nd Linqa design color: yellow */
+  --lighter-color: #fffbe6;                   /* used for e.g. document-refs/comment-refs background (light yellow) */
   --danger-color: #c05c51;                    /* 3rd Linqa design color: red */
-  --primary-color-light: #fffbe6;             /* used for e.g. document-refs/comment-refs background (light yellow) */
-  --highlight-color-2: #66b1ff;               /* ?matches Element UI --light-color (yellow) */
-  --highlight-color-9: #ecf5ff;               /* ?matches Element UI --color-primary-light-9, hovered menu item bg */
   --menu-item-color: #606266;                 /* ?matches Element UI .el-dropdown-menu__item fg color, menus, dialogs */
   --border-color: #dcdfe6;                    /* ?matches Element UI --border-color-base */
   --border-color-lighter: #ebeef5;            /* ?matches Element UI --border-color-lighter */
@@ -113,7 +111,7 @@ body.fixed {
   padding: 2px 8px;
   font-size: var(--secondary-font-size);
   color: var(--secondary-color);
-  background-color: var(--primary-color-light);
+  background-color: var(--lighter-color);
 }
 
 .edited-indicator.edited {
@@ -131,10 +129,10 @@ input, button {
 
 :root {
   --el-color-primary: var(--primary-color) !important;          /* #254080 = hsl(222, 55%, 32%) */
-  --el-color-primary-light-3: hsl(222, 55%, 55%) !important;
+  --el-color-primary-light-3: hsl(222, 55%, 55%) !important;    /* hovered button/link foreground */
   --el-color-primary-light-7: hsl(222, 55%, 82%) !important;
-  --el-color-primary-light-9: hsl(222, 55%, 96%) !important;
-  --el-color-primary-dark-2:  hsl(222, 55%, 68%) !important;    /* primary button active */
+  --el-color-primary-light-9: hsl(222, 55%, 96%) !important;    /* hovered menu item background */
+  --el-color-primary-dark-2:  hsl(222, 55%, 68%) !important;    /* primary button/link active */
 }
 
 .el-button--primary {
@@ -199,7 +197,7 @@ input, button {
 
 .el-collapse-item.lq-selected .el-collapse-item__wrap,
 .el-collapse-item.lq-selected .el-collapse-item__header {
-  background-color: var(--highlight-color-9);
+  background-color: var(--el-color-primary-light-9);
 }
 
 /* HTML fields */
@@ -226,7 +224,11 @@ input, button {
 }
 
 .dmx-html-field a:hover {
-  color: var(--highlight-color-2);
+  color: var(--el-color-primary-light-3);
+}
+
+.dmx-html-field a:active {
+  color: var(--el-color-primary-dark-2);
 }
 
 /* Adopt Quill list style in info mode */
@@ -329,18 +331,18 @@ input, button {
 }
 
 .ql-mention-list-item {
-  font-size: var(--primary-font-size) !important;         /* quill-mention sets 16px */
+  font-size: var(--primary-font-size) !important;                 /* quill-mention sets 16px */
   color: var(--menu-item-color);      /* quill-mention does not set any color, so it's black */
   line-height: 30px !important;       /* 30px matches .el-dropdown-menu__item medium size, quill-mention sets 44px */
 }
 
 .ql-mention-list-item.selected {
-  background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
-  color: var(--highlight-color-2);    /* quill-mention does not set any color, so it's black */
+  background-color: var(--el-color-primary-light-9) !important;   /* quill-mention sets #d3e1eb */
+  color: var(--primary-color);        /* quill-mention does not set any color, so it's black */
 }
 
 .mention {
-  background-color: var(--highlight-color-9) !important;  /* quill-mention sets #d3e1eb */
+  background-color: var(--el-color-primary-light-9) !important;   /* quill-mention sets #d3e1eb */
   color: var(--primary-color);        /* quill-mention does not set any color, so it's black */
 }
 

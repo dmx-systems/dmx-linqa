@@ -294,7 +294,7 @@ export default {
 }
 
 .lq-comment.form .heading .translation-info.edited {
-  background-color: var(--primary-color-light);
+  background-color: var(--lighter-color);
 }
 
 .lq-comment .heading .button-panel {

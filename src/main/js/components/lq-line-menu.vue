@@ -48,11 +48,11 @@ export default {
 /* the actual dropdown menus are body mounted */
 
 .lq-line-dropdown .el-dropdown-menu__item:hover .lq-arrow-menu-item line {
-  stroke: var(--highlight-color-2);
+  stroke: var(--primary-color);
 }
 
 .lq-line-dropdown .el-dropdown-menu__item:hover .lq-arrow-menu-item polygon  {
-  fill: var(--highlight-color-2);
+  fill: var(--primary-color);
 }
 
 .lq-line-dropdown .style {

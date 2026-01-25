@@ -21,10 +21,10 @@
 .ql-container .emoji-menu li button:hover,
 .ql-container .emoji-menu li button:focus,
 .ql-container .emoji-menu li button.emoji-active {
-  background: var(--highlight-color-9);
+  background: var(--el-color-primary-light-9);
 
   .label {    /* FIXME: nested CSS does not work in Safari 15, update Webpack CSS plugin? */
-    color: var(--highlight-color-2) !important;
+    color: var(--primary-color) !important;
   }
 }
 

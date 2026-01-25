@@ -13,7 +13,7 @@
       </div>
     </div>
     <!-- Comments -->
-    <div v-if="noComments" class="secondary"><lq-string html>label.no_comments</lq-string></div>
+    <div v-if="noComments" class="no-comments secondary"><lq-string html>label.no_comments</lq-string></div>
     <el-scrollbar v-else class="comments" ref="scrollbar" :always="true" v-loading="discussionLoading">
       <lq-comment v-for="comment in filteredDiscussion" :topic="comment" :key="comment.id" @reply="reply"
         @comment-ref-click="jumpTo">
@@ -287,7 +287,7 @@ export default {
   box-sizing: border-box;
   z-index: 1;
   min-width: 320px;
-  background-color: #f7f7f7;
+  background-color: var(--background-color);
   box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -webkit-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
   -moz-box-shadow: -5px 3px 6px -3px rgba(237,237,237,0.75);
@@ -324,6 +324,10 @@ export default {
 .lq-discussion .filter .close-button {
   margin-left: 6px;
   color: white !important;
+}
+
+.lq-discussion .no-comments {
+  margin-left: 22px;
 }
 
 .lq-discussion .comments {

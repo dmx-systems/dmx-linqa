@@ -45,7 +45,7 @@
   --emoji-button-padding: 24px;               /* Quill editor padding-right to make space for the emoji button */
 
   --header-color: white;
-  --background-color: rgb(247, 247, 247);     /* used for panels and forms */
+  --background-color: #f7f7f7;                /* used for panels and forms */
   --primary-color: #254080;                   /* 1st Linqa design color: dark blue, interactive elements */
   --light-color: #fff481;                     /* 2nd Linqa design color: yellow */
   --danger-color: #c05c51;                    /* 3rd Linqa design color: red */
@@ -84,10 +84,6 @@ body.fixed {
 
 .secondary {
   color: var(--secondary-color);
-}
-
-.secondary .lq-string {
-  padding-left: 22px;
 }
 
 .label {

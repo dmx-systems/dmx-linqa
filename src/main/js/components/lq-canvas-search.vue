@@ -10,7 +10,7 @@
       <template v-if="searchTerm">
         <el-button type="primary" link class="fa fa-caret-left" :disabled="disPrev" @click="prevMatch"></el-button>
         <el-button type="primary" link class="fa fa-caret-right" :disabled="disNext" @click="nextMatch"></el-button>
-        <span :class="['match-info', {'no-match': noMatch}, 'secondary']">{{matchInfo}}</span>
+        <span :class="['match-info', {'no-match': noMatch}, 'label']">{{matchInfo}}</span>
       </template>
     </div>
   </div>
@@ -100,7 +100,7 @@ export default {
 
 /* always rendered to reserve horizontal space */
 .lq-canvas-search .browse {
-  width: 90px;
+  width: 84px;
   flex: none;
   margin-left: 10px;
   display: flex;
@@ -117,7 +117,7 @@ export default {
 }
 
 .lq-canvas-search .browse .match-info.no-match {
-  color: var(--danger-color);
+  color: var(--danger-color) !important;    /* overrides .label color which is !important as well! */
 }
 
 .lq-canvas-search .clickable {

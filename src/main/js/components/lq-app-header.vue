@@ -252,6 +252,8 @@ export default {
 .lq-app-header .title {
   flex-grow: 1;             /* take all available space, extend header to full screen width */
   overflow: hidden;         /* reduce title in favor of other header items */
+  display: flex;
+  justify-content: center;  /* center workspace selector (resp. admin text) within title item */
 }
 
 .lq-app-header .title .el-button {

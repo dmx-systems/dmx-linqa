@@ -271,9 +271,7 @@ export default {
   components: {
     'lq-resizer':       require('./lq-resizer').default,
     'lq-comment':       require('./lq-comment').default,
-    'lq-upload-dialog': require('./lq-upload-dialog').default,
-    'lq-app-header': require('./lq-app-header').default
-
+    'lq-upload-dialog': require('./lq-upload-dialog').default
   }
 }
 </script>
@@ -310,7 +308,7 @@ export default {
 .lq-discussion .filter-wrapper {
   margin-bottom: 32px;
   margin-right: 10px;
-  padding-left: 20px;
+  padding-left: 22px;
 }
 
 .lq-discussion .filter {
@@ -327,13 +325,8 @@ export default {
 }
 
 .lq-discussion .no-comments {
+  height: 100%;
   margin-left: 22px;
-}
-
-.lq-discussion .comments {
-  height: unset;        /* Element Plus default el-scrollbar height of 100% attaches new-comment panel to */
-                        /* window bottom. We want new-comment panel always be attached to comments. */
-  margin-bottom: 75px;  /* For desktop? or global. */
 }
 
 .lq-discussion .comments .lq-comment {
@@ -347,17 +340,14 @@ export default {
 .lq-discussion .new-comment-container {
   display: flex;
   align-items: flex-end;
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: var(--light-color);
   padding: 10px;
-  position: absolute;
-  width: 100%;
-  bottom: 0px;
 }
 
 .lq-discussion .new-comment-container .submit-button {
   font-size: 24px;
-  margin: 5px 20px 10px 10px;
+  margin: 0 0 10px 10px;
 }
 
 .lq-discussion .new-comment {

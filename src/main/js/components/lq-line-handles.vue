@@ -139,7 +139,7 @@ export default {
   position: absolute;
   width: 14px;
   height: 14px;
-  background-color: #4af;     /* TODO: var(--primary-color), several rules are affected */
+  background-color: var(--primary-color);
   border: 2px solid white;
   border-radius: 50%;
   box-sizing: border-box;

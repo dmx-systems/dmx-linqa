@@ -74,7 +74,7 @@ export default {
 
 <style>
 .lq-comment-ref {
-  display: inline-block;    /* place a comment-ref in-line with other (note/textblock) ref */
+  display: inline-block;    /* place a comment-ref in-line with other (document/note/textblock) ref */
   position: relative;
   background-color: var(--lighter-color);
   border-left: 5px solid var(--light-color);

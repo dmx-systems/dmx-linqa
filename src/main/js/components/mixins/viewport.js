@@ -13,17 +13,16 @@ export default {
 
     // zoom compensation
     buttonStyle () {
-      // console.log('####ZOOM', this.zoom)
       return {
-        // "14" matches --primary-font-size (see App.vue)
+        'font-size': `${14 / this.zoom}px`      // "14" matches --primary-font-size (see App.vue)
       }
     },
 
     // zoom compensation
     iconStyle () {
       return {
-        'font-size': `${1.4 / this.zoom}rem`,     // icons need to be bigger than text    // TODO 18px, 24px for mobile
-        'margin': `${0.4 / this.zoom}vh ${0.7 / this.zoom}vw`,
+        'font-size': `${22 / this.zoom}px`,     // icons need to be bigger than text
+        'margin': `${5 / this.zoom}px ${10 / this.zoom}px`,
       }
     },
 

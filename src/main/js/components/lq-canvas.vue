@@ -17,7 +17,7 @@
       </vue-moveable>
       <div class="group-toolbar" v-show="isGroupToolbarVisibile" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">
-        <lq-string :value="objectCount" class="secondary" :style="buttonStyle">label.multi_select</lq-string>
+        <lq-string class="count-info secondary" :value="objectCount" :style="buttonStyle">label.multi_select</lq-string>
         <template v-for="action in groupActions" :key="action.key">
           <el-button v-if="isActionAvailable(action)" type="primary" link :title="actionLabel(action)"
             :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.stop>
@@ -332,8 +332,10 @@ export default {
   padding-bottom: 22px;
 }
 
-.lq-canvas .content-layer .group-toolbar .el-button {
-  margin-left: var(--button-spacing);
+.lq-canvas .content-layer .group-toolbar .count-info {
+  position: relative;
+  top: -0.2em;
+  margin-right: 0.8em;
 }
 
 .lq-canvas .content-layer .moveable-control-box[data-able-draggable] .moveable-area {
@@ -347,8 +349,5 @@ export default {
 
 .lq-canvas > .moveable-control-box {
   display: none !important;
-  /* pointer-events: none; */
-  /* width: 0; */
-  /* height: 0; */
 }
 </style>

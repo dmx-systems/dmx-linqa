@@ -65,7 +65,7 @@ export default {
     toolbarStyle () {
       if (!this.fullscreen) {
         return {
-          'font-size': `${20 / this.zoom}px`    /* copied from viewport.js mixin's iconStyle() */
+          'font-size': `${22 / this.zoom}px`    /* copied from viewport.js mixin's iconStyle() */
         }
       }
     },

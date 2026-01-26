@@ -1,10 +1,10 @@
 <template>
   <el-dialog :class="customClass" :model-value="visible" @open="fetchPages" @close="close">
-    <el-tabs @select="select" v-model="page" tab-position="left">
+    <el-tabs @select="select" v-model="page" :tab-position="tabPosition">
       <el-tab-pane v-for="(page, i) in pages[langSuffix]" :name="i.toString()" :label="page.label">
         <div class="page dmx-html-field" v-html="page?.html"></div>
       </el-tab-pane>
-  </el-tabs>
+    </el-tabs>
   </el-dialog>
 </template>
 
@@ -12,6 +12,10 @@
 import lq from '../lq-globals'
 
 export default {
+
+  mixins: [
+    require('./mixins/screen').default
+  ],
 
   created () {
     // Note: if opened programmatically (onboarding) no "open" event is fired
@@ -39,6 +43,10 @@ export default {
 
     customClass () {
       return `lq-help-dialog page-${this.page} ${this.firstLogin ? 'first-login' : ''}`
+    },
+
+    tabPosition () {
+      return this.isSmallScreen ? 'top' : 'left'
     },
 
     langSuffix () {
@@ -81,13 +89,11 @@ function makePages (html) {
 .lq-help-dialog {
   --el-dialog-width: 95vw;        /* default is 50% */
   --el-dialog-margin-top: 5vh;    /* default is 15vh */
-  --el-menu-item-height: 36px;    /* default is 56px */
   max-width: 1024px;
   height: 90%;
-  padding-left: 0;                /* padding is provided by el-menu already */
+  padding-left: 0;                /* padding is provided by el-tabs already */
   padding-right: 0;               /* no padding right of content scrollbar */
   margin-bottom: 0;               /* avoid vertical dialog scrollbar */
-  overflow: hidden;               /* in case menu exceeds dialog vertically */
 }
 
 .lq-help-dialog .el-dialog__headerbtn {
@@ -104,27 +110,24 @@ function makePages (html) {
   color: var(--primary-color);
 }
 
-.lq-help-dialog .hint {
-  background-color: var(--light-color);
+.lq-help-dialog .page {
+  padding: 0 20px 20px 20px;
 }
 
-.lq-help-dialog .page {
-  overflow-y: auto;
-  margin-left: 20px;
-  padding: 0 20px 20px 0px;
-  height: 80vh;
-  display: block;
+.lq-help-dialog .el-tabs {
+  width: 100%;                              /* restrict to dialog width (for small screen) */
+}
+
+.lq-help-dialog .el-tabs__nav-scroll {
+  overflow: auto;                           /* make tab header scroll (for small screen), default is "hidden" */
 }
 
 .lq-help-dialog .el-tabs__item {
-  font-size: 12px !important;
-  height: unset !important;
-  padding: 10px !important;
+  font-size: var(--secondary-font-size);    /* reduce header item font a bit, default is 14px */
+  padding: 0 12px;                          /* reduce header item gap (for small screen), default is "0 20px" */
 }
 
-.lq-help-dialog .el-tabs__nav {
-  white-space: unset;
-  width: 15vw !important;
-  margin-left: 20px;
+.lq-help-dialog .el-tabs__content {
+  overflow: auto;                           /* make page content scroll, default is "hidden" */
 }
 </style>

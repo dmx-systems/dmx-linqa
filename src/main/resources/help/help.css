@@ -51,23 +51,3 @@
 .lq-help-dialog.page-6.first-login #help-info {
   display: block;
 }
-
-.lq-help-dialog .page {
-  overflow-y: auto;
-  margin-left: 20px;
-  padding: 0 20px 20px 0px;
-  height: 80vh;
-  display: block;
-}
-
-.lq-help-dialog .el-tabs__item {
-  font-size: 12px !important;
-  height: unset !important;
-  padding: 10px !important;
-}
-
-.lq-help-dialog .el-tabs__nav {
-  white-space: unset;
-  width: 15vw !important;
-  margin-left: 20px;
-}

@@ -167,6 +167,11 @@ export default {
       this.$store.dispatch('storeTopicCoords', topicCoords)
     },
 
+    onResizeStart (e) {
+      LOG && console.log('onResizeStart')
+      this.dragStart('resize-item')
+    },
+
     onResize (e) {
       LOG && console.log('onResize', e.direction)
       // update view
@@ -190,6 +195,7 @@ export default {
         const topic = this.findTopic(e.target)
         this.$store.dispatch('updateTopicSize', {topic, width, height})
       }
+      this.dragStop()
     },
 
     onRotate (e) {
@@ -339,19 +345,19 @@ export default {
     },
 
     onItemEnter (e, id) {
-      if (e.pointerType === 'mouse') {
+      if (e.pointerType === 'mouse' && !this.dragMode) {    // ignore while drag in progress
         this.itemHoverId = id
       }
     },
 
     onItemLeave (e) {
-      if (e.pointerType === 'mouse') {
+      if (e.pointerType === 'mouse' && !this.dragMode) {    // ignore while drag in progress
         this.itemHoverId = undefined
       }
     },
 
     onItemDown (e, id) {
-      if (e.pointerType === 'touch') {
+      if (e.pointerType === 'touch') {    // finger down on touch screen acts as hover gesture
         this.itemHoverId = id
       }
     },

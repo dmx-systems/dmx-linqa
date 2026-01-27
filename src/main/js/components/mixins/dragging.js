@@ -1,5 +1,11 @@
 export default {
 
+  computed: {
+    dragMode () {
+      return this.$store.state.dragMode
+    }
+  },
+
   methods: {
 
     dragStart (dragMode) {

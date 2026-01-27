@@ -1,6 +1,6 @@
 <template>
   <div class="lq-discussion" v-show="panelVisibility">
-    <lq-resizer></lq-resizer>
+    <lq-divider></lq-divider>
     <el-button class="close-button fa fa-times" type="primary" link :title="closeTooltip" @click="close"></el-button>
     <lq-string class="heading">label.discussion</lq-string>
     <!-- Filter -->
@@ -269,8 +269,8 @@ export default {
   },
 
   components: {
-    'lq-resizer':       require('./lq-resizer').default,
     'lq-comment':       require('./lq-comment').default,
+    'lq-divider':       require('./lq-divider').default,
     'lq-upload-dialog': require('./lq-upload-dialog').default
   }
 }

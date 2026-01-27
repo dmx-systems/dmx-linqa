@@ -12,8 +12,8 @@
         :resizable="resizable" :rotatable="rotatable" :origin="false" :render-directions="renderDirections"
         @dragStart="onDragStart" @drag="onDrag" @dragEnd="onDragEnd" @clickGroup="onClickGroup"
         @dragGroupStart="onDragGroupStart" @dragGroup="onDragGroup" @dragGroupEnd="onDragGroupEnd"
-        @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate" @rotateEnd="onRotateEnd"
-        @mouseenter="onEnter" @mouseleave="onLeave">
+        @resizeStart="onResizeStart" @resize="onResize" @resizeEnd="onResizeEnd" @rotate="onRotate"
+        @rotateEnd="onRotateEnd" @mouseenter="onEnter" @mouseleave="onLeave">
       </vue-moveable>
       <div class="group-toolbar" v-show="isGroupToolbarVisibile" :style="groupToolbarStyle"
           @mouseenter="onEnter" @mouseleave="onLeave">

@@ -1,6 +1,6 @@
 <template>
-  <div class="lq-resizer" v-show="visible" :style="{left: panelPos + 'px'}"></div>
-  <vue-moveable target=".lq-resizer" :draggable="true" :origin="false" @dragStart="onDragStart" @drag="onDrag"
+  <div class="lq-divider" v-show="visible" :style="{left: panelPos + 'px'}"></div>
+  <vue-moveable target=".lq-divider" :draggable="true" :origin="false" @dragStart="onDragStart" @drag="onDrag"
     @dragEnd="onDragEnd">
   </vue-moveable>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
 
   mounted () {
-    this.$store.dispatch('setViewComps', {resizer: this})
+    this.$store.dispatch('setViewComps', {divider: this})
     this.resize()
   },
 
@@ -52,7 +52,7 @@ export default {
   methods: {
 
     onDragStart () {
-      this.dragStart('drag-resizer')
+      this.dragStart('drag-divider')
     },
 
     onDrag (e) {
@@ -83,17 +83,17 @@ export default {
 </script>
 
 <style>
-.lq-resizer {
+.lq-divider {
   position: fixed;
   top: 0;
   width: 16px;
   height: 100%;         /* we can't flex-grow (like lq-canvas and lq-discussion) because we're absolutely positioned */
   margin-left: -8px;    /* -width / 2 */
   cursor: col-resize;
-  /* background-color: rgba(255, 0, 0, .3); */
+  /* background-color: rgba(255, 0, 0, .1); */    /* for debugging */
 }
 
-.lq-resizer + .moveable-control-box {
+.lq-divider + .moveable-control-box {
   display: none !important;
 }
 </style>

@@ -29,7 +29,7 @@ console.log('[Linqa] isSmallScreen:', isSmallScreen,
 // Sometimes the store needs to call component API. viewComp will have 3 properties:
 //   selecto  - canvas `vue-selecto` instance                -> setSelectedTargets(...)
 //   moveable - canvas content layer `vue-moveable` instance -> updateTarget()
-//   resizer  - workspace split panel `lq-resizer` instance  -> resize()
+//   divider  - workspace split panel `lq-divider` instance  -> resize()
 let viewComp = {}
 
 loadCustomCSS('custom.css')
@@ -70,9 +70,10 @@ const store = createStore({
     topicmap: undefined,          // the topicmap displayed on canvas (dmx.Topicmap)
     topic: undefined,             // the selected topic (dmx.ViewTopic), undefined if nothing is selected  // TODO: drop
     selection: [],                // the selected topics (array of dmx.ViewTopic)
-    pan: {x: 4, y: 4},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
+    pan: {x: 0, y: 0},            // canvas pan (in pixel)                  // TODO: drop this, calculate instead?
     zoom: 1,                      // canvas zoom (Number)                   // TODO: drop this, calculate instead?
-    dragMode: '',                 // non-empty while dragging in progress (canvas pan, panel resize, line handle drag)
+    dragMode: '',                 // non-empty while dragging in progress ("drag-item", "resize-item", "track-pan",
+                                  // "drag-divider", "drag-line-handle")
     transition: false,            // true while a canvas pan/zoom transition is in progress
     isEditActive: [],             // IDs of topics being edited (array)
     fullscreen: false,            // if true the current document is rendered fullscreen
@@ -482,7 +483,7 @@ const store = createStore({
       state.fullscreen = fullscreen
       if (!fullscreen) {
         nextTick(() => {
-          viewComp.resizer?.resize()                    // Note: resizer does not exist for mobile layout
+          viewComp.divider?.resize()                    // Note: divider does not exist for mobile layout
           dispatch('select', [state.selection[0]])      // sync Selecto model/view with app state
         })
       }
@@ -837,7 +838,7 @@ const store = createStore({
 
     downloadFile (_, repoPath) {
       const url = filerepoUrl(repoPath) + '?download'
-      document.querySelector('.lq-download-iframe').contentWindow.location.assign(url)
+      document.querySelector('.download-iframe').contentWindow.location.assign(url)
     },
 
     getFileContent (_, repoPath) {

@@ -7,7 +7,8 @@ export default {
      * @param   msgBox    Optional: 'confirm'/'alert'
      */
     handleError (error, msgBox) {
-      const message = /java\.lang\.RuntimeException: Unsupported original language: ".." \(detected\)/
+      // language code can consist of more then 2 letters and can contain dash e.g. "pt-br"
+      const message = /java\.lang\.RuntimeException: Unsupported original language: "[a-z-]*" \(detected\)/
       if (error.response.data.cause.match(message)) {
         switch (msgBox) {
         case 'confirm':

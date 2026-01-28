@@ -305,9 +305,9 @@ export default {
 
 /* Note: copy in lq-canvas-toolbar.vue (create menu) */
 .lq-burger-dropdown .fa {
-  font-size: 1.15em;
-  width: 2.15em;
+  font-size: 1.1em;
+  width: 2.3em;
   text-align: center;
-  margin-left: -0.55em;
+  margin-left: -0.7em;
 }
 </style>

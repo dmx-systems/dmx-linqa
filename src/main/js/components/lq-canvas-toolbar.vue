@@ -297,9 +297,9 @@ function newSynId () {
 
 /* Note: copy in lq-app-header.vue (burger menu) */
 .lq-new-dropdown .fa {
-  font-size: 1.15em;
-  width: 2.15em;
+  font-size: 1.1em;
+  width: 2.3em;
   text-align: center;
-  margin-left: -0.55em;
+  margin-left: -0.7em;
 }
 </style>

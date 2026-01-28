@@ -183,7 +183,7 @@ export default {
   height: 100%;
   padding: 6px;
   border: var(--filter-border);
-  border-radius:4px !important;
+  border-radius: 4px !important;
 }
 
 .lq-textblock.info {
@@ -258,7 +258,6 @@ export default {
   width: 2px;
   box-sizing: border-box;
   height: 100%;
-  border-right: 2px dotted rgba(255,255,255, 0.8);
+  border-right: 2px dotted rgba(255, 255, 255, 0.8);
 }
-
 </style>

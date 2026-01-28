@@ -201,7 +201,7 @@ export default {
   height: 100%;
   padding: 6px;
   border: var(--filter-border);
-  border-radius:4px !important;
+  border-radius: 4px !important;
 }
 
 .lq-note.info {

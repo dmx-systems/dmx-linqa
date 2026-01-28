@@ -1,7 +1,7 @@
 import { ElMessageBox, ElNotification } from 'element-plus'
 import {
   CirclePlusFilled, HomeFilled, FullScreen, ZoomIn, ZoomOut, ChatLineRound, Close, Paperclip, Promotion,
-  Edit, DocumentCopy, Lock, Unlock, DeleteFilled, Download, Setting, BrushFilled, Flag, StarFilled,
+  Edit, DocumentCopy, Lock, Unlock, DeleteFilled, Download, UploadFilled, Setting, BrushFilled, Flag, StarFilled,
   ArrowLeft, ArrowRight, ArrowDownBold, Right, Bottom, TopRight, BottomLeft, Check
 } from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/el-message-box.css'
@@ -30,6 +30,7 @@ app.component('Lock', Lock)
 app.component('Unlock', Unlock)
 app.component('DeleteFilled', DeleteFilled)
 app.component('Download', Download)
+app.component('UploadFilled', UploadFilled)
 app.component('Setting', Setting)
 app.component('BrushFilled', BrushFilled)
 app.component('Flag', Flag)

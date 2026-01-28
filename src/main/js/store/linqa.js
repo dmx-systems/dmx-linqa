@@ -230,7 +230,7 @@ const store = createStore({
       viewComp.selecto?.setSelectedTargets([])
     },
 
-    // 1 newTopic() action to show a create-form on the canvas. Used for Document/Note/Textblock/heading.
+    // 1 newTopic() action to show a create-form on the canvas. Used for Document/Note/Textblock/Heading.
     // (For Shape/Line there is no form, these are created by "createShape"/"createLine" actions respectively.)
     // Dispatched from lq-canvas-toolbar.vue
 

@@ -26,7 +26,7 @@
         <div class="field-label"><lq-string>label.file</lq-string> <span v-if="!isNew">({{lang1}})</span></div>
         <el-upload drag :action="uploadUrl" :on-success="onSuccess[lang1st]" :on-error="onError[lang1st]"
             :ref="'upload.' + lang1st" :before-upload="beforeUpload">
-          <i class="el-icon-upload"></i>
+          <el-icon class="el-icon--upload"><upload-filled></upload-filled></el-icon>
           <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
         </el-upload>
         <div class="error">{{error[lang1st]}}</div>
@@ -36,7 +36,7 @@
         <div class="field-label"><lq-string>label.file</lq-string> <span>({{lang2}})</span></div>
         <el-upload drag :action="uploadUrl" :on-success="onSuccess[lang2nd]" :on-error="onError[lang2nd]"
             :ref="'upload.' + lang2nd" :before-upload="beforeUpload">
-          <i class="el-icon-upload"></i>
+          <el-icon class="el-icon--upload"><upload-filled></upload-filled></el-icon>
           <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
         </el-upload>
         <div class="error">{{error[lang2nd]}}</div>
@@ -342,12 +342,12 @@ export default {
 }
 
 .lq-document .el-upload-dragger {
-  height: 90px;             /* Element UI default is 180px */
+  padding: 6px 10px 10px;   /* Element Plus default is "40px 10px" */
 }
 
-.lq-document .el-upload-dragger .el-icon-upload {
-  font-size: 50px;          /* Element UI default is 67px */
-  margin: 8px 0 0 0;        /* Element UI default is 40px 0 16px */
+.lq-document .el-upload-dragger .el-icon--upload {
+  font-size: 48px;          /* Element Plus default is 67px */
+  margin-bottom: 0;         /* Element Plus default is 16px */
 }
 
 .lq-document .error {

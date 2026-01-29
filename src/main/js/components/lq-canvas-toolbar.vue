@@ -170,7 +170,7 @@ export default {
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false,
         'dmx.topicmaps.width': typeUri === 'linqa.line' ? lq.LINE_LENGTH :
-                               typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.FORM_WIDTH,
+                               typeUri === 'linqa.shape' ? lq.SHAPE_WIDTH : lq.ITEM_WIDTH,
         'dmx.topicmaps.height': typeUri === 'linqa.shape' ? lq.SHAPE_HEIGHT : undefined,
         'linqa.angle': 0
       }

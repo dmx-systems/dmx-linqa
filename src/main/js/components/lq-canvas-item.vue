@@ -94,11 +94,7 @@ export default {
     },
 
     w () {
-      if (this.formMode) {
-        return lq.FORM_WIDTH
-      } else {
-        return this.topic.viewProps['dmx.topicmaps.width']
-      }
+      return this.topic.viewProps['dmx.topicmaps.width']
     },
 
     h () {

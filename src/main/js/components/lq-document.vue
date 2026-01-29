@@ -42,12 +42,14 @@
         <div class="error">{{error[lang2nd]}}</div>
         <el-input v-model="docModel.paths[lang2nd].value"></el-input>
       </div>
-      <el-button class="save-button" type="primary" :disabled="saveButtonDisabled" @click="save">
-        <lq-string>action.submit</lq-string>
-      </el-button>
-      <el-button @click="cancel">
-        <lq-string>action.cancel</lq-string>
-      </el-button>
+      <div class="button-panel">
+        <el-button type="primary" :disabled="saveButtonDisabled" @click="save">
+          <lq-string>action.submit</lq-string>
+        </el-button>
+        <el-button @click="cancel">
+          <lq-string>action.cancel</lq-string>
+        </el-button>
+      </div>
     </template>
     <lq-emoji-menu ref="emojiMenu" @select="reactWithEmoji"></lq-emoji-menu>
   </div>
@@ -337,7 +339,9 @@ export default {
   font-size: 24px;
 }
 
-.lq-document .save-button {
+.lq-document .button-panel {
+  white-space: nowrap;
+  overflow: hidden;       /* crop button panel if item width is too small */
   margin-top: var(--field-spacing);
 }
 

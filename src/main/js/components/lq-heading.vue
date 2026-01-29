@@ -19,12 +19,14 @@
         <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
       </div>
     </template>
-    <el-button class="save-button" type="primary" @click="save">
-      <lq-string>action.submit</lq-string>
-    </el-button>
-    <el-button @click="cancel">
-      <lq-string>action.cancel</lq-string>
-    </el-button>
+    <div class="button-panel">
+      <el-button type="primary" @click="save">
+        <lq-string>action.submit</lq-string>
+      </el-button>
+      <el-button @click="cancel">
+        <lq-string>action.cancel</lq-string>
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -167,7 +169,9 @@ export default {
   font-size: 24px;
 }
 
-.lq-heading.form .save-button {
+.lq-heading.form .button-panel {
+  white-space: nowrap;
+  overflow: hidden;       /* crop button panel if item width is too small */
   margin-top: var(--field-spacing);
 }
 </style>

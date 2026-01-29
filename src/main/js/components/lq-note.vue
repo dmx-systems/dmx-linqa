@@ -26,12 +26,14 @@
           <div :class="['edited-indicator', {edited: editedFlag}]"><lq-string>label.translation_edited</lq-string></div>
         </div>
       </template>
-      <el-button class="save-button" type="primary" @click="save">
-        <lq-string>action.submit</lq-string>
-      </el-button>
-      <el-button @click="cancel">
-        <lq-string>action.cancel</lq-string>
-      </el-button>
+      <div class="button-panel">
+        <el-button type="primary" @click="save">
+          <lq-string>action.submit</lq-string>
+        </el-button>
+        <el-button @click="cancel">
+          <lq-string>action.cancel</lq-string>
+        </el-button>
+      </div>
     </template>
     <lq-color-menu ref="colorMenu" v-model="color" :showTransparent="true"></lq-color-menu>
     <lq-emoji-menu ref="emojiMenu" @select="reactWithEmoji"></lq-emoji-menu>
@@ -205,7 +207,7 @@ export default {
 }
 
 .lq-note.info {
-  overflow: hidden;
+  overflow: hidden;     /* Note: form mode text toolbar must not be cropped */
 }
 
 .lq-note.form {
@@ -221,7 +223,9 @@ export default {
   font-size: 24px;
 }
 
-.lq-note.form .save-button {
+.lq-note.form .button-panel {
+  white-space: nowrap;
+  overflow: hidden;       /* crop button panel if item width is too small */
   margin-top: var(--field-spacing);
 }
 

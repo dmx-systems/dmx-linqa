@@ -12,7 +12,7 @@ const CANVAS_BORDER = 40        // Affects a) position of new items and document
 const ZOOM_STEP_FACTOR = 1.2    // Factor for stepwise zoom-in/zoom-out
 const ZOOM_WHEEL_FACTOR = 1.04  // Factor for mouse wheel zoom-in/zoom-out
 const ZOOM_MIN = .02            // Zoom change is only applied if not smaller than this value
-const FORM_WIDTH = 320          // Should be a multiple of CANVAS_GRID
+const ITEM_WIDTH = 320          // Should be a multiple of CANVAS_GRID
 const LINE_LENGTH = 200         // Should be a multiple of CANVAS_GRID
 const LINE_HEIGHT = 40          // Should be a multiple of CANVAS_GRID
 const SHAPE_WIDTH = 200         // Should be a multiple of CANVAS_GRID
@@ -36,7 +36,7 @@ export default {
   ZOOM_WHEEL_FACTOR,
   ZOOM_MIN,
 
-  FORM_WIDTH,
+  ITEM_WIDTH,
   LINE_LENGTH,
   LINE_HEIGHT,
   SHAPE_WIDTH,

@@ -32,12 +32,14 @@
           </div>
         </div>
       </div>
-      <el-button class="save-button" type="primary" @click="save">
-        <lq-string>action.submit</lq-string>
-      </el-button>
-      <el-button @click="cancel">
-        <lq-string>action.cancel</lq-string>
-      </el-button>
+      <div class="button-panel">
+        <el-button type="primary" @click="save">
+          <lq-string>action.submit</lq-string>
+        </el-button>
+        <el-button @click="cancel">
+          <lq-string>action.cancel</lq-string>
+        </el-button>
+      </div>
     </template>
     <lq-color-menu ref="colorMenu" v-model="color" :showTransparent="true"></lq-color-menu>
     <lq-emoji-menu ref="emojiMenu" @select="reactWithEmoji"></lq-emoji-menu>
@@ -187,7 +189,7 @@ export default {
 }
 
 .lq-textblock.info {
-  overflow: hidden;
+  overflow: hidden;     /* Note: form mode text toolbar must not be cropped */
 }
 
 .lq-textblock.filter {
@@ -208,7 +210,7 @@ export default {
 
 .lq-textblock.info .texts .text:nth-child(1) {
   padding-right: 20px;
-/*  border-right: 2px dashed #f6f6f6;*/
+  /* border-right: 2px dashed #f6f6f6; */
 }
 
 .lq-textblock.info .texts .text:nth-child(2) {
@@ -229,7 +231,9 @@ export default {
   margin: 0 8px;
 }
 
-.lq-textblock.form .save-button {
+.lq-textblock.form .button-panel {
+  white-space: nowrap;
+  overflow: hidden;       /* crop button panel if item width is too small */
   margin-top: var(--field-spacing);
 }
 

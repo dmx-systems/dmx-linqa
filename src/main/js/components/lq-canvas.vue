@@ -211,11 +211,15 @@ export default {
     },
 
     resizeStyle () {
-      return this.selectedTopic ? this.config('resizeStyle') : 'none'       // 'none' is group default
+      return this.selectedTopic
+        ? this.mode(this.selectedTopic) === 'form' ? 'x'      // form resize style is always 'x'
+        : this.config('resizeStyle') : 'none'                 // 'none' is group default
     },
 
     rotateEnabled () {
-      return this.selectedTopic ? this.config('rotateEnabled') : false      // false is group default
+      return this.selectedTopic
+        ? this.mode(this.selectedTopic) === 'form' ? false    // forms are never rotate-enabled
+        : this.config('rotateEnabled') : false                // false is group default
     },
 
     transition () {

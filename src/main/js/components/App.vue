@@ -347,11 +347,16 @@ input, button {
 
 /* vue-moveable Overrides */
 
-.moveable-control, .moveable-line {
+.moveable-control-box .moveable-control {
   background: var(--primary-color) !important;
 }
 
-.moveable-rotation .moveable-rotation-control {
+.moveable-control-box .moveable-line {
+  background: var(--primary-color) !important;
+  pointer-events: none;               /* don't hide item toolbar when hovering a control-box line */
+}
+
+.moveable-control-box .moveable-rotation .moveable-rotation-control {
   border-color: white !important;
 }
 </style>

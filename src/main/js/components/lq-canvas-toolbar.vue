@@ -1,33 +1,38 @@
 <template>
   <div class="lq-canvas-toolbar">
-    <el-dropdown class="add-button" v-if="isAddButtonVisibile" trigger="click" 
-    @command="handle" placement="top-start">
+    <el-dropdown class="add-button" v-if="isAddButtonVisibile" trigger="click" @command="handle" placement="top-start">
       <el-button type="primary" link class="fa fa-plus" :title="addTooltip"></el-button>
       <template #dropdown>
         <el-dropdown-menu class="lq-new-dropdown">
           <el-dropdown-item command="newDocument">
             <span class="fa fa-paperclip"></span>
-            <lq-string>item.document</lq-string></el-dropdown-item>
+            <lq-string>item.document</lq-string>
+          </el-dropdown-item>
           <el-dropdown-item command="newNote">
             <span class="fa fa-sticky-note"></span>
-            <lq-string>item.note</lq-string></el-dropdown-item>
+            <lq-string>item.note</lq-string>
+          </el-dropdown-item>
           <el-dropdown-item command="newTextblock">
             <span class="fa fa-file-text"></span>
-            <lq-string>item.textblock</lq-string></el-dropdown-item>
+            <lq-string>item.textblock</lq-string>
+          </el-dropdown-item>
           <el-dropdown-item command="newHeading" divided>
             <span class="fa fa-header"></span>
-            <lq-string>item.heading</lq-string></el-dropdown-item>
+            <lq-string>item.heading</lq-string>
+          </el-dropdown-item>
           <el-dropdown-item command="newShape">
             <span class="fa fa-circle"></span>
-            <lq-string>item.shape</lq-string></el-dropdown-item>
+            <lq-string>item.shape</lq-string>
+          </el-dropdown-item>
           <el-dropdown-item command="newLine">
             <span class="fa fa-long-arrow-right"></span>
-            <lq-string>item.line</lq-string></el-dropdown-item>
+            <lq-string>item.line</lq-string>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
     <div class="view-controls">
-      <el-button type="primary" link :title="homeTooltip" @click="home" class="fa fa-arrows"></el-button>
+      <el-button type="primary" link class="fa fa-arrows" :title="homeTooltip" @click="home"></el-button>
       <el-button type="primary" link class="fa fa-crosshairs" :title="fullscreenTooltip" :disabled="isTopicmapEmpty"
         @click="zoomToFit">
       </el-button>
@@ -105,10 +110,6 @@ export default {
 
     handle (command) {
       this[command]()
-    },
-
-    close () {
-      this.$store.dispatch('setPanelVisibility', false)
     },
 
     // 6 methods called by dropdown menu
@@ -230,10 +231,6 @@ export default {
     openDiscussion () {
       this.$store.dispatch('setPanelVisibility', true)
     }
-  },
-
-  components: {
-    'lq-canvas-search': require('./lq-canvas-search').default
   }
 }
 
@@ -243,49 +240,43 @@ function newSynId () {
 </script>
 
 <style>
-.lq-canvas-toolbar {
-  box-sizing: border-box;
-  width: 100%;
-  z-index: 1;           /* place toolbar before canvas items */
-}
-
 .lq-canvas-toolbar .el-button {
   font-size: 24px;
 }
 
 .lq-canvas-toolbar .view-controls {
-  display: flex;
   position: absolute;
+  bottom: 5px;
+  left: 40%;
+  display: flex;
   padding: 12px !important;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 54px;
   border: 1px solid #fafafa;
-  bottom: 5px;
-  left: 45%;
   z-index: 1; 
 }
 
-.lq-canvas-toolbar .view-controls .lq-canvas-search {
-  margin-left: 15px;
+.lq-canvas-toolbar .view-controls .el-button + .el-button {
+  margin-left: 16px;    /* Element Plus default for neighboring buttons is 12px */
 }
 
 .lq-canvas-toolbar .add-button {
   position: absolute;
-  background-color: var(--light-color);
-  border-radius: 54px;
-  padding: 7px 10px;
   bottom: 10px;
   left: 10px;
+  padding: 7px 10px;
+  background-color: var(--light-color);
+  border-radius: 54px;
   z-index: 1;
 }
 
 .lq-canvas-toolbar .discussion-button {
-  background-color: var(--light-color);
-  border-radius: 54px;
-  padding: 10px !important;
   position: absolute;
   top: 5px;
   right: 5px;
+  padding: 10px !important;
+  background-color: var(--light-color);
+  border-radius: 54px;
   z-index: 1;
 }
 

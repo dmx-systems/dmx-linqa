@@ -351,8 +351,16 @@ input, button {
   stroke: var(--primary-color);
 }
 
+.ql-bubble .emoji-picker-button:hover .ql-stroke {
+  stroke: var(--el-color-primary-light-3);
+}
+
 .ql-bubble .emoji-picker-button .ql-fill {
   fill: var(--primary-color);
+}
+
+.ql-bubble .emoji-picker-button:hover .ql-fill {
+  fill: var(--el-color-primary-light-3);
 }
 
 /* vue-moveable Overrides */

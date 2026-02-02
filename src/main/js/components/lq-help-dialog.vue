@@ -118,6 +118,10 @@ function makePages (html) {
   width: 100%;                              /* restrict to dialog width (for small screen) */
 }
 
+.lq-help-dialog .el-tabs__nav-wrap  {
+  padding: 0 20px;                          /* add left/right padding also if header does *not* scroll */
+}
+
 .lq-help-dialog .el-tabs__nav-scroll {
   overflow: auto;                           /* make tab header scroll (for small screen), default is "hidden" */
 }

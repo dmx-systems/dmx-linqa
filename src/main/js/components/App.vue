@@ -323,7 +323,7 @@ input, button {
   margin-left: 12px;    /* 2nd button line starts with extra margin */
 }
 
-/* Quill-Mention Overrides */
+/* quill-mention Overrides */
 
 .ql-mention-list-container {
   max-height: calc(100vh - 48px);
@@ -343,6 +343,16 @@ input, button {
 .mention {
   background-color: var(--el-color-primary-light-9) !important;   /* quill-mention sets #d3e1eb */
   color: var(--primary-color);        /* quill-mention does not set any color, so it's black */
+}
+
+/* quill-emoji Overrides */
+
+.ql-bubble .emoji-picker-button .ql-stroke {
+  stroke: var(--primary-color);
+}
+
+.ql-bubble .emoji-picker-button .ql-fill {
+  fill: var(--primary-color);
 }
 
 /* vue-moveable Overrides */

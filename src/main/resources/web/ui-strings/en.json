@@ -84,6 +84,7 @@
   "action.save_without_translation": "Save without translation",
   "action.continue_editing": "Continue editing",
   "action.edit": "Edit",
+  "action.emoji": "Emoji reaction",
   "action.color": "Color",
   "action.shape_style": "Shape style",
   "action.line_style": "Line style",

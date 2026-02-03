@@ -128,6 +128,7 @@ function makePages (html) {
 
 .lq-help-dialog .el-tabs__item {
   font-size: var(--secondary-font-size);    /* reduce header item font a bit, default is 14px */
+  font-weight: bold;
   padding: 0 12px;                          /* reduce header item gap (for small screen), default is "0 20px" */
 }
 

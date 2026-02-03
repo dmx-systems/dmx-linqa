@@ -12,7 +12,7 @@ export default {
   created () {
     this.$emit('action', {
       key: 'action.color',
-      icon: 'brush-filled',
+      icon: 'fa-paint-brush',
       handler: this.openColorMenu
     })
   },

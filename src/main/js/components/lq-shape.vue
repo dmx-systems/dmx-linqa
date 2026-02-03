@@ -25,7 +25,7 @@ export default {
     this.$emit('removeAction', 'action.edit')
     this.$emit('action', {
       key: 'action.shape_style',
-      icon: 'setting',
+      icon: 'fa-cog',
       handler: this.openShapeMenu
     })
   },

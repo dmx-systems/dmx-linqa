@@ -8,9 +8,8 @@
       <template v-for="action in actions" :key="action.key">
         <el-button v-if="isActionAvailable(action)" type="primary" link :style="buttonStyle" @click="action.handler"
             @mousedown.stop>
-          <el-icon v-if="action.icon" :title="actionLabel(action)" :style="iconStyle">
-            <component :is="actionIcon(action)"></component>
-          </el-icon>
+          <span v-if="action.icon" :class="['fa', actionIcon(action)]" :title="actionLabel(action)" :style="iconStyle">
+          </span>
           <span v-else>{{actionLabel(action)}}</span>
         </el-button>
       </template>
@@ -64,10 +63,10 @@ export default {
       topicBuffer: undefined,   // The edit buffer, available only in edit mode (dmx.ViewTopic)
       // Default configuration, can be (partially) supplied by child component      TODO: move config to canvas
       actions: [                // Actions appearing in the item toolbar
-        {key: 'action.edit',      icon: 'edit',          handler: this.edit},
-        {key: 'action.duplicate', icon: 'document-copy', handler: this.duplicate,  enabledForEditor: true},
-        {key: 'action.lock',      icon: 'lock',          handler: this.toggleLock, enabledForAdmin: true},
-        {key: 'action.delete',    icon: 'delete-filled', handler: this.deleteItem}
+        {key: 'action.edit',      icon: 'fa-pencil-square-o', handler: this.edit},
+        {key: 'action.duplicate', icon: 'fa-files-o',         handler: this.duplicate,  enabledForEditor: true},
+        {key: 'action.lock',      icon: 'fa-lock',            handler: this.toggleLock, enabledForAdmin: true},
+        {key: 'action.delete',    icon: 'fa-trash',           handler: this.deleteItem}
       ]
     }
   },
@@ -217,7 +216,7 @@ export default {
 
     // TODO: refactor, attach logic to action instead?
     actionIcon (action) {
-      const icon = action.key === 'action.lock' && this.locked ? 'unlock' : action.icon
+      const icon = action.key === 'action.lock' && this.locked ? 'fa-unlock-alt' : action.icon
       return icon
     },
 

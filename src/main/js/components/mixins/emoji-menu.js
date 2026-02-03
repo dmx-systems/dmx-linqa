@@ -12,7 +12,7 @@ export default {
   created () {
     this.$emit('action', {
       key: 'action.emoji',
-      icon: 'flag',
+      icon: 'fa-smile-o',
       handler: this.openEmojiMenu,
       enabledForUser: true
     })

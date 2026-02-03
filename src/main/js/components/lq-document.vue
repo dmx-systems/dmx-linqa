@@ -73,7 +73,7 @@ export default {
     // console.log('lq-document', this.topic, this.topicBuffer, this.isNew)
     this.$emit('action', {
       key: 'action.download',
-      icon: 'download',
+      icon: 'fa-cloud-download',
       handler: this.download,
       enabledForUser: true
     })

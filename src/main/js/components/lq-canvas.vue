@@ -19,8 +19,8 @@
           @mouseenter="onEnter" @mouseleave="onLeave">
         <lq-string class="count-info secondary" :value="objectCount" :style="buttonStyle">label.multi_select</lq-string>
         <template v-for="action in groupActions" :key="action.key">
-          <el-button v-if="isActionAvailable(action)" type="primary" link :title="actionLabel(action)"
-            :icon="actionIcon(action)" :style="iconStyle" @click="action.handler" @mousedown.stop>
+          <el-button v-if="isActionAvailable(action)" :class="['fa', actionIcon(action)]" type="primary" link
+            :title="actionLabel(action)" :style="iconStyle" @click="action.handler" @mousedown.stop>
           </el-button>
         </template>
       </div>
@@ -122,14 +122,14 @@ export default {
     groupActions () {
       return [{
         key: 'action.duplicate_multi', value: this.readableCount,
-        icon: 'document-copy', handler: this.duplicateMulti
+        icon: 'fa-files-o', handler: this.duplicateMulti
       }, {
         key: 'action.lock_multi', value: this.writableCount,
-        icon: 'lock', handler: this.toggleLockMulti,
+        icon: 'fa-lock', handler: this.toggleLockMulti,
         only: this.isLinqaAdmin         // lock/unlock action is available only for admins
       }, {
         key: 'action.delete_multi', value: this.writableCount,
-        icon: 'delete-filled', handler: this.deleteMulti
+        icon: 'fa-trash', handler: this.deleteMulti
       }]
     },
 
@@ -252,7 +252,7 @@ export default {
     },
 
     actionIcon (action) {
-      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'unlock' : action.icon
+      const icon = action.key === 'action.lock_multi' && this.isSelectionLocked ? 'fa-unlock-alt' : action.icon
       return icon
     },
 

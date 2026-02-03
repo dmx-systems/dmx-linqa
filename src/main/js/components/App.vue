@@ -349,6 +349,7 @@ input, button {
 
 .ql-bubble .emoji-picker-button .ql-stroke {
   stroke: var(--primary-color);
+  stroke-width: 1;
 }
 
 .ql-bubble .emoji-picker-button:hover .ql-stroke {

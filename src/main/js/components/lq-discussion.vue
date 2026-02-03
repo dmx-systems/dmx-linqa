@@ -387,7 +387,7 @@ export default {
 .lq-discussion .new-comment .attach-button {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -3px;
   font-size: 20px;
 }
 

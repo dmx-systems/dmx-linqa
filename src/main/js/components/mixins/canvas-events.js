@@ -224,10 +224,16 @@ export default {
         // 2 fingers always initiates pan (and pinch) regardless what they touch (item or canvas)
         LOG && console.log('onPanStart() -> STARTING CANVAS PAN (2 finger gesture)')
       } else {
+        // Stop canvas-pan (e.stopDrag()) if interaction did not start directly on canvas but on an item, BUT
+        // only if item IS modifiable (draggable) by user, otherwise user CAN initiate canvas-pan on an item.
+        // An item is NOT modifiable if user is not an author or we're in presentation mode.
         const target = e.inputEvent.target
         if (target !== this.$refs.canvas) {
           const item = target.closest('.lq-canvas-item')
           if ((!this.isAuthor || this.presentationMode) && item) {
+            // Don't stop canvas-pan
+            // FIXME: on mobile, when not stopping canvas-pan (not calling e.stopDrag()) an item's discussion-button
+            // does not fire "click" anymore. Item discussion can not be opened. On desktop "click" still fires.
             LOG && console.log('onPanStart() -> STARTING CANVAS PAN (read-only mode)')
           } else {
             LOG && console.log('onPanStart() -> PREVENT CANVAS PAN (not clicked on canvas)')

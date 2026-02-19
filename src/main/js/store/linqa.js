@@ -99,7 +99,7 @@ const store = createStore({
     },
 
     login ({state, dispatch}, credentials) {
-      const authMethod = DEV || credentials.username === 'admin' ? 'Basic' : 'LDAP'
+      const authMethod = 'Basic'    // FIXME: need to retrieve configured auth method from server, could be "LDAP"
       return dmx.rpc.login(credentials, authMethod).then(username => {
         DEV && console.log('[Linqa] Login', username)
         state.loginMessage = 'Login OK'

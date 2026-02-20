@@ -158,7 +158,7 @@ export default {
     },
 
     emailAddress () {
-      return lq.getShowEmailAddress(this.creator) && this.creator
+      return lq.getShowEmailAddress(this.creator) ? this.creator : ''
     },
 
     date () {

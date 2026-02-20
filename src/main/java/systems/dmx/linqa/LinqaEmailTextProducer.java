@@ -1,6 +1,7 @@
 package systems.dmx.linqa;
 
 import systems.dmx.core.service.Cookies;
+import systems.dmx.core.util.JavaUtils;
 import systems.dmx.signup.EmailTextProducer;
 import systems.dmx.signup.configuration.SignUpConfigOptions;
 
@@ -87,7 +88,7 @@ public class LinqaEmailTextProducer implements EmailTextProducer {
 
     @Override
     public String getPasswordResetMailMessage(String addressee, String key) {
-        String link = HOST_URL + "/#/new-password/" + addressee + "/" + key;
+        String link = HOST_URL + "/#/new-password/" + JavaUtils.encodeURIComponent(addressee) + "/" + key;
         long hours = SignUpConfigOptions.CONFIG_TOKEN_EXPIRATION_DURATION.toHours();
         return getString("new_password_mail.message", addressee, link, hours);
     }

@@ -21,7 +21,7 @@ The pair of languages Linqa uses for automatic translation and for the UI is con
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license. Linqa is the generalized version and subsequent derivate of the [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk) customer project.
 
-Issue tracker: https://git.dmx.systems/dmx-plugins/dmx-linqa/-/issues
+Issue tracker: https://github.com/dmx-systems/dmx-linqa/issues
 
 ## Installation
 

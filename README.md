@@ -176,6 +176,38 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
+**2.2** -- Mar 1, 2026
+
+* Highlight Feature: Design (thanks to @gevlish)
+    * Completely renovated Linqa UI with a brighter and more "fresh" appearance
+    * Consistent color scheme across all Linqa surfaces:
+        * New logo and Linqa UI
+        * Website (https://linqa.eu)
+        * [PDF Brochure](https://linqa.eu/wp-content/uploads/2026/01/lq-brochure-print_compressed.pdf)
+        * [Linked-In](https://www.linkedin.com/company/dmx-systems/posts/) presence
+    * Menu items have individual icons
+    * UI layout adapts better to mobile resp. small displays
+        * Also Android phones are now supported (thanks to @carolinagc)
+        * Info menu, user account menu, and admin-button are combined into a single "burger" menu
+        * On small displays the search function appears in its own dialog
+        * Help dialog is usable (new navigation layout)
+        * About Linqa dialog is usable
+        * User profile dialog adapts to display width
+        * Adapt initial item size to small displays
+    * Emoji-reactions:
+        * Only one emoji-reaction per item and user
+        * Revised set of reaction emojis
+        * Add tooltip for "React with emoji" button
+    * Discussion panel has minimal width
+* Improvements:
+    * Websocket reconnects automatically (no "network problem" alert box anymore)
+* Fixes:
+    * Line-style menu is properly displayed in Webkit browsers (Safari, Firefox on iOS) (thanks to @gevlish)
+    * Don't show tooltip for comment author if email address is suppressed by respective user
+    * Show proper dialog if detected language code has more than 2 letters (thanks to @carolinagc)
+    * Presentation mode is not reset on logout (thanks to @junes)
+    * URL-encode link in new-password mail (appears properly in Kopano web mail) (thanks to @gevlish)
+
 **2.1** -- Sep 7, 2025
 
 * Features:

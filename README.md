@@ -27,19 +27,53 @@ Issue tracker: https://github.com/dmx-systems/dmx-linqa/issues
 
 ## Installation
 
-TBD
+Linqa relies on a [DMX platform](https://github.com/dmx-systems/dmx-platform) installation.
 
-## Configuration
+You install Linqa by putting these plugins into the DMX platform's `bundle-deploy/` directory:
 
-For Linqa to work it is mandatory to configure 2 languages and a DeepL API key. To do so add entries to DMX's `conf/config.properties` file. After editing the config file restarting the DMX platform is required.
+* [dmx-linqa-2.2.jar](https://download.dmx.berlin/plugins/dmx-linqa-2.2.jar)
+* [dmx-deepl-1.0.1.jar](https://download.dmx.berlin/plugins/dmx-deepl-1.0.1.jar)
+* [dmx-file-upload-1.0.5.jar](https://download.dmx.berlin/plugins/dmx-file-upload-1.0.5.jar)
+* [dmx-sign-up-3.3.0.jar](https://download.dmx.berlin/plugins/dmx-sign-up-3.3.0.jar)
+* [dmx-sendmail-2.1.2.jar](https://download.dmx.berlin/plugins/dmx-sendmail-2.1.2.jar)
 
-| Property           | Required | Description                                               |
-| --------           | -------- | -----------                                               |
+Before browsing to the Linqa UI a minimum configuration is required.
+
+## Minimum configuration
+
+The minimum Linqa configuration consist of 2 languages and a DeepL API key. Add entries to DMX's `conf/config.properties` file, e.g.
+
+    ## Linqa
+    dmx.linqa.lang1 = de
+    dmx.linqa.lang2 = es
+    dmx.deepl.auth_key = 16584e92-944f-38e5-a8ec-6ea0a0943f94:fx
+
+Explanation of the properties:
+
+| Property           | Required | Description                               |
+| --------           | -------- | -----------                               |
 | dmx.linqa.lang1    | yes      | ISO 639-1 language code, see table above. |
 | dmx.linqa.lang2    | yes      | ISO 639-1 language code, see table above. |
-| dmx.linqa.digest_email_subject | no | The string appearing in the subject of the digest emails sent by Linqa.<br>Default is `Linqa Platform`. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
+
+After editing the config file restarting the DMX platform is required.
+
+## Launch the Linqa UI
+
+Direct your browser to this URL (note the trailing slash):
+
+`http://localhost:8080/systems.dmx.linqa/`
+
+The Linqa login page appears.
+
+## Advanced configuration
+
+TODO: user accounts and email configuration
+
+| Property           | Required | Description |
+| --------           | -------- | ----------- |
+| dmx.linqa.digest_email_subject | no | The string appearing in the subject of the digest emails sent by Linqa.<br>Default is `Linqa Platform`. |
 
 All following configuration possibilities (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
 

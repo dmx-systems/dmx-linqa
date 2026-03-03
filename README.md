@@ -61,11 +61,35 @@ After editing the config file restarting the DMX platform is required.
 
 ## Launch the Linqa UI
 
-Direct your browser to this URL (note the trailing slash):
+In your browser open this URL (note the trailing slash):
 
 `http://localhost:8080/systems.dmx.linqa/`
 
 The Linqa login page appears.
+
+![linqa-login.png](docs/linqa-login.png)
+
+At this point you can switch the Linqa UI between the 2 languages you've configured.
+
+### Quick Linqa trial
+
+For a quick Linqa trial you can log in with your `admin` DMX user account. With the first login the in-app help dialog is shown:
+
+![linqa-onboarding.png](docs/linqa-onboarding.png)
+
+Once closing the help dialog you'll land in the "Linqa Administration" workspace. There you can use all the typical Linqa workspace features, e.g. putting content on the canvas and use the discussion panel.
+
+![linqa-empty-workspace.png](docs/linqa-empty-workspace.png)
+
+"Linqa Administration" is the only workspace existing so far. It was setup while Linqa installation.
+"Linqa Administration" is a regular Linqa workspace, just with the particularity that Linqa regards its members as Linqa admins.
+
+IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when you're creating further Linqa workspaces, Linqa will not work as expected. Login as DMX `admin` user only for 1) a quick trial (and possibly subsequent database wipeout), and 2) as the first step when creating a real collaborative production setup.
+
+### Collaborative production setup
+
+In a Linqa production setup the first step is to create a Linqa admin account. A Linqa admin can create new Linqa workspaces and Linqa user accounts, and manage the user↔︎workspace memberships.
+
 
 ## Advanced configuration
 

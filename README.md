@@ -41,7 +41,7 @@ Before browsing to the Linqa UI a minimum configuration is required.
 
 ## Minimum configuration
 
-The minimum Linqa configuration consist of 2 languages and a DeepL API key. Add entries to DMX's `conf/config.properties` file, e.g.
+The minimum Linqa configuration consist of 2 languages and a DeepL API key. Add entries to DMX's `conf/config.properties` file (lines beginning with `#` are comments), e.g.
 
     ## Linqa
     dmx.linqa.lang1 = de
@@ -69,11 +69,23 @@ The Linqa login page appears.
 
 ## Advanced configuration
 
-TODO: user accounts and email configuration
+| Property                                | Required | Description |
+| --------                                | -------- | ----------- |
+| **signup plugin** (see also [dmx-sign-up](https://github.com/dmx-systems/dmx-sign-up)) |
+| dmx.signup.account_creation_auth_ws_uri | yes      | Must be `linqa.admin_ws` (URI of the "Linqa Administration" DMX-workspace), otherwise Linqa admins would lack create-account privilege at DMX platform). |
+| dmx.signup.system_admin_mailbox         | yes      | The email address of a Linqa admin, e.g. linqa-admin@example.org. Linqa will send account-created notification mails there.  |
+| dmx.signup.system_from_mailbox          | yes      | Sender-email address of welcome-mails Linqa sends to new users, e.g. `noreply@example.org`. |
+| dmx.signup.system_from_name             | yes      | Sender-name of welcome-mails, e.g. `DMX Linqa`. |
+| dmx.signup.expected_password_complexity | no       | Required complexity when user enters a new password. Possible values: `complex`, `simple`, `none`. Default is `complex`. |
+| **sendmail plugin** (see also [dmx-sendmail](https://github.com/dmx-systems/dmx-sendmail)) |
+| dmx.sendmail.smtp_host                  | no       | Host name of the SMTP server/relay Linqa uses for sending mail, e.g. `smtpout.example.org`. Default is `localhost`. |
+| dmx.sendmail.smtp_port                  | no       | Port of the SMTP server/relay, e.g. `25`. Default is `25`. |
+| dmx.sendmail.system_from_mailbox        | yes      | Sender-email address of digest-mails Linqa sends to users, e.g. `noreply@example.org` |
+| dmx.sendmail.system_from_name           | yes      | Sender-name of digest-mails, e.g. `DMX Linqa` |
+| **linqa plugin** |
+| dmx.linqa.digest_email_subject          | no       | Subject of digest-mails. Default is `Linqa Platform`. |
 
-| Property           | Required | Description |
-| --------           | -------- | ----------- |
-| dmx.linqa.digest_email_subject | no | The string appearing in the subject of the digest emails sent by Linqa.<br>Default is `Linqa Platform`. |
+After editing the config file restarting the DMX platform is required.
 
 All following configuration possibilities (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
 
@@ -212,7 +224,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**2.2** -- Mar 1, 2026
+**2.2** -- Mar 3, 2026
 
 * Highlight Feature: Design (thanks to @gevlish)
     * Completely renovated Linqa UI with a brighter and more "fresh" appearance

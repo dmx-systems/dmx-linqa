@@ -73,7 +73,7 @@ At this point you can switch the Linqa UI between the 2 languages you've configu
 
 ### Quick Linqa trial
 
-For a quick Linqa trial you can log in with your `admin` DMX user account. With the first login the in-app help dialog is shown:
+For a quick Linqa trial you can log in with your DMX `admin` account. With the first login the in-app help dialog opens:
 
 ![linqa-onboarding.png](docs/linqa-onboarding.png)
 
@@ -90,14 +90,11 @@ IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when y
 
 In a Linqa production setup the first step is to create a Linqa admin account. A Linqa admin can create new Linqa workspaces and Linqa user accounts, and manage the user↔︎workspace memberships.
 
-
-## Advanced configuration
-
 | Property                                | Required | Description |
 | --------                                | -------- | ----------- |
 | **signup plugin** (see also [dmx-sign-up](https://github.com/dmx-systems/dmx-sign-up)) |
-| dmx.signup.account_creation_auth_ws_uri | yes      | Must be `linqa.admin_ws` (URI of the "Linqa Administration" DMX-workspace), otherwise Linqa admins would lack create-account privilege at DMX platform). |
-| dmx.signup.system_admin_mailbox         | yes      | The email address of a Linqa admin, e.g. linqa-admin@example.org. Linqa will send account-created notification mails there.  |
+| dmx.signup.account_creation_auth_ws_uri | yes      | Must be `linqa.admin_ws` (URI of the "Linqa Administration" DMX-workspace), otherwise Linqa admins would lack create-account privilege for underlying DMX platform). |
+| dmx.signup.system_admin_mailbox         | yes      | The email address of a Linqa admin, e.g. `linqa-admin@example.org`. Linqa will send account-created notification mails there.  |
 | dmx.signup.system_from_mailbox          | yes      | Sender-email address of welcome-mails Linqa sends to new users, e.g. `noreply@example.org`. |
 | dmx.signup.system_from_name             | yes      | Sender-name of welcome-mails, e.g. `DMX Linqa`. |
 | dmx.signup.expected_password_complexity | no       | Required complexity when user enters a new password. Possible values: `complex`, `simple`, `none`. Default is `complex`. |
@@ -111,7 +108,18 @@ In a Linqa production setup the first step is to create a Linqa admin account. A
 
 After editing the config file restarting the DMX platform is required.
 
-All following configuration possibilities (Site logo, legal texts, ...) rely on file/directory naming conventions. In these cases restarting the DMX platform is *not* required.
+## Customization
+
+Several aspects of the Linqa look can be adapted to the specific usage context:
+
+- UI style + logo
+- Email text + style
+- Imprint and privacy policy text + style
+- Help dialog content + style
+
+Customization is not done by further configuration properties but by following certain file/directory naming conventions. This allows for multilingual custom resources.
+
+If a new custom resource is installed, e.g. the site logo, a restart of the DMX platform is *not* required. To see the changes a simple page reload is sufficient.
 
 ### Site logo
 
@@ -180,7 +188,7 @@ TBD
 #### Digest email
 ##### Digest email style
 
-### Help texts
+### Help dialog content
 
 TBD
 
@@ -262,8 +270,8 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
         * Also Android phones are now supported (thanks to @carolinagc)
         * Info menu, user account menu, and admin-button are combined into a single "burger" menu
         * On small displays the search function appears in its own dialog
-        * Help dialog is usable (new navigation layout)
-        * About Linqa dialog is usable
+        * Help dialog is adapted to small displays (new navigation layout)
+        * About Linqa dialog is adapted to small displays
         * User profile dialog adapts to display width
         * Adapt initial item size to small displays
     * Emoji-reactions:
@@ -279,6 +287,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
     * Show proper dialog if detected language code has more than 2 letters (thanks to @carolinagc)
     * Presentation mode is not reset on logout (thanks to @junes)
     * URL-encode link in new-password mail (appears properly in Kopano web mail) (thanks to @gevlish)
+* Compatible with DMX 5.3.5 and DMX Sign-Up 3.3
 
 **2.1** -- Sep 7, 2025
 

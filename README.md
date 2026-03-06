@@ -1,11 +1,13 @@
 # DMX Linqa
 
-Linqa is a platform for bilingual collaboration. Linqa provides shared workspaces for handling and commenting
-on various kinds of content objects (documents, notes, textblocks). Content objects are freely placed on a workspace "canvas", and can be further decorated by headings and graphical elements. Every user input is automatically translated on-the-fly by the means of the [DeepL](https://www.deepl.com) service.
+Linqa is a multilingual whiteboard application for supporting international collaboration. Its special trait is automatic text translation for 9 languages. Users edit content items (text, notes, PDF, images, audio, video) on a **whiteboard** that is shared and discussed between team members. Chat-like **discussion** takes place at both levels, per individual content item or team-wide. Both, the text content items and all discussion posts are translated automatically and can be displayed in 2 languages at the same time.
 
 ![linqa-workspace.png](docs/linqa-workspace.png)
+*A typical Linqa workspace*
 
-The canvas is synchronized between collaborating users. There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the canvas), and *users* (browsing canvas content).
+A **workspace** represents a group of people collaborating on a certain topic/project. A workspace consists of both, a whiteboard and a (closable) discussion panel. The whiteboard is not limited in size and is zoomable. To add structure to a whiteboard the content items can be freely placed and individually colored. The whiteboard can be further decorated by headings and graphical elements (lines, arrows, shapes). This together allows for building expressive and appealing whiteboards which support the user's visual memory.
+
+Workspaces are synchronized between collaborating users in real time, so every logged in user has always an up-to-date view. To keep workspace members up-to-date also when they're not logged in, Linqa informs them about changes by sending **digest emails** on a regular basis.
 
 The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 9 languages are supported:
 
@@ -21,7 +23,14 @@ The pair of languages Linqa uses for automatic translation and for the UI is con
 | `sv` | Swedish                |
 | `uk` | Ukrainian              |
 
-Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform). Linqa is Open Source software under the GNU AGPL license. Linqa is the generalized version and subsequent derivate of the [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk) customer project.
+There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the whiteboard), and *users* (browsing whiteboard content).
+
+Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
+Automatic text translation is done by the means of the [DeepL](https://www.deepl.com) service.
+
+Like the DMX platform, Linqa itself is Open Source software under the GNU AGPL license.
+
+Linqa is the generalized version and subsequent derivate of the [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk) customer project.
 
 Issue tracker: https://github.com/dmx-systems/dmx-linqa/issues
 
@@ -77,7 +86,7 @@ For a quick Linqa trial you can log in with your DMX `admin` account. With the f
 
 ![linqa-onboarding.png](docs/linqa-onboarding.png)
 
-Once closing the help dialog you'll land in the "Linqa Administration" workspace. There you can use all the typical Linqa workspace features, e.g. putting content on the canvas and use the discussion panel.
+Once closing the help dialog you'll land in the "Linqa Administration" workspace. There you can use all the typical Linqa workspace features, e.g. putting content on the whiteboard and use the discussion panel.
 
 ![linqa-empty-workspace.png](docs/linqa-empty-workspace.png)
 
@@ -113,7 +122,7 @@ After editing the config file restarting the DMX platform is required.
 Several aspects of the Linqa look can be adapted to the specific usage context:
 
 - UI style + logo
-- Email text + style
+- Email texts + style
 - Imprint and privacy policy text + style
 - Help dialog content + style
 

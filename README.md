@@ -2,6 +2,8 @@
 
 Linqa is a multilingual whiteboard application for supporting international collaboration. Its special trait is automatic text translation for 9 languages. Users edit content items (text, notes, PDF, images, audio, video) on a **whiteboard** that is shared and discussed between team members. Chat-like **discussion** takes place at both levels, per individual content item or team-wide. Both, the text content items and all discussion posts are translated automatically and can be displayed in 2 languages at the same time.
 
+At the moment Linqa supports these 9 languages: German 🇩🇪, English 🇬🇧, Spanish 🇪🇸, Finnish 🇫🇮, French 🇫🇷, Polish 🇵🇱, Portuguese (Brazilian) 🇧🇷, Swedish 🇸🇪, and Ukrainian 🇺🇦.
+
 ![linqa-workspace.png](docs/linqa-workspace.png)
 *A typical Linqa workspace*
 
@@ -9,21 +11,11 @@ A **workspace** represents a group of people collaborating on a certain topic/pr
 
 Workspaces are synchronized between collaborating users in real time, so every logged in user has always an up-to-date view. To keep workspace members up-to-date also when they're not logged in, Linqa informs them about changes by sending **digest emails** on a regular basis.
 
-The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 9 languages are supported:
+In Linqa there are 3 user roles:
 
-| Code | Language               |
-| ---- | ---------------------- |
-| `de` | German                 |
-| `en` | English                |
-| `es` | Spanish                |
-| `fi` | Finnish                |
-| `fr` | French                 |
-| `pl` | Polish                 |
-| `pt` | Portuguese (Brazilian) |
-| `sv` | Swedish                |
-| `uk` | Ukrainian              |
-
-There are 3 user roles: *administrators* (create workspaces and user accounts, manage memberships and user roles), *editors* (edit content objects and arrange the whiteboard), and *users* (browsing whiteboard content).
+- **Administrator** -- create workspaces and user accounts, manage memberships and set user roles
+- **Editor** -- create and edit content items, arrange the whiteboard
+- **Participant** -- browse whiteboard content, download documents, engage in discussion
 
 Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
 Automatic text translation is done by the means of the [DeepL](https://www.deepl.com) service.
@@ -32,19 +24,26 @@ Like the DMX platform, Linqa itself is Open Source software under the GNU AGPL l
 
 Linqa is the generalized version and subsequent derivate of the [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk) customer project.
 
-Issue tracker: https://github.com/dmx-systems/dmx-linqa/issues
+Linqa website and blog: https://linqa.eu  
+Request access to the Linqa demo installation: https://linqa.eu  
+Open tickets and discuss issues: https://github.com/dmx-systems/dmx-linqa/issues  
+Get support without opening a ticket: https://forum.dmx.berlin
 
 ## Installation
 
-Linqa relies on a [DMX platform](https://github.com/dmx-systems/dmx-platform) installation.
+You can self-host Linqa on your own server, or, for a quick trial, install it on your local computer.
+
+Linqa relies on a [DMX platform](https://github.com/dmx-systems/dmx-platform) installation. You'll need Java 8, for the providing the Linqa backend.
+
+- [dmx-5.3.5.zip](https://download.dmx.berlin/dmx-5.3.5.zip)
 
 You install Linqa by putting these plugins into the DMX platform's `bundle-deploy/` directory:
 
-* [dmx-linqa-2.2.jar](https://download.dmx.berlin/plugins/dmx-linqa-2.2.jar)
-* [dmx-deepl-1.0.1.jar](https://download.dmx.berlin/plugins/dmx-deepl-1.0.1.jar)
-* [dmx-file-upload-1.0.5.jar](https://download.dmx.berlin/plugins/dmx-file-upload-1.0.5.jar)
-* [dmx-sign-up-3.3.0.jar](https://download.dmx.berlin/plugins/dmx-sign-up-3.3.0.jar)
-* [dmx-sendmail-2.1.2.jar](https://download.dmx.berlin/plugins/dmx-sendmail-2.1.2.jar)
+- [dmx-linqa-2.2.jar](https://download.dmx.berlin/plugins/dmx-linqa-2.2.jar)
+- [dmx-deepl-1.0.1.jar](https://download.dmx.berlin/plugins/dmx-deepl-1.0.1.jar)
+- [dmx-file-upload-1.0.5.jar](https://download.dmx.berlin/plugins/dmx-file-upload-1.0.5.jar)
+- [dmx-sign-up-3.3.0.jar](https://download.dmx.berlin/plugins/dmx-sign-up-3.3.0.jar)
+- [dmx-sendmail-2.1.2.jar](https://download.dmx.berlin/plugins/dmx-sendmail-2.1.2.jar)
 
 Before browsing to the Linqa UI a minimum configuration is required.
 
@@ -61,10 +60,24 @@ Explanation of the properties:
 
 | Property           | Required | Description                               |
 | --------           | -------- | -----------                               |
-| dmx.linqa.lang1    | yes      | ISO 639-1 language code, see table above. |
-| dmx.linqa.lang2    | yes      | ISO 639-1 language code, see table above. |
+| dmx.linqa.lang1    | yes      | ISO 639-1 language code, see table below. |
+| dmx.linqa.lang2    | yes      | ISO 639-1 language code, see table below. |
 | dmx.deepl.auth_key | yes      | Your DeepL API key as obtained from https://www.deepl.com |
 | dmx.deepl.base_url | no       | DeepL API base URL. Includes version number, ends with `/`.<br>Default is `https://api-free.deepl.com/v2/`.<br>For the DeepL payed plan use `https://api.deepl.com/v2/` instead. |
+
+The pair of languages Linqa uses for automatic translation and for the UI is configurable per installation. At the moment 9 languages are supported:
+
+| Code | Language               |
+| ---- | ---------------------- |
+| `de` | German                 |
+| `en` | English                |
+| `es` | Spanish                |
+| `fi` | Finnish                |
+| `fr` | French                 |
+| `pl` | Polish                 |
+| `pt` | Portuguese (Brazilian) |
+| `sv` | Swedish                |
+| `uk` | Ukrainian              |
 
 After editing the config file restarting the DMX platform is required.
 

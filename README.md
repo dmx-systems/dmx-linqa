@@ -108,7 +108,17 @@ IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when y
 
 ## Collaborative production setup
 
-In a Linqa production setup the first step is to create a Linqa admin account. A Linqa admin can create new Linqa workspaces and Linqa user accounts, and manage the user↔︎workspace memberships.
+Regarding a multi-user setup Linqa still reflects the original requirements of the [Franco-German Forum for the Future](https://df-zukunftswerk.eu). In its current form Linqa is meant to support organization-internal working groups. Except the login page the Linqa UI has no public surface. In order to access Linqa workspaces users need a Linqa account. Linqa workspaces are invitation-only. Workspaces and user accounts are created by Linqa administrators. For the account/password related workflows Linqa programmatically sends emails to users.
+
+Once Linqa is installed and minimum configuration is done (see above) these steps need to be done *only once*:
+
+1. Do multi-user and email configuration.
+2. Launch the Linqa UI and login as a **DMX administrator** and create a **Linqa administrator** account.
+3. Logout.
+
+From that moment on you're supposed to not login to Linqa as a DMX administrator anymore. For doing Linqa administration tasks login as a Linqa administrator.
+
+### Multi-user configuration
 
 | Property                                | Required | Description |
 | --------                                | -------- | ----------- |
@@ -127,6 +137,14 @@ In a Linqa production setup the first step is to create a Linqa admin account. A
 | dmx.linqa.digest_email_subject          | no       | Subject of digest-mails. Default is `Linqa Digest`. |
 
 After editing the config file restarting the DMX platform is required.
+
+### Create users and workspaces
+
+A Linqa admin can create new Linqa workspaces and Linqa user accounts, and manage the user↔︎workspace memberships.
+
+Go to the Linqa administration area and create user accounts, workspaces, and assign users to workspaces and set their role.
+
+TBD
 
 ## Customization
 

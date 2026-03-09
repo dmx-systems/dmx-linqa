@@ -91,8 +91,6 @@ The Linqa login page appears.
 
 ![linqa-login.png](docs/linqa-login.png)
 
-At this point you can switch the Linqa UI between the 2 languages you've configured.
-
 ### Quick Linqa trial
 
 For a quick Linqa trial you can log in with your DMX `admin` account. With the first login the in-app help dialog opens:
@@ -108,7 +106,7 @@ Once closing the help dialog you'll land in the "Linqa Administration" workspace
 
 IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when you're creating further Linqa workspaces, Linqa will not work as expected. Login as DMX `admin` user only for 1) a quick trial (and possibly subsequent database wipeout), and 2) as the first step when creating a real collaborative production setup.
 
-### Collaborative production setup
+## Collaborative production setup
 
 In a Linqa production setup the first step is to create a Linqa admin account. A Linqa admin can create new Linqa workspaces and Linqa user accounts, and manage the user↔︎workspace memberships.
 
@@ -126,7 +124,7 @@ In a Linqa production setup the first step is to create a Linqa admin account. A
 | dmx.sendmail.system_from_mailbox        | yes      | Sender-email address of digest-mails Linqa sends to users, e.g. `noreply@example.org` |
 | dmx.sendmail.system_from_name           | yes      | Sender-name of digest-mails, e.g. `DMX Linqa` |
 | **linqa plugin** |
-| dmx.linqa.digest_email_subject          | no       | Subject of digest-mails. Default is `Linqa Platform`. |
+| dmx.linqa.digest_email_subject          | no       | Subject of digest-mails. Default is `Linqa Digest`. |
 
 After editing the config file restarting the DMX platform is required.
 
@@ -278,7 +276,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**2.2** -- Mar 3, 2026
+**2.2** -- Mar ??, 2026
 
 * Highlight Feature: Design (thanks to @gevlish)
     * Completely renovated Linqa UI with a brighter and more "fresh" appearance

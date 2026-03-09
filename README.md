@@ -53,7 +53,7 @@ The minimum Linqa configuration consist of 2 languages and a DeepL API key. Add 
 
     ## Linqa
     dmx.linqa.lang1 = de
-    dmx.linqa.lang2 = es
+    dmx.linqa.lang2 = en
     dmx.deepl.auth_key = 16584e92-944f-38e5-a8ec-6ea0a0943f94:fx
 
 Explanation of the properties:
@@ -108,17 +108,17 @@ IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when y
 
 ## Collaborative production setup
 
-Regarding a multi-user setup Linqa still reflects the original requirements of the [Franco-German Forum for the Future](https://df-zukunftswerk.eu). In its current form Linqa is meant to support organization-internal working groups. Except the login page the Linqa UI has no public surface. In order to access Linqa workspaces users need a Linqa account. Linqa workspaces are invitation-only. Workspaces and user accounts are created by Linqa administrators. For the account/password related workflows Linqa programmatically sends emails to users.
+Regarding a collaborative setup Linqa still reflects the original requirements of the [Franco-German Forum for the Future](https://df-zukunftswerk.eu). In its current form Linqa is meant to support organization-internal working groups. Except the login page the Linqa UI has no public surface. In order to access Linqa workspaces users need a Linqa account. Linqa workspaces are invitation-only. Workspaces and user accounts are created by Linqa administrators. For the account/password related workflows Linqa programmatically sends emails to users.
 
 Once Linqa is installed and minimum configuration is done (see above) these steps need to be done *only once*:
 
-1. Do multi-user and email configuration.
-2. Launch the Linqa UI and login as a **DMX administrator** and create a **Linqa administrator** account.
+1. Do user accounts and email configuration.
+2. Create a **Linqa administrator** account.
 3. Logout.
 
-From that moment on you're supposed to not login to Linqa as a DMX administrator anymore. For doing Linqa administration tasks login as a Linqa administrator.
+From that moment on you're supposed to not login to Linqa as a DMX administrator anymore. For doing Linqa administration tasks login as a Linqa administrator instead.
 
-### Multi-user configuration
+### User accounts and email configuration
 
 | Property                                | Required | Description |
 | --------                                | -------- | ----------- |
@@ -137,6 +137,22 @@ From that moment on you're supposed to not login to Linqa as a DMX administrator
 | dmx.linqa.digest_email_subject          | no       | Subject of digest-mails. Default is `Linqa Digest`. |
 
 After editing the config file restarting the DMX platform is required.
+
+<img src="docs/admin-menu-item.png" align="right">
+
+### Create Linqa administrator
+
+To create a Linqa administrator:
+
+1. Launch the Linqa UI and login as a **DMX administrator**.
+2. Choose "Administration" from the upper/right "burger" menu. The *Administration Area* shows up.
+3. At the left side click the 2nd icon (see red arrow) to open the "Users and memberships" page. All user accounts are listed. At the moment only "admin" is shown, the DMX administrator (not a Linqa user).
+4. Click the "New user" button. The "New user" shows up at the right side.
+5. Fill in the display name and email address and click the "OK" button. A *Welcome mail* is now sent containing a link to set the initial password.
+
+![admin-users-page.png](docs/admin-users-page.png)
+
+TBD
 
 ### Create users and workspaces
 

@@ -137,40 +137,54 @@ After editing the config file restarting the DMX platform is required.
 
 ### Create initial Linqa admin account
 
-To create the initial Linqa administrator account you need login into Linqa as **DMX administrator**. After creation you'll not login into Linqa as `admin` again. Subsequent Linqa user accounts, including further Linqa administrator accounts will be created by a Linqa administrator then.
-
-<img src="docs/admin-menu-item.png" align="right">
+To create the initial **Linqa administrator** account you need login into Linqa as **DMX administrator** once. After creation you'll not login into Linqa as `admin` again. Subsequent Linqa user accounts, including further Linqa administrator accounts will be created by a Linqa administrator then.
 
 To create the initial Linqa administrator account:
 
+<img src="docs/admin-menu-item.png" align="right">
+
 1. Launch the Linqa UI and login as the DMX `admin` user.
-2. Choose "Administration" from the upper/right "burger" menu. The Linqa *Administration Area* shows up.
+2. Choose "Administration" from the upper/right "burger" menu. The Linqa **Administration Area** shows up.
 3. At the left side click the 2nd icon (see red arrow) to open the "Users and memberships" page. All user accounts are listed. At the moment only `admin` is shown, the DMX administrator (not a Linqa user).
 4. Click the "New user" button. The "New user" shows up at the right side.
-5. Fill in the display name and email address and click the "OK" button. A *Welcome mail* is now sent containing a link to set the initial password. Do not click the link at the moment though.
+5. Fill in the display name and email address and click the "OK" button. A **welcome mail** is now sent to that email address, containing a link to set the initial password. Do not click the link at the moment though.
 
-![admin-users-page.png](docs/admin-users-page.png)
+    ![admin-users-page.png](docs/admin-users-page.png)
 
-The user you've just created appears in the list now. At the moment this is still a regular Linqa user account. Now you'll make it a Linqa administrator account by assigning it to the "Linqa Administration" workspace.
+    The user you've just created appears in the list now. At the moment this is still a regular Linqa user account. Now you'll make it a Linqa administrator account by assigning it to the "Linqa Administration" workspace.
 
-![admin-memberships.png](docs/admin-memberships.png)
+    ![admin-memberships.png](docs/admin-memberships.png)
 
-1. From the user's ellipsis menu choose "Manage memberships". The "Manage memberships" panel appears, listing all available Linqa workspaces. At the moment it's only one: "Linqa Administration".
-2. Check both, "Member" and "Editor", and click the "OK" button. The panel closes and the list shows the "Linqa Admin" ↔︎ "Linqa Administration" assignment.
+6. From the user's ellipsis menu choose "Manage memberships". The "Manage memberships" panel appears, listing all available Linqa workspaces. At the moment it's only one: "Linqa Administration".
+7. Check both, "Member" and "Editor", and click the "OK" button. The panel closes and the list shows the "Linqa Admin" ↔︎ "Linqa Administration" assignment.
 
-<img src="docs/admin-assigned.png" align="left">
+    <img src="docs/admin-assigned.png" align="left">
 
-About the "Linqa Administration" workspace: "Linqa Administration" is the only workspace existing so far. It was setup while Linqa installation. "Linqa Administration" is a regular Linqa workspace, just with the particularity that Linqa regards its members as Linqa admins.
+    About the "Linqa Administration" workspace: "Linqa Administration" is the only workspace existing so far. It was setup while Linqa installation. "Linqa Administration" is a regular Linqa workspace, just with the particularity that Linqa regards its members as Linqa admins.
 
-TDB: logout, email password workflow
+8. Logout (using upper/right "burger" menu). You'll not login as DMX `admin` user anymore. Now you'll set the password for the Linqa admin account you've just created. You do so by following the instructions in the email sent (see step 5).
+
+9. Click the link in the welcome-email. This requests a password-reset and a corresponding link is sent in another mail.
+
+10. Click the link in the **new-password mail**. This brings up the "New password" dialog.
+
+11. Type the password you want to have and press "OK".
+
+Now, with the account you've just created, you're ready to login as a Linqa administrator.
 
 ### Create users and workspaces
 
-A Linqa admin can create new Linqa workspaces and Linqa user accounts, and manage the user↔︎workspace memberships.
+A Linqa administrator can create new Linqa workspaces and user accounts, and manage the user↔︎workspace affiliations.
 
 Go to the Linqa administration area and create user accounts, workspaces, and assign users to workspaces and set their role.
 
-TBD
+<img src="docs/admin-pages.png" align="left">
+
+The detail steps are very similar to what you did already when creating the Linqa administrator account. For creating workspaces go to the "Workspaces" page, for creating user accounts go to the "Users" page. The user↔︎workspace affiliations you can manage from both perspectives: on the workspaces page you can assign users to a certain workspace, and on the users page you can assign workspaces to a certain user. Mix both perspectives according to your needs.
+
+For every user account you create Linqa will send the Welcome mail to the respective email address. When you create an user account you can choose the (assumed) preferred language of that user. Both, the Welcome mail and the initial Linqa UI for that user will appear in that language then.
+
+**IMPORTANT** For every user account you create you must assign that user to at least one workspace. Otherwise the Linqa UI can not appear when that user logs in, but a message appears.
 
 ## Customization
 

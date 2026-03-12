@@ -1,6 +1,6 @@
 # DMX Linqa
 
-Linqa is a multilingual whiteboard application for supporting international collaboration. Its special trait is automatic text translation for 9 languages. Users edit content items (text, notes, PDF, images, audio, video) on a **whiteboard** that is shared and discussed between team members. Chat-like **discussion** takes place at both levels, per individual content item or team-wide. Both, the text content items and all discussion posts are translated automatically and can be displayed in 2 languages at the same time.
+Linqa is a multilingual whiteboard for supporting international collaboration. Its special trait is automatic text translation for 9 languages. Users edit content items (text, notes, PDF, images, audio, video) on a **whiteboard** that is shared and discussed between team members. Chat-like **discussion** takes place at both levels, per individual content item or team-wide. Both, the text content items and all discussion posts are translated automatically and can be displayed in 2 languages at the same time.
 
 At the moment Linqa supports these 9 languages: German 🇩🇪, English 🇬🇧, Spanish 🇪🇸, Finnish 🇫🇮, French 🇫🇷, Polish 🇵🇱, Portuguese (Brazilian) 🇧🇷, Swedish 🇸🇪, and Ukrainian 🇺🇦.
 
@@ -17,15 +17,15 @@ In Linqa there are 3 user roles:
 - **Editor** -- create and edit content items, arrange the whiteboard
 - **Member** -- browse whiteboard content, download documents, engage in discussion
 
-Linqa is an application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
+Linqa is a web application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
 Automatic text translation is done by the means of the [DeepL](https://www.deepl.com) service.
 
 Like the DMX platform, Linqa itself is Open Source software under the GNU AGPL license.
 
-Linqa is the generalized version and subsequent derivate of the [DMX Zukunftswerk](https://github.com/dmx-systems/dmx-zukunftswerk) customer project.
+Originally Linqa was developed by [DMX Systems](https://dmx.systems), contracted by [Franco-German Forum for the Future](https://df-zukunftswerk.eu), and funded by [public money](https://linqa.eu/fsfe-article-on-linqa/). The original version was restricted to German and French. Meanwhile the Language aspect is generalized, and adding another language to the current set of 9 is rather easy.
 
 Linqa website and blog: https://linqa.eu  
-Request access to the Linqa demo installation: https://linqa.eu  
+Request access to a Linqa demo: https://linqa.eu  
 Open tickets and discuss issues: https://github.com/dmx-systems/dmx-linqa/issues  
 Get support without opening a ticket: https://forum.dmx.berlin
 
@@ -93,7 +93,7 @@ The Linqa login page appears.
 
 ### Quick Linqa trial
 
-For a quick Linqa trial you can log in with your DMX `admin` account. With the first login the in-app help dialog opens:
+For a quick Linqa trial you can log in with your DMX `admin` account. With the first login the Linqa help dialog opens:
 
 ![linqa-onboarding.png](docs/linqa-onboarding.png)
 
@@ -101,21 +101,23 @@ Once closing the help dialog you'll land in the "Linqa Administration" workspace
 
 ![linqa-empty-workspace.png](docs/linqa-empty-workspace.png)
 
-IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when you're creating further Linqa workspaces, Linqa will not work as expected. Login as DMX `admin` user only for 1) a quick trial (and possibly subsequent database wipeout), and 2) as the first step when creating a real multi-user production setup.
+IMPORTANT: don't do real work in Linqa as DMX `admin` user. In particular when you're creating further Linqa workspaces, Linqa will not work as expected. Login as DMX `admin` user only for 1) a quick trial (and possibly subsequent database wipeout), and 2) when setting up a multi-user server installation.
 
-## Multi-user production setup
+## Multi-user server installation
 
-Regarding a multi-user setup Linqa still reflects the original requirements of the [Franco-German Forum for the Future](https://df-zukunftswerk.eu). In its current form Linqa is meant to support organization-internal working groups. Except the login page the Linqa UI has no public surface. In order to access Linqa workspaces users need a Linqa account. Linqa workspaces are invitation-only. Workspaces and user accounts are created by Linqa administrators. For the account/password related workflows Linqa programmatically sends emails to users.
+Regarding a multi-user server installation Linqa still reflects the original requirements of the [Franco-German Forum for the Future](https://df-zukunftswerk.eu). In its current form Linqa is meant to support organization-internal working groups. Except the login page the Linqa UI has no public surface. In order to access Linqa workspaces users need a Linqa account. Linqa workspaces are invitation-only. Workspaces and user accounts are created by Linqa administrators. For the account/password related workflows Linqa relies on an infrastructure for sending mails.
 
 Once Linqa is installed and minimum configuration is done (see above) these steps need to be done *only once*:
 
-1. Do user accounts and email configuration.
-2. Create a **Linqa administrator** account.
+1. Multi-user and email configuration.
+2. Create the initial **Linqa administrator** account. The password of the DMX `admin` user is required.
 3. Logout.
 
-From that moment on you're supposed to not login to Linqa as a DMX administrator anymore. For doing Linqa administration tasks login as a Linqa administrator instead.
+From that moment on you'll not login to Linqa as a DMX administrator anymore. Further Linqa administration tasks are done by the Linqa administrator then.
 
-### User accounts and email configuration
+### Multi-user and email configuration
+
+Add additional entries to DMX's `conf/config.properties` file:
 
 | Property                                | Required | Description |
 | --------                                | -------- | ----------- |
@@ -174,17 +176,29 @@ Now, with the account you've just created, you're ready to login as a Linqa admi
 
 ### Create users and workspaces
 
-A Linqa administrator can create new Linqa workspaces and user accounts, and manage the user↔︎workspace affiliations.
-
-Go to the Linqa administration area and create user accounts, workspaces, and assign users to workspaces and set their role.
-
 <img src="docs/admin-pages.png" align="left">
 
-The detail steps are very similar to what you did already when creating the Linqa administrator account. For creating workspaces go to the "Workspaces" page, for creating user accounts go to the "Users" page. The user↔︎workspace affiliations you can manage from both perspectives: on the workspaces page you can assign users to a certain workspace, and on the users page you can assign workspaces to a certain user. Mix both perspectives according to your needs.
+A Linqa administrator can create Linqa workspaces and user accounts, assign users to workspaces (or vice versa), and set user roles. Choose "Administration" from the upper/right "burger" menu to enter the Linqa **Administration Area** (see previous section).
+
+The detail steps are very similar to what you did already when creating the Linqa administrator account. For creating workspaces go to the "Workspaces" page, for creating user accounts go to the "Users" page.
 
 For every user account you create Linqa will send the Welcome mail to the respective email address. When you create an user account you can choose the (assumed) preferred language of that user. Both, the Welcome mail and the initial Linqa UI for that user will appear in that language then.
 
-**IMPORTANT** For every user account you create you must assign that user to at least one workspace. Otherwise the Linqa UI can not appear when that user logs in, but a message appears.
+<img src="docs/admin-user-memberships.png" align="right">
+
+The user↔︎workspace affiliations you can manage from both perspectives: on the "Workspaces" page you can assign users to a certain workspace, and on the "Users" page you can assign workspaces to a certain user. Use the "Manage memberships" menu item of the respective user or workspace (see previous section).
+
+Setting user roles:
+
+- **Member** -- A *member* can browse whiteboard content (pan, zoom, search), download documents, and engage in discussion, both at item-level and at workspace-level.
+- **Editor** -- An *editor* can create and edit content items, and arrange the whiteboard. To make a user an editor for a specific workspace, check the corresponding box. To make a user an editor you must make her a *member* first.
+- **Administrator** -- You make a user a Linqa administrator by making her a member of the "Linqa Administration" workspace. Besides the initial administrator account (see previous section) you can create additional admins this way.
+
+A user can be a *editor* in some workspace(s) while being just a *member* in other ones and not even a member in still other ones. When log in to the regular Linqa UI a user can switch between all the workspaces she is a member or editor of. An *administrator* has implicitly access to *all* workspaces.
+
+<img src="docs/linqa-no-workspace.png" align="left">
+
+**IMPORTANT** For every user account you create you must make that user a Member of at least one workspace. Otherwise the Linqa UI can not appear when that user logs in, but a message.<br clear="all">
 
 ## Customization
 

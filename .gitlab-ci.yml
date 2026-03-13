@@ -1,5 +1,0 @@
-include:
-  - project: 'devops/ci-templates'
-    ref: node20
-    file:
-      - '/.plugin-templates.yml'

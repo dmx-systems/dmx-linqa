@@ -1,8 +1,12 @@
 <template>
   <div class="lq-admin">
     <div class="nav-bar">
-      <el-button :class="['fa', 'fa-list-ul', {'lq-selected': area1}]" type="primary" link @click="goArea1"></el-button>
-      <el-button :class="['fa', 'fa-users', {'lq-selected': area2}]" type="primary" link @click="goArea2"></el-button>
+      <el-button :class="['fa', 'fa-list-ul', {'lq-selected': area1}]" type="primary" link :title="area1Tooltip"
+        @click="goArea1">
+      </el-button>
+      <el-button :class="['fa', 'fa-users', {'lq-selected': area2}]" type="primary" link :title="area2Tooltip"
+        @click="goArea2">
+      </el-button>
       <div class="gap"></div>
       <el-button class="close-button fa fa-times" v-if="showClose" type="primary" link @click="close">
       </el-button>
@@ -13,6 +17,8 @@
 </template>
 
 <script>
+import lq from '../../lq-globals'
+
 export default {
 
   computed: {
@@ -23,6 +29,14 @@ export default {
 
     area2 () {
       return this.primaryPanel === 'lq-user-list'
+    },
+
+    area1Tooltip () {
+      return lq.getString('label.admin_workspaces')
+    },
+
+    area2Tooltip () {
+      return lq.getString('label.admin_users')
     },
 
     primaryPanel () {

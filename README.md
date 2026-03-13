@@ -1,15 +1,15 @@
 # DMX Linqa
 
-Linqa is a multilingual whiteboard for supporting international collaboration. Its special trait is automatic text translation for 9 languages. Users edit content items (text, notes, PDF, images, audio, video) on a **whiteboard** that is shared and discussed between team members. Chat-like **discussion** takes place at both levels, per individual content item or team-wide. Both, the text content items and all discussion posts are translated automatically and can be displayed in 2 languages at the same time.
+Linqa is a multilingual whiteboard application for supporting international collaboration. Its special trait is automatic text translation. Users edit content items (text blocks, notes, PDF, images, audio, video, documents) on a **whiteboard** that is shared and discussed between team members. Chat-like **discussion** takes place at both levels, per individual item as well as team-wide. Both, the text items and all discussion posts are translated automatically and can be displayed in 2 languages at the same time. Linqa indicates whether text is a result of auto-translation or has been revised manually.
 
-At the moment Linqa supports these 9 languages: German 🇩🇪, English 🇬🇧, Spanish 🇪🇸, Finnish 🇫🇮, French 🇫🇷, Polish 🇵🇱, Portuguese (Brazilian) 🇧🇷, Swedish 🇸🇪, and Ukrainian 🇺🇦.
+When creating a note or a discussion post the user just types in her preferred language. Linqa detects the language automatically and translates accordingly. At the moment 9 languages are supported: German 🇩🇪, English 🇬🇧, Spanish 🇪🇸, Finnish 🇫🇮, French 🇫🇷, Polish 🇵🇱, Portuguese (Brazilian) 🇧🇷, Swedish 🇸🇪, and Ukrainian 🇺🇦.
 
 ![linqa-workspace.png](docs/linqa-workspace.png)
 *A typical Linqa workspace*
 
-A **workspace** represents a group of people collaborating on a certain topic/project. A workspace consists of both, a whiteboard and a (closable) discussion panel. The whiteboard is not limited in size and is zoomable. To add structure to a whiteboard the content items can be freely placed and individually colored. The whiteboard can be further decorated by headings and graphical elements (lines, arrows, shapes). This together allows for building expressive and appealing whiteboards which support the user's visual memory.
+A **workspace** represents a group of people collaborating on a certain topic/project. A workspace consists of both, a whiteboard and a (closable) discussion panel. The whiteboard is not limited in size and is zoomable. To add structure the items can be freely placed and individually colored. Further elements like headings, lines, arrows, and shapes can be added. This together allows for building expressive and appealing whiteboards which support the user's visual memory.
 
-Workspaces are synchronized between collaborating users in real time, so every logged in user has always an up-to-date view. To keep workspace members up-to-date also when they're not logged in, Linqa informs them about changes by sending **digest emails** on a regular basis.
+Workspaces are synchronized between collaborating users in real time, so every logged in user has an up-to-date view all the time. To keep workspace members up-to-date also when not logged in, Linqa informs them about changes by sending **digest emails** on a regular basis.
 
 In Linqa there are 3 user roles:
 
@@ -18,14 +18,12 @@ In Linqa there are 3 user roles:
 - **Member** -- browse whiteboard content, download documents, engage in discussion
 
 Linqa is a web application for the [DMX platform](https://github.com/dmx-systems/dmx-platform).
-Automatic text translation is done by the means of the [DeepL](https://www.deepl.com) service.
-
-Like the DMX platform, Linqa itself is Open Source software under the GNU AGPL license.
+Automatic text translation is done by the means of the [DeepL](https://www.deepl.com) service. Like the DMX platform, Linqa itself is Open Source software under the GNU AGPL license.
 
 Originally Linqa was developed by [DMX Systems](https://dmx.systems), contracted by [Franco-German Forum for the Future](https://df-zukunftswerk.eu), and funded by [public money](https://linqa.eu/fsfe-article-on-linqa/). The original version was restricted to German and French. Meanwhile the Language aspect is generalized, and adding another language to the current set of 9 is rather easy.
 
 Linqa website and blog: https://linqa.eu  
-Request access to a Linqa demo: https://linqa.eu  
+Try out Linqa yourself by requesting access to a demo installation: https://linqa.eu  
 Open tickets and discuss issues: https://github.com/dmx-systems/dmx-linqa/issues  
 Get support without opening a ticket: https://forum.dmx.berlin
 

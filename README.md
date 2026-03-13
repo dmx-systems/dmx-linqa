@@ -349,7 +349,7 @@ While the custom logo is limited to `PNG` files, for the custom resources you ca
 
 ## Version History
 
-**2.2** -- Mar ??, 2026
+**2.2** -- Mar 13, 2026
 
 * Highlight Feature: Design (thanks to @gevlish)
     * Completely renovated Linqa UI with a brighter and more "fresh" appearance

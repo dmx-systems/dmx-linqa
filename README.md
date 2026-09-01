@@ -37,11 +37,11 @@ Linqa relies on a [DMX platform](https://github.com/dmx-systems/dmx-platform) in
 
 You install Linqa by putting these plugins into the DMX platform's `bundle-deploy/` directory:
 
-- [dmx-linqa-2.2.jar](https://download.dmx.berlin/plugins/dmx-linqa-2.2.jar)
-- [dmx-deepl-1.0.1.jar](https://download.dmx.berlin/plugins/dmx-deepl-1.0.1.jar)
-- [dmx-file-upload-1.0.5.jar](https://download.dmx.berlin/plugins/dmx-file-upload-1.0.5.jar)
-- [dmx-sign-up-3.3.0.jar](https://download.dmx.berlin/plugins/dmx-sign-up-3.3.0.jar)
-- [dmx-sendmail-2.1.2.jar](https://download.dmx.berlin/plugins/dmx-sendmail-2.1.2.jar)
+- [dmx-linqa-2.2.jar](https://download.dmx.berlin/dmx-plugins/dmx-linqa-2.2.jar)
+- [dmx-deepl-1.0.1.jar](https://download.dmx.berlin/dmx-plugins/dmx-deepl-1.0.1.jar)
+- [dmx-file-upload-1.0.5.jar](https://download.dmx.berlin/dmx-plugins/dmx-file-upload-1.0.5.jar)
+- [dmx-sign-up-3.3.0.jar](https://download.dmx.berlin/dmx-plugins/dmx-sign-up-3.3.0.jar)
+- [dmx-sendmail-2.1.2.jar](https://download.dmx.berlin/dmx-plugins/dmx-sendmail-2.1.2.jar)
 
 Before browsing to the Linqa UI a minimum configuration is required.
 

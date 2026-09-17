@@ -1,7 +1,7 @@
 {
   "name": "dmx-linqa",
   "version": "2.2.0",
-  "description": "The Linqa multilingual whiteboard",
+  "description": "Linqa multilingual whiteboard",
   "author": "Jörg Richter <jri@dmx.berlin>",
   "license": "AGPL-3.0",
   "repository": {
